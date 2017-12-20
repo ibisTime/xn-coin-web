@@ -1,0 +1,1 @@
+window.PIC_PREFIX = 'http://ozfszueqz.bkt.clouddn.com'
