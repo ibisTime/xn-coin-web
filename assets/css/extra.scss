@@ -25,7 +25,19 @@ html, body{
 .thumbnail .caption {
   padding-top: 23px;
 }
+.content-2 {
+  overflow: hidden;
+  padding: 54px 20px 54px;
+  position: relative;
+}
+@media (min-width: 992px) {
+  .content-2.col-3 {
+    padding-top: 44px;
+    padding-bottom: 44px;
+  }
+}
 .content-2 .thumbnail h3 {
+  margin-bottom: 18px;
   font-size: 18px;
 }
 .thumbnail .caption p {
@@ -73,26 +85,43 @@ html, body{
   background: url('../assets/images/download-bg.png') center;
   background-size: cover;
 }
-.cd-section-qrcode .row{
-  padding-top: 84px;
+.cd-section-qrcode .container{
+  padding-top: 70px;
 }
+
+.cd-section-qrcode .container .left-phone-wrap {
+  margin-left: -30px;
+  vertical-align: top;
+}
+
+.cd-section-qrcode .container .download-tips {
+  margin-top: 30px;
+  vertical-align: top;
+  margin-bottom: 20px;
+}
+
+.cd-section-qrcode .container .down-qrcode {
+  margin-top: 50px;
+}
+
 .phone-wrapper {
   text-align: right;
 }
 .download-wrapper {
   color: #fff;
-  padding-left: 40px;
+  padding-left: 116px;
 }
 .download-wrapper p {
   font-size: 16px;
   padding-top: 10px;
 }
 .download-wrapper a {
-  width: 183px;
   display: inline-block;
+  width: 183px;
+  padding-bottom: 2px;
   padding-left: 16px;
   padding-right: 30px;
-  line-height: 49px;
+  line-height: 41px;
   border-radius: 8px;
   text-decoration: none;
   font-size: 16px;
@@ -102,6 +131,7 @@ html, body{
 }
 .download-wrapper h2 {
   font-size: 32px;
+  margin-bottom: 18px;
   letter-spacing: 2px;
 }
 .download-wrapper .ios {
@@ -115,15 +145,13 @@ html, body{
   margin-top: 30px;
 }
 .qrcode-wrapper {
-  padding-left: 40px;
+  padding-left: 78px;
 }
 .qrcode-wrapper .inner-wrap {
-  margin-top: 20px;
   width: 140px;
 }
 .qrcode-wrapper .code-wrap {
-  padding: 4px;
-  border: 1px dashed #fff;
+  border: 3px solid #fff;
 }
 .qrcode-wrapper .code-wrap img {
   width: 100%;
@@ -149,7 +177,7 @@ html, body{
   background-color: #3c3c3c;
 }
 .normal-footer .row {
-  padding: 26px 0;
+  padding: 14px 0;
   font-size: 14px;
   color: #fff;
 }
@@ -163,13 +191,14 @@ html, body{
   cursor: pointer;
 }
 .normal-footer .cd-icon .qrcode-tip {
+  display: none;
   position: absolute;
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
   width: 121px;
   height: 121px;
-  display: none;
+  border: 3px solid #fff;
 }
 .normal-footer .cd-icon .qrcode-tip img {
   max-width: 100%;
