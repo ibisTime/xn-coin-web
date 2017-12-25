@@ -65,8 +65,9 @@ $(function () {
 
   function getBannerHtml(item, i) {
     return `
-      <div class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--bg-adapted item dark center mbr-section-cd-height ${i==0?'active':''}"
-        style="background-image: url(${getImg(item.pic)});">
+      <a href="${item.url ? item.url : 'javascript:void(0)'}"
+         class="mbr-box mbr-section mbr-section--relative mbr-section--fixed-size mbr-section--bg-adapted item dark center mbr-section-cd-height ${i==0?'active':''}"
+         style="background-image: url(${getImg(item.pic)});cursor:${item.url?'pointer': 'default'}">
         <div class="mbr-box__magnet mbr-box__magnet--sm-padding mbr-after-navbar">
           <div class=" container">
               <div class="row">
@@ -79,7 +80,7 @@ $(function () {
               </div>
           </div>
         </div>
-      </div>`;
+      </a>`;
   }
 
   function getDotHtml(item, i) {
