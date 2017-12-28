@@ -1,1 +1,1 @@
-window.PIC_PREFIX = 'http://ozfszueqz.bkt.clouddn.com'
+window.PIC_PREFIX = 'https://bcoinqiniu.hichengdai.com';
