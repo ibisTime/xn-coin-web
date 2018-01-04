@@ -75,64 +75,11 @@ define([
             return Ajax.get("622917", {ckey}, refresh);
         },
         // 查询banner列表
-        getBanner(refresh) {
+        getBanner(config, refresh) {
             return Ajax.get("805806", {
-                type: "2"
-            }, refresh);
-        },
-        // 分页查询资讯
-        getPageInformation(config, refresh) {
-            return Ajax.get("801005", {
-                status: 1,
-            	userId: base.getUserId(),
+                type: "2",
                 ...config
             }, refresh);
-        },
-        // 分页查询资讯
-        getInformationDetail(code) {
-            return Ajax.get("801006", {
-            	code,
-            	userId: base.getUserId()
-            }, true);
-        },
-        /**
-         * 收藏
-         * @type：类型(P 产品 RP租赁 N 资讯)
-         */
-        addCollecte(code,type){
-        	return Ajax.get("801030", {
-        		entityCode:code,
-        		interacter: base.getUserId(),
-        		type: type,
-        		kind:'cl'
-        	}, true);
-        },
-        // 取消收藏
-        cancelCollecte(code,type){
-        	return Ajax.get("801031", {
-        		entityCode:code,
-        		interacter: base.getUserId(),
-        		type: type,
-        		kind:'cl'
-        	}, true);
-        },
-        // 分页查询评论(租赁，商品)
-        getPageComment(config, refresh){
-            return Ajax.get("801028", config, refresh);
-        },
-        /**
-         * 评论/留言(活动留言)
-         * @config：{content,entityCode,parentCode,type}
-         */
-        comment(config, refresh) {
-            return Ajax.get("801020", {
-            	userId: base.getUserId(),
-                ...config
-            }, refresh);
-        },
-        // 分页查询评论(活动留言)
-        getPageActComment(config, refresh){
-            return Ajax.get("801029", config, refresh);
         },
     };
 })

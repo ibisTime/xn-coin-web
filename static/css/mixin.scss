@@ -67,3 +67,32 @@
         }
     }
 }
+
+@media only screen and (max-width: 768px) {
+    #head .head-wrap {
+        width: 100% !important;
+        padding: 0 15px;
+    }
+    .index-section1 .section-item{
+        width: 100% !important;
+        border: 1px solid #eee;
+    }
+}
+
+
+@media only screen and (min-width: 768px) {
+    .container {
+        width:715px !important;
+    }
+}
+@media only screen and (min-width: 992px) {
+    .container {
+        width:935px !important;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .container {
+        width:1150px !important;
+    }
+}

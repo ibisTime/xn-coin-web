@@ -17,6 +17,14 @@ define([
             return num;
         }
     }
+    
+    $("body").on("click",".goHref", function(){
+    	var thishref = $(this).attr("data-href");
+    	var timestamp = new Date().getTime();
+    	if(thishref!=""&&thishref){
+    		location.href = thishref+"?v="+timestamp;
+    	}
+    })
 
     String.prototype.temp = function(obj) {
         return this.replace(/\$\w+\$/gi, function(matchs) {
@@ -226,18 +234,14 @@ define([
         getToken: function() {
             return CookieUtil.get("token");
         },
-        setSessionUser: function(data, isSession) {
-	        // localStorage["userId"] = data.userId;
-	        // localStorage["token"] = data.token;
-	        CookieUtil.set("userId", data.userId, isSession);
-	        CookieUtil.set("token", data.token, isSession);
+        setSessionUser: function(data) {
+            sessionStorage.setItem("userId", data.userId);
+            sessionStorage.setItem("token", data.token);
         },
-        //清除cookie中和用户相关的数据
         clearSessionUser: function() {
-            // localStorage.removeItem("userId");
-	        // localStorage.removeItem("token");
-	        CookieUtil.set("userId", "");
-	        CookieUtil.set("token", "");
+            sessionStorage.removeItem("userId"); //userId
+            sessionStorage.removeItem("token"); //token
+            sessionStorage.removeItem("qiniuUrl"); //qiniuUrl
         },
         //登出
         logout: function() {
@@ -271,6 +275,12 @@ define([
         },
         hideLoading: function(){
             loading.hideLoading();
+        },
+        showLoadingSpin: function(){
+            $("#loadingSpin").removeClass("hidden");
+        },
+        hideLoadingSpin: function(){
+            $("#loadingSpin").addClass("hidden");
         },
         getDictList: function(code,type){
             return Ajax.get(code, {
