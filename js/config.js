@@ -1,1 +1,0 @@
-window.PIC_PREFIX = 'https://bcoinqiniu.hichengdai.com';
