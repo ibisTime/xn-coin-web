@@ -6,23 +6,33 @@
     	<!--SCRIPT_PLACEHOLDER-->
     </head>
     
-    <body class="bg_fff">
+    <body>
         <link rel="import" href="../top/top.html?__inline">
 		<div class="user-container">
-			<link rel="import" href="./user-left.html?__inline">
-			<div class="right-wrap">
-				
+			<div class="left-wrap b_e bg_fff fl" id="left-wrap">
+				<link rel="import" href="./user-left.html?__inline">
+			</div>
+			<div class="right-wrap b_e bg_fff fr minheight">
+				<div class="userInfo-wrap over-hide p30 wp100">
+					<div class="photoWrap fl mr30">
+						<div class="photo icon" id="photo" ></div>
+					</div>
+					<div class="info fl">
+						<div class="nickname" id="nickname"></div>
+						<div class="txt">身份驗證：<samp id="idNo"></samp></div>
+						<div class="txt">電子郵件：<samp id="email"></samp></div>
+						<div class="txt">手機號碼：<samp id="mobile"></samp></div>
+						<div class="txt">註冊時間：<samp id="createDatetime"></samp></div>
+						<div class="txt">信任人數：被<samp id="beiXinRenCount"></samp>人信任</div>
+						<div class="txt">累計交易次數：<samp id="jiaoYiCount"></samp></div>
+						<div class="txt">累計交易量：<samp id="totalTradeCount"></samp>ETH</div>
+					</div>
+				</div>
 			</div>
 		</div>		
-		<!--加载动画-->
-    	<div id="loadingSpin" class="ant-spin-nested-loading hidden fixed_i">
-            <div class="ant-spin-blur ant-spin-container">
-                <span class="ant-spin-dot"><i></i><i></i><i></i><i></i></span>
-            </div>
-        </div>
         <link rel="import" href="../footer.html?__inline">
         <script>
-            require(['app/controller/user/Login']);
+            require(['app/controller/user/User']);
         </script>
     </body>
 </html>

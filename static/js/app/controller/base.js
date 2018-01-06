@@ -71,6 +71,7 @@ define([
 
     var Base = {
         formatDate: function(date, format){
+        	var format = format|| 'yyyy-MM-dd';
             return date ? new Date(date).format(format) : "--";
         },
         formateDateTime: function(date){
@@ -78,6 +79,7 @@ define([
 	    },
         getUrlParam: function(name, locat) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+            var locat = "?"+locat.split("?")[1];
             var r = (locat || window.location.search).substr(1).match(reg);
             if (r != null) return decodeURIComponent(r[2]);
             return '';
@@ -168,9 +170,9 @@ define([
                 return Base.getPic(p, suffix);
             });
         },
-        getAvatar: function(pic){
+        getAvatar: function(pic,suffix){
             var defaultAvatar = __inline("../images/default-avatar.png");
-            var suffix = PHOTO_SUFFIX;
+            var suffix = suffix||PHOTO_SUFFIX;
             if(!pic){
                 pic = defaultAvatar;
             }
@@ -220,14 +222,15 @@ define([
         goReturn: function() {
             var returnUrl = sessionStorage.getItem("l-return");
             sessionStorage.removeItem("l-return");
-        	location.href = returnUrl || "../index.html";
+        	Base.gohref(returnUrl || "../index.html");
         },
         isLogin: function() {
             return !!sessionStorage.getItem("userId");
         },
         goLogin: function(){
+        	Base.clearSessionUser();
             sessionStorage.setItem("l-return", location.pathname + location.search);
-            location.href = "../user/login.html";
+            Base.gohref("../user/login.html");
         },
         getUserId: function() {
             return sessionStorage.getItem("userId");
@@ -327,14 +330,43 @@ define([
                     });
             }
         },
-        //跳转: flag =1 有带参数 
+        /* 
+		* url 目标url 
+		* arg 需要替换的参数名称 
+		* arg_val 替换后的参数的值 
+		* return url 参数替换后的url 
+		*/ 
+        changeURLArg: function(url,arg,arg_val){ 
+		    var pattern=arg+'=([^&]*)'; 
+		    var replaceText=arg+'='+arg_val; 
+		    if(url.match(pattern)){ 
+		        var tmp='/('+ arg+'=)([^&]*)/gi'; 
+		        tmp=url.replace(eval(tmp),replaceText); 
+		        return tmp; 
+		    }else{ 
+		        if(url.match('[\?]')){ 
+		            return url+'&'+replaceText; 
+		        }else{ 
+		            return url+'?'+replaceText; 
+		        } 
+		    } 
+		    return url+'\n'+arg+'\n'+arg_val; 
+		},
+        //跳转: flag=1,链接带参数
         gohref: function(href,flag){
         	var timestamp = new Date().getTime();
         	if(flag=='1'){
         		location.href = href+"&v="+timestamp
+        	}else if(Base.getUrlParam("v",href)!=""&&Base.getUrlParam("v",href)){
+        		location.href = Base.changeURLArg(href,"v",timestamp)
         	}else{
         		location.href = href+"?v="+timestamp
         	}
+        },
+        //隐藏手机号中间4位
+        hideMobile: function(mobile){
+        	var mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, 11)
+        	return mobile;
         }
     };
     return Base;

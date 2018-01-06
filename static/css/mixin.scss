@@ -95,28 +95,43 @@
     .container {
         width:1200px !important;
     }
+    .login-container{
+       height: 560px !important; 
+    }
+    .login-swiper{
+       height: 560px !important; 
+    }
+    .minheight{
+        min-height: 520px !important;
+    }
 }
 @media only screen and (min-width: 1800px) {
     .login-container{
         height: 700px !important;
     }
+    .login-swiper{
+        height: 700px !important;
+    }
     .login-container .login-swiper{
         height: 700px !important;
     }
-    .minh2100{
-        height: 700px !important;
+    .minheight{
+        min-height: 700px !important;
     }
     
 }
 @media only screen and (min-width: 2100px) {
     .login-container{
+        min-height: 980px !important;
+    }
+    .login-swiper{
         height: 980px !important;
     }
     .login-container .login-swiper{
-        height: 980px !important;
+        min-height: 980px !important;
     }
-    .minh2100{
-        height: 980px !important;
+    .minheight{
+        min-height: 980px !important;
     }
     
 }

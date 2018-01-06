@@ -38,7 +38,7 @@ define([
 				base.hideLoadingSpin()
 				base.showMsg("登錄成功")
 				setTimeout(function(){
-					base.gohref("../index.html")
+					base.goReturn()
 				},800)
 			})
 		},base.hideLoadingSpin)

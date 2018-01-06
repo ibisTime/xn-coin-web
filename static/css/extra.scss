@@ -1,9 +1,26 @@
 @import "./mixin";
 @import "./global";
 /*公共樣式*/
+.mr20{
+    margin-right: 20px;
+}
+.mr30{
+    margin-right: 30px;
+}
 .mr40{
     margin-right: 40px;
 }
+.mr80{
+    margin-right: 80px;
+}
+.p30{
+    padding: 30px;
+}
+.plr20{
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
 .container{
     margin: 0 auto;
 }
@@ -12,7 +29,16 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-
+/*默认头像*/
+.noPhoto{
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-size: 26px;
+    text-align: center;
+    line-height: 80px;
+    background-color: $primary-color;
+}
 
 /**/
 .allhead{
@@ -23,7 +49,8 @@
     background-color: #2c2c2c;
     
     .head-wrap{
-        width: 1150px;
+        width: 1200px;
+        margin: 0 auto;
         height: 100%;
         
         .logo{
@@ -101,8 +128,10 @@
 }
 .head-user-wrap{
     padding: 29px 0;
+    position: relative;
     
     .head-user{
+        position: relative;
         transition: color .4s;
         -ms-transition: color .4s;
         -moz-transition: color .4s;
@@ -130,7 +159,187 @@
         .icon-user{
             background-image: url('../images/页眉user.png');
         }
+        .head-triangle{
+            width: 18px;
+            height: 11px;
+            opacity: 0;
+            background-image: url('../images/页眉三角形.png');
+            background-size: contain;
+            position: absolute;
+            top: 41px;
+            left: 16px;
+            z-index: 99;
+            opacity: 0;
+        }
+        .down-wrap{
+            width: 0;
+            height: 0;
+            opacity: 1;
+            overflow: hidden;
+            position: absolute;
+            top: 16px;
+            left: 50%;
+            z-index: 98;
+            transition: opacity,width,height .4s;
+            -ms-transition: opacity,width,height .4s;
+            -moz-transition: opacity,width,height .4s;
+            -webkit-transition: opacity,width,height .4s;
+            line-height: 1;
+        }
+        // 用戶中心
+        &.user{
+            .down-wrap{
+                margin-left: -80px;
+                
+                ul{
+                    width: 100%;
+                    background-color: #fff;
+                    border: 1px solid #eee;
+                    box-shadow: 0 0 3px rgba(200,200,200,.6);
+                    padding: 0 0 7px;
+                    
+                    li{
+                        width: 100%;
+                        text-align: center;
+                        padding: 7px 0;
+                        
+                        samp{
+                            font-size: 14px;
+                            color: #333;
+                        }
+                        
+                        .icon-downUser{
+                            background-image: url('../images/用户中心黑色.png');
+                        }
+                        .icon-advertisement{
+                            background-image: url('../images/我的广告.png');
+                        }
+                        .icon-invitation{
+                            background-image: url('../images/邀请好友.png');
+                        }
+                        .icon-lgout{
+                            background-image: url('../images/退出登录.png');
+                        }
+                        
+                        &:hover{
+                            samp{
+                                color: $primary-color;
+                            } 
+                            .icon-downUser{
+                                background-image: url('../images/用户中心点击红色.png');
+                            }
+                            .icon-advertisement{
+                                background-image: url('../images/我的广告点击.png');
+                            }
+                            .icon-invitation{
+                                background-image: url('../images/邀请好友点击.png');
+                            }
+                            .icon-lgout{
+                                background-image: url('../images/退出登录点击.png');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //錢包
+        &.wallet{
+            .down-wrap{
+                margin-left: -350px;
+                
+                .wrap{
+                    border: 1px solid #eee;
+                    box-shadow: 0 0 3px rgba(200,200,200,.6);
+                }
+                .zzc{
+                    margin-top: 15px;
+                    .icon-zzc{
+                        background-image: url('../images/总资产.png');
+                    }
+                }
+                .wallet-account-wrap{
+                    margin-top: 14px;
+                    p{
+                        display: inline-block;
+                        width: 50%;
+                        float: left;
+                        margin-bottom: 15px;
+                        color: #333;
+                        font-size: 16px;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                        overflow: hidden;
+                        
+                        samp{
+                            color: #333;
+                            font-size: 16px;
+                        }
+                    }
+                }
+                .wallet-account-mx{
+                    margin-top: 10px;
+                    .list{
+                        width: 100%;
+                        overflow: hidden;
+                        
+                        p{
+                            display: inline-block;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                            color: #333;
+                            float: left;
+                            font-size: 14px;
+                            margin-bottom: 16px;
+                            
+                            &:nth-of-type(1){
+                                width: 70px;
+                            }
+                            &:nth-of-type(2){
+                                width: 145px;
+                            }
+                            &:nth-of-type(3){
+                                width: 145px;
+                            }
+                        }
+                    }
+                }
+                
+                .wallet-account-btn{
+                    padding: 20px 0;
+                    div{
+                        cursor: pointer;
+                    }
+                    
+                    .icon-cz{
+                        background-image: url('../images/充币.png');
+                    }
+                    .icon-tx{
+                        background-image: url('../images/提币.png');
+                    }
+                }
+            } 
+        }
         
+        
+        &:hover{
+            cursor:  pointer;
+            .head-triangle{
+                opacity: 1;
+            }
+            .down-wrap{
+                padding: 34px 3px 3px;
+                opacity: 1;
+            } 
+            &.user .down-wrap{
+                width: 126px;
+                height: 210px;
+            } 
+            &.wallet .down-wrap{
+                width: 410px;
+                height: 276px;
+            } 
+        }
     }
 }
 /*首页头部*/
@@ -720,12 +929,136 @@
     .head-user-wrap{
         padding: 14px 0;
     }
+    .head-button-wrap{
+        padding: 10px 0;
+    }
 }
 .user-container{
     width: 1200px;
     margin: 0 auto;
+    overflow: hidden;
+    padding: 40px 0 50px;
+    
+    .left-wrap{
+        width: 214px;
+        
+        .left-title{
+            width: 214px;
+            height: 44px;
+            text-align: center;
+            line-height: 44px;
+            background-image: url('../images/用户中心背景.png');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            left: -1px;
+            color: #fff;
+            font-size: 16px;
+        }
+        
+        .left-item{
+            width: 100%;
+            padding: 12px 0;
+            
+            .title-item{
+                width: 100%;
+                text-align: center;
+                padding: 12px 0;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                padding-right: 28px;
+                
+                samp{
+                    font-size: 16px;
+                    color: #333;
+                }
+                .icon{
+                    width: 18px;
+                    height: 18px;
+                    margin-right: 10px;
+                    position: relative;
+                    top: 3px;
+                }
+                .icon-ziliao{
+                    background-image: url('../images/我的资料.png');
+                    background-size: auto 17px;
+                }
+                .icon-anquan{
+                    background-image: url('../images/账户安全.png');
+                    background-size: 17px;
+                }
+                .icon-xinren{
+                    background-image: url('../images/受信任.png');
+                    background-size: auto 17px;
+                }
+            }
+            .nav-item{
+                width: 214px;
+                position: relative;
+                left: -1px;
+                text-align: center;
+                padding: 12px 0;
+                font-size: 14px;
+                color: #808080;
+                transition: all .4s;
+                -ms-transition: all .4s;
+                -moz-transition: all .4s;
+                -webkit-transition: all .4s;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                
+                &.on,
+                &:hover{
+                    background-color: #fdf5f5;
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+    
+    .right-wrap{
+        width: 925px;
+        min-height: 425px;
+    }
 }
-
+.userInfo-wrap{
+    .photoWrap{
+        width: 80px;
+        
+        .photo{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-size: contain;
+        }
+    }
+    .info{
+        .nickname{
+            line-height: 80px;
+            font-size: 18px;
+            color: #2d2d2d;
+        }
+        .txt{
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 25px;
+            
+            .no{
+                color: $red-color;
+            }
+        }
+    }
+}
 
 
 

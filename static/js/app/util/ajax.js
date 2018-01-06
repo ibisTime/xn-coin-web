@@ -59,7 +59,8 @@ define([
                 showMsg(error);
                 if(eCode&&eCode== "4"){
                 	setTimeout(function(){
-                		location.href = "../user/login.html"
+                		var timestamp = new Date().getTime();
+                		location.href = "../user/login.html?v="+timestamp;
                 	},1500)
                 }
             });

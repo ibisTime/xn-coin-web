@@ -37,6 +37,7 @@ define([
         });
     }
     function addListener(){
+    	
     	$("#returnBtn").click(function(){
     		base.showLoading();
     		base.clearSessionUser();
