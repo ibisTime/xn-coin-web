@@ -3,18 +3,6 @@ define([
     'app/util/ajax'
 ], function(base, Ajax) {
     return {
-        // 获取微信sdk初始化的参数
-        getInitWXSDKConfig() {
-            return Ajax.get("805952", {
-                url: location.href.split('#')[0]
-            }, true);
-        },
-        // 获取appId
-        getAppId() {
-            return Ajax.get("805918", {
-                type: "wx_h5"
-            }, true);
-        },
         // 发送短信
         sendCaptcha(bizType, mobile, sendCode = '805950') {
             return Ajax.post(sendCode, {

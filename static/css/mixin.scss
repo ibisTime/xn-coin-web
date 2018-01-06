@@ -93,6 +93,30 @@
 
 @media only screen and (min-width: 1200px) {
     .container {
-        width:1150px !important;
+        width:1200px !important;
     }
+}
+@media only screen and (min-width: 1800px) {
+    .login-container{
+        height: 700px !important;
+    }
+    .login-container .login-swiper{
+        height: 700px !important;
+    }
+    .minh2100{
+        height: 700px !important;
+    }
+    
+}
+@media only screen and (min-width: 2100px) {
+    .login-container{
+        height: 980px !important;
+    }
+    .login-container .login-swiper{
+        height: 980px !important;
+    }
+    .minh2100{
+        height: 980px !important;
+    }
+    
 }

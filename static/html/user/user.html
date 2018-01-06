@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>用戶中心-倍可盈</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+    </head>
+    
+    <body class="bg_fff">
+        <link rel="import" href="../top/top.html?__inline">
+		<div class="user-container">
+			<link rel="import" href="./user-left.html?__inline">
+			<div class="right-wrap">
+				
+			</div>
+		</div>		
+		<!--加载动画-->
+    	<div id="loadingSpin" class="ant-spin-nested-loading hidden fixed_i">
+            <div class="ant-spin-blur ant-spin-container">
+                <span class="ant-spin-dot"><i></i><i></i><i></i><i></i></span>
+            </div>
+        </div>
+        <link rel="import" href="../footer.html?__inline">
+        <script>
+            require(['app/controller/user/Login']);
+        </script>
+    </body>
+</html>

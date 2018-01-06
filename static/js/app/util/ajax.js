@@ -44,12 +44,13 @@ define([
                 });
             }
             return cache[code][cache_url].pipe(function(res) {
-//          	if (res.errorCode == "4") {
-//                 // clearSessionUser();
-//              	sessionStorage.setItem("l-return", location.pathname + location.search);
-//                 // 登录
-//              	return $.Deferred().reject("登录超时，请重新登录",res.errorCode);
-//          	}
+            	if (res.errorCode == "4") {
+		            sessionStorage.removeItem("userId"); //userId
+		            sessionStorage.removeItem("token"); //token
+                	sessionStorage.setItem("l-return", location.pathname + location.search);
+                   // 登录
+                	return $.Deferred().reject("登录超时，请重新登录",res.errorCode);
+            	}
                 if(res.errorCode != "0"){
                     return $.Deferred().reject(res.errorInfo);
                 }
@@ -59,7 +60,7 @@ define([
                 if(eCode&&eCode== "4"){
                 	setTimeout(function(){
                 		location.href = "../user/login.html"
-                	},1000)
+                	},1500)
                 }
             });
         }

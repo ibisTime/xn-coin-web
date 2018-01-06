@@ -149,12 +149,13 @@ define([
             end = new Date(end);
             return (end - start) / (3600 * 24 * 1000);
         },
-        getPic: function(pic, suffix = "?imageMogr2/auto-orient/interlace/1"){
+        getPic: function(pic, suffix){
             if(!pic){
                 return "";
             }
             pic = pic.split(/\|\|/)[0];
             if(!/^http|^data:image/i.test(pic)){
+            	suffix = suffix||"?imageMogr2/auto-orient/interlace/1"
                 pic = PIC_PREFIX + pic + suffix;
             }
             return pic;
@@ -222,17 +223,17 @@ define([
         	location.href = returnUrl || "../index.html";
         },
         isLogin: function() {
-            return !!CookieUtil.get("userId");
+            return !!sessionStorage.getItem("userId");
         },
         goLogin: function(){
             sessionStorage.setItem("l-return", location.pathname + location.search);
             location.href = "../user/login.html";
         },
         getUserId: function() {
-            return CookieUtil.get("userId");
+            return sessionStorage.getItem("userId");
         },
         getToken: function() {
-            return CookieUtil.get("token");
+            return sessionStorage.getItem("token");
         },
         setSessionUser: function(data) {
             sessionStorage.setItem("userId", data.userId);
@@ -241,7 +242,6 @@ define([
         clearSessionUser: function() {
             sessionStorage.removeItem("userId"); //userId
             sessionStorage.removeItem("token"); //token
-            sessionStorage.removeItem("qiniuUrl"); //qiniuUrl
         },
         //登出
         logout: function() {
@@ -327,6 +327,15 @@ define([
                     });
             }
         },
+        //跳转: flag =1 有带参数 
+        gohref: function(href,flag){
+        	var timestamp = new Date().getTime();
+        	if(flag=='1'){
+        		location.href = href+"&v="+timestamp
+        	}else{
+        		location.href = href+"?v="+timestamp
+        	}
+        }
     };
     return Base;
 });

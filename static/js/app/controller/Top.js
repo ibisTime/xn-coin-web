@@ -7,12 +7,36 @@ define([
     
     // 初始化页面
     function init() {
+    	base.showLoadingSpin()
     	if(base.isLogin()){
-    		$("#goUser").removeClass("hidden")
+    		$("#head-user-wrap .nickname").text(sessionStorage.getItem("nickname"))
+    		$("#head-user-wrap").removeClass("hidden")
     	}else{
-    		$("#goLogin").removeClass("hidden")
+    		$("#head-button-wrap").removeClass("hidden")
     	}
-    	
+    	getBanner();
+    	addListener();
+    }
+    // 获取banner
+    function getBanner(refresh){
+        return GeneralCtr.getBanner({},refresh).then((data) => {
+        	data.forEach((item) => {
+        		if (item.location === 'web_download') {
+	            	$('#downImg').attr("src",base.getPic(item.pic));
+	        	} else if (item.location === 'web_qq') {
+	            	$('#qqImg').attr("src",base.getPic(item.pic));
+	        	} else if (item.location === 'web_weibo') {
+	            	$('#wbImg').attr("src",base.getPic(item.pic));
+	        	} else if (item.location === 'web_wechat') {
+	            	$('#wxImg').attr("src",base.getPic(item.pic));
+	        	}
+        	})
+        	base.hideLoadingSpin()
+        }, (msg) => {
+            base.showMsg(msg || "加载失败");
+        });
+    }
+    function addListener(){
     	$("#returnBtn").click(function(){
     		base.showLoading();
     		base.clearSessionUser();
@@ -20,34 +44,5 @@ define([
     		location.href = "./login.html"
     	})
     	
-    	var topSearchVal = base.getUrlParam("search")||"";
-    	$("#topSearchTxt").val(topSearchVal)
-    	
-    	$("#topSearchTxt").focus(function(){
-    		var _topSearchTxt = $(this)
-    		 $(document).keyup(function(event){
-				if(event.keyCode==13){
-					if($("#topSearchTxt").val()&&$("#topSearchTxt").val()!=""){
-						
-						location.href = "../travel/search.html?search="+$("#topSearchTxt").val();
-					}
-				}
-			}); 
-    	})
-    	$("#topSearchTxt").blur(function(){
-				if (window.event.keyCode==13) window.event.keyCode=0 ;
-    	})
-    	
-    	$("#topSearchBtn").click(function(){
-			if($("#topSearchTxt").val()&&$("#topSearchTxt").val()!=""){
-				
-				location.href = "../travel/search.html?search="+$("#topSearchTxt").val();
-			}
-    	})
-    	
-    	$("#goLogin").click(function(){
-    		base.goLogin()
-    	})
     }
-    
 });

@@ -4,19 +4,6 @@ define([
 ], function(base, Ajax) {
     return {
         /**
-         * 微信登录
-         * @param config: {code,mobile?,smsCaptcha?,userReferee?}
-         */
-        wxLogin(config) {
-            return Ajax.post("805170",{ 
-                type: 'wx_h5',
-                kind: 'C',
-                isNeedMobile: '0',
-                isLoginStatus: '1',
-                ...config
-            });
-        },
-        /**
          * 登录
          * @param config {loginName, loginPwd}
          */
@@ -26,10 +13,21 @@ define([
                 ...config
             });
         },
+        /**
+         * 注册
+         * @param config {loginName, loginPwd, nickname, smsCaptcha}
+         */
+        register(config) {
+            return Ajax.post("805041", {
+                kind: "C",
+                userRefereeKind: "C",
+                ...config
+            });
+        },
         // 获取用户详情
-        getUser(refresh, userId) {
+        getUser(refresh, token) {
             return Ajax.get("805121", {
-                "userId": userId || base.getUserId()
+                "token": token || base.getToken()
             }, refresh);
         },
         /**

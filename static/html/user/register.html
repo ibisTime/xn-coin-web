@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>註冊-倍可盈</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+    </head>
+    
+    <body class="bg_fff">
+        <link rel="import" href="../top/top-loginRegister.html?__inline">
+		
+		<div class="register-container minh2100">
+			<div class="container">
+				<div class="login-form">
+					<h3 class="title">手機註冊</h3>
+					<form class="form-wrapper wp100" id="register-form">
+						<div class="form-item b_e">
+							<i class="item-icon icon-user"></i>
+							<input type="text" class="input-item" id="nickname" name="nickname" placeholder="請輸入暱稱" />
+						</div>
+						<div class="form-item b_e">
+							<i class="item-icon icon-phone"></i>
+							<input type="text" class="input-item" id="mobile" name="mobile" placeholder="手機號" />
+						</div>
+						<div class="form-item-sms wp100">
+							<div class="form-item b_e">
+								<i class="item-icon icon-sms"></i>
+								<input type="text" class="input-item" id="smsCaptcha" name="smsCaptcha"  placeholder="驗證碼" />
+							</div>
+							<button class="sms-button am-button am-button-red" id="getVerification">獲取驗證碼</button>
+						</div>
+						<div class="form-item b_e">
+							<i class="item-icon icon-pwd"></i>
+							<input type="password" class="input-item" id="loginPwd" name="loginPwd"  placeholder="請輸入密碼" />
+						</div>
+						<div class="text-wrap over-hide wp100">
+							<div class="checkTxt">
+								<i class="icon active" id="subFlag"></i>
+								<p>我已閱讀并同意<samp>《註冊協議》</samp></p>
+							</div>
+						</div>
+						<div class="form-btn-item">
+							<div class="am-button am-button-red" id="subBtn">註冊</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<!--加载动画-->
+    	<div id="loadingSpin" class="ant-spin-nested-loading hidden fixed_i">
+            <div class="ant-spin-blur ant-spin-container">
+                <span class="ant-spin-dot"><i></i><i></i><i></i><i></i></span>
+            </div>
+        </div>
+        <link rel="import" href="../footer.html?__inline">
+        <script>
+            require(['app/controller/user/Register']);
+        </script>
+    </body>
+</html>

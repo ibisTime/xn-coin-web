@@ -11,12 +11,13 @@ define([
     function init() {
     	base.showLoadingSpin();
     	getBanner();
+    	$(".head-nav-wrap .head-nav").eq(0).addClass("active")
+    	
     	if ($(document).scrollTop()>10) {
         	$("#head").addClass("on")
         }else{
         	$("#head").removeClass("on")
         }
-        base.showLoadingSpin();
         addListener();
     }
     
@@ -48,21 +49,21 @@ define([
     // 获取banner
     function getBanner(refresh){
         return GeneralCtr.getBanner({
-        	location:'web_banner'
-        },refresh)
-            .then((data) => {
-                var bannerHtml = "";
-                data.forEach((d) => {
-                    var pics = base.getPicArr(d.pic);
-                    pics.forEach((pic) => {
-                        bannerHtml += `<div class='swiper-slide'><div class="banner" data-url="${d.url || ""}" style="background-image:url(${pic});"></div></div>`;
-                    });
+        	location: 'web_banner'
+        },refresh).then((data) => {
+        	var bannerHtml = "";
+            data.forEach((d) => {
+                var pics = base.getPicArr(d.pic);
+                pics.forEach((pic) => {
+                    bannerHtml += `<div class='swiper-slide'><div class="banner" data-url="${d.url || ""}" style="background-image:url(${pic});"></div></div>`;
                 });
-                $("#swiper .swiper-wrapper").html(bannerHtml);
-                initSwiperBanner();
-            }, (msg) => {
-                base.showMsg(msg || "加载失败");
             });
+            base.hideLoadingSpin()
+            $("#swiper .swiper-wrapper").html(bannerHtml);
+            initSwiperBanner();
+        }, (msg) => {
+            base.showMsg(msg || "加载失败");
+        });
     }
 	
     function addListener() {

@@ -1,8 +1,8 @@
 define([
     'jquery',
-    'app/util/ajax',
-    'app/util/dialog'
-], function ($, Ajax, dialog) {
+    'app/util/dialog',
+    'app/interface/GeneralCtr'
+], function ($, dialog, GeneralCtr) {
     function _showMsg(msg, time) {
         var d = dialog({
             content: msg,
@@ -17,42 +17,39 @@ define([
         this.options = $.extend({}, this.defaultOptions, opt);
         var _self = this;
         $("#" + this.options.id).off("click")
-            .on("click", function() {
+            .on("click", function(e) {
+                e.stopPropagation();
+                e.preventDefault();
                 _self.options.checkInfo() && _self.handleSendVerifiy();
             });
     }
     initSms.prototype.defaultOptions = {
-        id: "getSmsCode",
+        id: "getVerification",
         mobile: "mobile",
         checkInfo: function () {
-            return $("#" + this.options.mobile).valid();
+            return $("#" + this.mobile).valid();
         },
-        sendCode: '805904'
+        sendCode: '805950'
     };
     initSms.prototype.handleSendVerifiy = function() {
-        var verification = $("#" + this.options.id);
-        verification.attr("disabled", "disabled");
-        Ajax.post(this.options.sendCode, {
-                "bizType": this.options.bizType,
-                "kind": "f1",
-                "mobile": $("#" + this.options.mobile).val()
-        }).then(function(response) {
-                for (var i = 0; i <= 60; i++) {
-                    (function(i) {
-                        setTimeout(function() {
-                            if (i < 60) {
-                                verification.val((60 - i) + "s");
-                            } else {
-                                verification.val("获取验证码").removeAttr("disabled");
-                            }
-                        }, 1000 * i);
-                    })(i);
-                }
-        }, function() {
-            this.options.errorFn && this.options.errorFn();
-            _showMsg("验证码获取失败");
-            verification.val("获取验证码").removeAttr("disabled");
-        });
+    	var _this = this
+        var verification = $("#" + _this.options.id);
+        verification.prop("disabled", true);
+        GeneralCtr.sendCaptcha(_this.options.bizType, $("#" + _this.options.mobile).val(), _this.options.sendCode)
+            .then(() => {
+                var i = 60;
+                _this.timer = window.setInterval(() => {
+                    if(i > 0){
+                        verification.text("重新發送("+i-- + "s)");
+                    }else {
+                        verification.text("獲取驗證碼").prop("disabled",false);
+                        clearInterval(_this.timer);
+                    }
+                }, 1000);
+            }, function() {
+                _this.options.errorFn && _this.options.errorFn();
+                verification.text("獲取驗證碼").prop("disabled",false);
+            });
     }
     return {
         init: function (options) {

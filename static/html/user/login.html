@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>登錄-倍可盈</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+    </head>
+    
+    <body class="bg_fff">
+        <link rel="import" href="../top/top-loginRegister.html?__inline">
+		
+		<div class="login-container">
+			<div id="swiper" class="wp100 swiper-container login-swiper">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide"><div class="banner" style="background-image:url('../images/login-banner1.png');"></div></div>
+					<div class="swiper-slide"><div class="banner" style="background-image:url('../images/login-banner2.png');"></div></div>
+				</div>
+				<div class="swiper-pagination"></div>
+			</div>
+			
+			<div class="container">
+				<div class="login-form">
+					<h3 class="title">用戶登錄</h3>
+					<form class="form-wrapper wp100" id="login-form">
+						<div class="form-item b_e">
+							<i class="item-icon icon-phone"></i>
+							<input type="text" class="input-item" id="loginName" name="loginName" placeholder="手機號" />
+						</div>
+						<div class="form-item b_e">
+							<i class="item-icon icon-pwd"></i>
+							<input type="password" class="input-item" id="loginPwd" name="loginPwd"  placeholder="請輸入密碼" />
+						</div>
+						<div class="text-wrap over-hide wp100">
+							<div class="goHref finPwd" data-href="../user/finPwd.html">忘記密碼?</div>
+						</div>
+						<div class="form-btn-item">
+							<div class="am-button am-button-red" id="subBtn">立即登錄</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<!--加载动画-->
+    	<div id="loadingSpin" class="ant-spin-nested-loading hidden fixed_i">
+            <div class="ant-spin-blur ant-spin-container">
+                <span class="ant-spin-dot"><i></i><i></i><i></i><i></i></span>
+            </div>
+        </div>
+        <link rel="import" href="../footer.html?__inline">
+        <script>
+            require(['app/controller/user/Login']);
+        </script>
+    </body>
+</html>
