@@ -1,6 +1,7 @@
 define([
-    'app/controller/base'
-], function(base) {
+    'app/controller/base',
+    'app/interface/AccountCtr'
+], function(base, AccountCtr) {
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -10,7 +11,16 @@ define([
 	}
     
     function init() {
+    	base.showLoadingSpin();
+    	getAccount();
         addListener();
+    }
+    
+    function getAccount(){
+    	return AccountCtr.getAccount().then((data)=>{
+    		
+    		$(".wallet-account-wrap .amountString").text(data.amountString)
+    	},base.hideLoadingSpin)
     }
     
     function addListener() {
