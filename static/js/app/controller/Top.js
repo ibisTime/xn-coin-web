@@ -38,12 +38,11 @@ define([
     }
     function addListener(){
     	
-    	$("#returnBtn").click(function(){
-    		base.showLoading();
-    		base.clearSessionUser();
-    		base.hideLoading();
-    		location.href = "./login.html"
+    	$("#headLogout").click(function(){
+    		base.logout()
     	})
-    	
+    	$(".am-modal-mask").click(function(){
+    		$(this).parent(".dialog").addClass("hidden")
+    	})
     }
 });

@@ -11,7 +11,7 @@ define([
     function init() {
     	base.showLoadingSpin();
     	getBanner();
-    	$(".head-nav-wrap .head-nav").eq(0).addClass("active")
+    	$(".head-nav-wrap .index").addClass("active")
     	
     	if ($(document).scrollTop()>10) {
         	$("#head").addClass("on")

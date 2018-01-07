@@ -13,14 +13,31 @@
 .mr80{
     margin-right: 80px;
 }
+.mr250{
+    margin-right: 250px;
+}
+.mt20{
+    margin-top: 20px;
+}
+.mb20{
+    margin-bottom: 20px;
+}
+.mb80{
+    margin-bottom: 80px;
+}
 .p30{
     padding: 30px;
+}
+.pt10{
+    padding-top: 10px
 }
 .plr20{
     padding-left: 20px;
     padding-right: 20px;
 }
-
+.goHref{
+    cursor: pointer;
+}
 .container{
     margin: 0 auto;
 }
@@ -28,6 +45,40 @@
     display: inline-block;
     background-position: center;
     background-repeat: no-repeat;
+}
+table {
+    table-layout: fixed;
+    
+    td{
+        word-wrap:break-word;
+        word-break:break-all;
+    }
+}
+.userSelect_none{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+//表單icon
+.form-wrapper{
+    .icon-phone{
+        background-image: url('../images/手机.png');
+    }
+    .icon-pwd{
+        background-image: url('../images/输入密码.png');
+    }
+    .icon-user{
+        background-image: url('../images/昵称.png');
+    }
+    .icon-sms{
+        background-image: url('../images/验证码.png');
+    }
+    .icon-email{
+        background-image: url('../images/用户中心邮箱.png');
+    }
 }
 /*默认头像*/
 .noPhoto{
@@ -39,7 +90,20 @@
     line-height: 80px;
     background-color: $primary-color;
 }
-
+.no-data{
+    width: 100%;
+    padding: 80px 0 60px;
+    text-align: center;
+    img{
+        vertical-align: bottom;
+        width: 100px;
+    }
+    p{
+        font-size: 15px;
+        color: #999;
+        margin-top: 15px;
+    }
+}
 /**/
 .allhead{
     width: 100%;
@@ -431,6 +495,18 @@
             padding: 10px 0;
             opacity: 1;
         }
+    }
+    
+    .head-user-wrap{
+        .head-user{
+            .head-triangle{
+                top: 35px;
+            }
+            .down-wrap{
+                padding-top: 28px;
+            }
+        }
+        
     }
 }
 .swiper-pagination{
@@ -851,13 +927,6 @@
         font-weight: normal;
         margin-bottom: 40px;
     }
-    .icon-phone{
-        background-image: url('../images/手机.png');
-    }
-    .icon-pwd{
-        background-image: url('../images/输入密码.png');
-    }
-    
     .text-wrap{
         margin-top: 10px;
         
@@ -878,13 +947,6 @@
     .form-item{
         margin-bottom: 20px;
     }
-    .icon-user{
-        background-image: url('../images/昵称.png');
-    }
-    .icon-sms{
-        background-image: url('../images/验证码.png');
-    }
-    
     .text-wrap{
         .checkTxt{
             -webkit-touch-callout: none;
@@ -1005,10 +1067,10 @@
                 padding: 12px 0;
                 font-size: 14px;
                 color: #808080;
-                transition: all .4s;
-                -ms-transition: all .4s;
-                -moz-transition: all .4s;
-                -webkit-transition: all .4s;
+                transition: color,background-color .4s;
+                -ms-transition: color,background-color .4s;
+                -moz-transition: color,background-color .4s;
+                -webkit-transition: color,background-color .4s;
                 -webkit-touch-callout: none;
                 -webkit-user-select: none;
                 -khtml-user-select: none;
@@ -1026,22 +1088,22 @@
     }
     
     .right-wrap{
-        width: 925px;
+        width: 965px;
         min-height: 425px;
     }
 }
-.userInfo-wrap{
-    .photoWrap{
+.photoWrap{
+    width: 80px;
+    
+    .photo{
         width: 80px;
-        
-        .photo{
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            overflow: hidden;
-            background-size: contain;
-        }
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-size: contain;
     }
+}
+.userInfo-wrap{
     .info{
         .nickname{
             line-height: 80px;
@@ -1059,6 +1121,665 @@
         }
     }
 }
+.security-wrap{
+    padding: 18px 38px;
+    
+    .security-item{
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 60px;
+        line-height: 1.1;
+        position: relative;
+        padding-left: 58px;
+        
+        p{
+            font-size: 16px;
+            color: #333;
+            line-height: 28px;
+            margin-bottom: 6px;
+        }
+        samp{
+            font-size: 14px;
+            color: #999;
+        }
+        
+        .icon{
+            width: 28px;
+            height: 28px;
+            background-size: contain;
+            position: absolute;
+            top: 7px;
+            left: 0;
+        }
+        .icon-zijnmima{
+            background-image: url('../images/资金密码.png');
+        }
+        .icon-email{
+            background-image: url('../images/绑定邮箱.png');
+            top: 0;
+        }
+        .icon-mima{
+            background-image: url('../images/登录密码.png');
+        }
+        .icon-google{
+            background-image: url('../images/谷歌验证.png');
+        }
+        
+        .btn{
+            position: absolute;
+            top: 50%;
+            right: 0;
+            margin-top: -15px;
+            
+            .am-button{
+                width: 70px;
+                height: 30px;
+                line-height: 30px;
+                border-radius: 5px;
+                font-size: 13px;
+                
+                &.am-button-ghost{
+                    line-height: 28px !important;
+                }
+            }
+            
+        }
+    }
+}
+.trust-wrap{
+    .trust-form{
+        width: 100%;
+        td{
+            padding: 30px 10px;
+            border-bottom: 1px solid #eee;
+            
+            &:first-child{
+                width: 130px;
+                padding-left: 50px;
+                border-bottom: 0;
+            }
+            &:last-child{
+                width: 220px;
+                padding-right: 50px;
+            }
+        }
+        
+        .photoWrap{
+            width: 60px;
+            .photo{
+                width: 60px;
+                height: 60px;
+            }
+            
+            .noPhoto{
+                font-size: 24px;
+                line-height: 60px;
+            }
+        }
+        .txt1{
+            font-size: 16px;
+            line-height: 1.5;
+            color: #484848;
+            
+        }
+        .txt2{
+            text-align: center;
+            line-height: 1.1;
+            p{
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 6px;
+            }
+            samp{
+                font-size: 13px;
+                color: #333;
+            }
+        }
+    }
+}
+
+.position{
+    font-size: 14px;
+    color: #c9c9c9;
+    padding: 10px 0 20px;
+    samp{
+        color: $primary-color;
+    }
+}
+.setSecurity-wrap{
+    .title{
+        font-size: 16px;
+        color: #333;
+        line-height: 1;
+        border-left: 3px solid $primary-color;
+        padding-left: 20px;
+        margin-bottom: 60px;
+    }
+}
+.setSecurity-from-wrap{
+    width: 400px;
+    margin: 0 auto;
+}
+.identity-wrap{
+    .identity-top{
+        width: 964px;
+        position: relative;
+        left: -0.5px;
+        background-color: #fbf7e9;
+        padding: 20px 30px;
+        
+        .icon-warning{
+            width: 14px;
+            height: 49px;
+            background-image: url('../images/用户中心注意.png');
+            background-size: 14px;
+            background-position: 0 6px;
+            margin-right: 10px;
+        }
+        p{
+            display: inline-block;
+            width: 864px;
+            font-size: 14px;
+            color: #fbab46;
+            line-height: 1.8;
+        }
+    }
+    .identity-content{
+        margin: 20px 30px;
+        .top{
+            padding: 20px 30px;
+            background-color: #fafafa;
+            .icon-identity{
+                width: 45px;
+                height: 30px;
+                margin-right: 22px;
+                background-image: url('../images/用户中心身份证.png');
+                margin-top: 3px;
+            }
+            div{
+                .txtWrap{
+                    margin-bottom: 5px;
+                    .txt{
+                        display: inline-block;
+                        font-size: 16px;
+                        color: #333;
+                        margin-right: 20px;
+                    }
+                    .am-button{
+                        width: 50px;
+                        height: 20px !important;
+                        line-height: 18px !important;
+                        font-size: 12px !important;
+                        border-radius: 5px;
+                    }
+                }
+                .txt2{
+                    font-size: 12px;
+                    color: #999;
+                }
+            }
+        }
+        
+        .identity-from-wrap{
+            width: 460px;
+            margin: 30px;
+            
+            .form-btn-item{
+                padding-left: 100px;
+                .am-button{
+                    width: 136px;
+                    height: 36px;
+                    line-height: 36px;
+                }
+            }
+        }
+    }
+ 
+}
+.wallet-container{
+    width: 1200px;
+    margin: 0 auto;
+    
+    .wallet-top-wrap{
+        width: 100%;
+        padding: 30px 0;
+        
+        ul{
+            width: 100%;
+            overflow: hidden;
+            
+            li{
+                float: left;
+                height: 44px;
+                padding: 0 22px;
+                line-height: 42px;
+                font-size: 16px;
+                color: #333;
+                text-align: center;
+                border: 1px solid transparent;
+                border-radius: 22px;
+                margin-left: 40px;
+                transition: color,border-color .4s;
+                -ms-transition: color,border-color .4s;
+                -moz-transition: color,border-color .4s;
+                -webkit-transition: color,border-color .4s;
+                
+                &:first-child{
+                    margin-left: 0;
+                }
+                
+                &.on,
+                &:hover{
+                    color: $primary-color;
+                    border: 1px solid $primary-color;
+                }
+                
+            }
+        }
+    }
+    .wallet-account-wrap{
+        padding: 25px 40px;
+        
+        .yue{
+            font-size: 18px;
+            color: #333;
+            samp{
+                display: inline-block;
+                color: $red-color;
+                font-size: 24px;
+                margin-right: 3px;
+            }
+        }
+        .account{
+            margin-top: 20px;
+            samp{
+                display: inline-block;
+                font-size: 12px;
+                color: #999;
+                margin-right: 30px;
+            }
+        }
+        
+    }
+    
+    .wallet-address-wrap{
+        .address-nav{
+            background-color: #fafafa;
+            
+            ul{
+                padding-left: 20px;
+                li{
+                    float: left;
+                    font-size: 16px;
+                    color: #999;
+                    border-bottom: 1px solid transparent;
+                    line-height: 46px;
+                    padding: 0 10px;
+                    margin: 0 30px;
+                    transition: color,border-color .4s;
+                    -ms-transition: color,border-color .4s;
+                    -moz-transition: color,border-color .4s;
+                    -webkit-transition: color,border-color .4s;
+                    
+                    &.on,
+                    &:hover{
+                        cursor: pointer;
+                        color: $red-color;
+                        border-bottom: 1px solid $red-color;
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    .wallet-address{
+        padding: 30px 40px;
+        
+        .address-Wrap{
+            .warn{
+                .icon-warn{
+                    width: 10px;
+                    height: 38px;
+                    background-size: 10px;
+                    background-image: url('../images/提示.png');
+                    background-position: 0 4px;
+                    margin-right: 8px;
+                }
+                p{
+                    display: inline-block;
+                    width: 1100px;
+                    font-size: 12px;
+                    color: #333;
+                    line-height: 1.6;
+                    
+                    i{
+                        font-style: normal;
+                        color: $red-color;
+                    }
+                }
+            }
+        }
+        
+    }
+    .receive-wrap{
+        .address{
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            
+            samp{
+                display: inline-block;
+                font-size: 24px;
+                margin: 0 14px 0 3px;
+            }
+            
+            .icon-qrcode{
+                width: 18px;
+                height: 18px;
+                background-image: url('../images/二维码.png');
+                background-size: contain;
+                
+                &:hover{
+                    cursor: pointer;
+                    background-image: url('../images/二维码点击.png');
+                }
+            }
+            
+        }
+    }
+    .sendOut-form-wrap{
+        padding-top: 36px;
+        
+        .form-wrapper{
+            .form-item-wrap{
+                overflow: hidden;
+            }
+            .form-item{
+                width: 360px;
+                float: left;
+            }
+            .form-btn-item{
+                margin-top: 20px;
+                padding-left: 100px;
+            }
+        }
+        
+        .findPwd{
+            font-size: 14px;
+            line-height: 38px;
+            color: $red-color;
+        }
+        
+        .addressBtn{
+            width: 124px;
+            height: 38px;
+            line-height: 38px;
+        }
+        
+        .subBtn{
+            width: 136px;
+        }
+    }
+    
+    
+    .tradeRecord-wrap{
+        .tradeRecord-wrap-title{
+            width: 100%;
+            line-height: 46px;
+            font-size: 16px;
+            padding-left: 40px;
+            background-color: #fafafa;
+        }
+        
+        .tradeRecord-top{
+            width: 100%;
+            ul{
+                width: 100%;
+                overflow: hidden;
+                background-color: #fff;
+                padding: 0 20px;
+                
+                li{
+                    float: left;
+                    line-height: 74px;
+                    color: #666;
+                    font-size: 14px;
+                    margin: 0 20px;
+                    
+                    &.on,
+                    &:hover{
+                        cursor: pointer;
+                        color: $red-color;
+                    }
+                }
+                
+            }
+        }
+        
+    }
+    .tradeRecord-list-wrap{
+        width: 100%;
+        padding-bottom: 50px;
+        
+        .list-item{
+            width: 100%;
+            overflow: hidden;
+            border-bottom: 1px solid $border-color;
+            padding: 14px 30px;
+            
+            div{
+                float: left;
+                font-size: 16px;
+                line-height: 2;
+                
+                &:nth-of-type(1){
+                    width: 240px;
+                }
+                &:nth-of-type(2){
+                    width: 140px;
+                }
+                &:nth-of-type(3){
+                    width: 220px;
+                }
+                &:nth-of-type(4){
+                    width: 530px;
+                }
+            }
+            
+            &.title{
+                background-color: #fafafa;
+            }
+        }
+    }
+}
+.wAddress-dialog{
+    .am-modal-body{
+        ul li{
+            width: 100%;
+            font-size: 15px;
+            margin: 15px 0;
+            
+            &.on,
+            &:hover{
+                cursor: default;
+                color: $red-color;
+            }
+        }
+    }
+}
+.addWAddress-dialog{
+    z-index: 1000;
+    .form-wrapper{
+        .form-item-wrap{
+            .label{
+                font-size: 14px;
+                width: 90px;
+            }
+        }
+        .form-item-sms{
+            .form-item{
+                width: 220px;
+            }
+            .sms-button{
+                width: 100px;
+            }
+        }
+    }
+    .setSecurityAccount,
+    .remark{
+        width: 100%;
+        padding-left: 100px;
+    }
+    .setSecurityAccount{
+        margin-top: 5px;
+        
+        samp{
+            display: inline-block;
+            font-size: 14px;
+            line-height: 26px;
+        }
+        .icon-switch{
+            width: 40px;
+            height: 26px;
+            background-size: contain;
+            background-image: url('../images/关.png');
+            position: relative;
+            top: 7px;
+            margin-left: 80px;
+            
+            &.on{
+                background-image: url('../images/开.png');
+            }
+        }
+    }
+    
+    .remark{
+        margin: 15px 0;
+        font-size: 12px;
+        color: #999;
+    }
+}
+.invitation-wrap{
+    .invitation-top{
+        height: 346px;
+        background-image: url('../images/邀请好友-bg.png');
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .invitation-content{
+        width: 1200px;
+        margin: 0 auto 20px;
+    }
+    .invitation-content{
+        padding: 30px 80px;
+        
+        .txt{
+            p{
+                color: $red-color;
+                font-size: 14px;
+                text-align: center;
+                samp{
+                    color: $red-color;
+                    font-size: 24px;
+                }
+            }
+            p:first-child{
+                margin-bottom: 15px;
+            }
+        }
+        .am-button{
+            width: 130px;
+            height: 40px;
+            line-height: 40px;
+        }
+    }
+    .activity-wrap{
+        width: 1200px;
+        margin: 0 auto 80px;
+        padding: 40px 60px;
+        
+        .titleWrap{
+            text-align: center;
+            samp{
+                display: inline-block;
+                font-size: 22px;
+                line-height: 1;
+                position: relative;
+                top: -2px;
+                margin: 0 20px;
+            }
+        }
+        .activity-content{
+            margin-top: 30px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+    }
+    
+    .qrcode-dialog{
+        .am-modal{
+            width: 300px;
+        }
+        .qrcodeWrap{
+            width: 100%;
+            text-align: center;
+            img{
+                width: 100%;
+                vertical-align: bottom;
+            }
+            p{
+                font-size: 15px;
+                color: #999;
+                margin-top: 10px;
+            }
+        }
+    }
+    
+    .invitation-dialog{
+        .am-modal{
+            width: 800px;
+        }
+        .am-modal-body{
+            padding: 30px;
+        }
+        .titleWrap{
+            color: #484848;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .hrefWrap{
+            padding: 20px;
+            border-radius: 3px;
+            
+            p{
+                font-size: 15px;
+                color: #484848;
+            }
+        }
+    }
+}
+.article-wrap{
+    padding: 15px;
+    line-height: 1.8;
+    
+    a {
+        color: #337ab7;
+        text-decoration: underline;
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 
 

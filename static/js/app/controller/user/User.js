@@ -21,7 +21,7 @@ define([
     	return UserCtr.getUser().then((data)=>{
     		
     		if(data.photo){
-    			$("#photo").css({"background-image":base.getAvatar(data.photo)})
+    			$("#photo").css({"background-image":"url('"+base.getAvatar(item.photo)+"')"})
     		}else{
     			var tmpl = data.nickname.substring(0,1).toUpperCase();
     			var photoHtml = `<div class="noPhoto">${tmpl}</div>`

@@ -20,9 +20,8 @@ define([
     
     $("body").on("click",".goHref", function(){
     	var thishref = $(this).attr("data-href");
-    	var timestamp = new Date().getTime();
     	if(thishref!=""&&thishref){
-    		location.href = thishref+"?v="+timestamp;
+			Base.gohref(thishref)
     	}
     })
 
@@ -79,8 +78,8 @@ define([
 	    },
         getUrlParam: function(name, locat) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
-            var locat = "?"+locat.split("?")[1];
-            var r = (locat || window.location.search).substr(1).match(reg);
+            var locat = locat?"?"+locat.split("?")[1]:'';
+            var r = (locat?locat:window.location.search).substr(1).match(reg);
             if (r != null) return decodeURIComponent(r[2]);
             return '';
         },
@@ -227,13 +226,20 @@ define([
         isLogin: function() {
             return !!sessionStorage.getItem("userId");
         },
-        goLogin: function(){
+        goLogin: function(flag){
         	Base.clearSessionUser();
-            sessionStorage.setItem("l-return", location.pathname + location.search);
+        	if(flag){
+        		sessionStorage.removeItem("l-return");
+        	}else{
+            	sessionStorage.setItem("l-return", location.pathname + location.search);
+        	}
             Base.gohref("../user/login.html");
         },
         getUserId: function() {
             return sessionStorage.getItem("userId");
+        },
+        getUserMobile: function() {
+            return sessionStorage.getItem("mobile");
         },
         getToken: function() {
             return sessionStorage.getItem("token");
@@ -249,6 +255,7 @@ define([
         //登出
         logout: function() {
             Base.clearSessionUser();
+            Base.gohref("../user/login.html");
         },
         confirm: function(msg) {
             return (new Promise(function (resolve, reject) {
@@ -352,16 +359,35 @@ define([
 		    } 
 		    return url+'\n'+arg+'\n'+arg_val; 
 		},
-        //跳转: flag=1,链接带参数
-        gohref: function(href,flag){
+        //跳转 location.href
+        gohref: function(href){
         	var timestamp = new Date().getTime();
-        	if(flag=='1'){
-        		location.href = href+"&v="+timestamp
-        	}else if(Base.getUrlParam("v",href)!=""&&Base.getUrlParam("v",href)){
-        		location.href = Base.changeURLArg(href,"v",timestamp)
-        	}else{
+        	//判断链接后是否有带参数
+        	if(href.split("?")[1]){
+        		//判断是否有带v的参数，有则替换v的参数
+        		if(Base.getUrlParam("v",href)!=""&&Base.getUrlParam("v",href)){
+	        		location.href = Base.changeURLArg(href,"v",timestamp)
+	        	}else{
+	        		location.href = href+"&v="+timestamp
+	        	}
+    		}else{
         		location.href = href+"?v="+timestamp
-        	}
+    		}
+        },
+        //跳转 location.replace
+        gohrefReplace: function(href){
+        	var timestamp = new Date().getTime();
+        	//判断链接后是否有带参数
+        	if(href.split("?")[1]){
+        		//判断是否有带v的参数，有则替换v的参数
+        		if(Base.getUrlParam("v",href)!=""&&Base.getUrlParam("v",href)){
+	        		location.replace(Base.changeURLArg(href,"v",timestamp))
+	        	}else{
+	        		location.replace(href+"&v="+timestamp)
+	        	}
+    		}else{
+        		location.replace(href+"?v="+timestamp)
+    		}
         },
         //隐藏手机号中间4位
         hideMobile: function(mobile){

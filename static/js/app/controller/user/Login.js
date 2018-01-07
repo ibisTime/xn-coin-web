@@ -5,7 +5,11 @@ define([
     'app/interface/UserCtr'
 ], function(base, Swiper, Validate, UserCtr) {
 	
-    init();
+	if(base.isLogin()){
+		base.gohref("../user/user.html")
+	}else{
+    	init();
+	}
     
     function init() {
     	$(".head-button-wrap .button-register").removeClass("hidden")
@@ -35,6 +39,7 @@ define([
 			UserCtr.getUser(true,data.token).then((item)=>{
 				base.setSessionUser(data)
 				sessionStorage.setItem("nickname",item.nickname);
+				sessionStorage.setItem("mobile",item.mobile);
 				base.hideLoadingSpin()
 				base.showMsg("登錄成功")
 				setTimeout(function(){
@@ -66,6 +71,12 @@ define([
 	    		login(params);
 	    	}
 	    })
+	    $(document).keyup(function(event){
+			if(event.keyCode==13){
+				$("#subBtn").click()
+			}
+		}); 
+	    
 	    
     }
 });

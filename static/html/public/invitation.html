@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>邀請好友-倍可盈</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+    </head>
+    
+    <body>
+        <link rel="import" href="../top/top.html?__inline">
+        <div class="invitation-wrap wp100">
+        	<div class="invitation-top wp100 mb20"></div>
+        	<div class="invitation-content over-hide bg_fff">
+        		<div class="fl txt mr250">
+        			<p>成功邀請</p>
+        			<p><samp>1</samp>人</p>
+        		</div>
+        		<div class="fl txt">
+        			<p>提成收益</p>
+        			<p><samp>1</samp>ETH</p>
+        		</div>
+        		<div class="fr pt10">
+        			<div class="am-button am-button-red b_radius5 mr30" id="qrcodeBtn">二維碼推薦</div>
+        			<div class="am-button am-button-red b_radius5" id="invitationBtn">文字推薦</div>
+        		</div>
+        	</div>
+        	<div class="activity-wrap bg_fff">
+        		<div class="titleWrap">
+        			<img src="../../images/zuo.png" /><samp>活動規則</samp><img src="../../images/you.png" />
+        		</div>
+        		<div class="activity-content"></div>
+        	</div>
+        	
+        	<!--二維碼弹窗-->
+		    <div class="am-modal-wrap dialog qrcode-dialog hidden" id="qrcodeDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-body">
+	                    	<div class="qrcodeWrap">
+	                    		<div id="qrcode" class="wp100"></div>
+	                    		<p>微信掃描圖中二維碼</p>
+	                    	</div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
+		    
+		    <!--二維碼弹窗-->
+		    <div class="am-modal-wrap dialog invitation-dialog hidden" id="invitationDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-body">
+	                    	<div class="titleWrap">
+	                    		<p>複製下面這段文字給好友，好友通過你的專屬鏈接註冊成功，你就可以享受好友的交易提成了</p>
+	                    	</div>
+	                    	<div class="hrefWrap b_e">
+	                    		<p>http://localhost:400915761663457</p>
+	                    	</div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
+		    
+        </div>
+        
+        <link rel="import" href="../footer.html?__inline">
+    	<script src="../../js/lib/qrcode.js"></script>
+        <script>
+            require(['app/controller/public/Invitation']);
+        </script>
+    </body>
+</html>

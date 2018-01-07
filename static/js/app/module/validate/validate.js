@@ -116,6 +116,10 @@ define([
         var tm = /^\d{4}$/;
         return this.optional(element) || (tm.test(value));
     }, "验证码格式错误");
+    
+    $.validator.addMethod("tradePwdLength", function(value, element) {
+        return this.optional(element) || /^\d{6}$/.test(value);
+    }, '资金密码长度为6位');
     //身份证号码的验证规则
     function isIdCardNo(num) {
         var len = num.length,

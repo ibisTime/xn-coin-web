@@ -6,7 +6,7 @@ define([
 	if(!base.isLogin()){
 		base.goLogin()
 	}else{
-		$("#left-wrap .security").addClass("on")
+		$("#left-wrap .identity").addClass("on")
     	init();
 	}
     

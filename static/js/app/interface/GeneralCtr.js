@@ -4,12 +4,17 @@ define([
 ], function(base, Ajax) {
     return {
         // 发送短信
-        sendCaptcha(bizType, mobile, sendCode = '805950') {
-            return Ajax.post(sendCode, {
-                bizType,
-                mobile,
-                "kind": "C"
-            });
+        sendCaptcha(bizType, mobile, sendCode) {
+    		var param={
+        		bizType,
+        		sendCode
+        	}
+        	if(sendCode=="805952"){
+        		param.email=mobile
+        	}else{
+        		param.mobile=mobile
+        	}
+            return Ajax.post(sendCode, param);
         },
         // 获取转化汇率
         getTransRate(fromCurrency, toCurrency) {
@@ -36,13 +41,13 @@ define([
         getDictList(config,code) {
             return Ajax.get(code, config);
         },
-        // 查询user系统参数
-        getUserSysConfig(ckey, refresh) {
-            return Ajax.get("805917", {ckey}, refresh);
+        // 查询系统参数
+        getSysConfig(key, refresh) {
+            return Ajax.get("625917", {key}, refresh);
         },
         // 分页查询user系统参数
-        getPageUserSysConfig(config, refresh) {
-            return Ajax.get("805915", {
+        getPageSysConfig(config, refresh) {
+            return Ajax.get("625915", {
             	start: 1,
             	limit: 100,
             	orderColumn:'id',
@@ -50,24 +55,12 @@ define([
                 ...config
             }, refresh);
         },
-        // 查询account系统参数
-        getAccountSysConfig(key, refresh) {
-            return Ajax.get("802027", {key}, refresh);
-        },
-        // 分页查询account系统参数
-        getPageAccountSysConfig(config = {start: 1, limit: 100}, refresh) {
-            return Ajax.get("802025", config, refresh);
-        },
-        // 查询业务系统参数
-        getBizSysConfig(ckey, refresh) {
-            return Ajax.get("622917", {ckey}, refresh);
-        },
         // 查询banner列表
         getBanner(config, refresh) {
             return Ajax.get("805806", {
                 type: "2",
                 ...config
             }, refresh);
-        },
+        }
     };
 })

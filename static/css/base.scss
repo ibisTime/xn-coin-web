@@ -108,7 +108,7 @@ body {
     font-size: 13px;
     position: relative;
     font-family: "microsoft yahei", arial;
-    color: #000;
+    color: #333;
     background-color: #f7f7f7;
     line-height: 150%;
     min-height: 100%;
@@ -149,6 +149,7 @@ a.disabled {
 
 input:disabled,
 textarea:disabled {
+    cursor: default;
     background-color: transparent;
 }
 
@@ -210,6 +211,10 @@ textarea {
 
 .b_radius3 {
     border-radius: 3px;
+}
+
+.b_radius5 {
+    border-radius: 5px !important;
 }
 
 .b_radius6 {
@@ -566,6 +571,7 @@ textarea {
         }
 
         .input-item {
+            width: 100%;
             font-size: 14px;
             color: #484848;
             line-height: 1;
@@ -630,7 +636,45 @@ textarea {
             float: right;
         }
     }
+    .form-item-wrap{
+        width: 100%;
+        position: relative;
+        padding-left: 100px;
+        
+        .label{
+            display: inline-block;
+            width: 80px;
+            font-size: 16px;
+            color: #333;
+            line-height: 38px;
+            text-align: right;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9;
+        }
+        
+        .form-item{
+            padding: 12px 10px 12px 20px;
+            .input-item{
+                padding-left: 0;
+                border-left: 0;
+            }
+        }
+        
+    }
 }
+.form-wrapper-38{
+    .form-item{
+        padding-top: 9px !important;
+        padding-bottom: 9px !important;
+    }
+    .am-button{
+        height: 38px;
+        line-height: 38px;
+    }
+}
+
 
 button[disabled] {
     background-color: $btn-disabled-border-color;
@@ -640,7 +684,7 @@ button[disabled] {
 // button样式
 
 .am-button {
-    display: block;
+    display: inline-block;
     outline: 0 none;
     -webkit-appearance: none;
     -webkit-box-sizing: border-box;
@@ -704,6 +748,10 @@ button[disabled] {
     border: 1px solid #fff;
     line-height: 26px !important;
 }
+.am-button-gray {
+    color: #fff;
+    background-color: #ddd;
+}
 
 .am-button-ghost.am-button-disabled,
 .am-button-primary.am-button-disabled,
@@ -760,7 +808,7 @@ button[disabled] {
 .am-modal {
     position: relative;
     z-index: 999;
-    width: 6.14rem;
+    width: 500px;
     height: auto;
     
     .am-modal-content {
@@ -768,28 +816,32 @@ button[disabled] {
         background-color: #fff;
         border: 0;
         background-clip: padding-box;
-        text-align: center;
         height: 100%;
         overflow: hidden;
-        border-radius: .2rem;
+        border-radius: 3px;
         height: auto;
         padding-top: 0;
     }
     .am-modal-header{
-        padding: .3rem .3rem .2rem;
+        text-align: center;
+        font-size: 20px;
+        padding: 20px 0 0;
     }
     .am-modal-body {
-        font-size: .28rem;
         color: #888;
         height: 100%;
-        max-height: 4.6rem;
-        overflow-y: scroll;
-        padding: .1rem .6rem;
+        padding: 20px 30px 20px;
         text-align: left;
     }
     .am-modal-footer{
-        overflow: hidden;
-        padding: .4rem .58rem;
+        text-align: center;
+        padding: 0 0 30px;
+        
+        .am-button{
+            width: 150px;
+            height: 40px;
+            line-height: 40px;
+        }
     }
 }
 @keyframes antRotate {

@@ -6,9 +6,13 @@ define([
     'app/interface/GeneralCtr',
 	'app/module/smsCaptcha',
 ], function(base, Swiper, Validate, UserCtr, GeneralCtr,smsCaptcha) {
-    var userReferee = base.getUrlParam("mobile") || "";
+    var userReferee = base.getUrlParam("ref") || "";
 	
-    init();
+    if(base.isLogin()){
+		base.gohref("../user/user.html")
+	}else{
+    	init();
+	}
     
     function init() {
     	$(".head-button-wrap .button-login").removeClass("hidden")
