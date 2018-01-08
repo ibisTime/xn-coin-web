@@ -213,7 +213,10 @@ textarea {
     border-radius: 3px;
 }
 
-.b_radius5 {
+.b_radius2_i {
+    border-radius: 2px !important;
+}
+.b_radius5_i {
     border-radius: 5px !important;
 }
 
@@ -691,16 +694,17 @@ button[disabled] {
     padding: 0;
     text-align: center;
     font-size: 14px;
+    width: 100%;
     height: 46px;
     line-height: 46px;
-    -webkit-border-top-left-radius: 2px;
-    border-top-left-radius: 2px;
-    -webkit-border-top-right-radius: 2px;
-    border-top-right-radius: 2px;
-    -webkit-border-bottom-left-radius: 2px;
-    border-bottom-left-radius: 2px;
-    -webkit-border-bottom-right-radius: 2px;
-    border-bottom-right-radius: 2px;
+    -webkit-border-top-left-radius: 5px;
+    border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    border-top-right-radius: 5px;
+    -webkit-border-bottom-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    -webkit-border-bottom-right-radius: 5px;
+    border-bottom-right-radius: 5px;
     -webkit-background-clip: padding-box;
     color: #000;
     background-color: #fff;
