@@ -3,7 +3,7 @@ define([
 	'app/module/validate',
 	'app/module/smsCaptcha',
     'app/interface/UserCtr'
-], function(base, Validate,smsCaptcha, UserCtr) {
+], function(base, Validate, smsCaptcha, UserCtr) {
 	var type = base.getUrlParam("type");//设置类型： 0,開啟  1，關閉
 	
 	if(!base.isLogin()){
@@ -23,7 +23,8 @@ define([
     function openGoogle(params){
     	return UserCtr.openGoogle(params).then(()=>{
 			base.hideLoadingSpin()
-			base.showMsg("開啟成功")
+			sessionStorage.getItem("googleAuthFlag",'true');
+			base.showMsg("開啟成功");
 			setTimeout(function(){
 				base.gohrefReplace("../user/security.html")
 			},800)
@@ -34,7 +35,8 @@ define([
     function closeGoogle(googleCaptcha,smsCaptcha){
     	return UserCtr.closeGoogle(googleCaptcha,smsCaptcha).then(()=>{
 			base.hideLoadingSpin()
-			base.showMsg("開啟成功")
+			sessionStorage.getItem("googleAuthFlag",'false');
+			base.showMsg("關閉成功")
 			setTimeout(function(){
 				base.gohrefReplace("../user/security.html")
 			},800)
@@ -77,7 +79,7 @@ define([
 		$("#subBtn").click(function(){
     		if(_formWrapper.valid()){
 	    		base.showLoadingSpin();
-	    		var params=_formWrapper.serializeObject()
+	    		var params = _formWrapper.serializeObject()
 	    		
 	    		if(type=='0'){
 	    			openGoogle(params)

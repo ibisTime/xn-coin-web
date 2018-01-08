@@ -36,9 +36,10 @@ define([
 	
 	function login(params){
 		return UserCtr.login(params).then((data)=>{
-			UserCtr.getUser(true,data.token).then((item)=>{
-				base.setSessionUser(data)
+			base.setSessionUser(data)
+			UserCtr.getUser(true).then((item)=>{
 				sessionStorage.setItem("nickname",item.nickname);
+				sessionStorage.setItem("googleAuthFlag",item.googleAuthFlag);
 				sessionStorage.setItem("mobile",item.mobile);
 				base.hideLoadingSpin()
 				base.showMsg("登錄成功")

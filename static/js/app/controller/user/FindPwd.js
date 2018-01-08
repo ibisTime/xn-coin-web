@@ -3,9 +3,8 @@ define([
     'swiper',
 	'app/module/validate',
     'app/interface/UserCtr',
-    'app/interface/GeneralCtr',
 	'app/module/smsCaptcha',
-], function(base, Swiper, Validate, UserCtr, GeneralCtr,smsCaptcha) {
+], function(base, Swiper, Validate, UserCtr,smsCaptcha) {
     var userReferee = base.getUrlParam("ref") || "";
 	
     if(base.isLogin()){
@@ -16,14 +15,17 @@ define([
     
     function init() {
     	$(".head-button-wrap .button-login").removeClass("hidden")
+    	$(".head-button-wrap .button-login").removeClass("hidden")
+    	$(".head-button-wrap .button-register").removeClass("hidden")
         addListener();
         
     }
 	
-	function register(params){
-		return UserCtr.register(params).then((data)=>{
+	function resetPwd(params){
+		return UserCtr.resetPwd(params).then((data)=>{
+			
 			base.hideLoadingSpin()
-			base.showMsg("注册成功")
+			base.showMsg("密码重置成功")
 			setTimeout(function(){
 				base.gohref("../user/login.html")
 			},800)
@@ -31,12 +33,9 @@ define([
 	}
 	
     function addListener() {
-        var _registerForm = $("#register-form");
-	    _registerForm.validate({
+        var _formWrapper = $("#form-wrapper");
+	    _formWrapper.validate({
 	    	'rules': {
-	        	"nickname": {
-	        		required: true,
-	        	},
 	        	"mobile": {
 	        		required: true,
 	        		mobile: true
@@ -45,40 +44,33 @@ define([
 	        		required: true,
 	        		sms: true
 	        	},
-	        	"loginPwd": {
+	        	"newLoginPwd": {
 	        		required: true,
 	        		minlength: 6,
+	        	},
+	        	"reNewLoginPwd": {
+	        		required: true,
+	        		minlength: 6,
+	        		equalTo: "#newLoginPwd"
 	        	},
 	    	},
 	    	onkeyup: false
 	    });
 	    
 	    $("#subBtn").click(function(){
-	    	if(!$(this).hasClass("am-button-disabled")){
-	    		if(_registerForm.valid()){
-		    		base.showLoadingSpin()
-		    		var params=_registerForm.serializeObject()
-		    		userReferee!=""&&userReferee?params.userReferee = userReferee:'';
-		    		
-		    		register(params);
-		    	}
+    		if(_formWrapper.valid()){
+	    		base.showLoadingSpin()
+	    		var params=_formWrapper.serializeObject()
+	    		delete params.reNewLoginPwd;
+	    		resetPwd(params);
 	    	}
 	    })
 	    
-	    $("#subFlag").click(function(){
-	    	if($(this).hasClass("active")){
-	    		$(this).removeClass("active")
-	    		$("#subBtn").addClass("am-button-disabled")
-	    	}else{
-	    		$(this).addClass("active")
-	    		$("#subBtn").removeClass("am-button-disabled")
-	    	}
-	    })
 	    smsCaptcha.init({
 			checkInfo: function() {
 				return $("#mobile").valid();
 			},
-			bizType: "805041",
+			bizType: "805063",
 			id: "getVerification",
 			mobile: "mobile",
 			errorFn: function(){

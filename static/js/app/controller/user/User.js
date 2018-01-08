@@ -29,14 +29,14 @@ define([
     		}
     		
     		$("#nickname").text(data.nickname)
-    		$("#createDatetime").html(base.formateDateTime(data.createDatetime))
+    		$("#createDatetime").html(base.formateDatetime(data.createDatetime))
     		$("#mobile").html(base.hideMobile(data.mobile))
     		$("#beiXinRenCount").text(data.userStatistics.beiXinRenCount)
     		$("#jiaoYiCount").text(data.userStatistics.jiaoYiCount)
     		$("#totalTradeCount").text(data.userStatistics.totalTradeCount)
     		
     		if(data.email){
-    			$("#email").text("已驗證")
+    			$("#email").text(data.email)
     		}else{
     			$("#email").text("未驗證").addClass("no")
     		}

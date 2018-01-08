@@ -6,7 +6,7 @@ define([
 	var type = base.getUrlParam("type");// 0: 你屏蔽的人，1:你信任的人，2:信任你的人
 	var config={
 	        start: 1,
-	        limit: 10,
+	        limit: 1,
 		};
 	
 	if(!base.isLogin()){
@@ -40,7 +40,6 @@ define([
     
     // 初始化分页器
     function initPagination(data){
-    	$("#pagination .pagination").show();
         $("#pagination .pagination").pagination({
             pageCount: data.totalPage,
             showData: config.limit,
@@ -73,20 +72,22 @@ define([
                 lists.forEach((item, i) => {
                     html += buildHtml(item);
                 });
-    			$("#content")[config.start == 1 ? "html" : "append"](html)
+    			$("#content").html(html)
             	config.start == 1 && initPagination(data);
             }else{
             	$("#content").html("<tr><td class='tc'>暂无数据</td></tr>")
+    			$("#pagination").addClass("hidden");
             }
+            base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
     
     function buildHtml(item){
     	var photoHtml = ""
     	if(item.photo){
-    		photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(item.photo)')"></div>`
+    		photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${item.toUserInfo.photo})')"></div>`
 		}else{
-			var tmpl = item.nickname.substring(0,1).toUpperCase();
+			var tmpl = item.toUserInfo.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
 		}
     	
@@ -94,23 +95,23 @@ define([
 					<td>
 						<div class="photoWrap">${photoHtml}</div>
 					</td>
-					<td><div class="txt1">${item.nickname}</div></td>
+					<td><div class="txt1">${item.toUserInfo.nickname}</div></td>
 					<td>
-						<div class="txt2"><p>30</p><samp>交易次數</samp></div>
-					</td>
-					<td>
-						<div class="txt2"><p>30</p><samp>信任人數</samp></div>
+						<div class="txt2"><p>${item.toUserInfo.userStatistics.jiaoYiCount}</p><samp>交易次數</samp></div>
 					</td>
 					<td>
-						<div class="txt2"><p>30</p><samp>好評度</samp></div>
+						<div class="txt2"><p>${item.toUserInfo.userStatistics.beiXinRenCount}</p><samp>信任人數</samp></div>
 					</td>
 					<td>
-						<div class="txt2"><p>30</p><samp>歷史成交</samp></div>
+						<div class="txt2"><p>${item.toUserInfo.userStatistics.beiHaoPingCount}</p><samp>好評度</samp></div>
 					</td>
-					<td class="jiaoYiCount">
-						<div class="txt1 tr">跟TA交易過<samp>0</samp>次</div>
-					</td>
-				</tr>`
+				</tr>`;
+//					<td>
+//						<div class="txt2"><p>${item.toUserInfo.userStatistics.jiaoYiCount}</p><samp>歷史成交</samp></div>
+//					</td>
+//					<td class="jiaoYiCount">
+//						<div class="txt1 tr">跟TA交易過<samp>0</samp>次</div>
+//					</td>
     }
     
     function addListener() {

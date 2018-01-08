@@ -8,7 +8,8 @@ fis.hook('amd', {
         'jquery': "lib/jquery-2.1.4",
         'swiper': "lib/swiper/idangerous.swiper.min",
         'pagination': "lib/pagination/jquery.pagination",
-        'Chosen': "lib/chosen.jquery"
+        'Chosen': "lib/chosen.jquery",
+        'BigDecimal': "lib/bigDecimal/BigDecimal-all-last.min"
     },
     shim: {
         "IScroll": {

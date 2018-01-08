@@ -120,6 +120,12 @@ define([
     $.validator.addMethod("tradePwdLength", function(value, element) {
         return this.optional(element) || /^\d{6}$/.test(value);
     }, '资金密码长度为6位');
+    
+    //小数最后8位
+	$.validator.addMethod("amount", function(value, element) {
+	    return this.optional(element) || /^\d+(\.\d{8})?$/.test(value);
+	}, '金额必须>0，且小数点后最多8位');
+    
     //身份证号码的验证规则
     function isIdCardNo(num) {
         var len = num.length,

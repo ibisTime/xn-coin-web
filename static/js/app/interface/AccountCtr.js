@@ -11,13 +11,16 @@ define([
         },
         /**
          * 分页查询流水
-         * @param config: {start, limit, accountNumber}
+         * @param config: {start, limit, accountNumber, bizType}
          */
-        getPageFlow(config) {
-            return Ajax.get("802524", config);
+        getPageFlow(config,refresh) {
+            return Ajax.get("802524", {
+            	kind: '0',
+            	...config
+            }, refresh);
         },
         /**
-         * 账户余额微信充值
+         * 充值
          * @param config: {amount, openId}
          */
         recharge(config) {
@@ -27,9 +30,9 @@ define([
                 ...config
             });
         },
-        /*
+        /**
          * 取现
-         * config: {accountNumber,payCardNo,remainAmount,amount,applyUser,applyNote,tradePwd,payCardInfo}
+         * @param config: {accountNumber,amount,applyUser,applyNote,tradePwd,googleCaptcha}
          */
         withDraw(config) {
             return Ajax.post("802750", {
@@ -37,37 +40,27 @@ define([
                 ...config
             });
         },
-        // 获取银行数据字典列表
-        getBankCodeList(refresh) {
-            return Ajax.get("802116", refresh);
-        },
-        // 根据code获取银行卡详情
-        getBankCard(code, refresh) {
-            return Ajax.get("802017", {code}, refresh);
-        },
         /**
-         * 添加银行卡
-         * @param config {}
+         * 分页查询地址
+         * @param config: {address,limit,start,statusList,type,userId}
          */
-        addBankCard(config) {
-            return Ajax.post("802010", config);
-        },
-        /**
-         * 修改银行卡
-         * @param config {}
-         */
-        editBankCard(config) {
-            return Ajax.post("802012", {
-                status: 1,
-                ...config
-            });
-        },
-        // 获取银行卡列表
-        getBankCardList() {
-            return Ajax.get("802016", {
+        getPageCoinAddress(config,refresh) {
+            return Ajax.post("625205", {
                 userId: base.getUserId(),
-                status: "1"
-            });
-        }
+                type:'Y',
+                ...config
+            },refresh);
+        },
+        /**
+         * 新增ETH地址
+         * @param config: {address,googleCaptcha,isCerti,label,smsCaptcha,tradePwd}
+         */
+        addETHCoinAddress(config) {
+            return Ajax.post("625203", {
+                userId: base.getUserId(),
+                ...config
+            },true);
+        },
+        
     };
 })

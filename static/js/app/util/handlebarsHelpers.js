@@ -58,7 +58,7 @@ define([
         pic = pic.split(/\|\|/)[0];
         return (PIC_PREFIX + pic + '?imageMogr2/auto-orient/thumbnail/!280x175r');
     });
-    Handlebars.registerHelper('formateDateTime', function(date, options){
+    Handlebars.registerHelper('formateDatetime', function(date, options){
         return date ? new Date(date).format("yyyy-MM-dd hh:mm:ss") : "--";
     });
     Handlebars.registerHelper('formateDate', function(date, options){

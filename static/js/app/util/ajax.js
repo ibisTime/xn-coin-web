@@ -61,7 +61,7 @@ define([
                 	setTimeout(function(){
                 		var timestamp = new Date().getTime();
                 		location.href = "../user/login.html?v="+timestamp;
-                	},1500)
+                	},2000)
                 }
             });
         }

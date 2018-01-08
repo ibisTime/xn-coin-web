@@ -4,7 +4,8 @@ define([
     'app/util/dialog',
     'app/module/loading',
     'app/util/ajax',
-], function($, CookieUtil, dialog, loading, Ajax) {
+    'BigDecimal',
+], function($, CookieUtil, dialog, loading, Ajax, BigDecimal) {
 	var userMobile;
 
     if (Number.prototype.toFixed) {
@@ -73,7 +74,7 @@ define([
         	var format = format|| 'yyyy-MM-dd';
             return date ? new Date(date).format(format) : "--";
         },
-        formateDateTime: function(date){
+        formateDatetime: function(date){
 	        return date ? new Date(date).format("yyyy-MM-dd hh:mm:ss") : "--";
 	    },
         getUrlParam: function(name, locat) {
@@ -97,16 +98,29 @@ define([
         },
         formatMoney: function(s, t) {
             if(!$.isNumeric(s))
-                return "--";
-            var num = +s / 1000;
-            num = (num+"").replace(/^(\d+\.\d\d)\d*/i, "$1");
-            return (+num).toFixed(t || 2);
+                return "-";
+		    if (t == '' || t == null || t == undefined || typeof t == 'object') {
+		        t = 8;
+		    }
+		    //保留8位小数
+		    s = new BigDecimal.BigDecimal(s);
+		    s = s.divide(new BigDecimal.BigDecimal("1e18"), t||8, BigDecimal.MathContext.ROUND_DOWN).toString();
+		    return s;
         },
-        fZeroMoney: function(s) {
-            if(!$.isNumeric(s))
-                return 0;
-            s = +s / 1000;
-            return s.toFixed(0);
+        //减法 s1-s2
+        formatMoneySubtract: function(s1, s2) {
+            if(!$.isNumeric(s1)||!$.isNumeric(s2))
+                return "-";
+		    var s1 = new BigDecimal.BigDecimal(s1);
+            var s2 = new BigDecimal.BigDecimal(s2);
+            return Base.formatMoney(s1.subtract(s2).toString());
+        },
+        //金额放大
+        formatMoneyParse: function(m, r) {
+            var r = r || new BigDecimal.BigDecimal("1e18");
+			m = new BigDecimal.BigDecimal(m);
+			m = m.multiply(r).toString();
+		    return m;
         },
         calculateSecurityLevel: function(password) {
             var strength_L = 0;
@@ -244,6 +258,10 @@ define([
         getToken: function() {
             return sessionStorage.getItem("token");
         },
+        //谷歌验证
+        getGoogleAuthFlag: function() {
+            return sessionStorage.getItem("googleAuthFlag");
+        },
         setSessionUser: function(data) {
             sessionStorage.setItem("userId", data.userId);
             sessionStorage.setItem("token", data.token);
@@ -251,6 +269,9 @@ define([
         clearSessionUser: function() {
             sessionStorage.removeItem("userId"); //userId
             sessionStorage.removeItem("token"); //token
+            sessionStorage.removeItem("googleAuthFlag"); //token
+            sessionStorage.removeItem("mobile"); //token
+            sessionStorage.removeItem("nickname"); //token
         },
         //登出
         logout: function() {

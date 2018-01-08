@@ -39,7 +39,7 @@ define([
         },
         // 查询数据字典列表
         getDictList(config,code) {
-            return Ajax.get(code, config);
+            return Ajax.get(code||"625907", config);
         },
         // 查询系统参数
         getSysConfig(key, refresh) {

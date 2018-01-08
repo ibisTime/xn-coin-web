@@ -25,9 +25,9 @@ define([
             });
         },
         // 获取用户详情
-        getUser(refresh, token) {
+        getUser(refresh, userId) {
             return Ajax.get("805121", {
-                "token": token || base.getToken()
+                "userId": userId || base.getUserId()
             }, refresh);
         },
         // 修改密码
@@ -39,10 +39,10 @@ define([
             });
         },
         /**
-         * 忘記密码
+         * 忘記密码/重置密码
          * @param config {mobile, newLoginPwd, smsCaptcha}
          */
-        setPwd(config) {
+        resetPwd(config) {
             return Ajax.post('805063', {
                 kind:'C',
             	...config

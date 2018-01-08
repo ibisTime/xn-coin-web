@@ -14,26 +14,28 @@
 			</div>-->
 			
 			<div class="wallet-account-wrap b_e bg_fff mb20 mt20">
-				<p class="yue">錢包可用餘額：<samp class="amountString">0</samp>ETH</p>
+				<p class="yue">錢包可用餘額：<samp class="amount">0</samp>ETH</p>
 				<div class="account">
-					<samp>可用資產：0ETH</samp>
-					<samp>凍結資產：0ETH</samp>
-					<samp>總資產：0ETH</samp>
+					<samp>可用資產：<i class="amount">0</i>ETH</samp>
+					<samp>凍結資產：<i class="frozenAmountString">0</i>ETH</samp>
+					<samp>總資產：<i class="amountString">0</i>ETH</samp>
 				</div>
 			</div>
 			
 			<div class="wallet-address-wrap wp100 bg_fff b_e mb20">
 				<div class="address-nav b_e_b wp100" id="address-nav">
 					<ul class="wp100 over-hide">
-						<li class="on">接收ETH</li>
-						<li>發送ETH</li>
+						<li class="on charge">接收ETH</li>
+						<li class="withdraw">發送ETH</li>
 					</ul>
 				</div>
 				
 				<div class="wallet-address">
 					<!--接收-->
 					<div class="address-Wrap receive-wrap ">
-						<p class="address">接收地址：<samp>fhdsakjffdasf243jkvdhjkfasd</samp><i class="icon icon-qrcode"></i></p>
+						<div class="address">接收地址：<samp id="myCoinAddress"></samp>
+							<div class="icon icon-qrcode"><div id="qrcode" class="qrcode"></div></div>
+						</div>
 						<div class="warn over-hide">
 							<i class="icon icon-warn fl"></i>
 							<p class="fl">温馨提示：<i>ETH 地址只能充值 ETH 资产，任何充入 ETH 地址的非 ETH 资产将不可找回。</i>在 ETH 网络接收 ETH 通常需要 10 分钟。
@@ -56,31 +58,37 @@
 								<div class="form-item-wrap">
 									<samp class="label">發送地址：</samp>
 									<div class="form-item b_e mr20">
-										<input type="text" class="input-item" id="address" name="address" placeholder="請輸入正確地址" />
+										<input type="text" class="input-item payCardNo" name="payCardNo" placeholder="請輸入正確地址" />
 									</div>
 									<div class="am-button am-button-red fl addressBtn">管理地址</div>
 								</div>
 								<div class="form-item-wrap">
 									<samp class="label">數量：</samp>
 									<div class="form-item b_e">
-										<input type="text" class="input-item" id="quantity" name="quantity" placeholder="發送數量，本次最多可發送0ETH" />
+										<input type="text" class="input-item"  name="amount" placeholder="發送數量，本次最多可發送0ETH" />
 									</div>
 								</div>
 								<div class="form-item-wrap">
 									<samp class="label">資金密碼：</samp>
 									<div class="form-item b_e mr20">
-										<input type="password" class="input-item" id="tradePwd" name="tradePwd" placeholder="請輸入資金密碼" />
+										<input type="password" class="input-item" name="tradePwd" placeholder="請輸入資金密碼" />
 									</div>
-									<div class="findPwd fl">忘記密碼</div>
+									<div class="findPwd fl goHref" data-href="../user/setTradePwd.html?type=1&isWallet=1">忘記密碼</div>
+								</div>
+								<div class="form-item-wrap hidden googleAuthFlag">
+									<samp class="label">谷歌验证码：</samp>
+									<div class="form-item b_e mr20">
+										<input type="password" class="input-item" name="googleCaptcha" placeholder="請輸入谷歌验证码" />
+									</div>
 								</div>
 								<div class="form-item-wrap">
 									<samp class="label">備註：</samp>
 									<div class="form-item b_e">
-										<input type="text" class="input-item" id="remark" name="remark" placeholder="" />
+										<input type="text" class="input-item" name="applyNote" placeholder="" />
 									</div>
 								</div>
 								<div class="form-btn-item">
-									<div class="am-button am-button-red subBtn" id="subBtn">確定</div>
+									<div class="am-button am-button-red subBtn">確定</div>
 								</div>
 							</form>
 						</div>
@@ -110,16 +118,13 @@
 						<div>說明</div>
 					</div>
 					<div class="list-wrap">
-						<!--<div class="list-item">
-							<div>2017-12-22 10:34:34</div>
-							<div>交易卖出</div>
-							<div>2 ETH</div>
-							<div>买家 kinki  报价: 107033.42 CNY</div>
-						</div>-->
 					</div>
-					<div class="no-data">
+					<div class="no-data hidden">
 						<img src="../../images/暂无明细.png" />
 						<p>暫無明細</p>
+					</div>
+					<div id="pagination" class="wp100 pagination-wrap tc">
+						<p class="pagination"></p>
 					</div>
 				</div>
 			</div>
@@ -134,14 +139,14 @@
                     	<p>地址</p>
                     </div>
                     <div class="am-modal-body">
-                    	<ul class="over-hide wp100">
-                    		<li class="on">fadsjfdkslfjdsaklfjdsklasf</li>
-                    		<li>fadsjfdkslfjdsaklfjdsklasf</li>
-                    		<li>fadsjfdkslfjdsaklfjdsklasf</li>
+                    	<ul class="over-hide wp100 list">
                     	</ul>
+						<div id="paginationAddress" class="wp100 pagination-wrap dialog-pagination-wrap tc">
+							<p class="pagination"></p>
+						</div>
                     </div>
                     <div class="am-modal-footer">
-                    	<div class="am-button am-button-red mr40 confimBtn">確認地址</div>
+                    	<div class="am-button am-button-red mr40 subBtn">確認地址</div>
                     	<div class="am-button am-button-gray addBtn">添加新地址</div>
                     </div>
                 </div>
@@ -158,27 +163,39 @@
                     </div>
                     <div class="am-modal-body">
                     	<div class="addWAddress-form-wrap">
-							<form class="form-wrapper form-wrapper-38 wp100" id="addWAddress-form">
+							<form class="form-wrapper form-wrapper-38 wp100" id="addAddress-form">
 								<div class="form-item-wrap">
 									<samp class="label">標籤：</samp>
 									<div class="form-item b_e">
-										<input type="text" class="input-item" id="quantity" name="quantity" placeholder="請輸入標籤" />
+										<input type="text" class="input-item" name="label" placeholder="請輸入標籤" />
 									</div>
 								</div>
 								<div class="form-item-wrap">
 									<samp class="label">提幣地址：</samp>
 									<div class="form-item b_e mr20">
-										<input type="password" class="input-item" id="tradePwd" name="tradePwd" placeholder="請輸入提幣地址" />
+										<input type="text" class="input-item" name="address" placeholder="請輸入提幣地址" />
 									</div>
 								</div>
-								
+								<div class="form-item-wrap hidden  googleAuthFlag">
+									<samp class="label">谷歌驗證碼：</samp>
+									<div class="form-item b_e mr20">
+										<input type="password" class="input-item" name="googleCaptcha" placeholder="請輸入谷歌驗證碼" />
+									</div>
+								</div>
 								<div class="form-item-wrap">
 									<samp class="label">手機驗證碼：</samp>
+									<input type="hidden" id="addWAddressMobile"/>
 									<div class="form-item-sms wp100">
 										<div class="form-item b_e">
-											<input type="text" class="input-item" id="smsCaptcha" name="smsCaptcha"  placeholder="請輸入驗證" />
+											<input type="text" class="input-item" name="smsCaptcha"  placeholder="請輸入驗證" />
 										</div>
 										<button class="sms-button am-button am-button-red" id="getVerification">獲取驗證碼</button>
+									</div>
+								</div>
+								<div class="form-item-wrap tradePwdFlag">
+									<samp class="label">資金密碼：</samp>
+									<div class="form-item b_e mr20">
+										<input type="password" class="input-item" name="tradePwd" placeholder="請輸入資金密碼" />
 									</div>
 								</div>
 							</form>
@@ -189,7 +206,7 @@
 						</div>
                     </div>
                     <div class="am-modal-footer">
-                    	<div class="am-button am-button-red mr40">確認地址</div>
+                    	<div class="am-button am-button-red mr40 subBtn">確認地址</div>
                     	<div class="am-button am-button-gray closeBtn">關閉</div>
                     </div>
                 </div>
@@ -198,6 +215,7 @@
 	    
 		
         <link rel="import" href="../footer.html?__inline">
+    	<script src="../../js/lib/qrcode.js"></script>
         <script>
             require(['app/controller/wallet/WalletETH']);
         </script>

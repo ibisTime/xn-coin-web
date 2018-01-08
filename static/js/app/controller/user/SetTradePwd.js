@@ -5,6 +5,7 @@ define([
     'app/interface/UserCtr'
 ], function(base, Validate,smsCaptcha, UserCtr) {
 	var type = base.getUrlParam("type");//设置类型： 0,设置  1，修改 
+	var isWallet = !!base.getUrlParam("isWallet");//钱包点击跳转过来
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -35,7 +36,11 @@ define([
 			base.hideLoadingSpin()
 			base.showMsg("修改成功")
 			setTimeout(function(){
-				base.gohrefReplace("../user/security.html")
+				if(isWallet){
+					base.gohrefReplace("../wallet/wallet-eth.html?isWithdraw=1")
+				}else{
+					base.gohrefReplace("../user/security.html")
+				}
 			},800)
 		},base.hideLoadingSpin)
     }
