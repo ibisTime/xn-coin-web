@@ -203,6 +203,17 @@ html, body{
 .normal-footer .cd-icon .qrcode-tip img {
   max-width: 100%;
 }
+.normal-footer .cd-icon .txt-tip {
+  width: auto;
+  height: auto;
+  background-color: #fff;
+  color: #000;
+  padding: 5px 10px;
+}
+.normal-footer .cd-icon .txt-tip p{
+  white-space: nowrap;
+  margin-bottom: 0;
+}
 .normal-footer .right-infos {
   float: right;
   margin-top: 10px;

@@ -3,7 +3,9 @@ $(function () {
 
 	function init() {
 		initPics();
-    initLink();
+    	initLink();
+    	$("#teTui").html(window.FOOT_TETUI)
+    	$("#email").html(window.FOOT_EMAIL)
 	}
   // 初始化页面图片
 	function initPics() {
