@@ -56,11 +56,11 @@ define([
             }, refresh);
         },
         // 查询banner列表
-        getBanner(config, refresh) {
+        getBanner(config) {
             return Ajax.get("805806", {
                 type: "2",
                 ...config
-            }, refresh);
+            }, true);
         }
     };
 })

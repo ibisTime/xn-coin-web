@@ -164,13 +164,11 @@ table {
     }
 }
 .head-nav-wrap{
-    overflow: hidden;
     margin-left: 12px;
     padding: 29px 30px;
     
     .head-nav{
         font-size: 14px;
-        color: #fff;
         margin: 0 30px;
         float: left;
         line-height: 20px;
@@ -178,9 +176,18 @@ table {
         -ms-transition: color .4s;
         -moz-transition: color .4s;
         -webkit-transition: color .4s;
+        position: relative;
+        
+        samp{
+            color: #fff;
+            position: relative;
+            z-index: 10;
+        }
         
         i{
             margin-left: 12px;
+            position: relative;
+            z-index: 10;
         }
         
         .icon-up{
@@ -192,12 +199,59 @@ table {
         
         &:hover{
             cursor: pointer;
-            color: $primary-color;
+            samp{
+                color: $primary-color;
+            }
+            
+            .down-wrap{
+                height: 117px;
+                opacity: 1;
+            }
         }
         &.active{
-            color: $primary-color;
+            samp{
+                color: $primary-color;
+            }
         }
     }
+    
+    .down-wrap{
+        width: 100px;
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        margin-left: -50px;
+        z-index: 9;
+        background-color: #4c4c4c;
+        opacity: .9;
+        border-top: 3px solid $primary-color;
+        height: 77px;
+        overflow: hidden;
+        padding-top: 77px;
+        opacity: 0;
+        transition: all .4s;
+        -ms-transition: all .4s;
+        -moz-transition: all .4s;
+        -webkit-transition: all .4s;
+        
+        ul{
+            width: 100%;
+            
+            li{
+                width: 100%;
+                text-align: center;
+                color: #fff;
+                line-height: 38px;
+                
+                &:hover{
+                    color: #fff;
+                    background-color: $primary-color;
+                }
+            }
+        }
+    }
+    
+    
     
 }
 .head-user-wrap{
@@ -485,6 +539,7 @@ table {
     .head-user-wrap{
         padding: 22px 0;
         opacity: 0;
+        
     }
     &.on{
         height: 68px !important;
@@ -517,6 +572,19 @@ table {
             }
         }
         
+    }
+    
+    .head-nav-wrap{
+        .down-wrap{
+            padding-top: 65px;
+            top: -24px;
+        }
+        
+        &:hover{
+            .down-wrap{
+                height: 105px;
+            }
+        }
     }
 }
 .swiper-pagination{
@@ -1377,10 +1445,7 @@ table {
     }
     
 }
-.wallet-container{
-    width: 1200px;
-    margin: 0 auto;
-    
+.public-container{
     .wallet-top-wrap{
         width: 100%;
         padding: 30px 0;
@@ -1418,6 +1483,11 @@ table {
             }
         }
     }
+}
+.wallet-container{
+    width: 1200px;
+    margin: 0 auto;
+    
     .wallet-account-wrap{
         padding: 25px 40px;
         
@@ -2056,7 +2126,75 @@ table {
     }
     
 }
-
+.public-container{
+    .search-wrap{
+        width: 920px;
+        height: 58px;
+        margin: 0 auto;
+        
+        .icon-down{
+            width: 16px;
+            height: 16px;
+            background-image: url('../images/search-down.png');
+            position: relative;
+            top: 2px;
+        }
+        .searchType-wrap{
+            width: 140px;
+            position: relative;
+            
+            .show-wrap{
+                width: 100%;
+                height: 58px;
+                text-align: center;
+                
+                samp{
+                    display: inline-block;
+                    font-size: 16px;
+                    line-height: 58px;
+                    color: $primary-color;
+                    margin-right: 10px;
+                }
+                &:hover{
+                    .select-ul{
+                        height: 99px;
+                        opacity: 1;
+                    }
+                }
+            }
+            .select-ul{
+                width: 100%;
+                height: 0;
+                overflow: hidden;
+                border: 0 1px 1px 1px solid $border-color;
+                opacity: 0;
+                transition: all .4s;
+                -ms-transition: all .4s;
+                -moz-transition: all .4s;
+                -webkit-transition: all .4s;
+                position: absolute;
+                top: 58px;
+                left: 0;
+                
+                li{
+                    width: 100%;
+                    line-height: 50px;
+                    text-align: center;
+                }
+            }
+        }
+        .search-con{
+            width: 660px;
+        }
+        .search-btn{
+            width: 120px;
+        }
+    }
+}
+.trade-container{
+    width: 1200px;
+    margin: 20px auto;
+}
 
 
 

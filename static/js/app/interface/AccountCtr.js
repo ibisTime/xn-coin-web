@@ -4,10 +4,10 @@ define([
 ], function(base, Ajax) {
     return {
         // 获取账户
-        getAccount(refresh) {
+        getAccount() {
             return Ajax.get("802503", {
                 userId: base.getUserId()
-            }, refresh);
+            }, true);
         },
         /**
          * 分页查询流水

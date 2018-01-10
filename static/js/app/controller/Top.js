@@ -18,14 +18,16 @@ define([
     			getBanner()
     		)
     	}else{
-    		$("#head-button-wrap").removeClass("hidden")
-    		getBanner();
+    		$("#head-button-wrap").removeClass("hidden");
+    		$.when(
+    			getBanner()
+    		)
     	}
     	addListener();
     }
     // 获取banner
-    function getBanner(refresh){
-        return GeneralCtr.getBanner({},refresh).then((data) => {
+    function getBanner(){
+        return GeneralCtr.getBanner({}).then((data) => {
         	data.forEach((item) => {
         		if (item.location === 'web_download') {
 	            	$('#downImg').attr("src",base.getPic(item.pic));
