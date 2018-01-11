@@ -1,11 +1,21 @@
 @import "./mixin";
 @import "./global";
+/**
+ * author: hss
+ * */
+
 /*公共樣式*/
 .fs13{
     font-size: 13px;
 }
+.ml5{
+    margin-left: 5px;
+}
 .ml20{
     margin-left: 20px;
+}
+.ml60{
+    margin-left: 60px;
 }
 .mr20{
     margin-right: 20px;
@@ -24,6 +34,9 @@
 }
 .mt20{
     margin-top: 20px;
+}
+.mb10{
+    margin-bottom: 10px;
 }
 .mb20{
     margin-bottom: 20px;
@@ -71,6 +84,9 @@ table {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+.tc_red{
+    color: $red-color;
 }
 //表單icon
 .form-wrapper{
@@ -1194,6 +1210,7 @@ table {
 }
 .photoWrap{
     width: 80px;
+    position: relative;
     
     .photo{
         width: 80px;
@@ -1201,6 +1218,8 @@ table {
         border-radius: 50%;
         overflow: hidden;
         background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 }
 .userInfo-wrap{
@@ -1296,12 +1315,14 @@ table {
             &:first-child{
                 width: 130px;
                 padding-left: 50px;
-                border-bottom: 0;
             }
             &:last-child{
                 width: 220px;
                 padding-right: 50px;
             }
+        }
+        tr:first-child td{
+            border-bottom: 0;
         }
         
         .photoWrap{
@@ -2208,10 +2229,11 @@ table {
         .search-con{
             width: 660px;
             height: 58px;
+            padding: 0 20px;
             
             .advertisement-wrap{
                 .item{
-                    width: 220px;
+                    width: 206px;
                     padding: 0 40px 0 20px;
                     position: relative;
                     
@@ -2242,18 +2264,693 @@ table {
         }
         .search-btn{
             width: 120px;
+            height: 58px;
+            .am-button{
+                height: 58px;
+                line-height: 58px;
+                font-size: 16px;
+            }
+            .icon-search{
+                width: 18px;
+                height: 18px;
+                background-image: url('../images/搜索icon.png');
+                background-size: contain;
+                margin-right: 8px;
+                position: relative;
+                top: 3px;
+            }
         }
+    }
+    
+    .tradeBanner{
+        width: 100%;
+        height: 90px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        margin-top: 40px;
+    }
+    
+    .trade-list-wrap{
+        .trade-wrap{
+            width: 100%;
+            overflow: hidden;
+            thead tr{
+                background-color: #f7f7f7;
+                
+                td{
+                    font-size: 16px;
+                }
+            }
+            tbody tr{
+                td{
+                    border-top: 1px solid $border-color;
+                }
+                
+                &:nth-child(odd){
+                    background-color: #fff;
+                }
+                &:nth-child(even){
+                    background-color: #f7f7f7;
+                }
+                &:hover{
+                    background-color: #fffafa;
+                }
+                .price{
+                    color: #2ac64c;
+                }
+            }
+            tr td{
+                height: 76px;
+                position: relative;
+                font-size: 15px;
+            }
+            
+            .photoWrap{
+                width: 44px;
+                .photo{
+                    width: 44px;
+                    height: 44px;
+                }
+                
+                .noPhoto{
+                    font-size: 20px;
+                    line-height: 44px;
+                }
+            }
+            .dot{
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                border: 1.5px solid #fff;
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                
+                &.green{
+                    background-color: #74c758;
+                }
+                &.gray{
+                    background-color: #cdcdcd;
+                }
+                &.yellow{
+                    background-color: #fcd606;
+                }
+            }
+            
+            .am-button{
+                width: 90px;
+                height: 36px;
+                font-size: 14px;
+                transition: color,background .4s;
+                -ms-transition: color,background .4s;
+                -moz-transition: color,background .4s;
+                -webkit-transition: color,background .4s;
+                
+                &.am-button-ghost{
+                    line-height: 34px !important;
+                }
+                &:hover{
+                    color: #fff;
+                    background-color: $primary-color;
+                }
+            }
+            
+            samp,
+            .name,
+            div{
+                font-size: 15px;
+                i{
+                    font-style: normal;
+                }
+            }
+            .nickname{
+                width: 185px;
+                overflow: hidden;
+                padding-left: 30px;
+                .name{
+                    margin-left: 15px;
+                    display: inline-block;
+                    width: 95px;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    -ms-transform: translateY(-50%);
+                    -moz-transform: translateY(-50%);
+                    -webkit-transform: translateY(-50%);
+                    position: relative\9;
+                    top: 0px\9;
+                }
+            }
+            
+            .credit{
+                width: 300px;
+            }
+            
+            .payType{
+                width: 130px;
+            }
+            
+            .limit{
+                width: 240px;
+            }
+            
+            .price{
+                width: 190px;
+            }
+            
+            .operation{
+                width: 140px;
+                text-align: right;
+                padding-right: 30px;
+            }
+        }
+        
     }
 }
 .trade-container{
     width: 1200px;
     margin: 20px auto;
 }
+.detail-container{
+    width: 1200px;
+    margin: 20px auto;
+    
+    
+    .titleWrap{
+        margin-bottom: 20px;
+        .icon{
+            width: 18px;
+            height: 18px;
+            background-size: contain;
+            position: relative;
+            top: 3px;
+            margin-right: 12px;
+        }
+        
+        .icon-buy{
+            background-image: url('../images/出售多少.png');
+        }
+        .icon-warn{
+            background-image: url('../images/提醒.png');
+        }
+        .icon-advwarn{
+            background-image: url('../images/发布广告.png');
+        }
+        samp{
+            font-size: 18px;
+        }
+    }
+    
+    .detail-container-wrap{
+        width: 760px;
+    }
+}
+.tradeDetail-container{
+    .userInfo-wrap{
+        padding-top: 30px;
+        
+        .photoWrap{
+            width: 60px;
+            .photo{
+                width: 60px;
+                height: 60px;
+            }
+            
+            .noPhoto{
+                font-size: 26px;
+                line-height: 60px;
+            }
+        }
+        
+        .top{
+            margin-bottom: 20px;
+            
+            .name{
+                samp{
+                    display: inline-block;
+                    font-size: 16px;
+                    color: #484848;
+                    margin-left: 20px;
+                    line-height: 60px;
+                }
+                .icon-chat{
+                    width: 18px;
+                    height: 18px;
+                    background-size: contain;
+                    background-image: url('../images/留言.png');
+                    position: relative;
+                    top: 4px;
+                    margin-left: 12px;
+                }
+            }
+        }
+        
+        .statistics{
+            overflow: hidden;
+            margin-bottom: 20px;
+            
+            .item{
+                float: left;
+                text-align: center;
+                margin-right: 30px;
+                
+                p{
+                    font-size: 16px;
+                    margin-bottom: 5px;
+                }
+                samp{
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+    
+    .price-wrap{
+        padding-top: 30px;
+        
+        .item{
+            width: 100%;
+            margin-bottom: 15px;
+            
+            samp{
+                font-size: 16px;
+                
+                &.tit{
+                    margin-right: 40px;
+                }
+            }
+        }
+    }
+    .buy-wrap{
+        padding-top: 25px;
+        
+        .form-wrapper{
+            margin-bottom: 15px;
+            
+            .form-item{
+                width: 348px;
+                padding-top: 16px;
+                padding-bottom: 16px;
+            } 
+            .icon-change{
+                width: 18px;
+                height: 54px;
+                background-size: contain;
+                background-image: url('../images/切换.png');
+                position: relative;
+                margin: 0 22px;
+            }
+        }
+        .am-button{
+            height: 50px;
+            line-height: 50px;
+        }
+    }
+    .tradeWarn-wrap{
+        padding: 40px 0 48px;
+        
+        .content{
+            font-size: 14px;
+            color: #484848;
+            line-height: 2;
+        }
+    }
+    
+    .submit-dialog{
+        .am-modal{
+            width: 500px;
+            
+            .am-modal-body{
+                padding: 30px 50px 36px;
+            }
+        }
+        
+        .am-modal-header{
+            .iconWrap{
+                margin-top: 6px;
+                margin-bottom: 14px;
+            }
+            .icon-order{
+                width: 20px;
+                height: 24px;
+                background-size: contain;
+                background-image: url('../images/下单确定.png');
+                position: relative;
+            }
+        }
+        .submit-content{
+            .item{
+                width: 100%;
+                margin-bottom: 18px;
+                overflow: hidden;
+                
+                samp{
+                    font-size: 16px;
+                }
+            }
+            .warnWrap{
+                overflow: hidden;
+                padding-top: 22px;
+                
+                .icon-warn{
+                    width: 10px;
+                    height: 35px;
+                    background-size: contain;
+                    background-image: url('../images/提示红.png');
+                    background-position: center 5px;
+                    margin-right: 8px;
+                }
+                samp{
+                    display: inline-block;
+                    width: 382px;
+                    font-size: 12px;
+                    color: $red-color;
+                }
+            }
+        }
+    }
+}
 
-
-
-
-
+.order-container{
+    margin-bottom: 80px !important;
+    
+    .titleWrap{
+        padding: 0 40px 0 30px;
+        
+        .wrap{
+            .icon-order{
+                width: 13px;
+                height: 60px;
+                background-size: 100%;
+                background-image: url('../images/订单信息.png');
+                margin-right: 10px;
+            }
+            samp{
+                display: inline-block;
+                font-size: 16px;
+                line-height: 60px;
+                color: $red-color;
+            }
+        }
+        .titleStatus{
+            li{
+                float: left;
+                font-size: 16px;
+                line-height: 60px;
+                border-bottom: 2px solid transparent;
+                margin-left: 60px;
+                padding: 0 20px;
+                transition: color,border-color .4s;
+                -ms-transition: color,border-color .4s;
+                -moz-transition: color,border-color .4s;
+                -webkit-transition: color,border-color .4s;
+                
+                &.on,
+                &:hover{
+                    cursor: pointer;
+                    color: $red-color;
+                    border-bottom: 2px solid $red-color;
+                }
+            }
+        }
+    }
+    
+    .trade-list-wrap{
+        .trade-wrap {
+            min-height: 400px;
+            thead tr{
+                background-color: #fafafa;
+                td{
+                    height: 46px;
+                    color: #999;
+                    font-size: 14px;
+                    
+                    &.operation{
+                        text-align: center;
+                    }
+                }
+            }
+            .am-button{
+                width: 72px;
+                height: 26px;
+                line-height: 24px;
+                font-size: 12px;
+                border-radius: 3px;
+                border: 1px solid transparent;
+                
+                &.am-button:hover{
+                    height: 24px;
+                    border: 1px solid $red-color;
+                    color: $red-color;
+                    line-height: 22px;
+                    background-color: #fff;
+                }
+            }
+            .operation{
+                width: 170px;
+                padding-right: 0;
+            }
+            
+            .nickname{
+                width: auto;
+                padding-left: 20px;
+                
+                .name{
+                    width: auto;
+                    margin-left: 12px;
+                }
+            }
+            .photoWrap{
+                width: 40px;
+                .photo{
+                    width: 40px;
+                    height: 40px;
+                }
+                
+                .noPhoto{
+                    font-size: 20px;
+                    line-height: 40px;
+                }
+            }
+            samp,
+            .name,
+            div,
+            tr td{
+                font-size: 14px;
+            }
+            tr td{
+                height: 70px;
+            }
+            .code{
+                padding-right: 10px;
+            }
+            .type{
+                width: 100px;
+            }
+            .status{
+                width: 100px;
+            }
+            .createDatetime{
+                width: 160px;
+            }
+            
+            tbody tr:nth-child(even){
+                background-color: #fff;
+                &:hover{
+                    background-color: #fffafa;
+                }
+            }
+            .goDetail{
+                width: 70px;
+                padding-right: 20px;
+                text-align: right;
+                
+                .icon-detail{
+                    width: 26px;
+                    height: 26px;
+                    background-size: 12px;
+                    background-image: url('../images/订单更多.png');
+                    position: relative;
+                    top: 2px;
+                }
+            }
+        }
+    } 
+}
+.advertise-container{
+    .advertise-warn{
+        .content{
+            font-size: 14px;
+            color: #002200;
+            line-height: 2;
+            padding: 10px 0 20px;
+        }
+    }
+    
+    .advTitWrap{
+        width: 100%;
+        padding: 20px 0;
+        
+        samp{
+            font-size: 20px;
+            display: inline-block;
+            padding-left: 10px;
+            border-left: 4px solid $primary-color;
+        }
+    }
+    .explain{
+        width: 100%;
+        
+        i{
+            font-style: normal;
+            color: $red-color;
+            font-size: 16px;
+        }
+        samp{
+            font-size: 14px;
+            color: #999;
+        }
+        .txt{
+            font-size: 16px;
+            color: #333;
+        }
+        
+    }
+    .trade-type-wrap{
+        .trade-type{
+            margin: 20px 0 35px;
+            .item{
+                samp{
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    .icon-check{
+        width: 16px;
+        height: 16px;
+        background-size: 16px;
+        background-image: url('../images/未选择.png');
+        position: relative;
+        top: 2px;
+        margin-right: 10px;
+    }
+    
+    .type{
+        &.on .icon-check{
+            background-image: url('../images/选中.png');
+        }
+    }
+    .form-wrapper{
+        .form-item{
+            width: 600px;
+            margin: 20px 0 35px;
+        }
+    }
+    .set-item{
+        width: 100%;
+        margin: 10px 0;
+        
+        p{
+            font-size: 16px;
+            samp{
+                font-size: 14px;
+                color: #999;
+            }
+        }
+        .check-wrap{
+            width: 100%;
+            margin: 15px 0;
+            .icon-only{
+                width: 16px;
+                height: 16px;
+                background-size: 16px;
+                background-image: url('../images/未选择.png');
+                position: relative;
+                top: 2px;
+                
+                &.on{
+                    background-image: url('../images/选择高级设置.png');
+                }
+            }
+            .item{
+                samp{
+                    font-size: 14px;
+                    position: relative;
+                    top: -1px;
+                }
+            }
+        }
+    }
+    .time-wrap{
+        width: 100%;
+        height: auto;
+        overflow: hidden;
+        padding-bottom: 20px;
+        
+        &.hide{
+            height: 0;
+            padding: 0;
+        }
+    }
+    .advertise-hidden{
+        font-size: 20px;
+        color: $red-color;
+        margin: 40px 0;
+    }
+    .time-item{
+        margin-bottom: 20px;
+        samp{
+            display: inline-block;
+            font-size: 16px;
+            line-height: 50px;
+            margin-right: 50px;
+        }
+        .selectWrap{
+            width: 220px;
+            height: 50px;
+            border: 1px solid $border-color;
+            border-radius: 5px;
+            margin-right: 26px;
+            position: relative;
+            
+            select{
+                width: 100%;
+                font-size: 16px;
+                line-height: 50px;
+                color: #333;
+                padding: 0 20px;
+                
+                option{
+                    font-size: 16px;
+                    color: #333;
+                    line-height: 1.8;
+                    padding: 10px 0;
+                }
+            }
+            
+            .icon-select{
+                width: 8px;
+                height: 6px;
+                background-size: 8px;
+                background-image: url('../images/下拉黑色.png');
+                position: absolute;
+                top: 22px;
+                right: 20px;
+            }
+        }
+    }
+    .btnWRap{
+        padding-bottom: 60px;
+        .am-button{
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            margin-left: 180px;
+        }
+    }
+}
 
 
 

@@ -22,8 +22,8 @@
 						<li data-type="user">搜用戶</li>
 					</ul>
 				</div>
-				<div class="search-con fl bg_fff b_e_b b_e_t">
-					<div class="advertisement-wrap hidden">
+				<div class="search-con fl bg_fff b_e_b b_e_t" id="searchConWrap">
+					<div class="advertisement-wrap adver">
 						<div class="item fl">
 							<samp>廣告類型</samp>
 							<i class="icon icon-down"></i>
@@ -37,7 +37,7 @@
 							<i class="icon icon-down"></i>
 						</div>
 					</div>
-					<div class="user-wrap">
+					<div class="user-wrap user hidden">
 						<input type="text" placeholder="請輸入用戶名" />
 					</div>
 				</div>
@@ -45,6 +45,79 @@
 					<div class="am-button am-button-red am-button-noradius">
 						<i class="icon icon-search"></i>搜索
 					</div>
+				</div>
+			</div>
+			
+			<!--可配置banner-->
+			<div class="tradeBanner" id="tradeBanner" style="background-image: url('../../images/长图.png');"></div>
+			
+			<div class="trade-list-wrap mt20 userSelect_none">
+				<div class="trade-wrap wp100 b_e">
+					<table class="wp100 trade-form" cellpadding="0" cellspacing="0">
+						<thead>
+							<tr>
+								<td class="nickname">暱稱</td>
+								<td class="credit">信用</td>
+								<td class="payType">付款方式</td>
+								<td class="limit">限額</td>
+								<td class="price">價格</td>
+								<td class="operation"></td>
+							</tr>
+						</thead>
+						<tbody id="content">
+							<tr>
+								<td class="nickname">
+									<div class="photoWrap fl">
+										<div class="photo"><div class="noPhoto">J</div></div>
+										<div class="dot green"></div>
+									</div>
+									<samp class="name">junxi</samp>
+								</td>
+								<td class="credit">
+									<samp>交易<i>134</i></samp> · <samp>好評度<i>100%</i></samp> · <samp>信任<i>284</i></samp>
+								</td>
+								<td class="payType">現金存款</td>
+								<td class="limit">100000-10000000CNY</td>
+								<td class="price">100541.15CNY</td>
+								<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html">購買ETH</div></td>
+							</tr>
+							<tr>
+								<td class="nickname">
+									<div class="photoWrap fl">
+										<div class="photo"><div class="noPhoto">J</div></div>
+										<div class="dot gray"></div>
+									</div>
+									<samp class="name">junxi</samp>
+								</td>
+								<td class="credit">
+									<samp>交易<i>134</i></samp> · <samp>好評度<i>100%</i></samp> · <samp>信任<i>284</i></samp>
+								</td>
+								<td class="payType">現金存款</td>
+								<td class="limit">100000-10000000CNY</td>
+								<td class="price">100541.15CNY</td>
+								<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html">購買ETH</div></td>
+							</tr>
+							<tr>
+								<td class="nickname">
+									<div class="photoWrap fl">
+										<div class="photo"><div class="noPhoto">J</div></div>
+										<div class="dot yellow"></div>
+									</div>
+									<samp class="name">junxi</samp>
+								</td>
+								<td class="credit">
+									<samp>交易<i>134</i></samp> · <samp>好評度<i>100%</i></samp> · <samp>信任<i>284</i></samp>
+								</td>
+								<td class="payType">現金存款</td>
+								<td class="limit">100000-10000000CNY</td>
+								<td class="price">100541.15CNY</td>
+								<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html">購買ETH</div></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div id="pagination" class="wp100 pagination-wrap tc">
+					<p class="pagination"><a href="javascript:;" class="prev"><img src="/static/images/arrow---left.png"></a><span class="active">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" class="next"><img src="/static/images/arrow---right.png"></a><samp>共2页</samp><samp>到第</samp><input type="text" class="pagination-ipt"><samp>页</samp><a href="javascript:;" class="pagination-btn">确定</a></p>
 				</div>
 			</div>
 			

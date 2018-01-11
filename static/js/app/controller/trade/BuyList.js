@@ -78,7 +78,8 @@ define([
     		
     		if($("#searchTypeWrap .show-wrap").attr("data-type")!=_thisType){
     			$("#searchTypeWrap .show-wrap").attr("data-type",_thisType);
-    			$("#searchTypeWrap .show-wrap samp").text(_this.text())
+    			$("#searchTypeWrap .show-wrap samp").text(_this.text());
+    			$("#searchConWrap ."+_thisType).removeClass("hidden").siblings().addClass("hidden")
     		}
     	})
     }

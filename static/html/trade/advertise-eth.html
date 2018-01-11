@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>發佈廣告-倍可盈</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+    </head>
+    
+    <body class="bg_fff">
+        <link rel="import" href="../top/top.html?__inline">
+        
+		<div class="advertise-container detail-container">
+			<div class="advertise-warn wp100">
+				<div class="titleWrap">
+					<i class="icon icon-advwarn"></i>
+					<samp>發佈 ETH 交易廣告</samp>
+				</div>
+				<div class="content wp100">
+					1.這裡應該是後台可配置的<br/>
+					2.這裡應該是後台可配置的<br/>
+					3.這裡應該是後台可配置的<br/>
+				</div>
+			</div>
+			<div class="trade-type-wrap b_e_b">
+				<div class="advTitWrap"><samp>交易類型</samp></div>
+				<div class="explain">
+					<i>*</i>
+					<samp class="txt">選擇廣告類型：</samp>
+					<samp>這裡是後台可配置的，做的時候可以問</samp>
+				</div>
+				<div class="trade-type over-hide userSelect_none">
+					<div class="item fl type on">
+						<i class="icon icon-check"></i>
+						<samp>在線出售 ETH</samp>
+					</div>
+					<div class="item fl type ml60">
+						<i class="icon icon-check"></i>
+						<samp>在線購買 ETH</samp>
+					</div>
+				</div>
+			</div>
+			<div class="advertise-info b_e_b">
+				<div class="advTitWrap mt20 mb10"><samp>更多信息</samp></div>
+				<div class="form-wrapper form-wrapper-noIcon">
+					<div class="explain">
+						<i>*</i>
+						<samp class="txt">溢價：</samp>
+						<samp>這裡是後台可配置的，做的時候可以問</samp>
+					</div>
+					<div class="form-item b_e">
+						<i class="item-unit">%</i>
+						<input type="text" class="input-item" placeholder="請輸入您購買的金額" />
+					</div>
+					<div class="explain">
+						<i>*</i>
+						<samp class="txt">價格：</samp>
+						<samp>這裡是後台可配置的，做的時候可以問</samp>
+					</div>
+					<div class="form-item b_e">
+						<i class="item-unit">CNY</i>
+						<input type="text" class="input-item" placeholder="請輸入您購買的金額" />
+					</div>
+					<div class="explain">
+						<samp class="txt">最低價(選填)：</samp>
+						<samp>這裡是後台可配置的，做的時候可以問</samp>
+					</div>
+					<div class="form-item b_e">
+						<i class="item-unit">CNY</i>
+						<input type="text" class="input-item" placeholder="請輸入您購買的金額" />
+					</div>
+					<div class="explain">
+						<i>*</i>
+						<samp class="txt">最小限額：</samp>
+						<samp>這裡是後台可配置的，做的時候可以問</samp>
+					</div>
+					<div class="form-item b_e">
+						<i class="item-unit">CNY</i>
+						<input type="text" class="input-item" placeholder="請輸入最小限額，大於50" />
+					</div>
+					<div class="explain">
+						<i>*</i>
+						<samp class="txt">最大限額：</samp>
+						<samp>這裡是後台可配置的，做的時候可以問</samp>
+					</div>
+					<div class="form-item b_e">
+						<i class="item-unit">CNY</i>
+						<input type="text" class="input-item" placeholder="請輸入最大限額" />
+					</div>
+					<div class="explain">
+						<i>*</i>
+						<samp class="txt">收款方式：</samp>
+					</div>
+					<div class="form-item form-item-select b_e">
+						<!--收款方式應該是數據字典-->
+						<select>
+							<option>支付寶</option>
+							<option>銀行卡</option>
+						</select>
+						<i class="icon icon-down"></i>
+					</div>
+					<div class="explain">
+						<i>*</i>
+						<samp class="txt">廣告留言：</samp>
+					</div>
+					<div class="form-item form-item-textarea b_e">
+						<textarea style="resize: none;" class="textarea-item" placeholder="請說明有關您交易的相關條款或備註您的支付方式，謝謝"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="advertise-set">
+				<div class="set-wrap hidden">
+					<div class="advTitWrap mt20 mb10"><samp class="tc_red">顯示高級設置</samp></div>
+					<div class="set-item">
+						<p>僅限受信任的交易者：<samp>這裡是後台可配置的</samp></p>
+						<div class="check-wrap">
+							<div class="icon icon-only on"></div>
+						</div>
+					</div>
+					<div class="set-item time-type">
+						<p>開放時間：<samp>這裡是後台可配置的</samp></p>
+						<div class="check-wrap over-hide">
+							<div class="item fl type all">
+								<i class="icon icon-check"></i>
+								<samp>任何時候</samp>
+							</div>
+							<div class="item fl type ml60 on userDefined">
+								<i class="icon icon-check"></i>
+								<samp>自定義</samp>
+							</div>
+						</div>
+					</div>
+					<div class="time-wrap b_e_b" id="timeWrap">
+						<!--時間option用js 寫個循環 放值-->
+						<div class="time-item over-hide">
+							<samp class="fl">星期一：</samp>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">開始時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">結束時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+						</div>
+						<div class="time-item over-hide">
+							<samp class="fl">星期二：</samp>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">開始時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">結束時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+						</div>
+						<div class="time-item over-hide">
+							<samp class="fl">星期三：</samp>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">開始時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">結束時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+						</div>
+						<div class="time-item over-hide">
+							<samp class="fl">星期四：</samp>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">開始時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">結束時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+						</div>
+						<div class="time-item over-hide">
+							<samp class="fl">星期五：</samp>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">開始時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">結束時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+						</div>
+						<div class="time-item over-hide">
+							<samp class="fl">星期六：</samp>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">開始時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">結束時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+						</div>
+						<div class="time-item over-hide">
+							<samp class="fl">星期日：</samp>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">開始時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+							<div class="selectWrap fl">
+								<select>
+									<option value="">結束時間</option>
+									<option value="24">關閉</option>
+									<option value="1">00:00</option>
+								</select>
+								<i class="icon icon-select"></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="advertise-hidden cur-pointer hide">顯示高級設置...</div>
+			</div>
+		
+			<div class="btnWRap">
+				<div class="am-button am-button-red">立即發佈</div>
+			</div>
+		</div>
+		
+        <link rel="import" href="../footer.html?__inline">
+        <script>
+            require(['app/controller/trade/AdvertiseETH']);
+        </script>
+    </body>
+</html>

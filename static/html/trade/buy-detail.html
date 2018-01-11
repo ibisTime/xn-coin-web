@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>購買详情-倍可盈</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+    </head>
+    
+    <body class="bg_fff">
+        <link rel="import" href="../top/top.html?__inline">
+        
+        <div class="detail-container tradeDetail-container">
+        	<div class="detail-container-wrap">
+				<div class="userInfo-wrap b_e_b">
+					<div class="top over-hide">
+						<div class="photoWrap fl">
+							<div class="photo"><div class="noPhoto">J</div></div>
+							<div class="dot gray"></div>
+						</div>
+						<div class="name fl">
+							<samp>junxi</samp>
+							<i class="icon icon-chat"></i>
+						</div>
+					</div>
+					<div class="statistics">
+						<div class="item">
+							<p>30+</p>
+							<samp>交易次數</samp>
+						</div>
+						<div class="item">
+							<p>50</p>
+							<samp>信任人數</samp>
+						</div>
+						<div class="item">
+							<p>100%</p>
+							<samp>好評度</samp>
+						</div>
+						<div class="item">
+							<p>80+ETH</p>
+							<samp>歷史成交</samp>
+						</div>
+					</div>
+				</div>
+				<div class="price-wrap">
+					<div class="item">
+						<samp class="tit">報價:</samp><samp>9888</samp><samp class="ml5">CNY/ETH</samp>
+					</div>
+					<div class="item">
+						<samp class="tit">交易限額:</samp><samp>100000-1212121</samp><samp class="ml5">CNY</samp>
+					</div>
+					<div class="item">
+						<samp class="tit">付款方式:</samp><samp>支付寶</samp>
+					</div>
+					<div class="item">
+						<samp class="tit">付款期限:</samp><samp>30分鐘</samp>
+					</div>
+				</div>
+				<div class="buy-wrap">
+					<div class="titleWrap"><i class="icon icon-buy"></i><samp>你想購買多少?</samp></div>
+					<form class="form-wrapper wp100 form-wrapper-noIcon over-hide">
+						<div class="form-item b_e fl">
+							<i class="item-unit">CNY</i>
+							<input type="text" class="input-item" placeholder="請輸入您購買的金額" />
+						</div>
+						<div class="icon icon-change fl"></div>
+						<div class="form-item b_e fl">
+							<i class="item-unit">ETH</i>
+							<input type="text" class="input-item" placeholder="請輸入您購買的數量" />
+						</div>
+					</form>
+					<div class="am-button am-button-gray" id="buyBtn">立即購買</div>
+				</div>
+				<div class="tradeWarn-wrap">
+					<div class="titleWrap"><i class="icon icon-warn"></i><samp>交易提醒</samp></div>
+					<div class="content">
+						1.jfdssjfklsdjkldsjfklds<br/>
+						2.積分抵扣酸辣粉機單身快樂
+					</div>
+				</div>
+			</div>	
+			
+			<!--下单确认弹窗-->
+		    <div class="am-modal-wrap dialog submit-dialog hidden" id="submitDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-header">
+	                    	<p class="iconWrap"><i class="icon icon-order"></i></p>
+	                    	<p>下單確認</p>
+	                    </div>
+	                    <div class="am-modal-body">
+	                    	<div class="submit-content">
+	                    		<div class="item">
+	                    			<samp class="fl">購買價格</samp>
+	                    			<samp class="fr">99998.00CNY</samp>
+	                    		</div>
+	                    		<div class="item">
+	                    			<samp class="fl">購買價格</samp>
+	                    			<samp class="fr">99998.00CNY</samp>
+	                    		</div>
+	                    		<div class="item">
+	                    			<samp class="fl">購買數量</samp>
+	                    			<samp class="fr">0.123335ETH</samp>
+	                    		</div>
+	                    		<div class="warnWrap">
+	                    			<i class="icon icon-warn fl"></i>
+	                    			<samp class="fr">提醒：請確認價格再下單，下單後此交易的ETH將被託管鎖定，請放心購買。</samp>
+	                    		</div>
+	                    	</div>
+	                    </div>
+	                    <div class="am-modal-footer">
+	                    	<div class="am-button am-button-red mr40 subBtn">確認購買</div>
+	                    	<div class="am-button am-button-gray closeBtn">放棄</div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
+        </div>
+        
+        <link rel="import" href="../footer.html?__inline">
+        <script>
+            require(['app/controller/trade/BuyDetail']);
+        </script>
+    </body>
+</html>

@@ -373,7 +373,6 @@ define([
 			var address= $("#wAddressDialog .am-modal-body ul li.on").attr("data-address")
 			$("#sendOut-form .payCardNo").val(address);
 			$("#wAddressDialog").addClass("hidden")
-			 
     	})
 	    
 	    // 发送-确定
