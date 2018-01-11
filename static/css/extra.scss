@@ -204,8 +204,12 @@ table {
             }
             
             .down-wrap{
-                height: 117px;
-                opacity: 1;
+                border-top: 3px solid $primary-color;
+                background-color: #4c4c4c;
+                ul li{
+                    height: 38px;
+                }
+                opacity: .9;
             }
         }
         &.active{
@@ -220,12 +224,13 @@ table {
         position: absolute;
         top: -30px;
         left: 50%;
-        margin-left: -50px;
+        transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        margin-left: -50px\9;
         z-index: 9;
-        background-color: #4c4c4c;
-        opacity: .9;
-        border-top: 3px solid $primary-color;
-        height: 77px;
+        border-top: 3px solid transparent;
         overflow: hidden;
         padding-top: 77px;
         opacity: 0;
@@ -236,12 +241,19 @@ table {
         
         ul{
             width: 100%;
+            overflow: hidden;
             
             li{
                 width: 100%;
+                overflow: hidden;
+                height: 0;
+                line-height: 38px;
+                transition: all .4s;
+                -ms-transition: all .4s;
+                -moz-transition: all .4s;
+                -webkit-transition: all .4s;
                 text-align: center;
                 color: #fff;
-                line-height: 38px;
                 
                 &:hover{
                     color: #fff;
@@ -697,6 +709,7 @@ table {
                     -ms-transform: translateX(-50%);
                     -moz-transform: translateX(-50%);
                     -webkit-transform: translateX(-50%);
+                    margin-left: 0px\9;
                     z-index: 99;
                     background-color: #fff;
                     
@@ -710,6 +723,7 @@ table {
                         height: 124px;
                         opacity: 1;
                         padding: 3px;
+                        margin-left: -62px\9;
                     }
                 }
             }
@@ -2158,12 +2172,6 @@ table {
                     color: $primary-color;
                     margin-right: 10px;
                 }
-                &:hover{
-                    .select-ul{
-                        height: 99px;
-                        opacity: 1;
-                    }
-                }
             }
             .select-ul{
                 width: 100%;
@@ -2183,11 +2191,54 @@ table {
                     width: 100%;
                     line-height: 50px;
                     text-align: center;
+                    &:hover{
+                        color: $primary-color;
+                    }
+                }
+            }
+            
+            &:hover{
+                .select-ul{
+                    height: 99px;
+                    opacity: 1;
                 }
             }
         }
+        
         .search-con{
             width: 660px;
+            height: 58px;
+            
+            .advertisement-wrap{
+                .item{
+                    width: 220px;
+                    padding: 0 40px 0 20px;
+                    position: relative;
+                    
+                    samp{
+                        font-size: 13px;
+                        display: inline-block;
+                        line-height: 58px;
+                    }
+                    
+                    .icon{
+                        position: absolute;
+                        top: 20px;
+                        right: 25px;
+                    }
+                }
+            }
+            .user-wrap{
+                padding: 18px 0;
+                
+                input[type="text"]{
+                    width: 100%;
+                    font-size: 14px;
+                    line-height: 1.5;
+                    padding: 0 15px;
+                    color: #484848;
+                }
+            }
         }
         .search-btn{
             width: 120px;

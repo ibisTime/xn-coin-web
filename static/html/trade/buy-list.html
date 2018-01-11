@@ -15,15 +15,15 @@
 			</div>-->
 			
 			<div class="search-wrap mt20">
-				<div class="searchType-wrap fl">
-					<div class="show-wrap b_e"><samp>搜廣告</samp><i class="icon icon-down"></i></div>
+				<div class="searchType-wrap fl userSelect_none" id="searchTypeWrap">
+					<div class="show-wrap b_e" data-type="adver"><samp>搜廣告</samp><i class="icon icon-down"></i></div>
 					<ul class="select-ul bg_fff">
-						<li>搜廣告</li>
-						<li>搜用戶</li>
+						<li data-type="adver">搜廣告</li>
+						<li data-type="user">搜用戶</li>
 					</ul>
 				</div>
-				<div class="search-con fl">
-					<div class="advertisement-wrap">
+				<div class="search-con fl bg_fff b_e_b b_e_t">
+					<div class="advertisement-wrap hidden">
 						<div class="item fl">
 							<samp>廣告類型</samp>
 							<i class="icon icon-down"></i>
@@ -38,7 +38,7 @@
 						</div>
 					</div>
 					<div class="user-wrap">
-						<input />
+						<input type="text" placeholder="請輸入用戶名" />
 					</div>
 				</div>
 				<div class="search-btn fl">

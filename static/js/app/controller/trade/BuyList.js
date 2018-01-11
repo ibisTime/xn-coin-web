@@ -72,6 +72,14 @@ define([
     }
     
     function addListener() {
-    	
+    	$("#searchTypeWrap .select-ul li").click(function(){
+    		var _this = $(this);
+    		var _thisType= $(this).attr("data-type")
+    		
+    		if($("#searchTypeWrap .show-wrap").attr("data-type")!=_thisType){
+    			$("#searchTypeWrap .show-wrap").attr("data-type",_thisType);
+    			$("#searchTypeWrap .show-wrap samp").text(_this.text())
+    		}
+    	})
     }
 });
