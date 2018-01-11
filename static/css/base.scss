@@ -121,6 +121,17 @@ textarea {
     color: #000;
 }
 
+/*文字选中*/
+::-moz-selection {
+  color: #ffffff;
+  background: #000000;
+}
+::selection {
+  color: #ffffff;
+  background: #000000;
+}
+
+
 .clearfix:after {
     content: "";
     display: block;
