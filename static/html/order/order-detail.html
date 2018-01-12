@@ -6,8 +6,56 @@
     	<!--SCRIPT_PLACEHOLDER-->
     </head>
     
-    <body>
+    <body class="bg_fff">
         <link rel="import" href="../top/top.html?__inline">
+        <!--不同状态  卖家 买家展示不同-->
+		<div class="orderDetail-container">
+			<div class="status-wrap">
+				<div class="line"></div>
+				<div class="status-item">
+					<div class="icon icon-yixiadan"></div>
+					<p>已下單</p>
+				</div>
+				<div class="status-item">
+					<div class="icon icon-待付款"></div>
+					<p>待付款</p>
+				</div>
+				<div class="status-item">
+					<div class="icon icon-yixiadan"></div>
+					<p>待釋放</p>
+				</div>
+				<div class="status-item">
+					<div class="icon icon-yixiadan"></div>
+					<p>已下單</p>
+				</div>
+			</div>
+			
+			<div class="orderDetail-warn">
+				<i class="icon icon-warn"></i>
+				<samp>訂單將在託管中保持至<i>17:28:22</i>，逾期未支付交易將自動取消</samp>
+			</div>
+			
+			<div class="orderDetail-info b_e">
+				<samp><i class="icon icon-order"></i>訂單信息</samp>
+				<samp>交易價格: <i>109500</i> CNY</samp>
+				<samp>交易數量: <i>0.922200000</i> ETH</samp>
+				<samp>交易金額: <i>90000.22</i> CNY</samp>
+			</div>
+			
+			<div class="orderDetail-middle">
+				
+			</div>
+			
+			<div class="orderDetail-operation">
+				<h3>交易操作</h3>
+				
+				<div class="wp100">
+					<samp>訂單編號</samp><samp>2328532</samp>
+					<samp>付款方式</samp><samp>2328532</samp>
+					<samp>廣告留言</samp><samp>2328532</samp>
+				</div>
+			</div>
+		</div>
 		
         <link rel="import" href="../footer.html?__inline">
         <script>
