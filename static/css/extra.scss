@@ -3129,6 +3129,7 @@ table {
     .status-wrap{
         overflow: hidden;
         position: relative;
+        margin:  30px 0 25px;
         
         .line{
             width: 563px;
@@ -3156,20 +3157,154 @@ table {
             .icon-yixiadan{
                 background-image: url('../images/已下单.png');
             }
-            .icon-yixiadan{
-                background-image: url('../images/已下单.png');
+            .icon-daifukuan{
+                background-image: url('../images/待付款.png');
             }
-            .icon-yixiadan{
-                background-image: url('../images/已下单.png');
+            .icon-daishifang{
+                background-image: url('../images/待收货.png');
             }
-            .icon-yixiadan{
-                background-image: url('../images/已下单.png');
+            .icon-daipingjia{
+                background-image: url('../images/待评价.png');
             }
             
             p{
                 font-size: 16px;
                 margin-top: 15px;
                 line-break: 1;
+            }
+        }
+    }
+    
+    .orderDetail-warn{
+        width: 100%;
+        margin-bottom: 25px;
+        
+        .icon-warn{
+            width: 15px;
+            height: 15px;
+            background-size: 15px;
+            background-image: url('../images/详情提示.png');
+            position: relative;
+            top: 2px;
+            margin-right: 10px;
+        }
+        
+        samp{
+            font-size: 15px;
+            color: #666;
+            i{
+                font-style: normal;
+            }
+        }
+    }
+    
+    .orderDetail-info{
+        height: 60px;
+        padding: 0 30px;
+        
+        samp{
+            display: inline-block;
+            line-height: 60px;
+            font-size: 16px;
+            margin-right: 60px;
+            
+            i{
+                font-style: normal;
+            }
+        }
+        
+        .icon-order{
+            width: 15px;
+            height: 18px;
+            background-size: 14px;
+            background-image: url('../images/订单信息.png');
+            position: relative;
+            top: 3px;
+            margin-right: 10px;
+        }
+    }
+    
+    .orderDetail-middle{
+        
+        .title{
+            overflow: hidden;
+            .item{
+                width: 50%;
+                float: left;
+                line-height: 57px;
+                border-bottom: 3px solid transparent;
+                font-size: 16px;
+                text-align: center;
+                
+                &.on,
+                &:hover{
+                    cursor: pointer;
+                    color: $red-color;
+                    border-bottom: 3px solid $red-color;
+                }
+            }
+        }
+        .content-wrap{
+            background-color: #f7f7f7;
+            height: 470px;
+            .chat-wrap{
+                
+            }
+            .userInfo-wrap{
+                padding:  30px;
+                .photoWrap{
+                    width: 60px;
+                    height: 100%;
+                    .photo{
+                        width: 60px;
+                        height: 60px;
+                    }
+                    
+                    .noPhoto{
+                        font-size: 24px;
+                        line-height: 60px;
+                    }
+                }
+            }
+            .info-wrap{
+                .nickname{
+                    line-height: 60px;
+                    font-size: 18px;
+                    margin-bottom: 20px;
+                }
+                .txt{
+                    overflow: hidden;
+                    margin-bottom: 10px;
+                    
+                    p{
+                        display: inline-block;
+                        float: left;
+                        width: 340px;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    .orderDetail-operation{
+        padding-bottom: 80px;
+        
+        h3{
+            font-size: 20px;
+            font-weight: normal;
+            color: #000;
+            margin: 50px 0 30px;
+        }
+        
+        .txt{
+            p{
+                line-height: 30px;
+            }
+            samp{
+                display: inline-block;
+                font-size: 16px;
             }
         }
     }
