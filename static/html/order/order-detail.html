@@ -17,16 +17,16 @@
 					<p>已下單</p>
 				</div>
 				<div class="status-item">
-					<div class="icon icon-待付款"></div>
+					<div class="icon icon-daifukuan"></div>
 					<p>待付款</p>
 				</div>
 				<div class="status-item">
-					<div class="icon icon-yixiadan"></div>
+					<div class="icon icon-daishifang"></div>
 					<p>待釋放</p>
 				</div>
 				<div class="status-item">
-					<div class="icon icon-yixiadan"></div>
-					<p>已下單</p>
+					<div class="icon icon-daipingjia"></div>
+					<p>待评价</p>
 				</div>
 			</div>
 			
@@ -35,31 +35,67 @@
 				<samp>訂單將在託管中保持至<i>17:28:22</i>，逾期未支付交易將自動取消</samp>
 			</div>
 			
-			<div class="orderDetail-info b_e">
-				<samp><i class="icon icon-order"></i>訂單信息</samp>
+			<div class="orderDetail-info b_e mb20">
+				<samp class="tc_red_i"><i class="icon icon-order"></i>訂單信息</samp>
 				<samp>交易價格: <i>109500</i> CNY</samp>
 				<samp>交易數量: <i>0.922200000</i> ETH</samp>
 				<samp>交易金額: <i>90000.22</i> CNY</samp>
 			</div>
 			
-			<div class="orderDetail-middle">
+			<div class="orderDetail-middle b_e ">
+				<div class="title wp100 b_e_b">
+					<div class="item on">聊天</div>
+					<!-- 注意区分 卖家买家 -->
+					<div class="item">賣家信息</div>
+				</div>
 				
+				<div class="content-wrap wp100">
+					<div class="wrap chat-wrap hp100 wp100"></div>
+					<div class="wrap userInfo-wrap over-hide hp100 hidden">
+						<div class="photoWrap fl">
+							<div class="photo"><div class="noPhoto">J</div></div>
+						</div>
+						<div class="info-wrap fl ml20">
+							<div class="nickname">junxi</div>
+							
+							<div class="txt">
+								<p><samp>交易量：</samp><samp>30+ETH</samp></p>
+								<p><samp>電子郵箱：</samp><samp>已驗證</samp></p>
+							</div>
+							<div class="txt">
+								<p><samp>已確認的交易次數：</samp><samp>30+ETH</samp></p>
+								<p><samp>電子號碼：</samp><samp>已驗證</samp></p>
+							</div>
+							<div class="txt">
+								<p><samp>好評度：</samp><samp>90%</samp></p>
+								<p><samp>實名認證：</samp><samp>已驗證</samp></p>
+							</div>
+							<div class="txt">
+								<p><samp>第一次購買：</samp><samp>2018-01-01 15:43:4</samp></p>
+								<p><samp>信任：</samp><samp>237</samp></p>
+							</div>
+							<div class="txt">
+								<p><samp>用戶創建時間：</samp><samp>2018-01-01 13:43:49</samp></p>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			
 			<div class="orderDetail-operation">
 				<h3>交易操作</h3>
 				
-				<div class="wp100">
-					<samp>訂單編號</samp><samp>2328532</samp>
-					<samp>付款方式</samp><samp>2328532</samp>
-					<samp>廣告留言</samp><samp>2328532</samp>
+				<div class="wp100 txt">
+					<p><samp class="mr40">訂單編號</samp><samp>2328532</samp></p>
+					<p><samp class="mr40">付款方式</samp><samp>支付宝</samp></p>
+					<p class="mt20"><samp class="mr40">廣告留言</samp><samp>2328532</samp></p>
 				</div>
 			</div>
 		</div>
 		
         <link rel="import" href="../footer.html?__inline">
         <script>
-            require(['app/controller/order/OrderList']);
+            require(['app/controller/order/OrderDetail']);
         </script>
     </body>
 </html>

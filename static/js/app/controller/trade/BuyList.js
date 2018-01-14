@@ -1,23 +1,24 @@
 define([
     'app/controller/base',
     'pagination',
-	'app/module/validate',
-	'app/module/smsCaptcha',
-    'app/interface/AccountCtr',
-    'app/interface/GeneralCtr',
-    'app/interface/UserCtr'
-], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
+    'app/interface/TradeCtr'
+], function(base, pagination, TradeCtr) {
+	var config={
+        start: 1,
+        limit: 1,
+        tradeType: 1
+	};
 	
 	init();
     
     function init() {
     	$(".head-nav-wrap .buy").addClass("active")
+    	getPageAdvertise();
         addListener();
-        
     }
     
     // 初始化交易记录分页器
-    function initPaginationFlow(data){
+    function initPagination(data){
         $("#pagination .pagination").pagination({
             pageCount: data.totalPage,
             showData: config.limit,
@@ -35,40 +36,47 @@ define([
                 if(_this.getCurrent() != config.start){
     				base.showLoadingSpin();
                     config.start = _this.getCurrent();
-                    getPageFlow(config);
+                    getPageAdvertise(config);
                 }
             }
         });
     }
     
     //分页查询我的账户流水
-    function getPageFlow(params){
-    	return AccountCtr.getPageFlow(params, true).then((data)=>{
+    function getPageAdvertise(){
+    	return TradeCtr.getPageAdvertise(config, true).then((data)=>{
     		var lists = data.list;
     		if(data.list.length){
                 var html = "";
                 lists.forEach((item, i) => {
-                    html += buildHtmlFlow(item);
+                    html += buildHtml(item);
                 });
-    			$(".tradeRecord-list-wrap .list-wrap").html(html)
-    			$(".tradeRecord-list-wrap .no-data").addClass("hidden");
+    			$("#content").html(html)
             }else{
-            	config.start == 1 && $(".tradeRecord-list-wrap .list-wrap").empty()
-    			config.start == 1 && $(".tradeRecord-list-wrap .no-data").removeClass("hidden");
+            	config.start == 1 && $("#content").empty()
             }
-            
-            config.start == 1 && initPaginationFlow(data);
+            config.start == 1 && initPagination(data);
             base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
     
-    function buildHtmlFlow(item){
-    	return `<div class="list-item">
-					<div>${base.formateDatetime(item.createDatetime)}</div>
-					<div>${bizTypeValueList[item.bizType]}</div>
-					<div>${base.formatMoney(item.transAmountString)}</div>
-					<div>${item.bizNote}</div>
-				</div>`
+    function buildHtml(item){
+    	return `<tr>
+					<td class="nickname">
+						<div class="photoWrap fl goHref" data-href="../user/user-detail.html">
+							<div class="photo"><div class="noPhoto">J</div></div>
+							<div class="dot gray"></div>
+						</div>
+						<samp class="name">junxi</samp>
+					</td>
+					<td class="credit">
+						<samp>交易<i>134</i></samp> · <samp>好評度<i>100%</i></samp> · <samp>信任<i>284</i></samp>
+					</td>
+					<td class="payType">現金存款</td>
+					<td class="limit">100000-10000000CNY</td>
+					<td class="price">100541.15CNY</td>
+					<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html">購買ETH</div></td>
+				</tr>`
     }
     
     function addListener() {

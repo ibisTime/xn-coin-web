@@ -18,18 +18,13 @@ define([
     function addListener() {
     	
     	//立即下单点击
-	    $("#buyBtn").click(function(){
-			$("#submitDialog").removeClass("hidden")
-    	})
-    	
-    	//下单确认弹窗-放弃点击
-	    $("#submitDialog .closeBtn").click(function(){
-			$("#submitDialog").addClass("hidden")
-    	})
-    	
-    	//下单确认弹窗-确认点击
-	    $("#submitDialog .subBtn").click(function(){
-			$("#submitDialog").addClass("hidden")
+	    $(".orderDetail-middle .title .item").click(function(){
+	    	var _this = $(this)
+	    	if(!_this.hasClass("on")){
+	    		_this.addClass("on").siblings(".item").removeClass("on");
+	    		$(".orderDetail-middle .content-wrap .wrap").eq(_this.index())
+	    				.removeClass("hidden").siblings(".wrap").addClass("hidden");
+	    	}
     	})
     	
     }
