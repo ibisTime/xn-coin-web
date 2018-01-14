@@ -5,7 +5,11 @@ define([
     'pagination',
 ], function(base, AccountCtr,GeneralCtr, pagination) {
 	var type = base.getUrlParam("type");// buy: 购买，sell:出售
-	var adsStatusValueList = {};
+	var adsStatusValueList = {}; // 廣告狀態
+	var adsStatusList = {        // 廣告類型
+	    "0": '購買',
+        "1": '出售'
+    }
 	var config={
 	    start:1,
         limit:10,
@@ -26,12 +30,16 @@ define([
             $('.wait').addClass('on');
             $('.already').removeClass('on');
             config.statusList = [0];
+            getPageAdvertise();
         })
         $('.already').click(function () {
             $('.already').addClass('on');
             $('.wait').removeClass('on');
             config.statusList = [1,2,3];
             getPageAdvertise();
+        });
+    	$('.am-button.am-button-ghost').click(function () {
+            
         })
         GeneralCtr.getDictList({"parentKey":"ads_status"}).then((data)=>{
             data.forEach(function(item){
@@ -72,10 +80,14 @@ define([
 // 获取广告列表
     function getPageAdvertise() {
         return AccountCtr.getPageAdvertise(config).then((data)=>{
+            $('#content').empty();
+            $('.no-data').css('display','block');
             var lists = data.list;
             if(data.list.length) {
                 var html = '';
                 lists.forEach((item, i) => {
+                    console.log(item);
+                    item.status = +item.status
                     html+= buildHtmlFlow(item);
                 });
                 $('.no-data').css('display','none');
@@ -87,24 +99,24 @@ define([
 
 
     function buildHtmlFlow(item){
-        if(config.statusList.length = 1) {
+        if(config.statusList == null || config.statusList.length == 1) {
             return `<tr>
-					<td class="type">${item.tradeType}</td>
+					<td class="type">${adsStatusList[item.tradeType]}</td>
 					<td class="price">${item.truePrice}</td>
 					<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
-					<td class="status">${item.status}</td>
+					<td class="status">${adsStatusValueList[item.status]}</td>
 					<td class="operation">
 						<div class="am-button am-button-ghost">發佈</div>
 					</td>
 				</tr>`
         }else {
             return `<tr>
-					<td class="type">${item.tradeType}</td>
+					<td class="type">${adsStatusList[item.tradeType]}</td>
 					<td class="price">${item.truePrice}</td>
 					<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
-					<td class="status">${item.status}</td>
+					<td class="status">${adsStatusValueList[item.status]}</td>
 				</tr>`
         }
 

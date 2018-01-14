@@ -7,28 +7,40 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/UserCtr'
 ], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
+    var coinList = {},payType = {};
 	var config={
 	    start:1,
         limit:10,
-        tradeTppe:0
+        tradeType:0
     }
 	init();
     
     function init() {
+        base.showLoadingSpin();
         $('.titleStatus.over-hide li:nth-child(2)').click(function () {
             $('.titleStatus.over-hide li:first-child').removeClass('on');
             $('.titleStatus.over-hide li:nth-child(2)').addClass('on');
-            config.tradeTppe = 1;
+            config.tradeType = 1;
             getPageAdvertise();
         })
         $('.titleStatus.over-hide li:first-child').click(function () {
             $('.titleStatus.over-hide li:nth-child(2)').removeClass('on');
             $('.titleStatus.over-hide li:first-child').addClass('on');
-            config.tradeTppe = 1;
+            config.tradeType = 0;
             getPageAdvertise();
         })
+        GeneralCtr.getDictList({"parentKey":"coin"}).then((data)=> {
+            data.forEach(function (item) {
+                coinList[item.dkey] = item.dvalue;
+                GeneralCtr.getDictList({"parentKey": "pay_type"}).then((data1) => {
+                    data1.forEach(function (item) {
+                    payType[item.dkey] = item.dvalue;
+                    getPageAdvertise();
+                    })
+                });
+            }, base.hideLoadingSpin)
+        });
         getUserDetail();
-        getPageAdvertise();
         addListener();
     }
 
@@ -77,16 +89,18 @@ define([
             // }
 
         $('.nickname.fl.ml20.mr40').append(`${data.nickname}`);
+        $('.fl.tc_red_i').append(`${data.nickname}`);
         $('.noPhoto').append(`${data.nickname.substring(0,1)}`);
         });
     }
 
     function getPageAdvertise() {
         AccountCtr.getPageAdvertise(config).then((data)=> {
+            $('#content').empty();
             var list = data.list;
             if(data.list.length) {
                 var html = '';
-                lists.forEach((item, i) => {
+                list.forEach((item, i) => {
                     html+= buildHtmlFlow(item);
                 });
                 $('.no-data').css('display','none');
@@ -97,10 +111,10 @@ define([
 
     function buildHtmlFlow(item){
             return `<tr>
-									<td class="currency">ETH</td>
-									<td class="payType">銀行轉賬</td>
+									<td class="currency">${coinList[item.tradeCoin]}</td>
+									<td class="payType">${payType[item.payType]}</td>
 									<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
-									<td class="price">5879.98CNY/ETH</td>
+									<td class="price">${item.truePrice}CNY/ETH</td>
 									<td class="operation">
 										<div class="am-button goHref" data-href="../trade/sell-detail.html">出售</div>
 									</td>
