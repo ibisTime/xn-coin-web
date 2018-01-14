@@ -10,6 +10,7 @@ define([
 	init();
     
     function init() {
+        console.log('123');
         addListener();
         
     }
