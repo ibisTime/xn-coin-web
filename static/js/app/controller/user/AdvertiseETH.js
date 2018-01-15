@@ -18,22 +18,6 @@ define([
         statusList: [0],
         userId:base.getUserId()
     }
-    var publishConfig = {
-        publishType:'2',
-        adsCode:null,
-        leaveMessage:null,
-        maxTrade:null,
-        minTrade:null,
-        onlyTrust:null,
-        payLimit:null,
-        payType:null,
-        premiumRate:null,
-        protectPrice:null,
-        totalCount:null,
-        tradeCoin:null,
-        tradeCurrency:null,
-        tradeType:null
-    }
 	init();
 
     function init() {
@@ -126,7 +110,6 @@ define([
     }
 
     function addListener() {
-        
         $(".titleStatus li").click(function(){
         	var _this = $(this)
         	_this.addClass("on").siblings('li').removeClass("on");
@@ -138,5 +121,6 @@ define([
         	config.start = 1;
         	getPageAdvertise(true);
         })
+
     }
 });
