@@ -61,18 +61,5 @@ define([
                 ...config
             },true);
         },
-
-        /**
-         * 分页查询广告
-         * @param config
-         * @returns {*}
-         */
-        getPageAdvertise(config) {
-            return Ajax.post("625227", {
-                userId: base.getUserId(),
-                // coin: 'ETH',
-                ...config
-        },true);
-        },
     };
 })
