@@ -48,10 +48,12 @@ define([
     // 查询用户的信任关系
     function getUserRelation(){
         return UserCtr.getUserRelation(userId).then((data)=> {
-            $('.am-button.am-button-red.fl.mr20').append(data.isTrust!='0'?'已信任':'信任');
-            $('.am-button.am-button-red.fl.mr20').attr('data-isTrust',data.isTrust);
-            $('.am-button.am-button-gray.fl').append(data.isAddBlackList!='0'?'已拉黑':'屏蔽');
-            $('.am-button.am-button-gray.fl').attr('data-isAddBlackList',data.isAddBlackList)
+
+            $('.infoWrap .trust').attr('data-isTrust',data.isTrust);
+            $('.infoWrap .trust').append($('.infoWrap .trust').attr('data-isTrust')!='0'?'已信任':'信任');
+
+            $('.infoWrap .black').attr('data-isAddBlackList',data.isAddBlackList);
+            $('.infoWrap .black').append($('.infoWrap .black').attr('data-isAddBlackList')!='0'?'已拉黑':'屏蔽');
 
     	},()=>{})
     }
@@ -111,6 +113,7 @@ define([
     }
 // 分页查广告
     function getPageAdvertise() {
+        base.showLoadingSpin()
         TradeCtr.getPageAdvertiseUser(config).then((data)=> {
             $('#content').empty();
             $('.no-data').css('display','block');
@@ -124,7 +127,7 @@ define([
                 $('#content').append(html);
             }
         config.start == 1 && initPagination(data);
-        })
+        },base.hideLoadingSpin())
     }
 
     function buildHtmlFlow(item){
@@ -134,7 +137,7 @@ define([
 									<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
 									<td class="price">${item.truePrice}CNY/ETH</td>
 									<td class="operation">
-										<div class="am-button goHref" data-href="../trade/sell-detail.html?adsCode=${item.code}">出售</div>
+										<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售</div>
 									</td>
 								</tr>`
         }
@@ -166,6 +169,7 @@ define([
     function addListener() {
         // 切换在线购买和在线出售
         $('.titleStatus.over-hide li').click(function () {
+            base.showLoadingSpin()
             var _this = $(this)
             _this.addClass("on").siblings('li').removeClass("on");
             if(_this.hasClass("sell")) {
@@ -174,41 +178,50 @@ define([
                 config.tradeType = 0;
             }
             getPageAdvertise();
-        })
+        },base.hideLoadingSpin())
         
         // 信任按钮的点击事件
-        $('#trustBtn').click(function () {
+        $('.infoWrap .trust').click(function () {
             relationConfig.type = '1';
             var _this = $(this);
             if(_this.attr("data-isTrust")!='0') {
                 UserCtr.removeUserRelation(relationConfig).then((data)=>{
-                    base.showMsg('已取消信任')
+                    _this.empty().append('信任');
+                    base.showMsg('已取消信任');
                 })
             }else {
                 UserCtr.addUserRelation(relationConfig).then((data)=>{
-                    base.showMsg('已信任')
-            	})
+                    _this.empty().append('已信任');
+                    if(_this.siblings().attr("data-isAddBlackList")=='1') {
+                        _this.siblings().empty().append('屏蔽');
+                        _this.siblings().attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
+                    }
+                    base.showMsg('已信任');
+            })
             }
-            setTimeout(function () {
-                location.reload()
-            },1000)
+            _this.attr("data-isTrust",!_this.attr("data-isTrust"))
         })
         // 屏蔽按钮的点击事件
-        $('.am-button.am-button-gray.fl').click(function () {
+        $('.infoWrap .black').click(function () {
             relationConfig.type = '0';
             var _this = $(this);
             if(_this.attr("data-isAddBlackList")!='0') {
                 UserCtr.removeUserRelation(relationConfig).then((data)=>{
-                    base.showMsg('已取消拉黑')
-            })
+                    _this.empty().append('屏蔽');
+                    base.showMsg('已取消拉黑');
+                })
             }else {
                 UserCtr.addUserRelation(relationConfig).then((data)=>{
-                    base.showMsg('已拉黑')
-            })
+                    _this.empty().append('已拉黑');
+                    console.log('123')
+                    if(_this.siblings().attr("data-isTrust")=='1') {
+                        _this.siblings().empty().append('信任');
+                        _this.siblings().attr("data-isTrust",!_this.attr("data-isTrust"))
+                    }
+                    base.showMsg('已拉黑');
+                })
             }
-            setTimeout(function () {
-                location.reload()
-            },1000)
+            _this.attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
         })
     }
 });
