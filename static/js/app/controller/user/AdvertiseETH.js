@@ -8,12 +8,13 @@ define([
     
     function init() {
     	if(type=='buy'){
-			$("#left-wrap .buy-eth").addClass("on")
+			$("#left-wrap .buy-eth").addClass("on");
     	}else if(type=='sell'){
-			$("#left-wrap .sell-eth").addClass("on")
+			$("#left-wrap .sell-eth").addClass("on");
     	}
         addListener();
     }
+    
     
     function addListener() {
     	

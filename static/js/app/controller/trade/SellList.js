@@ -1,23 +1,29 @@
 define([
     'app/controller/base',
     'pagination',
-	'app/module/validate',
-	'app/module/smsCaptcha',
-    'app/interface/AccountCtr',
-    'app/interface/GeneralCtr',
-    'app/interface/UserCtr'
-], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
+    'app/interface/TradeCtr'
+], function(base, pagination, TradeCtr) {
+	var config={
+        start: 1,
+        limit: 20,
+        tradeType: 0
+	};
+	var bizTypeList = {
+            "0": "支付宝",
+            "1": "微信",
+            "2": "银行卡转账"
+    	};
 	
 	init();
     
     function init() {
-    	$(".head-nav-wrap .buy").addClass("active")
+    	$(".head-nav-wrap .sell").addClass("active")
+    	getPageAdvertise();
         addListener();
-        
     }
     
     // 初始化交易记录分页器
-    function initPaginationFlow(data){
+    function initPagination(data){
         $("#pagination .pagination").pagination({
             pageCount: data.totalPage,
             showData: config.limit,
@@ -35,40 +41,56 @@ define([
                 if(_this.getCurrent() != config.start){
     				base.showLoadingSpin();
                     config.start = _this.getCurrent();
-                    getPageFlow(config);
+                    getPageAdvertise(config);
                 }
             }
         });
     }
     
     //分页查询我的账户流水
-    function getPageFlow(params){
-    	return AccountCtr.getPageFlow(params, true).then((data)=>{
+    function getPageAdvertise(){
+    	return TradeCtr.getPageAdvertise(config, true).then((data)=>{
     		var lists = data.list;
     		if(data.list.length){
                 var html = "";
                 lists.forEach((item, i) => {
-                    html += buildHtmlFlow(item);
+                    html += buildHtml(item);
                 });
-    			$(".tradeRecord-list-wrap .list-wrap").html(html)
-    			$(".tradeRecord-list-wrap .no-data").addClass("hidden");
+    			$("#content").html(html);
+    			$(".trade-list-wrap .no-data").addClass("hidden")
             }else{
-            	config.start == 1 && $(".tradeRecord-list-wrap .list-wrap").empty()
-    			config.start == 1 && $(".tradeRecord-list-wrap .no-data").removeClass("hidden");
+            	config.start == 1 && $("#content").empty()
+    			config.start == 1 && $(".trade-list-wrap .no-data").removeClass("hidden")
             }
-            
-            config.start == 1 && initPaginationFlow(data);
+            config.start == 1 && initPagination(data);
             base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
     
-    function buildHtmlFlow(item){
-    	return `<div class="list-item">
-					<div>${base.formateDatetime(item.createDatetime)}</div>
-					<div>${bizTypeValueList[item.bizType]}</div>
-					<div>${base.formatMoney(item.transAmountString)}</div>
-					<div>${item.bizNote}</div>
-				</div>`
+    function buildHtml(item){
+    	var photoHtml = ""
+    	if(item.photo){
+    		photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${item.user.photo})')"></div>`
+		}else{
+			var tmpl = item.user.nickname.substring(0,1).toUpperCase();
+			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
+		}
+    	return `<tr>
+					<td class="nickname">
+						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${item.userId}">
+							${photoHtml}
+							<div class="dot gray"></div>
+						</div>
+						<samp class="name">${item.user.nickname}</samp>
+					</td>
+					<td class="credit">
+						<samp>交易<i>${item.user.userStatistics.jiaoYiCount}</i></samp> · <samp>好評度<i>${item.user.userStatistics.beiHaoPingCount}</i></samp> · <samp>信任<i>${item.user.userStatistics.beiXinRenCount}</i></samp>
+					</td>
+					<td class="payType">${bizTypeList[item.payType]}</td>
+					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
+					<td class="price">${item.protectPrice}CNY</td>
+					<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售ETH</div></td>
+				</tr>`
     }
     
     function addListener() {

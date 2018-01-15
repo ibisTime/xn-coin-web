@@ -2293,7 +2293,7 @@ table {
             width: 100%;
             overflow: hidden;
             thead tr{
-                background-color: #f7f7f7;
+                background-color: #f4f4f4;
                 
                 td{
                     font-size: 16px;
@@ -2429,6 +2429,9 @@ table {
             
         }
         
+        .no-data{
+            padding: 120px 0 120px;
+        }
     }
 }
 .trade-container{

@@ -89,6 +89,10 @@
     .container {
         width:935px !important;
     }
+    
+    .minheight{
+        min-height: 320px !important;
+    }
 }
 
 @media only screen and (min-width: 1200px) {

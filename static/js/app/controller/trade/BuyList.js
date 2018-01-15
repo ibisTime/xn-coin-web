@@ -5,9 +5,15 @@ define([
 ], function(base, pagination, TradeCtr) {
 	var config={
         start: 1,
-        limit: 1,
+        limit:20,
         tradeType: 1
 	};
+	var bizTypeList = {
+            "0": "支付宝",
+            "1": "微信",
+            "2": "银行卡转账"
+       };
+	
 	
 	init();
     
@@ -42,7 +48,7 @@ define([
         });
     }
     
-    //分页查询我的账户流水
+    //分页查询广告
     function getPageAdvertise(){
     	return TradeCtr.getPageAdvertise(config, true).then((data)=>{
     		var lists = data.list;
@@ -51,9 +57,11 @@ define([
                 lists.forEach((item, i) => {
                     html += buildHtml(item);
                 });
-    			$("#content").html(html)
+    			$("#content").html(html);
+    			$(".trade-list-wrap .no-data").addClass("hidden")
             }else{
             	config.start == 1 && $("#content").empty()
+    			config.start == 1 && $(".trade-list-wrap .no-data").removeClass("hidden")
             }
             config.start == 1 && initPagination(data);
             base.hideLoadingSpin();
@@ -61,21 +69,29 @@ define([
     }
     
     function buildHtml(item){
+    	var photoHtml = ""
+    	if(item.photo){
+    		photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${item.user.photo})')"></div>`
+		}else{
+			var tmpl = item.user.nickname.substring(0,1).toUpperCase();
+			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
+		}
+		
     	return `<tr>
 					<td class="nickname">
-						<div class="photoWrap fl goHref" data-href="../user/user-detail.html">
-							<div class="photo"><div class="noPhoto">J</div></div>
+						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${item.userId}">
+							${photoHtml}
 							<div class="dot gray"></div>
 						</div>
-						<samp class="name">junxi</samp>
+						<samp class="name">${item.user.nickname}</samp>
 					</td>
 					<td class="credit">
-						<samp>交易<i>134</i></samp> · <samp>好評度<i>100%</i></samp> · <samp>信任<i>284</i></samp>
+						<samp>交易<i>${item.user.userStatistics.jiaoYiCount}</i></samp> · <samp>好評度<i>${item.user.userStatistics.beiHaoPingCount}</i></samp> · <samp>信任<i>${item.user.userStatistics.beiXinRenCount}</i></samp>
 					</td>
-					<td class="payType">現金存款</td>
-					<td class="limit">100000-10000000CNY</td>
-					<td class="price">100541.15CNY</td>
-					<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html">購買ETH</div></td>
+					<td class="payType">${bizTypeList[item.payType]}</td>
+					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
+					<td class="price">${item.protectPrice}CNY</td>
+					<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買ETH</div></td>
 				</tr>`
     }
     
