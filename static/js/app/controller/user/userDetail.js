@@ -29,8 +29,8 @@ define([
 		$.when(
 			GeneralCtr.getDictList({"parentKey":"coin"}),
 			GeneralCtr.getDictList({"parentKey": "pay_type"}),
-			getUserRelation(userId),
-       		getUserDetail(userId)
+			getUserRelation(),
+       		getUserDetail()
 		).then((data1,data2)=>{
 			data1.forEach(function (item) {
                 coinList[item.dkey] = item.dvalue;
@@ -46,18 +46,18 @@ define([
 
 
     // 查询用户的信任关系
-    function getUserRelation(userId){
+    function getUserRelation(){
         return UserCtr.getUserRelation(userId).then((data)=> {
             $('.am-button.am-button-red.fl.mr20').append(data.isTrust!='0'?'已信任':'信任');
             $('.am-button.am-button-red.fl.mr20').attr('data-isTrust',data.isTrust);
             $('.am-button.am-button-gray.fl').append(data.isAddBlackList!='0'?'已拉黑':'屏蔽');
             $('.am-button.am-button-gray.fl').attr('data-isAddBlackList',data.isAddBlackList)
 
-    	})
+    	},()=>{})
     }
     // 获取用户详情
-    function getUserDetail(userId) {
-        UserCtr.getUser1(userId).then((data) => {
+    function getUserDetail() {
+		return UserCtr.getUser1(userId).then((data) => {
             var html = `<div class="item">
 							<p>${data.userStatistics.jiaoYiCount}</p>
 							<samp>交易次數</samp>
@@ -106,7 +106,8 @@ define([
         $('.fl.tc_red_i').append(`${data.nickname}`);
         // 头像
         $('.photoWrap').append(`${photoHtml}`);
-        });
+        
+    	},()=>{});
     }
 // 分页查广告
     function getPageAdvertise() {

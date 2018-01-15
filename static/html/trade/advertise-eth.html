@@ -100,9 +100,9 @@
 					</div>
 					<div class="form-item form-item-select b_e">
 						<select id="payType" name="payType">
-							<option>支付寶</option>
-							<option>微信</option>
-							<option>銀行卡轉賬</option>
+							<option value="0">支付寶</option>
+							<option value="1">微信</option>
+							<option value="2">銀行卡轉賬</option>
 						</select>
 						<i class="icon icon-down"></i>
 					</div>
@@ -131,7 +131,7 @@
 					<div class="set-item">
 						<p>僅粉絲：<samp id="trustExp"></samp></p>
 						<div class="check-wrap">
-							<div class="icon icon-only on"></div>
+							<div class="icon icon-only" id="onlyTrust"></div>
 						</div>
 					</div>
 					<div class="set-item time-type">

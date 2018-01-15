@@ -99,7 +99,7 @@ define([
     	})
 	    
 	    //受信任-点击
-    	$(".advertise-set .set-wrap .icon-only").click(function(){
+    	$("#onlyTrust").click(function(){
     		if($(this).hasClass("on")){
 	    		$(this).removeClass("on");
     		}else{
@@ -178,11 +178,35 @@ define([
 			}
 		})
 		
+		//发布
 		$("#submitBtn").click(function(){
 			if(_formWrapper.valid()){
 				
 			}
 		})
+		
+		function doSubmit(publishType){
+			var params = _formWrapper.serializeObject();
+			
+			params.premiumRate = params.premiumRate/100;
+			params.adsCode = code;
+			
+			//广告类型 0=买币，1=卖币
+			params.tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
+			params.onlyTrust = $("#onlyTrust").hasClass("on")?'1':'0';
+			params.onlyTrust = $("#onlyTrust").hasClass("on")?'1':'0';
+			params.tradeCoin = "ETH";
+			params.tradeCurrency = "CNY";
+			
+			//直接发布
+			if(code==""||!code){
+				params.publishType
+			}
+				
+				console.log(params)
+			return TradeCtr.submitAdvertise(publishType)
+		}
+		
 		
     }
 });

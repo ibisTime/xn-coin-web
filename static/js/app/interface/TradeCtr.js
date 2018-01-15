@@ -21,7 +21,7 @@ define([
          * 发布/编辑广告
          * @param adsCode
          */
-        editorAdvertise(config,refresh) {
+        submitAdvertise(config,refresh) {
             return Ajax.get("625220",{
             	userId: base.getUserId(),
                 ...config
