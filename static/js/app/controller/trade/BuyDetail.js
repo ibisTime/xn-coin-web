@@ -1,19 +1,28 @@
 define([
     'app/controller/base',
-    'pagination',
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
     'app/interface/TradeCtr'
-], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr) {
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
 	var code = base.getUrlParam("code");
+	var bizTypeList = {
+            "0": "支付宝",
+            "1": "微信",
+            "2": "银行卡转账"
+    	};
 	
 	init();
     
     function init() {
     	base.showLoadingSpin();
     	$(".head-nav-wrap .buy").addClass("active");
-    	getAdvertiseDetail();
+    	
+    	GeneralCtr.getSysConfig("trade_remind").then((data)=>{
+    		$("#tradeWarn").html(data.cvalue.replace(/\n/g,'<br>'))
+    		getAdvertiseDetail();
+    	},base.hideLoadingSpin)
+    	
         addListener();
         
     }
@@ -33,7 +42,13 @@ define([
     		$("#beiXinRenCount").html(data.user.userStatistics.beiXinRenCount)
     		$("#beiHaoPingCount").html(base.getPercentum(data.user.userStatistics.beiHaoPingCount,data.user.userStatistics.beiPingJiaCount))
     		$("#totalTradeCount").html(base.formatMoney(data.user.userStatistics.totalTradeCount,'0')+"+ETH")
-			
+    		$("#leaveMessage").html(data.leaveMessage.replace(/\n/g,'<br>'))
+    		$("#truePrice").html(data.truePrice)
+    		$("#limit").html(data.minTrade+'-'+data.maxTrade)
+    		$("#payType").html(bizTypeList[data.payType])
+    		$("#payLimit").html(data.payLimit)
+    		
+			base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
     

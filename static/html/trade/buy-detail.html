@@ -42,16 +42,19 @@
 				</div>
 				<div class="price-wrap">
 					<div class="item">
-						<samp class="tit">報價:</samp><samp>9888</samp><samp class="ml5">CNY/ETH</samp>
+						<samp class="tit">報價:</samp><samp id="truePrice"></samp><samp class="ml5">CNY/ETH</samp>
 					</div>
 					<div class="item">
-						<samp class="tit">交易限額:</samp><samp>100000-1212121</samp><samp class="ml5">CNY</samp>
+						<samp class="tit">交易限額:</samp><samp id="limit"></samp><samp class="ml5">CNY</samp>
 					</div>
 					<div class="item">
-						<samp class="tit">付款方式:</samp><samp>支付寶</samp>
+						<samp class="tit">付款方式:</samp><samp id="payType"></samp>
 					</div>
 					<div class="item">
-						<samp class="tit">付款期限:</samp><samp>30分鐘</samp>
+						<samp class="tit">付款期限:</samp><samp id="payLimit"></samp><samp>分鐘</samp>
+					</div>
+					<div class="item">
+						<samp class="tit">賣家留言:</samp><samp id="leaveMessage"></samp>
 					</div>
 				</div>
 				<div class="buy-wrap">
@@ -71,10 +74,7 @@
 				</div>
 				<div class="tradeWarn-wrap">
 					<div class="titleWrap"><i class="icon icon-warn"></i><samp>交易提醒</samp></div>
-					<div class="content">
-						1.jfdssjfklsdjkldsjfklds<br/>
-						2.積分抵扣酸辣粉機單身快樂
-					</div>
+					<div class="content" id="tradeWarn"></div>
 				</div>
 			</div>	
 			
