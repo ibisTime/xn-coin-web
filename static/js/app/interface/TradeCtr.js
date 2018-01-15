@@ -17,10 +17,14 @@ define([
         getPageAdvertiseUser(config,refresh) {
             return Ajax.get("625227",config, refresh);
         },
-
-        reportAdvertise(adsCode,refresh) {
+        /**
+         * 发布广告
+         * @param adsCode
+         * @param refresh
+         */
+        reportAdvertise(publishConfig,refresh) {
             return Ajax.get("625220",{
-                adsCode:adsCode,
+                ...publishConfig
                 });
         },
         // 获取广告详情
