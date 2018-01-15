@@ -17,9 +17,14 @@ define([
         getPageAdvertiseUser(config,refresh) {
             return Ajax.get("625227",config, refresh);
         },
-        reportAdvertise(adsCode,refresh) {
+        /**
+         * 发布/编辑广告
+         * @param adsCode
+         */
+        editorAdvertise(config,refresh) {
             return Ajax.get("625220",{
-                adsCode:adsCode,
+            	userId: base.getUserId(),
+                ...config
                 });
         },
         // 获取广告详情
@@ -28,12 +33,11 @@ define([
             	adsCode
             });
         },
-        /**
-         * 分页查询广告 带userId
-         * @param config: {start, limit, maxPrice, minPrice,payType,tradeType(0买、1卖),userId}
-         */
-        getPageAdvertiseUser(config,refresh) {
-            return Ajax.get("625227",config, refresh);
+        // 获取广告价格
+        getAdvertisePrice() {
+            return Ajax.get("625292", {
+            	coin:'ETH'
+            });
         },
         
     };

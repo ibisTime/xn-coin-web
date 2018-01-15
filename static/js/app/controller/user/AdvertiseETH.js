@@ -18,6 +18,22 @@ define([
         statusList: [0],
         userId:base.getUserId()
     }
+    var publishConfig = {
+        publishType:'2',
+        adsCode:null,
+        leaveMessage:null,
+        maxTrade:null,
+        minTrade:null,
+        onlyTrust:null,
+        payLimit:null,
+        payType:null,
+        premiumRate:null,
+        protectPrice:null,
+        totalCount:null,
+        tradeCoin:null,
+        tradeCurrency:null,
+        tradeType:null
+    }
 	init();
 
     function init() {
@@ -94,7 +110,7 @@ define([
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${adsStatusValueList[item.status]}</td>
 					<td class="operation">
-						<div class="am-button am-button-ghost " data-code="${item.code}">發佈</div>
+						<div class="am-button am-button-ghost publish goHref" data-href="../trade/advertise-eth.html?code=${item.code}">發佈</div>
 					</td>
 				</tr>`
         }else {
@@ -121,13 +137,6 @@ define([
         	}
         	config.start = 1;
         	getPageAdvertise(true);
-        })
-        //
-        $('#content').on("click",".am-button", function(){
-        	base.confirm("確認發佈嗎").then(()=>{
-        		var thisCode = $(this).attr("data-code")
-        		console.log("0")
-        	},()=>{})
         })
     }
 });

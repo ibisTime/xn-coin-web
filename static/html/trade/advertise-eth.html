@@ -38,7 +38,7 @@
 			</div>
 			<div class="advertise-info b_e_b">
 				<div class="advTitWrap mt20 mb10"><samp>更多信息</samp></div>
-				<div class="form-wrapper form-wrapper-noIcon">
+				<form class="form-wrapper form-wrapper-noIcon" id="form-wrapper">
 					<div class="explain">
 						<i>*</i>
 						<samp class="txt">價格：</samp>
@@ -46,16 +46,16 @@
 					</div>
 					<div class="form-item b_e">
 						<i class="item-unit">CNY</i>
-						<input type="text" class="input-item" id="price" placeholder="" />
+						<input type="text" class="input-item" id="price" disabled="disabled" placeholder="" />
 					</div>
 					<div class="explain">
 						<i>*</i>
 						<samp class="txt">溢價：</samp>
 						<samp id="premiumRateExp"></samp>
 					</div>
-					<div class="form-item b_e">
+					<div class="form-item b_e number-item-wrap">
 						<i class="item-unit">%</i>
-						<input type="text" class="input-item" placeholder="根據市場的溢價比例" />
+						<input type="number" class="input-item number-item" id="premiumRate" name="premiumRate" placeholder="根據市場的溢價比例"/>
 					</div>
 					<div class="explain">
 						<i>*</i>
@@ -64,7 +64,7 @@
 					</div>
 					<div class="form-item b_e">
 						<i class="item-unit">CNY</i>
-						<input type="text" class="input-item" placeholder="廣告最高可成交的價格" />
+						<input type="text" class="input-item" id="protectPrice" name="protectPrice" placeholder="廣告最高可成交的價格" />
 					</div>
 					<div class="explain">
 						<i>*</i>
@@ -73,7 +73,7 @@
 					</div>
 					<div class="form-item b_e">
 						<i class="item-unit">CNY</i>
-						<input type="text" class="input-item" placeholder="每筆交易的最小限額" />
+						<input type="text" class="input-item" id="minTrade" name="minTrade" placeholder="每筆交易的最小限額" />
 					</div>
 					<div class="explain">
 						<i>*</i>
@@ -82,7 +82,7 @@
 					</div>
 					<div class="form-item b_e">
 						<i class="item-unit">CNY</i>
-						<input type="text" class="input-item" placeholder="每筆交易的最大限額" />
+						<input type="text" class="input-item" id="maxTrade" name="maxTrade" placeholder="每筆交易的最大限額" />
 					</div>
 					<div class="explain">
 						<i>*</i>
@@ -91,7 +91,7 @@
 					</div>
 					<div class="form-item b_e">
 						<i class="item-unit">CNY</i>
-						<input type="text" class="input-item" placeholder="請輸入購買幣的總量" />
+						<input type="text" class="input-item" id="totalCount" name="totalCount" placeholder="請輸入購買幣的總量" />
 					</div>
 					<div class="explain">
 						<i>*</i>
@@ -99,7 +99,7 @@
 						<samp id="payTypeExp"></samp>
 					</div>
 					<div class="form-item form-item-select b_e">
-						<select id="payType">
+						<select id="payType" name="payType">
 							<option>支付寶</option>
 							<option>微信</option>
 							<option>銀行卡轉賬</option>
@@ -112,7 +112,7 @@
 						<samp id="payLimitExp"></samp>
 					</div>
 					<div class="form-item form-item-select b_e">
-						<select id="payLimit">
+						<select id="payLimit" name="payLimit">
 						</select>
 						<i class="icon icon-down"></i>
 					</div>
@@ -121,9 +121,9 @@
 						<samp class="txt">廣告留言：</samp>
 					</div>
 					<div class="form-item form-item-textarea b_e">
-						<textarea style="resize: none;" class="textarea-item" placeholder="請說明有關您交易的相關條款或備註您的支付方式，謝謝"></textarea>
+						<textarea style="resize: none;" class="textarea-item" id="leaveMessage" name="leaveMessage" placeholder="請說明有關您交易的相關條款或備註您的支付方式，謝謝"></textarea>
 					</div>
-				</div>
+				</form>
 			</div>
 			<div class="advertise-set">
 				<div class="set-wrap hidden">
@@ -288,8 +288,8 @@
 			</div>
 		
 			<div class="btnWrap">
-				<div class="am-button am-button-ghost">保存草稿</div>
-				<div class="am-button am-button-red">立即發佈</div>
+				<div class="am-button am-button-ghost" id="draftBtn">保存草稿</div>
+				<div class="am-button am-button-red" id="submitBtn">立即發佈</div>
 			</div>
 		</div>
 		

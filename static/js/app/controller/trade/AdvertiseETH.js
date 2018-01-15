@@ -2,24 +2,37 @@ define([
     'app/controller/base',
 	'app/module/validate',
     'app/interface/GeneralCtr',
-    'app/interface/UserCtr'
-], function(base, Validate, GeneralCtr, UserCtr) {
+    'app/interface/UserCtr',
+    'app/interface/TradeCtr'
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
+	var code = base.getUrlParam("code")||'';
+	
+	var mid=0;
 	
 	init();
     
     function init() {
     	base.showLoadingSpin();
+    	
     	$.when(
     		GeneralCtr.getSysConfig("trade_remind"),
     		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
+    		TradeCtr.getAdvertisePrice(),
     		getExplain('sell')
-    	).then((data1, data2)=>{
+    	).then((data1, data2, data3)=>{
+    		//说明
     		$("#tradeWarn").html(data1.cvalue.replace(/\n/g,'<br>'));
+    		
+    		//付款时限
     		var html = ''
     		data2.forEach((item)=>{
     			html+=`<option value="${item.dvalue}">${item.dvalue}</option>`
     		});
     		$("#payLimit").html(html);
+    		//价格
+    		$("#price").val(data3.mid);
+    		mid = data3.mid;
+    		
     		base.hideLoadingSpin()
     	},base.hideLoadingSpin)
     	
@@ -119,5 +132,57 @@ define([
     		}
 	    })
     	
+		
+		var _formWrapper = $("#form-wrapper");
+		_formWrapper.validate({
+			'rules': {
+	        	"premiumRate": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"protectPrice": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"minTrade": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"maxTrade": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"totalCount": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"payType": {
+	        		required: true,
+	        	},
+	        	"payLimit": {
+	        		required: true,
+	        	},
+	        	"leaveMessage": {
+	        		required: true,
+	        	},
+	    	},
+	    	onkeyup: false
+		})
+		
+		//溢价
+		$("#premiumRate").keyup(function(){
+			if($("#premiumRate").val()==''||!$("#premiumRate").val()){
+				$("#price").val(mid);
+			}else{
+				$("#price").val((mid+mid*($("#premiumRate").val()/100)).toFixed(2));
+			}
+		})
+		
+		$("#submitBtn").click(function(){
+			if(_formWrapper.valid()){
+				
+			}
+		})
+		
     }
 });

@@ -100,12 +100,13 @@ define([
             }
         },
         // 金额格式化 默认保留t || 8位  小数
-        formatMoney: function(s, t) {
+        formatMoney: function(s, t, isNeedString) {
             if(!$.isNumeric(s))
                 return "-";
 		    if (t == '' || t == null || t == undefined || typeof t == 'object') {
 		        t = 8;
-		    }else{
+		    }
+		    if(isNeedString){
 		    	s.toString()
 		    }
 		    //保留8位小数
