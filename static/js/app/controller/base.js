@@ -170,7 +170,7 @@ define([
                 return 0;
             start = new Date(start);
             end = new Date(end);
-            return (end - start) / (3600 * 24 * 1000);
+            return (end - start) / (60 * 1000);
         },
         //图片格式化
         getPic: function(pic, suffix){

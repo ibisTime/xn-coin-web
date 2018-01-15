@@ -77,11 +77,21 @@ define([
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
 		}
 		
+		var loginStatus ='';
+		var time = base.calculateDays(item.user.lastLogin, new Date())
+		if(time <= 10){
+			loginStatus= 'green'
+		}else if(time <= 30){
+			loginStatus= 'yellow'
+		}else{
+			loginStatus = 'gray'
+		}
+		
     	return `<tr>
 					<td class="nickname">
 						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${item.userId}">
 							${photoHtml}
-							<div class="dot gray"></div>
+							<div class="dot ${loginStatus}"></div>
 						</div>
 						<samp class="name">${item.user.nickname}</samp>
 					</td>

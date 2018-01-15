@@ -17,7 +17,6 @@ define([
         getPageAdvertiseUser(config,refresh) {
             return Ajax.get("625227",config, refresh);
         },
-
         reportAdvertise(adsCode,refresh) {
             return Ajax.get("625220",{
                 adsCode:adsCode,
@@ -29,6 +28,14 @@ define([
             	adsCode
             });
         },
+        /**
+         * 分页查询广告 带userId
+         * @param config: {start, limit, maxPrice, minPrice,payType,tradeType(0买、1卖),userId}
+         */
+        getPageAdvertiseUser(config,refresh) {
+            return Ajax.get("625227",config, refresh);
+        },
+        
     };
 })
 

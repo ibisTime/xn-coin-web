@@ -41,11 +41,15 @@ define([
         getDictList(config,code) {
             return Ajax.get(code||"625907", config);
         },
-        // 查询系统参数
+        // 根据key查询系统参数
         getSysConfig(key, refresh) {
             return Ajax.get("625917", {key}, refresh);
         },
-        // 分页查询user系统参数
+        // 根据type查询系统参数
+        getSysConfigType(type, refresh) {
+            return Ajax.get("625918", {type}, refresh);
+        },
+        // 分页查询系统参数
         getPageSysConfig(config, refresh) {
             return Ajax.get("625915", {
             	start: 1,
