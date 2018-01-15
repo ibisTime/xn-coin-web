@@ -63,7 +63,7 @@ define([
 
             if(data.userStatistics.beiHaoPingCount && data.userStatistics.jiaoYiCount) {
                 var haopingdu = `<div class="item">
-							<p>${base.data.userStatistics.beiHaoPingCount}</p>
+							<p>${base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount)}</p>
 							<samp>好評度</samp>
 						</div>`
             } else {

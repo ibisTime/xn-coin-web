@@ -91,21 +91,18 @@ define([
                 });
                 $('.no-data').css('display','none');
                 $('#content').append(html);
-                // $('.operation').click(function () {
-                //
-                // })
+                $('.am-button.am-button-ghost').click(function () {
+                    base.confirm('確定要發佈廣告嗎').then(function () {
+                        // 確定
+                    }),function () {
+                        // 取消
+                    };
+                })
             }
             config.start == 1 && initPaginationFlow(data);
         });
     }
-function reportAdvertise() {
-    base.confirm('確定要發佈廣告嗎').then(function () {
-        // 確定
-        console.log(item.code);
-    }),function () {
-        // 取消
-    };
-}
+
 
     function buildHtmlFlow(item){
         if(config.statusList == null || config.statusList.length == 1) {
@@ -116,7 +113,7 @@ function reportAdvertise() {
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${adsStatusValueList[item.status]}</td>
 					<td class="operation">
-						<div class="am-button am-button-ghost" onclick="reportAdvertise()">發佈</div>
+						<div class="am-button am-button-ghost">發佈</div>
 					</td>
 				</tr>`
         }else {
@@ -132,6 +129,6 @@ function reportAdvertise() {
     }
 
     function addListener() {
-    	
+
     }
 });
