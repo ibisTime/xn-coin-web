@@ -38,17 +38,23 @@ define([
     		if(data.email){
     			$("#email").text(data.email)
     		}else{
-    			$("#email").text("未驗證").addClass("no")
+    			$("#email").text("未驗證").addClass("no").click(function () {
+                    base.gohref("./identity.html");
+                });
     		}
     		if(data.idNo){
     			$("#idNo").text("已驗證")
     		}else{
-    			$("#idNo").text("未驗證").addClass("no")
+    			$("#idNo").text("未驗證").addClass("no").click(function () {
+                    base.gohref("./identity.html");
+				});
     		}
     		
     	},base.hideLoadingSpin)
     }
-    
+    function goIdentity() {
+
+	}
     function addListener() {
     }
 });

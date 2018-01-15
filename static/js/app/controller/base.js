@@ -70,13 +70,16 @@ define([
     };
 
     var Base = {
+    	//日期格式化 format|| 'yyyy-MM-dd';
         formatDate: function(date, format){
         	var format = format|| 'yyyy-MM-dd';
             return date ? new Date(date).format(format) : "--";
         },
+        //日期格式化 yyyy-MM-dd hh:mm:ss
         formateDatetime: function(date){
 	        return date ? new Date(date).format("yyyy-MM-dd hh:mm:ss") : "--";
 	    },
+	    //获取链接入参
         getUrlParam: function(name, locat) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
             var locat = locat?"?"+locat.split("?")[1]:'';
@@ -96,18 +99,21 @@ define([
                 }
             }
         },
+        // 金额格式化 默认保留t || 8位  小数
         formatMoney: function(s, t) {
             if(!$.isNumeric(s))
                 return "-";
 		    if (t == '' || t == null || t == undefined || typeof t == 'object') {
 		        t = 8;
+		    }else{
+		    	s.toString()
 		    }
 		    //保留8位小数
 		    s = new BigDecimal.BigDecimal(s);
 		    s = s.divide(new BigDecimal.BigDecimal("1e18"), t||8, BigDecimal.MathContext.ROUND_DOWN).toString();
 		    return s;
         },
-        //减法 s1-s2
+        //金额减法 s1-s2
         formatMoneySubtract: function(s1, s2) {
             if(!$.isNumeric(s1)||!$.isNumeric(s2))
                 return "-";
@@ -115,13 +121,14 @@ define([
             var s2 = new BigDecimal.BigDecimal(s2);
             return Base.formatMoney(s1.subtract(s2).toString());
         },
-        //金额放大
+        //金额金额放大 默认 放大 r || 8位 
         formatMoneyParse: function(m, r) {
             var r = r || new BigDecimal.BigDecimal("1e18");
 			m = new BigDecimal.BigDecimal(m);
 			m = m.multiply(r).toString();
 		    return m;
         },
+        //密码强度等级判断
         calculateSecurityLevel: function(password) {
             var strength_L = 0;
             var strength_M = 0;
@@ -157,6 +164,7 @@ define([
             // 中
             return "2";
         },
+        //计算日期相隔时间
         calculateDays: function(start, end){
             if(!start || !end)
                 return 0;
@@ -164,6 +172,7 @@ define([
             end = new Date(end);
             return (end - start) / (3600 * 24 * 1000);
         },
+        //图片格式化
         getPic: function(pic, suffix){
             if(!pic){
                 return "";
@@ -175,6 +184,7 @@ define([
             }
             return pic;
         },
+        //图片格式化-pic为数组
         getPicArr: function(pic, suffix){
             if(!pic){
                 return [];
@@ -183,6 +193,7 @@ define([
                 return Base.getPic(p, suffix);
             });
         },
+        //图片格式化-头像
         getAvatar: function(pic,suffix){
             var defaultAvatar = __inline("../images/default-avatar.png");
             var suffix = suffix||PHOTO_SUFFIX;
@@ -191,12 +202,7 @@ define([
             }
             return Base.getPic(pic, suffix);
         },
-        getPicList: function(pic){
-	        if(!pic)
-	            return "";
-	        pic = pic.split(/\|\|/)[0];
-	        return (PIC_PREFIX + pic + '?imageMogr2/auto-orient/thumbnail/!123x100r');
-	    },
+        //获取网站地址 不包含?后面的入参
         getDomain: function() {
             return location.origin;
         },
@@ -204,6 +210,7 @@ define([
             var pattern = /^[\s0-9a-zA-Z\u4e00-\u9fa5\u00d7\u300a\u2014\u2018\u2019\u201c\u201d\u2026\u3001\u3002\u300b\u300e\u300f\u3010\u3011\uff01\uff08\uff09\uff0c\uff1a\uff1b\uff1f\uff0d\uff03\uffe5\x21-\x7e]*$/;
             return pattern.test(value)
         },
+        // 提醒
         showMsg: function(msg, time) {
             var d = dialog({
                 content: msg,
@@ -278,6 +285,10 @@ define([
             Base.clearSessionUser();
             Base.gohref("../user/login.html");
         },
+        /**
+         * 弹窗
+         * base.confirm.then()
+         * */
         confirm: function(msg) {
             return (new Promise(function (resolve, reject) {
                 var d = dialog({
@@ -313,11 +324,13 @@ define([
         hideLoadingSpin: function(){
             $("#loadingSpin").addClass("hidden");
         },
+        // 获取数据字典 
         getDictList: function(code,type){
             return Ajax.get(code, {
                 parentKey: type
             });
         },
+        // 获取数据字典 
         getDictListValue: function(dkey,arrayData){//类型
 			for(var i = 0 ; i < arrayData.length; i++ ){
 				if(dkey == arrayData[i].dkey){
@@ -325,7 +338,8 @@ define([
 				}
 			}
 		},
-		format2line: function(num,cont){//超过num个字符多余"..."显示
+		//超过num个字符多余"..."显示
+		format2line: function(num,cont){
 	        return cont
 	            ? cont.length > num
 	                ? cont.substring(0, num) + "..."
