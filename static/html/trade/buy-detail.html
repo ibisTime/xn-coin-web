@@ -59,15 +59,15 @@
 				</div>
 				<div class="buy-wrap">
 					<div class="titleWrap"><i class="icon icon-buy"></i><samp>你想購買多少?</samp></div>
-					<form class="form-wrapper wp100 form-wrapper-noIcon over-hide">
+					<form class="form-wrapper wp100 form-wrapper-noIcon over-hide" id="form-wrapper">
 						<div class="form-item b_e fl">
 							<i class="item-unit">CNY</i>
-							<input type="text" class="input-item" placeholder="請輸入您購買的金額" />
+							<input type="number" class="input-item" id="buyAmount" name="buyAmount" placeholder="請輸入您購買的金額"/>
 						</div>
 						<div class="icon icon-change fl"></div>
 						<div class="form-item b_e fl">
 							<i class="item-unit">ETH</i>
-							<input type="text" class="input-item" placeholder="請輸入您購買的數量" />
+							<input type="text" class="input-item" id="buyEth" name="buyEth" placeholder="請輸入您購買的數量" />
 						</div>
 					</form>
 					<div class="am-button am-button-gray" id="buyBtn">立即購買</div>
@@ -91,15 +91,15 @@
 	                    	<div class="submit-content">
 	                    		<div class="item">
 	                    			<samp class="fl">購買價格</samp>
-	                    			<samp class="fr">99998.00CNY</samp>
+	                    			<samp class="fr tradePrice"></samp>
 	                    		</div>
 	                    		<div class="item">
-	                    			<samp class="fl">購買價格</samp>
-	                    			<samp class="fr">99998.00CNY</samp>
+	                    			<samp class="fl">購買金額</samp>
+	                    			<samp class="fr tradeAmount"></samp>
 	                    		</div>
 	                    		<div class="item">
 	                    			<samp class="fl">購買數量</samp>
-	                    			<samp class="fr">0.123335ETH</samp>
+	                    			<samp class="fr count"></samp>
 	                    		</div>
 	                    		<div class="warnWrap">
 	                    			<i class="icon icon-warn fl"></i>
