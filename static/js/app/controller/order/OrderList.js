@@ -19,10 +19,10 @@ define([
 	init();
     
     function init() {
+        base.showLoadingSpin();
         userId = base.getUrlParam('userId');
         config.userId = userId;
         relationConfig.toUser = userId;
-        base.showLoadingSpin();
 // 查询币种和付款方式
         GeneralCtr.getDictList({"parentKey":"coin"}).then((data)=> {
             data.forEach(function (item) {
@@ -108,6 +108,7 @@ define([
     function getPageAdvertise() {
         TradeCtr.getPageAdvertiseUser(config).then((data)=> {
             $('#content').empty();
+            $('.no-data').css('display','block');
             var list = data.list;
             if(data.list.length) {
                 var html = '';
@@ -204,7 +205,6 @@ define([
             setTimeout(function () {
                 location.reload()
             },1000)
-
         })
     }
 });

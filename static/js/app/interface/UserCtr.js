@@ -134,7 +134,7 @@ define([
             });
         },
         /**
-         * 修改信任关系(建立）
+         * 修改信任关系(建立)
          * @param config {limit, start, userId, type}
          * type=1 信任，type=0，屏蔽
          */
