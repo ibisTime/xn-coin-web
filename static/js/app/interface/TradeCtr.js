@@ -17,5 +17,11 @@ define([
         getPageAdvertiseUser(config,refresh) {
             return Ajax.get("625227", config, refresh);
         },
+        // 获取广告详情
+        getAdvertiseDetail(adsCode) {
+            return Ajax.get("625226", {
+            	adsCode
+            });
+        },
     };
 })
