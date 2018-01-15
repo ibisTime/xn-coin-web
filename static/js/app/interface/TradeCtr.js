@@ -65,6 +65,16 @@ define([
             	...config
             });
         },
+        /**
+         * 分页查询我的订单  带userId
+         * @param config: {start, limit, statusList}
+         */
+        getPageOrder(config,refresh) {
+            return Ajax.get("625250",{
+            	belongUser: base.getUserId(),
+            	...config
+            }, refresh);
+        },
     };
 })
 
