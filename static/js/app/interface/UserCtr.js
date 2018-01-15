@@ -30,6 +30,12 @@ define([
                 "userId": userId || base.getUserId()
             }, refresh);
         },
+        // 获取用户详情
+        getUser1(userId) {
+            return Ajax.get("805121", {
+                userId: userId || base.getUserId()
+            });
+        },
         // 修改密码
         changePwd(oldLoginPwd, newLoginPwd) {
             return Ajax.post('805064', {

@@ -5,8 +5,9 @@ define([
 	'app/module/smsCaptcha',
     'app/interface/AccountCtr',
     'app/interface/GeneralCtr',
-    'app/interface/UserCtr'
-], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
+    'app/interface/UserCtr',
+    'app/interface/TradeCtr'
+], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr, TradeCtr) {
     var coinList = {},payType = {};
 	var config={
 	    start:1,
@@ -17,6 +18,7 @@ define([
     
     function init() {
         var userId = base.getUrlParam('userId');
+        config.userId = userId;
         base.showLoadingSpin();
         $('.titleStatus.over-hide li:nth-child(2)').click(function () {
             $('.titleStatus.over-hide li:first-child').removeClass('on');
@@ -36,7 +38,7 @@ define([
                 GeneralCtr.getDictList({"parentKey": "pay_type"}).then((data1) => {
                     data1.forEach(function (item) {
                     payType[item.dkey] = item.dvalue;
-                    getPageAdvertise(userId);
+                    getPageAdvertise();
                     })
                 });
             })
@@ -48,8 +50,7 @@ define([
 
     // 获取用户详情
     function getUserDetail(userId) {
-        console.log(userId);
-        UserCtr.getUser(userId).then((data) => {
+        UserCtr.getUser1(userId).then((data) => {
             var html = `<div class="item">
 							<p>${data.userStatistics.jiaoYiCount}</p>
 							<samp>交易次數</samp>
@@ -62,7 +63,7 @@ define([
 
             if(data.userStatistics.beiHaoPingCount && data.userStatistics.jiaoYiCount) {
                 var haopingdu = `<div class="item">
-							<p>${(data.userStatistics.beiHaoPingCount/data.userStatistics.jiaoYiCount*100).toFixed(2)}%</p>
+							<p>${base.data.userStatistics.beiHaoPingCount}</p>
 							<samp>好評度</samp>
 						</div>`
             } else {
@@ -96,8 +97,8 @@ define([
         });
     }
 
-    function getPageAdvertise(userId) {
-        AccountCtr.getPageAdvertise(config, userId).then((data)=> {
+    function getPageAdvertise() {
+        TradeCtr.getPageAdvertiseUser(config).then((data)=> {
             $('#content').empty();
             var list = data.list;
             if(data.list.length) {
