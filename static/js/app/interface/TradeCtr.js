@@ -27,6 +27,12 @@ define([
                 refresh,
                 });
         },
+        // 获取广告详情
+        getAdvertiseDetail(adsCode) {
+            return Ajax.get("625226", {
+            	adsCode
+            });
+        },
     };
 })
 

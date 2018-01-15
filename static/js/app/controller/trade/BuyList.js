@@ -86,7 +86,7 @@ define([
 						<samp class="name">${item.user.nickname}</samp>
 					</td>
 					<td class="credit">
-						<samp>交易<i>${item.user.userStatistics.jiaoYiCount}</i></samp> · <samp>好評度<i>${item.user.userStatistics.beiHaoPingCount}</i></samp> · <samp>信任<i>${item.user.userStatistics.beiXinRenCount}</i></samp>
+						<samp>交易<i>${item.user.userStatistics.jiaoYiCount}</i></samp> · <samp>好評率<i>${base.getPercentum(item.user.userStatistics.beiHaoPingCount,item.user.userStatistics.beiPingJiaCount)}</i></samp> · <samp>信任<i>${item.user.userStatistics.beiXinRenCount}</i></samp>
 					</td>
 					<td class="payType">${bizTypeList[item.payType]}</td>
 					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>

@@ -428,6 +428,13 @@ define([
         hideMobile: function(mobile){
         	var mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, 11)
         	return mobile;
+        },
+        //计算百分比
+        getPercentum: function(n1,n2){
+        	if(n1=='0'&&n2=='0'){
+        		return '100%';
+        	}
+        	return n1/n2*100+"%"
         }
     };
     return Base;
