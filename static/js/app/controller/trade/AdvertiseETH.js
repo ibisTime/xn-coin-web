@@ -1,18 +1,69 @@
 define([
     'app/controller/base',
-    'pagination',
 	'app/module/validate',
-	'app/module/smsCaptcha',
-    'app/interface/AccountCtr',
     'app/interface/GeneralCtr',
-    'app/interface/UserCtr'
-], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
+    'app/interface/UserCtr',
+    'app/interface/TradeCtr'
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
+	var code = base.getUrlParam("code")||'';
+	
+	var mid=0;
 	
 	init();
     
     function init() {
+    	base.showLoadingSpin();
+    	
+    	$.when(
+    		GeneralCtr.getSysConfig("trade_remind"),
+    		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
+    		TradeCtr.getAdvertisePrice(),
+    		getExplain('sell')
+    	).then((data1, data2, data3)=>{
+    		//说明
+    		$("#tradeWarn").html(data1.cvalue.replace(/\n/g,'<br>'));
+    		
+    		//付款时限
+    		var html = ''
+    		data2.forEach((item)=>{
+    			html+=`<option value="${item.dvalue}">${item.dvalue}</option>`
+    		});
+    		$("#payLimit").html(html);
+    		//价格
+    		$("#price").val(data3.mid);
+    		mid = data3.mid;
+    		
+    		base.hideLoadingSpin()
+    	},base.hideLoadingSpin)
+    	
         addListener();
-        
+    }
+    
+    //获取广告说明 type = buy ,sell
+    function getExplain(type){
+    	var param = ''
+    	if(type=='buy'){
+    		param = 'buy_ads_hint'
+    	}else if(type=='sell'){
+    		param = 'sell_ads_hint'
+    	}
+    	return GeneralCtr.getSysConfigType(param, true).then((data)=>{
+    		$("#displayTimeExp").html(data.displayTime)
+    		$("#maxTradeExp").html(data.maxTrade)
+    		$("#minTradeExp").html(data.minTrade)
+    		$("#payLimitExp").html(data.payLimit)
+    		$("#payTypeExp").html(data.payType)
+    		$("#premiumRateExp").html(data.premiumRate)
+    		$("#priceExp").html(data.price)
+    		if(type=='buy'){
+	    		$("#protectPriceExp").siblings('.txt').text('最高價格：')
+	    	}else if(type=='sell'){
+	    		$("#protectPriceExp").siblings('.txt').text('最低價格：')
+	    	}
+    		$("#protectPriceExp").html(data.protectPrice)
+    		$("#trustExp").html(data.trust);
+    		base.hideLoadingSpin();
+    	},base.hideLoadingSpin)
     }
     
     function addListener() {
@@ -34,11 +85,21 @@ define([
 	    
     	//選擇切換-点击
 	    $(".trade-type .icon-check").click(function(){
-	    	$(this).parent(".item").addClass("on").siblings(".item").removeClass("on")
+	    	var _this = $(this);
+	    	base.showLoadingSpin();
+	    	//在线出售
+	    	if(_this.parent(".item").index()=='0'){
+	    		getExplain('sell')
+	    		
+	    	//在线购买
+	    	}else if(_this.parent(".item").index()=='1'){
+	    		getExplain('buy')
+	    	}
+	    	_this.parent(".item").addClass("on").siblings(".item").removeClass("on");
     	})
 	    
 	    //受信任-点击
-    	$(".advertise-set .set-wrap .icon-only").click(function(){
+    	$("#onlyTrust").click(function(){
     		if($(this).hasClass("on")){
 	    		$(this).removeClass("on");
     		}else{
@@ -71,5 +132,81 @@ define([
     		}
 	    })
     	
+		
+		var _formWrapper = $("#form-wrapper");
+		_formWrapper.validate({
+			'rules': {
+	        	"premiumRate": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"protectPrice": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"minTrade": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"maxTrade": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"totalCount": {
+	        		required: true,
+	        		number: true
+	        	},
+	        	"payType": {
+	        		required: true,
+	        	},
+	        	"payLimit": {
+	        		required: true,
+	        	},
+	        	"leaveMessage": {
+	        		required: true,
+	        	},
+	    	},
+	    	onkeyup: false
+		})
+		
+		//溢价
+		$("#premiumRate").keyup(function(){
+			if($("#premiumRate").val()==''||!$("#premiumRate").val()){
+				$("#price").val(mid);
+			}else{
+				$("#price").val((mid+mid*($("#premiumRate").val()/100)).toFixed(2));
+			}
+		})
+		
+		//发布
+		$("#submitBtn").click(function(){
+			if(_formWrapper.valid()){
+				
+			}
+		})
+		
+		function doSubmit(publishType){
+			var params = _formWrapper.serializeObject();
+			
+			params.premiumRate = params.premiumRate/100;
+			params.adsCode = code;
+			
+			//广告类型 0=买币，1=卖币
+			params.tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
+			params.onlyTrust = $("#onlyTrust").hasClass("on")?'1':'0';
+			params.onlyTrust = $("#onlyTrust").hasClass("on")?'1':'0';
+			params.tradeCoin = "ETH";
+			params.tradeCurrency = "CNY";
+			
+			//直接发布
+			if(code==""||!code){
+				params.publishType
+			}
+				
+				console.log(params)
+			return TradeCtr.submitAdvertise(publishType)
+		}
+		
+		
     }
 });

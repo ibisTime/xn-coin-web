@@ -2,8 +2,9 @@ define([
     'app/controller/base',
     'app/interface/AccountCtr',
     'app/interface/GeneralCtr',
+    'app/interface/TradeCtr',
     'pagination',
-], function(base, AccountCtr,GeneralCtr, pagination) {
+], function(base, AccountCtr,GeneralCtr,TradeCtr, pagination) {
 	var type = base.getUrlParam("type");// buy: 购买，sell:出售
 	var adsStatusValueList = {}; // 廣告狀態
 	var adsStatusList = {        // 廣告類型
@@ -14,7 +15,8 @@ define([
 	    start:1,
         limit:10,
         tradeType: 1,
-        statusList: [0]
+        statusList: [0],
+        userId:base.getUserId()
     }
 	init();
 
@@ -26,33 +28,19 @@ define([
     	}else if(type=='sell'){
 			$("#left-wrap .sell-eth").addClass("on")
     	}
-    	$('.wait').click(function () {
-            $('.wait').addClass('on');
-            $('.already').removeClass('on');
-            config.statusList = [0];
-            getPageAdvertise();
-        })
-        $('.already').click(function () {
-            $('.already').addClass('on');
-            $('.wait').removeClass('on');
-            config.statusList = [1,2,3];
-            getPageAdvertise();
-        });
-    	$('.am-button.am-button-ghost').click(function () {
-            
-        })
+
         GeneralCtr.getDictList({"parentKey":"ads_status"}).then((data)=>{
             data.forEach(function(item){
-            adsStatusValueList[item.dkey] = item.dvalue;
+                adsStatusValueList[item.dkey] = item.dvalue;
+            });
             getPageAdvertise();
-        },base.hideLoadingSpin);
+    	},base.hideLoadingSpin);
         addListener();
-    	});
     }
 
 
     // 初始化交易记录分页器
-    function initPaginationFlow(data){
+    function initPagination(data){
         $("#pagination .pagination").pagination({
             pageCount: data.totalPage,
             showData: config.limit,
@@ -70,7 +58,7 @@ define([
                 if(_this.getCurrent() != config.start){
                     base.showLoadingSpin();
                     config.start = _this.getCurrent();
-                    getPageFlow(config);
+                    getPageAdvertise(config);
                 }
             }
         });
@@ -78,22 +66,21 @@ define([
 
 
 // 获取广告列表
-    function getPageAdvertise() {
-        return AccountCtr.getPageAdvertise(config).then((data)=>{
+    function getPageAdvertise(refresh) {
+        return TradeCtr.getPageAdvertiseUser(config,refresh).then((data)=>{
             $('#content').empty();
             $('.no-data').css('display','block');
             var lists = data.list;
             if(data.list.length) {
                 var html = '';
                 lists.forEach((item, i) => {
-                    console.log(item);
                     item.status = +item.status
                     html+= buildHtmlFlow(item);
                 });
                 $('.no-data').css('display','none');
                 $('#content').append(html);
             }
-            config.start == 1 && initPaginationFlow(data);
+            config.start == 1 && initPagination(data);
         });
     }
 
@@ -107,7 +94,7 @@ define([
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${adsStatusValueList[item.status]}</td>
 					<td class="operation">
-						<div class="am-button am-button-ghost">發佈</div>
+						<div class="am-button am-button-ghost publish goHref" data-href="../trade/advertise-eth.html?code=${item.code}">發佈</div>
 					</td>
 				</tr>`
         }else {
@@ -123,6 +110,17 @@ define([
     }
 
     function addListener() {
-    	
+        $(".titleStatus li").click(function(){
+        	var _this = $(this)
+        	_this.addClass("on").siblings('li').removeClass("on");
+        	if(_this.hasClass("wait")){
+        		config.statusList = ['0'];
+        	}else if(_this.hasClass('already')){
+        		config.statusList = ['1','2','3'];
+        	}
+        	config.start = 1;
+        	getPageAdvertise(true);
+        })
+
     }
 });

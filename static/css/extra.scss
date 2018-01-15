@@ -2966,6 +2966,15 @@ table {
             }
         }
     }
+    
+    .form-wrapper .form-item label.error{
+        right: 90px;
+    }
+    .form-item-textarea label.error{
+        top: 21px;
+        right: 30px !important;
+        margin: 0;
+    }
 }
 .userDetail-container{
     width: 1200px;
@@ -3311,7 +3320,15 @@ table {
     
     
 }
-
+.number-item-wrap{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    
+    .number-item{
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+}
 
 
 

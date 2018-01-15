@@ -13,14 +13,14 @@
         	<div class="userDetail-top wp100 bg_fff b_e over-hide mt20">
 				<div class="photoWrap-wrap fl">
 					<div class="photoWrap">
-						<div class="photo"><div class="noPhoto"></div></div>
+						<!--<div class="photo"><div class="noPhoto"></div></div>-->
 					</div>
 				</div>
 				<div class="infoWrap fl">
 					<div class="wrap">
 						<samp class="nickname fl ml20 mr40"></samp>
-						<samp class="am-button am-button-red fl mr20">信任</samp>
-						<samp class="am-button am-button-gray fl">屏蔽</samp>
+						<samp class="am-button am-button-red fl mr20"></samp>
+						<samp class="am-button am-button-gray fl"></samp>
 					</div>
 					<div class="statistics">
 
@@ -38,7 +38,7 @@
 					</div>
 					<div class="item identity">
 						<i class="icon icon-identity"></i>
-						<samp>身份已驗證</samp>
+						<!--<samp>身份已驗證</samp>-->
 					</div>
 				</div>
         	</div>
@@ -50,8 +50,8 @@
 					</div>
 					<div class="fr">
 						<ul class="titleStatus over-hide">
-							<li class="on">在線購買</li>
-							<li>在線出售</li>
+							<li class="on buy">在線購買</li>
+							<li class="sell">在線出售</li>
 						</ul>
 					</div>
 				</div>
@@ -71,9 +71,16 @@
 
 							</tbody>
 						</table>
+						<div class="no-data">
+							<img src="../../images/暂无明细.png" />
+							<p>暫無广告</p>
+						</div>
 					</div>
+					<!--<div id="pagination" class="wp100 pagination-wrap tc">-->
+						<!--<p class="pagination"><a href="javascript:;" class="prev"><img src="/static/images/arrow-&#45;&#45;left.png"></a><span class="active">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" class="next"><img src="/static/images/arrow-&#45;&#45;right.png"></a><samp>共2页</samp><samp>到第</samp><input type="text" class="pagination-ipt"><samp>页</samp><a href="javascript:;" class="pagination-btn">确定</a></p>-->
+					<!--</div>-->
 					<div id="pagination" class="wp100 pagination-wrap tc">
-						<p class="pagination"><a href="javascript:;" class="prev"><img src="/static/images/arrow---left.png"></a><span class="active">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" class="next"><img src="/static/images/arrow---right.png"></a><samp>共2页</samp><samp>到第</samp><input type="text" class="pagination-ipt"><samp>页</samp><a href="javascript:;" class="pagination-btn">确定</a></p>
+						<p class="pagination"></p>
 					</div>
 				</div>
 				
@@ -84,7 +91,7 @@
 		
         <link rel="import" href="../footer.html?__inline">
         <script>
-            require(['app/controller/order/OrderList']);
+            require(['app/controller/user/UserDetail']);
         </script>
     </body>
 </html>

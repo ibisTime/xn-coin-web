@@ -100,12 +100,13 @@ define([
             }
         },
         // 金额格式化 默认保留t || 8位  小数
-        formatMoney: function(s, t) {
+        formatMoney: function(s, t, isNeedString) {
             if(!$.isNumeric(s))
                 return "-";
 		    if (t == '' || t == null || t == undefined || typeof t == 'object') {
 		        t = 8;
-		    }else{
+		    }
+		    if(isNeedString){
 		    	s.toString()
 		    }
 		    //保留8位小数
@@ -170,7 +171,7 @@ define([
                 return 0;
             start = new Date(start);
             end = new Date(end);
-            return (end - start) / (3600 * 24 * 1000);
+            return (end - start) / (60 * 1000);
         },
         //图片格式化
         getPic: function(pic, suffix){
@@ -428,6 +429,13 @@ define([
         hideMobile: function(mobile){
         	var mobile = mobile.substring(0, 3) + "****" + mobile.substring(7, 11)
         	return mobile;
+        },
+        //计算百分比
+        getPercentum: function(n1,n2){
+        	if(n1=='0'&&n2=='0'){
+        		return '100%';
+        	}
+        	return n1/n2*100+"%"
         }
     };
     return Base;

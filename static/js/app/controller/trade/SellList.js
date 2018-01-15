@@ -75,16 +75,27 @@ define([
 			var tmpl = item.user.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
 		}
+		
+		var loginStatus ='';
+		var time = base.calculateDays(item.user.lastLogin, new Date())
+		if(time <= 10){
+			loginStatus= 'green'
+		}else if(time <= 30){
+			loginStatus= 'yellow'
+		}else{
+			loginStatus = 'gray'
+		}
+		
     	return `<tr>
 					<td class="nickname">
 						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${item.userId}">
 							${photoHtml}
-							<div class="dot gray"></div>
+							<div class="dot ${loginStatus}"></div>
 						</div>
 						<samp class="name">${item.user.nickname}</samp>
 					</td>
 					<td class="credit">
-						<samp>交易<i>${item.user.userStatistics.jiaoYiCount}</i></samp> · <samp>好評度<i>${item.user.userStatistics.beiHaoPingCount}</i></samp> · <samp>信任<i>${item.user.userStatistics.beiXinRenCount}</i></samp>
+						<samp>交易<i>${item.user.userStatistics.jiaoYiCount}</i></samp> · <samp>好評度<i>${base.getPercentum(item.user.userStatistics.beiHaoPingCount,item.user.userStatistics.beiPingJiaCount)}</i></samp> · <samp>信任<i>${item.user.userStatistics.beiXinRenCount}</i></samp>
 					</td>
 					<td class="payType">${bizTypeList[item.payType]}</td>
 					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>

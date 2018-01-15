@@ -61,5 +61,6 @@ define([
                 ...config
             },true);
         },
+
     };
 })
