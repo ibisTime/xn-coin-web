@@ -121,5 +121,40 @@ define([
             	...config
             });
         },
+        /**
+         * 查询信任关系
+         * @param visitor  当前登录用户
+         * @param master
+         * isTrust,isAddBlackList
+         */
+        getUserRelation(master) {
+            return Ajax.get("625256", {
+                visitor: base.getUserId(),
+                master,
+            });
+        },
+        /**
+         * 修改信任关系(建立）
+         * @param config {limit, start, userId, type}
+         * type=1 信任，type=0，屏蔽
+         */
+        addUserRelation(config) {
+            return Ajax.get("805110", {
+                userId: base.getUserId(),
+                ...config
+            });
+        },
+        /**
+         * 修改信任关系(解除）
+         * @param config {limit, start, userId, type}
+         * type=1 信任，type=0，屏蔽
+         */
+        removeUserRelation(config) {
+            return Ajax.get("805111", {
+                userId: base.getUserId(),
+                ...config
+            });
+        },
+
     };
 })

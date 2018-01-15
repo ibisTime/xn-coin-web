@@ -18,22 +18,6 @@ define([
         statusList: [0],
         userId:base.getUserId()
     }
-    var publishConfig = {
-        publishType:'2',
-        adsCode:null,
-        leaveMessage:null,
-        maxTrade:null,
-        minTrade:null,
-        onlyTrust:null,
-        payLimit:null,
-        payType:null,
-        premiumRate:null,
-        protectPrice:null,
-        totalCount:null,
-        tradeCoin:null,
-        tradeCurrency:null,
-        tradeType:null
-    }
 	init();
 
     function init() {
@@ -110,18 +94,7 @@ define([
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${adsStatusValueList[item.status]}</td>
 					<td class="operation">
-						<div class="am-button am-button-ghost publish" data-adsCode="${item.code}" data-leaveMessage="${item.leaveMessage}"
-						data-maxTrade="${item.maxTrade}"
-						data-minTrade="${item.minTrade}"
-						data-onlyTrust="${item.onlyTrust}"
-						data-payLimit="${item.payLimit}"
-						data-payType="${item.payType}"
-						data-premiumRate="${item.premiumRate}"
-						data-protectPrice="${item.protectPrice}"
-						data-totalCount="${item.totalCountString}"
-						data-tradeCoin="${item.tradeCoin}"
-						data-tradeCurrency="${item.tradeCurrency}"
-						data-tradeType="${item.tradeType}"">發佈</div>
+						<div class="am-button am-button-ghost publish goHref" data-href="../trade/advertise-eth.html?code=${item.code}">發佈</div>
 					</td>
 				</tr>`
         }else {
@@ -137,7 +110,6 @@ define([
     }
 
     function addListener() {
-        
         $(".titleStatus li").click(function(){
         	var _this = $(this)
         	_this.addClass("on").siblings('li').removeClass("on");
@@ -149,27 +121,6 @@ define([
         	config.start = 1;
         	getPageAdvertise(true);
         })
-        //
-        $('#content').on("click",".am-button.am-button-ghost.publish", function(){
-        	base.confirm("確認發佈嗎").then(()=>{
-                publishConfig.adsCode = $(this).attr("data-adsCode")
-                publishConfig.leaveMessage = $(this).attr("data-leaveMessage");
-                publishConfig.maxTrade = $(this).attr("data-maxTrade");
-                publishConfig.minTrade = $(this).attr("data-minTrade");
-                publishConfig.onlyTrust = $(this).attr("data-onlyTrust");
-                publishConfig.payLimit = $(this).attr("data-payLimit");
-                publishConfig.payType = $(this).attr("data-payType");
-                publishConfig.premiumRate = $(this).attr("data-premiumRate");
-                publishConfig.protectPrice = $(this).attr("data-protectPrice");
-                publishConfig.totalCount = $(this).attr("data-totalCount");
-                publishConfig.tradeCoin = $(this).attr("data-tradeCoin");
-                publishConfig.tradeCurrency = $(this).attr("data-tradeCurrency");
-                publishConfig.tradeType = $(this).attr("data-tradeType");
-        		console.log(publishConfig);
-        		TradeCtr.reportAdvertise(publishConfig).then((data)=> {
-        		    console.log(data);
-                })
-        	},()=>{})
-        })
+
     }
 });
