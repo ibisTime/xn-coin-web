@@ -38,16 +38,14 @@ define([
             config.statusList = [1,2,3];
             getPageAdvertise();
         });
-    	$('.am-button.am-button-ghost').click(function () {
-            
-        })
+
         GeneralCtr.getDictList({"parentKey":"ads_status"}).then((data)=>{
             data.forEach(function(item){
-            adsStatusValueList[item.dkey] = item.dvalue;
-            getPageAdvertise();
-        },base.hideLoadingSpin);
+                adsStatusValueList[item.dkey] = item.dvalue;
+                getPageAdvertise();
+            });
+    	},base.hideLoadingSpin);
         addListener();
-    	});
     }
 
 
@@ -86,12 +84,19 @@ define([
             if(data.list.length) {
                 var html = '';
                 lists.forEach((item, i) => {
-                    console.log(item);
                     item.status = +item.status
                     html+= buildHtmlFlow(item);
                 });
                 $('.no-data').css('display','none');
                 $('#content').append(html);
+                $('.operation').click(function () {
+                    base.confirm('確定要發佈廣告嗎').then(function () {
+                        // 確定
+
+                    }),function () {
+                        // 取消
+                    };
+                })
             }
             config.start == 1 && initPaginationFlow(data);
         });

@@ -16,6 +16,7 @@ define([
 	init();
     
     function init() {
+        var userId = base.getUrlParam('userId');
         base.showLoadingSpin();
         $('.titleStatus.over-hide li:nth-child(2)').click(function () {
             $('.titleStatus.over-hide li:first-child').removeClass('on');
@@ -35,19 +36,20 @@ define([
                 GeneralCtr.getDictList({"parentKey": "pay_type"}).then((data1) => {
                     data1.forEach(function (item) {
                     payType[item.dkey] = item.dvalue;
-                    getPageAdvertise();
+                    getPageAdvertise(userId);
                     })
                 });
-            }, base.hideLoadingSpin)
-        });
-        getUserDetail();
+            })
+        }, base.hideLoadingSpin);
+        getUserDetail(userId);
         addListener();
     }
 
 
     // 获取用户详情
-    function getUserDetail() {
-        UserCtr.getUser().then((data) => {
+    function getUserDetail(userId) {
+        console.log(userId);
+        UserCtr.getUser(userId).then((data) => {
             var html = `<div class="item">
 							<p>${data.userStatistics.jiaoYiCount}</p>
 							<samp>交易次數</samp>
@@ -82,11 +84,11 @@ define([
             }else {
                 $('.item.mobile').append('<samp>手機未驗證</samp>');
             }
-            // if(!data.email) {
-            //     $('.item.identity').append('<samp>郵箱已驗證</samp>');
-            // }else {
-            //     $('.item.identity').append('<samp>郵箱未驗證</samp>');
-            // }
+            if(data.googleAuthFlag) {
+                $('.item.identity').append('<samp>身份已驗證</samp>');
+            }else {
+                $('.item.identity').append('<samp>身份未驗證</samp>');
+            }
 
         $('.nickname.fl.ml20.mr40').append(`${data.nickname}`);
         $('.fl.tc_red_i').append(`${data.nickname}`);
@@ -94,8 +96,8 @@ define([
         });
     }
 
-    function getPageAdvertise() {
-        AccountCtr.getPageAdvertise(config).then((data)=> {
+    function getPageAdvertise(userId) {
+        AccountCtr.getPageAdvertise(config, userId).then((data)=> {
             $('#content').empty();
             var list = data.list;
             if(data.list.length) {

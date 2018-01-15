@@ -67,9 +67,9 @@ define([
          * @param config
          * @returns {*}
          */
-        getPageAdvertise(config) {
+        getPageAdvertise(config, userId) {
             return Ajax.post("625227", {
-                userId: base.getUserId(),
+                userId: userId || base.getUserId(),
                 // coin: 'ETH',
                 ...config
         },true);

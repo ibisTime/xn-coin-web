@@ -10,5 +10,15 @@ define([
         getPageAdvertise(config,refresh) {
             return Ajax.get("625228", config, refresh);
         },
+
+        reportAdvertise(config) {
+            return Ajax.post("625227", {
+                userId: base.getUserId(),
+                // coin: 'ETH',
+                ...config
+        },true);
+        },
     };
 })
+
+
