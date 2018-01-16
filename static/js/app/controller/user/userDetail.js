@@ -67,35 +67,26 @@ define([
 						<div class="item">
 							<p>${data.userStatistics.beiXinRenCount}</p>
 							<samp>信任人數</samp>
+						</div>
+                        <div class="item">
+							<p>${base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount)}</p>
+							<samp>好評率</samp>
 						</div>`;
 
 
+            var photoHtml = ""
+            // 头像
+            if(data.photo){
+                photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${data.photo})')"></div>`
+            }else{
+                var tmpl = data.nickname.substring(0,1).toUpperCase();
+                photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
+            }
 
-        var photoHtml = ""
-        // 头像
-        if(data.photo){
-            photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${data.photo})')"></div>`
-        }else{
-            var tmpl = data.nickname.substring(0,1).toUpperCase();
-            photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
-        }
-
-         // 好评度
-         //    if(data.userStatistics.beiHaoPingCount && data.userStatistics.jiaoYiCount) {
-                var haopingdu = `<div class="item">
-							<p>${base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount)}</p>
-							<samp>好評度</samp>
-						</div>`
-            // } else {
-            //     var haopingdu = `<div class="item">
-				// 			<p>100%</p>
-				// 			<samp>好評度</samp>
-				// 		</div>`
-            // }
             $('.statistics').append(html);
             $('.statistics').append(haopingdu);
 
-// 邮箱验证，手机验证，身份验证
+        // 邮箱验证，手机验证，身份验证
         $('.item.email').append(data.email?'<samp>郵箱已驗證</samp>':'<samp>郵箱未驗證</samp>');
 
         $('.item.mobile').append(data.mobile?'<samp>手機已驗證</samp>':'<samp>手機未驗證</samp>');
@@ -111,7 +102,7 @@ define([
         
     	},()=>{});
     }
-// 分页查广告
+    // 分页查广告
     function getPageAdvertise() {
         base.showLoadingSpin()
         TradeCtr.getPageAdvertiseUser(config, true).then((data)=> {
@@ -218,9 +209,8 @@ define([
                     base.showLoadingSpin();
                     UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
                         _this.empty().append('屏蔽');
-                    base.showMsg('已取消拉黑');
-
-                },base.hideLoadingSpin())
+                        base.showMsg('已取消拉黑');
+                    },base.hideLoadingSpin())
                 }else {
                     base.showLoadingSpin();
                     UserCtr.addUserRelation(relationConfig,true).then((data)=>{
