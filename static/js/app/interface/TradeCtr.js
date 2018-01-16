@@ -18,6 +18,16 @@ define([
             return Ajax.get("625227",config, refresh);
         },
         /**
+         * 分页查询广告 带status
+         * @param config: {start, limit, maxPrice, minPrice,payType,tradeType(0买、1卖),userId}
+         */
+        getPageAdvertiseUserStatus(config,refresh) {
+            return Ajax.get("625227", {
+                status:'1',
+                ...config
+            }, refresh);
+        },
+        /**
          * 发布/编辑广告
          * @param adsCode
          */

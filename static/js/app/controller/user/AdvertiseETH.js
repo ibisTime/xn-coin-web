@@ -108,8 +108,8 @@ define([
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${adsStatusValueList[item.status]}</td>
 					<td class="operation">
-						<div class="am-button goHref" data-href="../trade/sell-detail.html?adsCode=${item.code}">查看详情</div>
-									</td>
+						<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">查看详情</div>
+					</td>
 				</tr>`
         }
 
