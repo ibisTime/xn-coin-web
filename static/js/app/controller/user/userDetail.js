@@ -169,7 +169,6 @@ define([
     function addListener() {
         // 切换在线购买和在线出售
         $('.titleStatus.over-hide li').click(function () {
-            base.showLoadingSpin()
             var _this = $(this)
             _this.addClass("on").siblings('li').removeClass("on");
             if(_this.hasClass("sell")) {
@@ -177,10 +176,7 @@ define([
             }else if(_this.hasClass("buy")) {
                 config.tradeType = 0;
             }
-            base.showLoadingSpin()
-
             getPageAdvertise();
-            base.hideLoadingSpin()
         })
         
         // 信任按钮的点击事件
@@ -192,32 +188,27 @@ define([
                     base.showLoadingSpin();
                     UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
                         _this.empty().append('信任');
-                    base.showMsg('已取消信任');
-                    base.hideLoadingSpin()
-                })
-                }
-                else {
+                        base.showMsg('已取消信任');
+                    },base.hideLoadingSpin())
+                } else {
                     base.showLoadingSpin();
                     UserCtr.addUserRelation(relationConfig,true).then((data)=>{
                         _this.empty().append('已信任');
-                    if($('.infoWrap .black').attr("data-isAddBlackList")=='1') {
-                        $('.infoWrap .black').empty().append('屏蔽');
-                        $('.infoWrap .black').attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
-                    }
-                    base.showMsg('已信任');
-                    base.hideLoadingSpin();
-                })
+                        if($('.infoWrap .black').attr("data-isAddBlackList")=='1') {
+                            $('.infoWrap .black').empty().append('屏蔽');
+                            $('.infoWrap .black').attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
+                        }
+                        base.showMsg('已信任');
+                    },base.hideLoadingSpin())
                 }
                 _this.attr("data-isTrust",_this.attr("data-isTrust")=='1'?'0':'1');
             }else {
                 base.showMsg('您未登錄');
-                base.gohref("../user/login.html")
+                setTimeout(function () {
+                    base.gohref("../user/login.html")
+                },500)
             }
-
-            // setTimeout(function () {
-            //     location.reload();
-            // },500)
-        },base.hideLoadingSpin())
+        })
         // 屏蔽按钮的点击事件
         $('.infoWrap .black').click(function () {
             if(base.getUserId()){
@@ -228,26 +219,26 @@ define([
                     UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
                         _this.empty().append('屏蔽');
                     base.showMsg('已取消拉黑');
-                    base.hideLoadingSpin();
-                })
+
+                },base.hideLoadingSpin())
                 }else {
                     base.showLoadingSpin();
                     UserCtr.addUserRelation(relationConfig,true).then((data)=>{
                         _this.empty().append('已拉黑');
-                    if($('.infoWrap .trust').attr("data-isTrust")=='1') {
-                        $('.infoWrap .trust').empty().append('信任');
-                        $('.infoWrap .trust').attr("data-isTrust",!_this.attr("data-isTrust"))
-                    }
-                    base.showMsg('已拉黑');
-                    base.hideLoadingSpin();
-                })
+                        if($('.infoWrap .trust').attr("data-isTrust")=='1') {
+                            $('.infoWrap .trust').empty().append('信任');
+                            $('.infoWrap .trust').attr("data-isTrust",!_this.attr("data-isTrust"))
+                        }
+                        base.showMsg('已拉黑');
+                    },base.hideLoadingSpin())
                 }
                 _this.attr("data-isAddBlackList",_this.attr("data-isAddBlackList")=='1'?'0':'1');
             }else {
                 base.showMsg('您未登錄');
-                base.gohref("../user/login.html")
+                setTimeout(function () {
+                    base.gohref("../user/login.html")
+                },500)
             }
-
-        },base.hideLoadingSpin())
+        })
     }
 });
