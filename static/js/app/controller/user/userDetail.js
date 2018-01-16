@@ -84,7 +84,6 @@ define([
             }
 
             $('.statistics').append(html);
-            $('.statistics').append(haopingdu);
 
         // 邮箱验证，手机验证，身份验证
         $('.item.email').append(data.email?'<samp>郵箱已驗證</samp>':'<samp>郵箱未驗證</samp>');
