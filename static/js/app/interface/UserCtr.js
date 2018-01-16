@@ -138,22 +138,22 @@ define([
          * @param config {limit, start, userId, type}
          * type=1 信任，type=0，屏蔽
          */
-        addUserRelation(config) {
+        addUserRelation(config,refresh) {
             return Ajax.get("805110", {
                 userId: base.getUserId(),
                 ...config
-            });
+            },refresh);
         },
         /**
          * 修改信任关系(解除）
          * @param config {limit, start, userId, type}
          * type=1 信任，type=0，屏蔽
          */
-        removeUserRelation(config) {
+        removeUserRelation(config,refresh) {
             return Ajax.get("805111", {
                 userId: base.getUserId(),
                 ...config
-            });
+            },refresh);
         },
 
     };

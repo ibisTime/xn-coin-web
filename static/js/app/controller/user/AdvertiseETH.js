@@ -68,7 +68,7 @@ define([
 // 获取广告列表
     function getPageAdvertise(refresh) {
         base.showLoadingSpin()
-        return TradeCtr.getPageAdvertiseUser(config,refresh).then((data)=>{
+        return TradeCtr.getPageAdvertiseUser(config,true).then((data)=>{
             $('#content').empty();
             $('.no-data').css('display','block');
             var lists = data.list;

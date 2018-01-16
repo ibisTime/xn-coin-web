@@ -114,7 +114,7 @@ define([
 // 分页查广告
     function getPageAdvertise() {
         base.showLoadingSpin()
-        TradeCtr.getPageAdvertiseUser(config).then((data)=> {
+        TradeCtr.getPageAdvertiseUser(config, true).then((data)=> {
             $('#content').empty();
             $('.no-data').css('display','block');
             var list = data.list;
@@ -177,51 +177,77 @@ define([
             }else if(_this.hasClass("buy")) {
                 config.tradeType = 0;
             }
+            base.showLoadingSpin()
+
             getPageAdvertise();
-        },base.hideLoadingSpin())
+            base.hideLoadingSpin()
+        })
         
         // 信任按钮的点击事件
         $('.infoWrap .trust').click(function () {
-            relationConfig.type = '1';
-            var _this = $(this);
-            if(_this.attr("data-isTrust")!='0') {
-                UserCtr.removeUserRelation(relationConfig).then((data)=>{
-                    _this.empty().append('信任');
+            if(base.getUserId()){
+                relationConfig.type = '1';
+                var _this = $(this);
+                if(_this.attr("data-isTrust")=='1') {
+                    base.showLoadingSpin();
+                    UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
+                        _this.empty().append('信任');
                     base.showMsg('已取消信任');
+                    base.hideLoadingSpin()
                 })
-            }else {
-                UserCtr.addUserRelation(relationConfig).then((data)=>{
-                    _this.empty().append('已信任');
-                    if(_this.siblings().attr("data-isAddBlackList")=='1') {
-                        _this.siblings().empty().append('屏蔽');
-                        _this.siblings().attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
+                }
+                else {
+                    base.showLoadingSpin();
+                    UserCtr.addUserRelation(relationConfig,true).then((data)=>{
+                        _this.empty().append('已信任');
+                    if($('.infoWrap .black').attr("data-isAddBlackList")=='1') {
+                        $('.infoWrap .black').empty().append('屏蔽');
+                        $('.infoWrap .black').attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
                     }
                     base.showMsg('已信任');
-            })
+                    base.hideLoadingSpin();
+                })
+                }
+                _this.attr("data-isTrust",_this.attr("data-isTrust")=='1'?'0':'1');
+            }else {
+                base.showMsg('您未登錄');
+                base.gohref("../user/login.html")
             }
-            _this.attr("data-isTrust",!_this.attr("data-isTrust"))
-        })
+
+            // setTimeout(function () {
+            //     location.reload();
+            // },500)
+        },base.hideLoadingSpin())
         // 屏蔽按钮的点击事件
         $('.infoWrap .black').click(function () {
-            relationConfig.type = '0';
-            var _this = $(this);
-            if(_this.attr("data-isAddBlackList")!='0') {
-                UserCtr.removeUserRelation(relationConfig).then((data)=>{
-                    _this.empty().append('屏蔽');
+            if(base.getUserId()){
+                relationConfig.type = '0';
+                var _this = $(this);
+                if(_this.attr("data-isAddBlackList")=='1') {
+                    base.showLoadingSpin();
+                    UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
+                        _this.empty().append('屏蔽');
                     base.showMsg('已取消拉黑');
+                    base.hideLoadingSpin();
                 })
-            }else {
-                UserCtr.addUserRelation(relationConfig).then((data)=>{
-                    _this.empty().append('已拉黑');
-                    console.log('123')
-                    if(_this.siblings().attr("data-isTrust")=='1') {
-                        _this.siblings().empty().append('信任');
-                        _this.siblings().attr("data-isTrust",!_this.attr("data-isTrust"))
+                }else {
+                    base.showLoadingSpin();
+                    UserCtr.addUserRelation(relationConfig,true).then((data)=>{
+                        _this.empty().append('已拉黑');
+                    if($('.infoWrap .trust').attr("data-isTrust")=='1') {
+                        $('.infoWrap .trust').empty().append('信任');
+                        $('.infoWrap .trust').attr("data-isTrust",!_this.attr("data-isTrust"))
                     }
                     base.showMsg('已拉黑');
+                    base.hideLoadingSpin();
                 })
+                }
+                _this.attr("data-isAddBlackList",_this.attr("data-isAddBlackList")=='1'?'0':'1');
+            }else {
+                base.showMsg('您未登錄');
+                base.gohref("../user/login.html")
             }
-            _this.attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
-        })
+
+        },base.hideLoadingSpin())
     }
 });
