@@ -74,14 +74,15 @@ define([
 						</div>`;
 
 
-            var photoHtml = ""
+
             // 头像
-            if(data.photo){
-                photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${data.photo})')"></div>`
-            }else{
-                var tmpl = data.nickname.substring(0,1).toUpperCase();
-                photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
-            }
+        if(data.photo){
+            $("#photo").css({"background-image":"url('"+base.getAvatar(data.photo)+"')"})
+        }else{
+            var tmpl = data.nickname.substring(0,1).toUpperCase();
+            var photoHtml = `<div class="noPhoto">${tmpl}</div>`
+            $("#photo").html(photoHtml)
+        }
 
             $('.statistics').append(html);
 
@@ -97,7 +98,7 @@ define([
         // ___发布的广告
         $('.fl.tc_red_i').append(`${data.nickname}`);
         // 头像
-        $('.photoWrap').append(`${photoHtml}`);
+        // $('.photoWrap').append(`${photoHtml}`);
         
     	},()=>{});
     }
