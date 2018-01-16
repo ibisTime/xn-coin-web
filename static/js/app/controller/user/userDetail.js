@@ -104,7 +104,7 @@ define([
     // 分页查广告
     function getPageAdvertise() {
         base.showLoadingSpin()
-        TradeCtr.getPageAdvertiseUser(config, true).then((data)=> {
+        TradeCtr.getPageAdvertiseUserStatus(config, true).then((data)=> {
             $('#content').empty();
             $('.no-data').css('display','block');
             var list = data.list;
@@ -116,7 +116,7 @@ define([
                 $('.no-data').css('display','none');
                 $('#content').append(html);
             }
-        config.start == 1 && initPagination(data);
+            config.start == 1 && initPagination(data);
         },base.hideLoadingSpin())
     }
 
