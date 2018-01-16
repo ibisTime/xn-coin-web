@@ -11,6 +11,10 @@ define([
             "1": "微信",
             "2": "银行卡转账"
     	};
+    var config = {
+    	adsCode:code,
+    	tradePrice: 0
+    }
 	
 	init();
     
@@ -27,6 +31,7 @@ define([
         
     }
     
+    //获取详情
     function getAdvertiseDetail(){
     	return TradeCtr.getAdvertiseDetail(code).then((data)=>{
     		if(data.user.photo){
@@ -36,6 +41,7 @@ define([
     			var photoHtml = `<div class="noPhoto">${tmpl}</div>`
     			$("#photo").html(photoHtml)
     		}
+    		config.tradePrice = data.truePrice;
     		
     		$("#nickname").html(data.user.nickname)
     		$("#jiaoYiCount").html(data.user.userStatistics.jiaoYiCount)
@@ -44,6 +50,7 @@ define([
     		$("#totalTradeCount").html(base.formatMoney(data.user.userStatistics.totalTradeCount,'0')+"+ETH")
     		$("#leaveMessage").html(data.leaveMessage.replace(/\n/g,'<br>'))
     		$("#truePrice").html(data.truePrice)
+    		$("#submitDialog .tradePrice").html(data.truePrice+"CNY")
     		$("#limit").html(data.minTrade+'-'+data.maxTrade)
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
@@ -52,12 +59,56 @@ define([
     	},base.hideLoadingSpin)
     }
     
+    //購買
+    function buyETH(){
+    	return TradeCtr.buyETH(config).then((data)=>{
+    		base.showMsg("購買成功")
+    		
+    		setTimeout(function(){
+    			base.gohref("../order/order-list.html")
+    		},2000)
+			base.hideLoadingSpin();
+    	},base.hideLoadingSpin)
+    	
+    }
     
     function addListener() {
+    	var _formWrapper = $("#form-wrapper");
+    	_formWrapper.validate({
+    		'rules': {
+    			'buyAmount':{
+    				min: '0'
+    			},
+    			'buyEth':{
+    				min: '0'
+    			},
+    		}
+    	})
     	
     	//立即下单点击
 	    $("#buyBtn").click(function(){
-			$("#submitDialog").removeClass("hidden")
+	    	if(_formWrapper.valid()){
+	    		if($("#buyAmount").val()!=''&&$("#buyAmount").val()){
+					$("#submitDialog").removeClass("hidden")
+		    	}else{
+		    		base.showMsg("請輸入您購買的金額")
+		    	}
+	    	}
+//	    	UserCtr.getUser().then((data)=>{
+//  			if(data.tradepwdFlag&&data.realname){
+//			    	
+//  			}else if(!data.tradepwdFlag){
+//  				base.showMsg("請先設置資金密碼")
+//  				setTimeout(function(){
+//  					base.gohref("../user/setTradePwd.html?type=1")
+//  				},1800)
+//  			}else if(!data.realname){
+//  				base.showMsg("請先进行身份验证")
+//  				setTimeout(function(){
+//  					base.gohref("../user/identity.html")
+//  				},1800)
+//  			}
+//  		},base.hideLoadingSpin)
     	})
     	
     	//下单确认弹窗-放弃点击
@@ -67,8 +118,25 @@ define([
     	
     	//下单确认弹窗-确认点击
 	    $("#submitDialog .subBtn").click(function(){
+	    	buyETH()
 			$("#submitDialog").addClass("hidden")
     	})
+    	
+    	$("#buyEth").keyup(function(){
+    		$("#buyAmount").val(($("#buyEth").val()*config.tradePrice).toFixed(2));
+    		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
+    		$("#submitDialog .count").html($("#buyEth").val()+"ETH")
+    		config.tradeAmount = $("#buyAmount").val()
+    		config.count= base.formatMoneyParse($("#buyEth").val())
+    	})
+    	$("#buyAmount").keyup(function(){
+    		$("#buyEth").val(($("#buyAmount").val()/config.tradePrice).toFixed(8));
+    		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
+    		$("#submitDialog .count").html($("#buyEth").val()+"ETH")
+			config.tradeAmount = $("#buyAmount").val()
+    		config.count=base.formatMoneyParse($("#buyEth").val())
+    	})
+    	
     	
     }
 });

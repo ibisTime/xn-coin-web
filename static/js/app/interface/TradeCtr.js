@@ -25,7 +25,7 @@ define([
             return Ajax.get("625220",{
             	userId: base.getUserId(),
                 ...config
-                });
+            }, true);
         },
         // 获取广告详情
         getAdvertiseDetail(adsCode) {
@@ -39,7 +39,42 @@ define([
             	coin:'ETH'
             });
         },
-        
+        // 获取广告详情
+        getAdvertiseDetail(adsCode) {
+            return Ajax.get("625226", {
+            	adsCode
+            });
+        },
+        /**
+         * 购买ETH
+         * @param config{adsCode,count,tradeAmount,tradePrice}
+         */
+        buyETH(config) {
+            return Ajax.get("625240", {
+            	buyUser: base.getUserId(),
+            	...config
+            });
+        },
+        /**
+         * 出售ETH
+         * @param config{adsCode,count,tradeAmount,tradePrice}
+         */
+        sellETH(config) {
+            return Ajax.get("625241", {
+            	sellUser: base.getUserId(),
+            	...config
+            });
+        },
+        /**
+         * 分页查询我的订单  带userId
+         * @param config: {start, limit, statusList}
+         */
+        getPageOrder(config,refresh) {
+            return Ajax.get("625250",{
+            	belongUser: base.getUserId(),
+            	...config
+            }, refresh);
+        },
     };
 })
 

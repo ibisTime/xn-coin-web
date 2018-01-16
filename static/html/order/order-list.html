@@ -8,15 +8,15 @@
     
     <body>
         <link rel="import" href="../top/top.html?__inline">
-		<div class="public-container trade-container order-container b_e bg_fff">
+		<div class="public-container trade-container order-container b_e bg_fff minheight">
 			<div class="titleWrap wp100 over-hide b_e_b">
 				<div class="fl wrap">
 					<i class="icon icon-order fl"></i><samp class="fl">訂單管理</samp>
 				</div>
 				<div class="fr">
 					<ul class="titleStatus over-hide">
-						<li class="on">進行中</li>
-						<li>已結束</li>
+						<li class="on" data-status="inProgress">進行中</li>
+						<li data-status="end">已結束</li>
 					</ul>
 				</div>
 			</div>
@@ -37,14 +37,13 @@
 							</tr>
 						</thead>
 						<tbody id="content">
-							<tr>
+							<!--<tr>
 								<td class="nickname">
 									<div class="photoWrap fl goHref" data-href="../user/user-detail.html" >
 										<div class="photo"><div class="noPhoto">J</div></div>
 									</div>
 									<samp class="name">junxi</samp>
 								</td>
-								<!--訂單編號截取后8位展示-->
 								<td class="code">44613740</td>
 								<td class="type">購買ETH</td>
 								<td class="amount">1000000CNY</td>
@@ -56,30 +55,13 @@
 									<div class="am-button am-button-gray ml5">取消交易</div>
 								</td>
 								<td class="goDetail"><i class="icon icon-detail goHref" data-href="../order/order-detail.html"></i></td>
-							</tr>
-							
-							<tr>
-								<td class="nickname">
-									<div class="photoWrap fl goHref" data-href="../user/user-detail.html" >
-										<div class="photo"><div class="noPhoto">J</div></div>
-									</div>
-									<samp class="name">junxi</samp>
-								</td>
-								<!--訂單編號截取后8位展示-->
-								<td class="code">44613740</td>
-								<td class="type">購買ETH</td>
-								<td class="amount">1000000CNY</td>
-								<td class="quantity">1.0001200ETH</td>
-								<td class="createDatetime">2018-01-04 20:15:11</td>
-								<td class="status">已釋放待評價</td>
-								<td class="operation">
-									<div class="am-button am-button-red">標記付款</div>
-									<div class="am-button am-button-gray ml5">取消交易</div>
-								</td>
-								<td class="goDetail"><i class="icon icon-detail goHref" data-href="../order/order-detail.html"></i></td>
-							</tr>
+							</tr>-->
 						</tbody>
 					</table>
+					<div class="no-data b_e_t hidden">
+						<img src="../../images/暂无明细.png" />
+						<p>暫無訂單</p>
+					</div>
 				</div>
 				<div id="pagination" class="wp100 pagination-wrap tc">
 					<p class="pagination"><a href="javascript:;" class="prev"><img src="/static/images/arrow---left.png"></a><span class="active">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" class="next"><img src="/static/images/arrow---right.png"></a><samp>共2页</samp><samp>到第</samp><input type="text" class="pagination-ipt"><samp>页</samp><a href="javascript:;" class="pagination-btn">确定</a></p>
