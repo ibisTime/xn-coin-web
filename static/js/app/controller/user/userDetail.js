@@ -81,17 +81,17 @@ define([
         }
 
          // 好评度
-            if(data.userStatistics.beiHaoPingCount && data.userStatistics.jiaoYiCount) {
+         //    if(data.userStatistics.beiHaoPingCount && data.userStatistics.jiaoYiCount) {
                 var haopingdu = `<div class="item">
 							<p>${base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount)}</p>
 							<samp>好評度</samp>
 						</div>`
-            } else {
-                var haopingdu = `<div class="item">
-							<p>0%</p>
-							<samp>好評度</samp>
-						</div>`
-            }
+            // } else {
+            //     var haopingdu = `<div class="item">
+				// 			<p>100%</p>
+				// 			<samp>好評度</samp>
+				// 		</div>`
+            // }
             $('.statistics').append(html);
             $('.statistics').append(haopingdu);
 
