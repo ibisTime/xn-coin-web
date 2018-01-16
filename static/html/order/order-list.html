@@ -8,7 +8,7 @@
     
     <body>
         <link rel="import" href="../top/top.html?__inline">
-		<div class="public-container trade-container order-container b_e bg_fff minheight">
+		<div class="public-container trade-container order-container b_e bg_fff minheight tradeDetail-container">
 			<div class="titleWrap wp100 over-hide b_e_b">
 				<div class="fl wrap">
 					<i class="icon icon-order fl"></i><samp class="fl">訂單管理</samp>
@@ -64,9 +64,35 @@
 					</div>
 				</div>
 				<div id="pagination" class="wp100 pagination-wrap tc">
-					<p class="pagination"><a href="javascript:;" class="prev"><img src="/static/images/arrow---left.png"></a><span class="active">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" class="next"><img src="/static/images/arrow---right.png"></a><samp>共2页</samp><samp>到第</samp><input type="text" class="pagination-ipt"><samp>页</samp><a href="javascript:;" class="pagination-btn">确定</a></p>
+					<p class="pagination"></p>
 				</div>
 			</div>
+			
+			<!--申請仲裁弹窗-->
+		    <div class="am-modal-wrap dialog submit-dialog arbitration-dialog hidden" id="arbitrationDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-header">
+	                    	<p class="iconWrap"><i class="icon icon-order"></i></p>
+	                    	<p>申請仲裁</p>
+	                    </div>
+	                    <div class="am-modal-body">
+	                    	<div class="arbitration-content">
+	                    		<form class="form-wrapper form-wrapper-noIcon" id="form-wrapper">
+	                    			<div class="form-item form-item-textarea b_e">
+										<textarea style="resize: none;" class="textarea-item" name="reason" placeholder="請填寫您申請仲裁的理由"></textarea>
+									</div>
+                    			</form>
+	                    	</div>
+	                    </div>
+	                    <div class="am-modal-footer">
+	                    	<div class="am-button am-button-gray mr40 closeBtn">放棄</div>
+	                    	<div class="am-button am-button-red subBtn">確認申請</div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
 			
 		</div>	
 		

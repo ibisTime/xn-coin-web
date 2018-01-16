@@ -65,6 +65,13 @@ define([
                 type: "2",
                 ...config
             }, true);
-        }
+        },
+        //获取腾讯云
+        getTencunLogin() {
+            return Ajax.get("625000",{
+            	userId: base.getUserId()
+            });
+        },
+        
     };
 })

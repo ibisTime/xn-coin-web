@@ -69,14 +69,17 @@ define([
     }
     
     function buildHtml(item){
+    	
+    	//头像
     	var photoHtml = ""
-    	if(item.photo){
-    		photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${item.user.photo})')"></div>`
+    	if(item.user.photo){
+    		photoHtml = `<div class="photo" style="background-image:url('base.getAvatar(${item.user.photo})')"></div>`
 		}else{
 			var tmpl = item.user.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
 		}
 		
+		//登录状态
 		var loginStatus ='';
 		var time = base.calculateDays(item.user.lastLogin, new Date())
 		if(time <= 10){
@@ -100,8 +103,10 @@ define([
 					</td>
 					<td class="payType">${bizTypeList[item.payType]}</td>
 					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
-					<td class="price">${item.protectPrice}CNY</td>
-					<td class="operation"><div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買ETH</div></td>
+					<td class="price">${item.truePrice}CNY</td>
+					<td class="operation">
+						<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買ETH</div>
+					</td>
 				</tr>`
     }
     

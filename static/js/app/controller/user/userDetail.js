@@ -74,7 +74,7 @@ define([
         var photoHtml = ""
         // 头像
         if(data.photo){
-            photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${data.photo})')"></div>`
+            photoHtml = `<div class="photo" style="background-image:url('base.getAvatar(${data.photo})')"></div>`
         }else{
             var tmpl = data.nickname.substring(0,1).toUpperCase();
             photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
@@ -111,9 +111,9 @@ define([
         
     	},()=>{});
     }
-// 分页查广告
+    
+	// 分页查广告
     function getPageAdvertise() {
-        base.showLoadingSpin()
         TradeCtr.getPageAdvertiseUser(config, true).then((data)=> {
             $('#content').empty();
             $('.no-data').css('display','block');
@@ -126,20 +126,20 @@ define([
                 $('.no-data').css('display','none');
                 $('#content').append(html);
             }
-        config.start == 1 && initPagination(data);
-        },base.hideLoadingSpin())
+	        config.start == 1 && initPagination(data);
+        },base.hideLoadingSpin)
     }
 
     function buildHtmlFlow(item){
             return `<tr>
-									<td class="currency">${coinList[item.tradeCoin]}</td>
-									<td class="payType">${payType[item.payType]}</td>
-									<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
-									<td class="price">${item.truePrice}CNY/ETH</td>
-									<td class="operation">
-										<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售</div>
-									</td>
-								</tr>`
+						<td class="currency">${coinList[item.tradeCoin]}</td>
+						<td class="payType">${payType[item.payType]}</td>
+						<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
+						<td class="price">${item.truePrice}CNY/ETH</td>
+						<td class="operation">
+							<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售</div>
+						</td>
+					</tr>`
         }
 
     // 初始化交易记录分页器
@@ -161,7 +161,7 @@ define([
                 if(_this.getCurrent() != config.start){
                     base.showLoadingSpin();
                     config.start = _this.getCurrent();
-                    getPageAdvertise(config);
+                    getPageAdvertise();
                 }
             }
         });

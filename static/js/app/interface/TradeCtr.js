@@ -27,6 +27,13 @@ define([
                 ...config
             }, true);
         },
+        //下架广告
+        downAdvertise(adsCode) {
+            return Ajax.get("625224",{
+            	userId: base.getUserId(),
+                adsCode
+            }, true);
+        },
         // 获取广告详情
         getAdvertiseDetail(adsCode) {
             return Ajax.get("625226", {
@@ -75,6 +82,38 @@ define([
             	...config
             }, refresh);
         },
+        //获取订单详情
+        getOrderDetail(code) {
+            return Ajax.get("625251",{
+            	code
+            });
+        },
+        //訂單-取消交易
+        cancelOrder(code) {
+            return Ajax.get("625242",{
+            	updater: base.getUserId(),
+            	code
+            });
+        },
+        //訂單-標記打款
+        paylOrder(code) {
+            return Ajax.get("625243",{
+            	updater: base.getUserId(),
+            	code
+            });
+        },
+        /**
+         * 申請仲裁
+         * @param config{code,reason}
+         */
+        arbitrationlOrder(config) {
+            return Ajax.get("625246",{
+            	applyUser: base.getUserId(),
+            	...config
+            });
+        },
+        
+        
     };
 })
 

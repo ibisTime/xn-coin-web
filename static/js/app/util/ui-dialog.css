@@ -91,7 +91,7 @@
     cursor: default;
 }
 .ui-dialog-body {
-    padding: 20px;
+    padding: 30px;
     text-align: center;
 }
 .ui-dialog-content {
@@ -103,7 +103,7 @@
     text-align: left;
 }
 .ui-dialog-footer {
-    padding: 0 20px 20px 20px;
+    padding: 0 40px 20px 40px;
 }
 .ui-dialog-statusbar {
     float: left;
@@ -127,7 +127,7 @@
 }
 .ui-dialog-footer button+button {
     margin-bottom: 0;
-    margin-left: 5px;
+    margin-left: 30px;
 }
 .ui-dialog-footer button {
     width:auto;
@@ -208,16 +208,16 @@
 
 .ui-dialog-footer button.ui-dialog-autofocus {
     color: #ffffff;
-    background-color: #FFA200;
-    border-color: #FFA200;
+    background-color: #f15353;
+    border-color: #f15353;
 }
 
 .ui-dialog-footer button.ui-dialog-autofocus:hover,
 .ui-dialog-footer button.ui-dialog-autofocus:focus,
 .ui-dialog-footer button.ui-dialog-autofocus:active {
     color: #ffffff;
-    background-color: #FFA200;
-    border-color: #FFA200;
+    background-color: #f15353;
+    border-color: #f15353;
 }
 
 .ui-dialog-footer button.ui-dialog-autofocus:active {

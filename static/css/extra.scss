@@ -2714,6 +2714,7 @@ table {
             .operation{
                 width: 170px;
                 padding-right: 0;
+                text-align: center;
             }
             
             .nickname{
@@ -3213,7 +3214,7 @@ table {
         
         samp{
             display: inline-block;
-            line-height: 60px;
+            line-height: 58px;
             font-size: 16px;
             margin-right: 60px;
             
@@ -3240,6 +3241,7 @@ table {
             .item{
                 width: 50%;
                 float: left;
+                height: 57px;
                 line-height: 57px;
                 border-bottom: 3px solid transparent;
                 font-size: 16px;
@@ -3255,9 +3257,77 @@ table {
         }
         .content-wrap{
             background-color: #f7f7f7;
-            height: 470px;
+            height: 530px;
+            
             .chat-wrap{
+                .msgflow{
+                    height: 470px;
+                    overflow-y: scroll;
+                    padding: 20px 0;
+                }
                 
+                .btnWrap{
+                    height: 60px;
+                    background-color: #fff;
+                    position: relative;
+                }
+                .msgedit{
+                    width: 100%;
+                    font-size: 14px;
+                    line-height: 24px;
+                    padding: 18px 250px 18px 30px;
+                }
+                .msgImg,
+                .openPic{
+                    width: 30px;
+                    height: 60px;
+                    background-color: #fff;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: 30px;
+                    position: absolute;
+                    top: 0 ;
+                }
+                .msgImg{
+                    background-image: url('../images/发送表情.png');
+                    right: 210px;
+                }
+                .openPic{
+                    background-image: url('../images/发送图片.png');
+                    right: 160px;
+                }
+                .send{
+                    width: 80px;
+                    height: 34px;
+                    color: $primary-color;
+                    border: 1px solid $primary-color;
+                    background-color: #fff;
+                    line-height: 34px;
+                    font-size: 14px;
+                    position: absolute;
+                    top: 13px;
+                    right: 50px;
+                }
+                .emotionUL-wrap{
+                    width: 226px;
+                    border: 1px solid $border-color;
+                    box-shadow: 0 0 3px rgba(119,119,119,.8);
+                    background-color: #fff;
+                    position: absolute;
+                    right: 110px;
+                    bottom: 60px;
+                    padding: 10px 5px;
+                    ul{
+                        overflow: hidden;
+                        li{
+                            float: left;
+                            width: 30px;
+                            height: 30px;
+                            text-align: center;
+                            padding-top: 4px;
+                        }
+                    }
+                }
             }
             .userInfo-wrap{
                 padding:  30px;
@@ -3318,7 +3388,171 @@ table {
         }
     }
     
+    .pic-dialog{
+        .am-modal-content{
+            width: 500px;
+        }
+        .am-modal-header{
+            position: relative;
+            .close{
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 30px;
+                color: #484848;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background-color: #fff;
+                cursor: pointer;
+            }
+            h4{
+                font-size: 18px;
+                font-weight: normal;
+            }
+        }
+        .am-modal-body{
+            .form-group{
+                width: 100%;
+                margin-bottom: 15px;
+                img{
+                    max-width: 100%;
+                }
+                .control-label{
+                    font-size: 14px;
+                    color: #484848;
+                }
+            }
+            .file-wrap{
+                position: relative;
+                .file{
+                    width: 80px;
+                    height: 40px;
+                    overflow: hidden;
+                    opacity: 0;
+                    position: relative;
+                    z-index: 9;
+                }
+                .am-button{
+                    width: 80px;
+                    height: 40px; 
+                    line-height: 40px !important;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 8;
+                }
+            }
+        }
+    }
     
+    .msgflow{
+        .onemsg{
+            width: 100%;
+            padding: 0 30px;
+            
+            .msghead{
+                width: 100%;
+                height: 26px;
+                position: relative;
+                padding-left: 40px;
+            }
+            .photoWrap{
+                width: 40px;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                
+                .photo{
+                    width: 40px;
+                    height: 40px;
+                }
+                
+                .noPhoto{
+                    font-size: 24px;
+                    line-height: 40px;
+                }
+            }
+            .nameWrap{
+                overflow: hidden;
+                samp{
+                    display: inline-block;
+                    color: #999;
+                    font-size: 13px;
+                    &.name{
+                        font-size: 16px;
+                        margin: 0 10px 0 15px;
+                        color: #484848;
+                    }
+                }
+            }
+            
+            .msgbody{
+                padding: 3px 3px 3px 57px;
+                overflow: hidden;
+                
+                .msgcon{
+                    max-width: 400px;
+                    overflow: hidden;
+                    background-color: #fff;
+                    border: 1px solid $border-color; 
+                    box-shadow: 0 0 3px rgba(119,119,119,.4);
+                    float: left;
+                    padding: 10px 15px;
+                    font-size: 13px;
+                    line-height: 1.8;
+                    word-break: break-word;
+                }
+            }
+            
+            &.admin{
+                text-align: center;
+                font-size: 12px;
+                color: #484848;
+                padding: 10px 0;
+                p samp{
+                    color: #999;
+                    display: inline-block;
+                    margin-left: 5px;
+                }
+            }
+            &.user{
+                margin: 10px 0;
+                .photoWrap{
+                    float: left;
+                    left: 0;
+                }
+                .nameWrap{
+                    float: left;
+                }
+            }
+            &.my{
+                margin: 10px 0;
+                .photoWrap{
+                    float: right;
+                    right: 0;
+                }
+                .nameWrap{
+                    float: right;
+                    
+                    samp{
+                        float: right;
+                    }
+                }
+                .msghead{
+                    padding-right: 60px;
+                }
+                .msgbody{
+                    padding-left: 3px;
+                    padding-right: 57px;
+                    .msgcon{
+                        float: right;
+                    }
+                }
+            }
+            
+        }
+    }
 }
 .number-item-wrap{
     padding-top: 0 !important;
@@ -3329,7 +3563,6 @@ table {
         padding-bottom: 12px;
     }
 }
-
 
 
 

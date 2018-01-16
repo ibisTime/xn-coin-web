@@ -1,10 +1,11 @@
 define([
     'app/controller/base',
     'pagination',
+	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
     'app/interface/TradeCtr'
-], function(base, pagination, GeneralCtr, UserCtr, TradeCtr) {
+], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr) {
 	var config={
 	    start:1,
         limit:10,
@@ -12,7 +13,7 @@ define([
     };
     var statusList={
     	"inProgress":["0","1","5"],
-    	"end":["2","3"]
+    	"end":["2","3","4"]
     },
     	typeList={
     	"buy":"購買ETH",
@@ -58,8 +59,9 @@ define([
         });
     }
     
-    function getPageOrder(){
-    	return TradeCtr.getPageOrder(config).then((data)=>{
+    //分页查询订单
+    function getPageOrder(refresh){
+    	return TradeCtr.getPageOrder(config,refresh).then((data)=>{
             var lists = data.list;
     		if(data.list.length){
                 var html = "";
@@ -78,14 +80,35 @@ define([
     }
     
     function buildHtml(item){
+    	//头像
     	var photoHtml = "";
+    	//操作按钮
+		var operationHtml = '';
+		
+		//当前用户为买家
     	if(item.buyUser==base.getUserId()){
     		var user = item.sellUserInfo;
+    		
+    		//待支付
+    		if(item.status=="0"){
+				operationHtml=`<div class="am-button am-button-red payBtn" data-ocode="${item.code}">標記付款</div>
+								<div class="am-button am-button-gray ml5 cancelBtn" data-ocode="${item.code}">取消交易</div>`;
+			}
+    	//当前用户为卖家
     	}else{
     		var user = item.buyUserInfo;
     	}
-    	if(item.photo){
-    		photoHtml = `<div class="photo" stype="background-image:url('base.getAvatar(${user.photo})')"></div>`
+    	
+    	//操作按鈕
+    	//已支付，待释放
+		if(item.status=="1"){
+			operationHtml=`<div class="am-button am-button-red arbitrationBtn"  data-ocode="${item.code}">申请仲裁</div>`
+		}else if(item.status=="2"){
+			operationHtml=`<div class="am-button am-button-red commentBtn"  data-ocode="${item.code}">交易評價</div>`
+		}
+    	
+    	if(user.photo){
+    		photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(user.photo)}')"></div>`
 		}else{
 			var tmpl = user.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
@@ -106,8 +129,7 @@ define([
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${statusValueList[item.status]}</td>
 					<td class="operation">
-						<div class="am-button am-button-red">標記付款</div>
-						<div class="am-button am-button-gray ml5">取消交易</div>
+						${operationHtml}
 					</td>
 					<td class="goDetail"><i class="icon icon-detail goHref" data-href="../order/order-detail.html?code=${item.code}"></i></td>
 				</tr>`;
@@ -115,7 +137,7 @@ define([
     
 
     function addListener() {
-        // 切换在线购买和在线出售
+        // 进行中，已结束 点击
         $('.titleStatus.over-hide li').click(function () {
             var _this = $(this)
             _this.addClass("on").siblings('li').removeClass("on");
@@ -123,6 +145,90 @@ define([
             config.start = 1;
             base.showLoadingSpin();
             getPageOrder(true)
+        })
+        
+        //取消订单按钮 点击
+        $("#content").on("click", ".operation .cancelBtn", function(){
+        	var orderCode = $(this).attr("data-ocode");
+        	base.confirm("確認取消交易？").then(()=>{
+        		base.showLoadingSpin()
+        		TradeCtr.cancelOrder(orderCode).then(()=>{
+        			base.hideLoadingSpin();
+        			
+        			base.showMsg("操作成功");
+        			setTimeout(function(){
+			            base.showLoadingSpin();
+			            getPageOrder(true)
+        			},1500)
+        		},base.hideLoadingSpin)
+        	},base.emptyFun)
+        })
+        
+        //標記打款按钮 点击
+        $("#content").on("click", ".operation .payBtn", function(){
+        	var orderCode = $(this).attr("data-ocode");
+        	base.confirm("確認標記打款？").then(()=>{
+        		base.showLoadingSpin()
+        		TradeCtr.paylOrder(orderCode).then(()=>{
+        			base.hideLoadingSpin();
+        			
+        			base.showMsg("操作成功");
+        			setTimeout(function(){
+			            base.showLoadingSpin();
+			            getPageOrder(true)
+        			},1500)
+        		},base.hideLoadingSpin)
+        	},base.emptyFun)
+        })
+        
+        //申請仲裁按钮 点击
+        $("#content").on("click", ".operation .arbitrationBtn", function(){
+        	var orderCode = $(this).attr("data-ocode");
+        	
+        	$("#arbitrationDialog .subBtn").attr("data-ocode", orderCode);
+        	$("#arbitrationDialog").removeClass("hidden")
+        	
+        })
+        
+        //彈窗-放棄
+        $("#arbitrationDialog .closeBtn").click(function(){
+        	$("#arbitrationDialog").addClass("hidden");
+        	$("#form-wrapper .textarea-item").val("")
+        })
+        
+        var _formWrapper = $("#form-wrapper");
+    	_formWrapper.validate({
+    		'rules': {
+    			'reason':{
+    				required: true
+    			},
+    		}
+    	})
+        
+        //彈窗-申請仲裁
+        $("#arbitrationDialog .subBtn").click(function(){
+        	var orderCode = $(this).attr("data-ocode");
+        	var params = _formWrapper.serializeObject()
+        	base.showLoadingSpin()
+    		TradeCtr.arbitrationlOrder({
+    			code: orderCode,
+    			reason: params.reason
+    		}).then(()=>{
+    			base.hideLoadingSpin();
+    			
+    			base.showMsg("操作成功");
+    			$("#arbitrationDialog").addClass("hidden");
+    			setTimeout(function(){
+		            base.showLoadingSpin();
+        			$("#form-wrapper .textarea-item").val("")
+		            getPageOrder(true)
+    			},1500)
+    		},base.hideLoadingSpin)
+        })
+        
+        //交易評價按钮 点击
+        $("#content").on("click", ".operation .commentBtn", function(){
+        	var orderCode = $(this).attr("data-ocode");
         })
         
     }

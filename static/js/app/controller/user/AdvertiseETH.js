@@ -65,10 +65,9 @@ define([
     }
 
 
-// 获取广告列表
+	// 获取广告列表
     function getPageAdvertise(refresh) {
-        base.showLoadingSpin()
-        return TradeCtr.getPageAdvertiseUser(config,true).then((data)=>{
+        return TradeCtr.getPageAdvertiseUser(config,refresh).then((data)=>{
             $('#content').empty();
             $('.no-data').css('display','block');
             var lists = data.list;
@@ -76,18 +75,20 @@ define([
                 var html = '';
                 lists.forEach((item, i) => {
                     item.status = +item.status
-                    html+= buildHtmlFlow(item);
+                    html+= buildHtml(item);
                 });
                 $('.no-data').css('display','none');
                 $('#content').append(html);
             }
             config.start == 1 && initPagination(data);
-        },base.hideLoadingSpin());
+            
+            base.hideLoadingSpin();
+        },base.hideLoadingSpin);
 
     }
 
 
-    function buildHtmlFlow(item){
+    function buildHtml(item){
         if(config.statusList == null || config.statusList.length == 1) {
             return `<tr>
 					<td class="type">${adsStatusList[item.tradeType]}</td>
@@ -124,8 +125,9 @@ define([
         		config.statusList = ['1','2','3'];
         	}
         	config.start = 1;
+        	base.showLoadingSpin();
         	getPageAdvertise(true);
         })
-
+		
     }
 });
