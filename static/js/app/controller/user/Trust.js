@@ -85,7 +85,7 @@ define([
     function buildHtml(item){
     	var photoHtml = ""
     	if(item.photo){
-    		photoHtml = `<div class="photo" style="background-image:url('base.getAvatar(${item.toUserInfo.photo})')"></div>`
+    		photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(item.toUserInfo.photo)}')"></div>`
 		}else{
 			var tmpl = item.toUserInfo.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`

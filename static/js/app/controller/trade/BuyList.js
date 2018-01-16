@@ -73,7 +73,7 @@ define([
     	//头像
     	var photoHtml = ""
     	if(item.user.photo){
-    		photoHtml = `<div class="photo" style="background-image:url('base.getAvatar(${item.user.photo})')"></div>`
+    		photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(item.user.photo)}')"></div>`
 		}else{
 			var tmpl = item.user.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`

@@ -74,7 +74,7 @@ define([
         var photoHtml = ""
         // 头像
         if(data.photo){
-            photoHtml = `<div class="photo" style="background-image:url('base.getAvatar(${data.photo})')"></div>`
+            photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(data.photo)}')"></div>`
         }else{
             var tmpl = data.nickname.substring(0,1).toUpperCase();
             photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
