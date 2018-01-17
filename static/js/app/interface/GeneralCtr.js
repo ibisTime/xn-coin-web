@@ -72,6 +72,12 @@ define([
             	userId: base.getUserId()
             });
         },
-        
+
+        // 获取注册协议
+        getProtocol() {
+            return Ajax.get("625917",{
+                key:'reg_protocol'
+            });
+        },
     };
 })

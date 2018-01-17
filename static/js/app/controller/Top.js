@@ -71,14 +71,14 @@ define([
     	
     	$("#head-user-wrap .isTradePwdFlag").click(function(){
     		UserCtr.getUser().then((data)=>{
-    			if(data.tradepwdFlag&&data.realname){
+    			if(data.tradepwdFlag&&data.realName){
     				base.gohref("../wallet/wallet-eth.html?isWithdraw=1")
     			}else if(!data.tradepwdFlag){
     				base.showMsg("請先設置資金密碼")
     				setTimeout(function(){
     					base.gohref("../user/setTradePwd.html?type=1")
     				},1800)
-    			}else if(!data.realname){
+    			}else if(!data.realName){
     				base.showMsg("請先进行身份验证")
     				setTimeout(function(){
     					base.gohref("../user/identity.html")

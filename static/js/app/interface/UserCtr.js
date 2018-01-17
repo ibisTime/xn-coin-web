@@ -155,6 +155,16 @@ define([
                 ...config
             },refresh);
         },
+        /**
+         * 獲取我推荐的人数和收益统计
+         * @param config {limit, start, userId, type}
+         * type=1 信任，type=0，屏蔽
+         */
+        getInvitation(refresh) {
+            return Ajax.get("805123", {
+                userId: base.getUserId(),
+            },refresh);
+        },
 
     };
 })

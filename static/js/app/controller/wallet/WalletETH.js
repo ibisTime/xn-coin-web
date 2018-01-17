@@ -264,9 +264,9 @@ define([
     			var _this = $(this)
     			//提币/发送 需要验证是否有资金密码 和实名
     			if($(this).hasClass("withdraw")){
-    				UserCtr.getUser().then((data)=>{
-		    			if(data.tradepwdFlag&&data.realname){
-		    				var index = _this.index()
+    				UserCtr.getUser(true).then((data)=>{
+		    			if(data.tradepwdFlag&&data.realName){
+                        var index = _this.index()
 			    			_this.addClass("on").siblings("li").removeClass("on");
 			    			$(".wallet-address .address-Wrap").eq(index).removeClass("hidden").siblings(".address-Wrap").addClass("hidden")
 		    			}else if(!data.tradepwdFlag){
@@ -274,8 +274,8 @@ define([
 		    				setTimeout(function(){
 		    					base.gohref("../user/setTradePwd.html?type=1")
 		    				},1800)
-		    			}else if(!data.realname){
-		    				base.showMsg("請先进行身份验证")
+		    			}else if(!data.realName){
+                            base.showMsg("請先进行身份验证")
 		    				setTimeout(function(){
 		    					base.gohref("../user/identity.html")
 		    				},1800)

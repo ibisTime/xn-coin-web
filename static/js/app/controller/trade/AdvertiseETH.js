@@ -51,7 +51,7 @@ define([
     		
     		//付款时限
     		var html = ''
-    		data2.forEach((item)=>{
+    		data2.reverse().forEach((item)=>{
     			html+=`<option value="${item.dvalue}">${item.dvalue}</option>`
     		});
     		$("#payLimit").html(html);
@@ -75,7 +75,8 @@ define([
     		status = data.status;
     		data.premiumRate = data.premiumRate*100;
     		data.totalCount = base.formatMoney(data.totalCountString)
-    		
+    		data.minTrade = data.minTrade.toFixed(2);
+    		data.maxTrade = data.maxTrade.toFixed(2);
     		$("#form-wrapper").setForm(data);
     		
     		//广告类型
@@ -301,56 +302,69 @@ define([
 		
 		//发布/保存草稿
 		function doSubmit(publishType){
-			var params = _formWrapper.serializeObject();
-			
-			if(code!=""){
-				params.adsCode = code;
+			if(base.getUserId()) {
+                var params = _formWrapper.serializeObject();
+
+                if(code!=""){
+                    params.adsCode = code;
+                }
+
+                params.premiumRate = params.premiumRate/100;
+                //广告类型 0=买币，1=卖币
+                params.tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
+                params.onlyTrust = $("#onlyTrust").hasClass("on")?'1':'0';
+                params.tradeCoin = "ETH";
+                params.tradeCurrency = "CNY";
+                params.publishType = publishType;
+                params.totalCount = base.formatMoneyParse(params.totalCount)
+
+                if($(".time-type .item.on").index()=="1"){
+                    params.displayTime = [{
+                        week:'1',
+                        startTime: $("#timeWrap .time-item:nth-of-type(1) .startTime").val(),
+                        endTime: $("#timeWrap .time-item:nth-of-type(1) .endTime").val()
+                    },{
+                        week:'2',
+                        startTime: $("#timeWrap .time-item:nth-of-type(2) .startTime").val(),
+                        endTime: $("#timeWrap .time-item:nth-of-type(2) .endTime").val()
+                    },{
+                        week:'3',
+                        startTime: $("#timeWrap .time-item:nth-of-type(3) .startTime").val(),
+                        endTime: $("#timeWrap .time-item:nth-of-type(3) .endTime").val()
+                    },{
+                        week:'4',
+                        startTime: $("#timeWrap .time-item:nth-of-type(4) .startTime").val(),
+                        endTime: $("#timeWrap .time-item:nth-of-type(4) .endTime").val()
+                    },{
+                        week:'5',
+                        startTime: $("#timeWrap .time-item:nth-of-type(5) .startTime").val(),
+                        endTime: $("#timeWrap .time-item:nth-of-type(5) .endTime").val()
+                    },{
+                        week:'6',
+                        startTime: $("#timeWrap .time-item:nth-of-type(6) .startTime").val(),
+                        endTime: $("#timeWrap .time-item:nth-of-type(6) .endTime").val()
+                    },{
+                        week:'7',
+                        startTime: $("#timeWrap .time-item:nth-of-type(7) .startTime").val(),
+                        endTime: $("#timeWrap .time-item:nth-of-type(7) .endTime").val()
+                    }]
+                }
+                base.showLoadingSpin()
+                return TradeCtr.submitAdvertise(params).then(()=>{
+                	base.showMsg('操作成功！');
+                	if(params.tradeType=='0') {
+                    	base.gohref('../trade/sell-list.html');
+                	} else {
+                    	base.gohref('../trade/buy-list.html');
+                	}
+            	},base.hideLoadingSpin())
+			}else {
+				base.showMsg('您未登錄！');
+                setTimeout(function () {
+                    base.gohref("../user/login.html")
+                },500)
 			}
-			
-			params.premiumRate = params.premiumRate/100;
-			//广告类型 0=买币，1=卖币
-			params.tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
-			params.onlyTrust = $("#onlyTrust").hasClass("on")?'1':'0';
-			params.tradeCoin = "ETH";
-			params.tradeCurrency = "CNY";
-			params.publishType = publishType;
-			params.totalCount = base.formatMoneyParse(params.totalCount)
-			
-			if($(".time-type .item.on").index()=="1"){
-				params.displayTime = [{
-					week:'1',
-					startTime: $("#timeWrap .time-item:nth-of-type(1) .startTime").val(),
-					endTime: $("#timeWrap .time-item:nth-of-type(1) .endTime").val()
-				},{
-					week:'2',
-					startTime: $("#timeWrap .time-item:nth-of-type(2) .startTime").val(),
-					endTime: $("#timeWrap .time-item:nth-of-type(2) .endTime").val()
-				},{
-					week:'3',
-					startTime: $("#timeWrap .time-item:nth-of-type(3) .startTime").val(),
-					endTime: $("#timeWrap .time-item:nth-of-type(3) .endTime").val()
-				},{
-					week:'4',
-					startTime: $("#timeWrap .time-item:nth-of-type(4) .startTime").val(),
-					endTime: $("#timeWrap .time-item:nth-of-type(4) .endTime").val()
-				},{
-					week:'5',
-					startTime: $("#timeWrap .time-item:nth-of-type(5) .startTime").val(),
-					endTime: $("#timeWrap .time-item:nth-of-type(5) .endTime").val()
-				},{
-					week:'6',
-					startTime: $("#timeWrap .time-item:nth-of-type(6) .startTime").val(),
-					endTime: $("#timeWrap .time-item:nth-of-type(6) .endTime").val()
-				},{
-					week:'7',
-					startTime: $("#timeWrap .time-item:nth-of-type(7) .startTime").val(),
-					endTime: $("#timeWrap .time-item:nth-of-type(7) .endTime").val()
-				}]
-			}
-			base.showLoadingSpin()
-			return TradeCtr.submitAdvertise(params).then(()=>{
-				base.showMsg('操作成功！')
-			},base.hideLoadingSpin())
+
 		}
 		
 		

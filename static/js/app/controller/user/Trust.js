@@ -21,7 +21,9 @@ define([
 		//你屏蔽的人
 		if(type=='2'){
 			$("title").text("信任您的人-倍可盈")
-			$("#left-wrap .trustYou").addClass("on")
+			$("#left-wrap .trustYou").addClass("on");
+            config.type = type
+            getPageTrust(config);
 		//你信任的人
 		}else if(type=='1'){
 			$("title").text("您信任的人-倍可盈")
@@ -65,7 +67,7 @@ define([
     
     //分页获取关系
     function getPageTrust(params){
-    	return UserCtr.getPageTrust(params,true).then((data)=>{
+        return UserCtr.getPageTrust(params,true).then((data)=>{
             var lists = data.list;
     		if(data.list.length){
                 var html = "";
@@ -84,11 +86,11 @@ define([
     
     function buildHtml(item){
     	var photoHtml = ""
-    	if(item.photo){
-    		photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(item.toUserInfo.photo)}')"></div>`
+    	if(item.toUserInfo.photo){
+    		photoHtml = `<div class="photo goHref" style="background-image:url('${base.getAvatar(item.toUserInfo.photo)}')" data-href="./user-detail.html?userId=${item.toUserInfo.userId}"></div>`
 		}else{
 			var tmpl = item.toUserInfo.nickname.substring(0,1).toUpperCase();
-			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
+			photoHtml = `<div class="photo"><div class="noPhoto goHref" data-href="./user-detail.html?userId=${item.toUserInfo.userId}">${tmpl}</div></div>`
 		}
     	
     	return `<tr>

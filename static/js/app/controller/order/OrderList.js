@@ -124,7 +124,7 @@ define([
 					<!--訂單編號截取后8位展示-->
 					<td class="code">${item.code.substring(item.code.length-8)}</td>
 					<td class="type">${typeList[item.type]}</td>
-					<td class="amount">${item.tradePrice}CNY</td>
+					<td class="amount">${item.tradeAmount}CNY</td>
 					<td class="quantity">${base.formatMoney(item.countString)}ETH</td>
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${statusValueList[item.status]}</td>

@@ -1,7 +1,8 @@
 define([
     'app/controller/base',
-    'app/interface/GeneralCtr'
-], function(base,GeneralCtr) {
+    'app/interface/GeneralCtr',
+    'app/interface/UserCtr'
+], function(base,GeneralCtr,UserCtr) {
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -16,9 +17,16 @@ define([
     	var qrcode = new QRCode('qrcode',INVITATION_HREF);
 	 	qrcode.makeCode(INVITATION_HREF);
     	getSysConfig();
+        getInvitation();
         addListener();
     }
     
+    function getInvitation() {
+        return UserCtr.getInvitation().then((data)=>{
+        	$('.inviteCount').append(data.inviteCount);
+        	$('.inviteProfit').append(data.inviteProfit);
+		},base.hideLoadingSpin)
+    }
     function getSysConfig(){
     	return GeneralCtr.getSysConfig("activity_rule").then((data)=>{
     		$(".activity-content").html(data.cvalue.replace(/\n/g,'<br>'));

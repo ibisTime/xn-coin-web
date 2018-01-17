@@ -10,6 +10,7 @@ define([
     // 初始化页面
     function init() {
     	base.showLoadingSpin();
+        // $("#head").addClass("on")
     	getBanner();
     	$(".head-nav-wrap .index").addClass("active")
     	
@@ -67,8 +68,8 @@ define([
     }
 	
     function addListener() {
-		$(window).off("scroll").on("scroll", function() {
-            if ($(document).scrollTop()>10) {
+        $(window).off("scroll").on("load", function() {
+            if ($(document).scrollTop()>=0) {
             	$("#head").addClass("on")
             }else{
             	$("#head").removeClass("on")

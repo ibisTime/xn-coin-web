@@ -67,7 +67,11 @@ define([
 						<div class="item">
 							<p>${data.userStatistics.beiXinRenCount}</p>
 							<samp>信任人數</samp>
-						</div>`;
+						</div>
+                        <div class="item">
+                            <p>${base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount)}</p>
+                             <samp>好評度</samp>
+                        </div>`;
 
 
 
@@ -80,20 +84,7 @@ define([
             photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
         }
 
-         // 好评度
-            if(data.userStatistics.beiHaoPingCount && data.userStatistics.jiaoYiCount) {
-                var haopingdu = `<div class="item">
-							<p>${base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount)}</p>
-							<samp>好評度</samp>
-						</div>`
-            } else {
-                var haopingdu = `<div class="item">
-							<p>0%</p>
-							<samp>好評度</samp>
-						</div>`
-            }
-            $('.statistics').append(html);
-            $('.statistics').append(haopingdu);
+        $('.statistics').append(html);
 
 // 邮箱验证，手机验证，身份验证
         $('.item.email').append(data.email?'<samp>郵箱已驗證</samp>':'<samp>郵箱未驗證</samp>');
@@ -114,7 +105,7 @@ define([
     
 	// 分页查广告
     function getPageAdvertise() {
-        TradeCtr.getPageAdvertiseUser(config, true).then((data)=> {
+        TradeCtr.getPageAdvertiseUserStatus(config, true).then((data)=> {
             $('#content').empty();
             $('.no-data').css('display','block');
             var list = data.list;
@@ -131,6 +122,17 @@ define([
     }
 
     function buildHtmlFlow(item){
+        if(config.tradeType == 1){
+            return `<tr>
+						<td class="currency">${coinList[item.tradeCoin]}</td>
+						<td class="payType">${payType[item.payType]}</td>
+						<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
+						<td class="price">${item.truePrice}CNY/ETH</td>
+						<td class="operation">
+							<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買</div>
+						</td>
+					</tr>`
+        }else {
             return `<tr>
 						<td class="currency">${coinList[item.tradeCoin]}</td>
 						<td class="payType">${payType[item.payType]}</td>
@@ -140,6 +142,8 @@ define([
 							<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售</div>
 						</td>
 					</tr>`
+        }
+
         }
 
     // 初始化交易记录分页器

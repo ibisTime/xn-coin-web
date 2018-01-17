@@ -12,7 +12,8 @@ define([
 	}
     
     function init() {
-    	$(".head-button-wrap .button-register").removeClass("hidden")
+    	$(".head-button-wrap .button-register").removeClass("hidden");
+    	$('.login-container').css('margin-top','68px');
         initSwiperBanner();
         addListener();
         
@@ -51,6 +52,13 @@ define([
 	}
 	
     function addListener() {
+        $(window).off("scroll").on("load", function() {
+            if ($(document).scrollTop()>=0) {
+                $("#head").addClass("on")
+            }else{
+                $("#head").removeClass("on")
+            }
+        });
         var _loginForm = $("#login-form");
 	    _loginForm.validate({
 	    	'rules': {

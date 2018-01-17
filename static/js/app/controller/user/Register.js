@@ -15,7 +15,8 @@ define([
 	}
     
     function init() {
-    	$(".head-button-wrap .button-login").removeClass("hidden")
+    	$(".head-button-wrap .button-login").removeClass("hidden");
+    	$('.register-container.minheight').css('margin-top','68px');
         addListener();
         
     }
@@ -30,7 +31,24 @@ define([
 		},base.hideLoadingSpin)
 	}
 	
+	// 獲取註冊協議的詳情
+	function getProtocol() {
+        GeneralCtr.getProtocol().then((data)=>{
+        	console.log(data);
+        	var html = data.cvalue;
+
+        	// $('.showProtocol').css('width','70%').css('height','60%').css('position','fixed');
+        	// $('.showProtocol').append(html);
+		})
+    }
     function addListener() {
+        $(window).off("scroll").on("load", function() {
+            if ($(document).scrollTop()>=0) {
+                $("#head").addClass("on")
+            }else{
+                $("#head").removeClass("on")
+            }
+        });
         var _registerForm = $("#register-form");
 	    _registerForm.validate({
 	    	'rules': {
@@ -85,5 +103,8 @@ define([
 			}
 		});
 	    
+	    $('.protocol').click(function () {
+            getProtocol();
+        })
     }
 });

@@ -39,7 +39,7 @@ define([
     			$("#email").text(data.email)
     		}else{
     			$("#email").text("未驗證").addClass("no").click(function () {
-                    base.gohref("./identity.html");
+                    base.gohref("./setEmail.html");
                 });
     		}
     		if(data.idNo){
