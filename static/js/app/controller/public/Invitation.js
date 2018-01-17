@@ -2,6 +2,7 @@ define([
     'app/controller/base',
     'app/interface/GeneralCtr'
 ], function(base,GeneralCtr) {
+	var inviteCode = sessionStorage.getItem("inviteCode")
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -12,9 +13,9 @@ define([
     function init() {
     	base.showLoadingSpin();
     	$(".head-nav-wrap .invitation").addClass("active");
-    	$("#invitationDialog .hrefWrap p").html(DOMAIN_NAME+"/user/register.html?ref="+base.getUserMobile())
-    	var qrcode = new QRCode('qrcode',INVITATION_HREF);
-	 	qrcode.makeCode(INVITATION_HREF);
+    	$("#invitationDialog .hrefWrap p").html(DOMAIN_NAME+"/user/register.html?inviteCode="+inviteCode)
+    	var qrcode = new QRCode('qrcode',INVITATION_HREF+"/user/register.html?inviteCode="+inviteCode);
+	 	qrcode.makeCode(INVITATION_HREF+"/user/register.html?inviteCode="+inviteCode);
     	getSysConfig();
         addListener();
     }

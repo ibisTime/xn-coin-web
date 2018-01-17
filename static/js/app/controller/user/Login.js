@@ -41,6 +41,7 @@ define([
 				sessionStorage.setItem("nickname",item.nickname);
 				sessionStorage.setItem("googleAuthFlag",item.googleAuthFlag);
 				sessionStorage.setItem("mobile",item.mobile);
+				sessionStorage.setItem("inviteCode",item.secretUserId);
 				base.hideLoadingSpin()
 				base.showMsg("登錄成功")
 				setTimeout(function(){

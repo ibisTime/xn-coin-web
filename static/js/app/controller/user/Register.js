@@ -6,7 +6,7 @@ define([
     'app/interface/GeneralCtr',
 	'app/module/smsCaptcha',
 ], function(base, Swiper, Validate, UserCtr, GeneralCtr,smsCaptcha) {
-    var userReferee = base.getUrlParam("ref") || "";
+    var inviteCode = base.getUrlParam("inviteCode") || "";
 	
     if(base.isLogin()){
 		base.gohref("../user/user.html")
@@ -58,7 +58,7 @@ define([
 	    		if(_registerForm.valid()){
 		    		base.showLoadingSpin()
 		    		var params=_registerForm.serializeObject()
-		    		userReferee!=""&&userReferee?params.userReferee = userReferee:'';
+		    		inviteCode!=""&&inviteCode?params.inviteCode = inviteCode:'';
 		    		
 		    		register(params);
 		    	}
