@@ -5,7 +5,7 @@ define([
 ], function(base, pagination, TradeCtr) {
 	var config={
         start: 1,
-        limit:20,
+        limit:10,
         tradeType: 1
 	};
 	var bizTypeList = {
@@ -42,7 +42,7 @@ define([
                 if(_this.getCurrent() != config.start){
     				base.showLoadingSpin();
                     config.start = _this.getCurrent();
-                    getPageAdvertise(config);
+                    getPageAdvertise();
                 }
             }
         });
@@ -103,7 +103,7 @@ define([
 					</td>
 					<td class="payType">${bizTypeList[item.payType]}</td>
 					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
-					<td class="price">${item.truePrice}CNY</td>
+					<td class="price">${item.truePrice.toFixed(2)}CNY</td>
 					<td class="operation">
 						<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買ETH</div>
 					</td>

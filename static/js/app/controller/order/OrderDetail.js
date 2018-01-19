@@ -22,12 +22,18 @@ define([
 	var emotionFlag = false;
 	var tradePhoto = '';
 	var tradePhotoMy = '';
-
+	var payType = {};
 	init();
 
 	function init() {
 		base.showLoadingSpin();
-		getOrderDetail();
+        GeneralCtr.getDictList({"parentKey":"pay_type"}).then((data)=>{
+            data.forEach(function(item){
+            	payType[item.dkey] = item.dvalue;
+        	});
+        getOrderDetail();
+    },base.hideLoadingSpin);
+
 		addListener();
 	}
 
@@ -51,16 +57,17 @@ define([
 				$("#statusInfo").html("訂單將在託管中保持至<i>" + base.formatDate(data.invalidDatetime, "hh:mm:ss") + "</i>，逾期未支付交易將自動取消")
 
 				//已取消
-			} else {
+			}else {
 				$("#statusInfo").html(data.remark)
 			}
 
-			$("#tradePrice").html(data.tradePrice)
-			$("#countString").html(base.formatMoney(data.countString))
-			$("#tradeAmount").html(data.tradeAmount)
-			$("#orderCode").html(data.code.substring(data.code.length - 8))
-			$("#payType").html(typeList[data.payType])
-			$("#leaveMessage").html(data.leaveMessage)
+			$("#tradePrice").html(data.tradePrice);
+			$("#countString").html(base.formatMoney(data.countString));
+			$("#tradeAmount").html(data.tradeAmount);
+			$("#orderCode").html(data.code.substring(data.code.length - 8));
+			// $("#payType").html(typeList[data.payType]);
+			$("#payType").html(payType[data.payType]);
+			$("#leaveMessage").html(data.leaveMessage);
 
 			//卖家/买家信息
 			//当前用户为买家，显示卖家信息
@@ -94,7 +101,7 @@ define([
 
 			$("#mobile").html(user.mobile != "" && user.mobile ? '已驗證' : '未驗證')
 			$("#email").html(user.email != "" && user.email ? '已驗證' : '未驗證')
-			$("#identity").html(user.realname != "" && user.realname ? '已驗證' : '未驗證')
+			$("#identity").html(user.realname != "" && user.realName ? '已驗證' : '未驗證')
 			$("#createDatetime").html(base.formateDatetime(user.createDatetime))
 
 			base.hideLoadingSpin();

@@ -13,7 +13,7 @@ define([
     
     function init() {
     	$(".head-button-wrap .button-register").removeClass("hidden");
-    	$('.login-container').css('margin-top','68px');
+    	// $('.login-container').css('margin-top','68px');
         initSwiperBanner();
         addListener();
         
@@ -55,7 +55,7 @@ define([
     function addListener() {
         $(window).off("scroll").on("load", function() {
             if ($(document).scrollTop()>=0) {
-                $("#head").addClass("on")
+                $("#head").addClass("on").css('position','static');
             }else{
                 $("#head").removeClass("on")
             }

@@ -11,7 +11,7 @@ define([
 	
 	var config={
         start: 1,
-        limit: 1,
+        limit: 5,
 	},
 		configAddress={
         start: 1,
@@ -291,7 +291,7 @@ define([
     	})
     	
     	$(".tradeRecord-top ul li").click(function(){
-    		if(!$(this).hasClass("on")){
+    		// if(!$(this).hasClass("on")){
     			var index = $(this).index();
     			$(this).addClass("on").siblings("li").removeClass("on");
     			
@@ -299,7 +299,7 @@ define([
     			config.bizType = bizTypeList[index];
     			config.start = 1;
     			getPageFlow(config);
-    		}
+    		// }
     	})
     	
     	$("#wAddressDialog .am-modal-body ul").on("click","li",function(){

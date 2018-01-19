@@ -16,7 +16,7 @@ define([
     
     function init() {
     	$(".head-button-wrap .button-login").removeClass("hidden");
-    	$('.register-container.minheight').css('margin-top','68px');
+    	// $('.register-container.minheight').css('margin-top','68px');
         addListener();
         
     }
@@ -36,15 +36,12 @@ define([
         GeneralCtr.getProtocol().then((data)=>{
         	console.log(data);
         	var html = data.cvalue;
-
-        	// $('.showProtocol').css('width','70%').css('height','60%').css('position','fixed');
-        	// $('.showProtocol').append(html);
 		})
     }
     function addListener() {
         $(window).off("scroll").on("load", function() {
             if ($(document).scrollTop()>=0) {
-                $("#head").addClass("on")
+                $("#head").addClass("on").css('position','static');
             }else{
                 $("#head").removeClass("on")
             }
