@@ -58,6 +58,26 @@ define([
                 });
     			$("#content").html(html);
     			$(".trade-list-wrap .no-data").addClass("hidden")
+    			
+    			$("#content .operation .goHref").off("click").click(function(){
+		    		if(!base.isLogin()){
+			    		base.goLogin();
+			    		return false;
+			    	}else{
+			    		var thishref = $(this).attr("data-href");
+						base.gohref(thishref)
+			    	}
+		    	})
+    			
+		    	$("#content .photoWrap").off("click").click(function(){
+		    		if(!base.isLogin()){
+			    		base.goLogin();
+			    		return false;
+			    	}else{
+			    		var thishref = $(this).attr("data-href");
+						base.gohref(thishref)
+			    	}
+		    	})
             }else{
             	config.start == 1 && $("#content").empty()
     			config.start == 1 && $(".trade-list-wrap .no-data").removeClass("hidden")

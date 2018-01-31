@@ -11,11 +11,10 @@ define([
         },
         /**
          * 分页查询流水
-         * @param config: {start, limit, accountNumber, bizType}
+         * @param config: {start, limit, accountNumber, bizType,kind}
          */
         getPageFlow(config,refresh) {
             return Ajax.get("802524", {
-            	kind: '0',
             	...config
             }, refresh);
         },

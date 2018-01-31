@@ -12,29 +12,14 @@
 		<link rel="import" href="../top/top.html?__inline">
 		<!--不同状态  卖家 买家展示不同-->
 		<div class="orderDetail-container">
-			<!--<div class="status-wrap">
-				<div class="line"></div>
-				<div class="status-item">
-					<div class="icon icon-yixiadan"></div>
-					<p>已下單</p>
-				</div>
-				<div class="status-item">
-					<div class="icon icon-daifukuan"></div>
-					<p>待付款</p>
-				</div>
-				<div class="status-item">
-					<div class="icon icon-daishifang"></div>
-					<p>待釋放</p>
-				</div>
-				<div class="status-item">
-					<div class="icon icon-daipingjia"></div>
-					<p>待评价</p>
-				</div>
-			</div>-->
 
-			<div class="orderDetail-warn mt20">
+			<div class="orderDetail-warn mt20" id="statusInfo">
 				<i class="icon icon-warn"></i>
-				<samp id="statusInfo"></samp>
+				<samp></samp>
+			</div>
+			<div class="orderDetail-warn mt20 hidden" id="invalidDatetime">
+				<i class="icon icon-warn"></i>
+				<samp></samp>
 			</div>
 
 			<div class="orderDetail-info b_e mb20">
@@ -70,7 +55,7 @@
 						<div class="info-wrap fl ml20">
 							<div class="nickname" id="nickname">junxi</div>
 							<div class="txt">
-								<p><samp>交易量：</samp><samp id="">30+ETH</samp></p>
+								<p><samp>交易量：</samp><samp id="user">30+ETH</samp></p>
 								<p><samp>電子郵箱：</samp><samp id="email"></samp></p>
 							</div>
 							<div class="txt">
@@ -201,6 +186,35 @@
 				</div>
 				<!-- /.modal-dialog -->
 			</div>
+			
+			
+			<!--评价弹窗-->
+		    <div class="am-modal-wrap dialog comment-dialog hidden" id="commentDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-header">
+	                    	<p>交易評價</p>
+	                    </div>
+	                    <div class="am-modal-body">
+	                    	<p class="title">交易有何印象？快來評價吧</p>
+	                    	<div class="comment-Wrap">
+	                    		<div class="item on" data-value="2">
+	                    			<div class="icon icon-good"></div>
+	                    			<p>好評</p>
+	                    		</div>
+	                    		<div class="item ml20" data-value="0">
+	                    			<div class="icon icon-bad"></div>
+	                    			<p>差評</p>
+	                    		</div>
+	                    	</div>
+	                    </div>
+	                    <div class="am-modal-footer">
+	                    	<div class="am-button am-button-red subBtn">提交</div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
 		</div>
 
 		<link rel="import" href="../footer.html?__inline">

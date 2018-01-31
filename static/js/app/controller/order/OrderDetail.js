@@ -22,7 +22,9 @@ define([
 	var emotionFlag = false;
 	var tradePhoto = '';
 	var tradePhotoMy = '';
+	var userName = '', myName='';
 	var payType = {};
+	
 	init();
 
 	function init() {
@@ -31,8 +33,8 @@ define([
             data.forEach(function(item){
             	payType[item.dkey] = item.dvalue;
         	});
-        getOrderDetail();
-    },base.hideLoadingSpin);
+	        getOrderDetail();
+	    },base.hideLoadingSpin);
 
 		addListener();
 	}
@@ -53,14 +55,11 @@ define([
 		return TradeCtr.getOrderDetail(code).then((data) => {
 
 			//待支付
-			if(data.status == '0') {
-				$("#statusInfo").html("訂單將在託管中保持至<i>" + base.formatDate(data.invalidDatetime, "hh:mm:ss") + "</i>，逾期未支付交易將自動取消")
-
-				//已取消
-			}else {
-				$("#statusInfo").html(data.remark)
+			if(data.status == '0'||data.status == '1') {
+				$("#invalidDatetime samp").html("訂單將在託管中保持至<i>" + base.formatDate(data.invalidDatetime, "hh:mm:ss") + "</i>，逾期未支付交易將自動取消")
+				$("#invalidDatetime").removeClass("hidden")
 			}
-
+			$("#statusInfo samp").html(data.remark)
 			$("#tradePrice").html(data.tradePrice);
 			$("#countString").html(base.formatMoney(data.countString));
 			$("#tradeAmount").html(data.tradeAmount);
@@ -80,7 +79,10 @@ define([
 				var user = data.buyUserInfo;
 				var myInfo = data.sellUserInfo;
 				$("#user").html("買家信息")
+				
 			}
+			userName = user.nickname;
+			myName = myInfo.nickname;
 			if(user.photo) {
 				tradePhoto = '<div class="photo" style="background-image:url(\''+base.getAvatar(user.photo)+'\')"></div>'
 			} else {
@@ -98,7 +100,7 @@ define([
 			$("#nickname").html(user.nickname)
 			
 			getTencunLogin();
-
+			
 			$("#mobile").html(user.mobile != "" && user.mobile ? '已驗證' : '未驗證')
 			$("#email").html(user.email != "" && user.email ? '已驗證' : '未驗證')
 			$("#identity").html(user.realname != "" && user.realName ? '已驗證' : '未驗證')
@@ -425,6 +427,7 @@ define([
 		}
 		webim.sendMsg(msg, () => {
 			webim.Tool.setCookie("tmpmsg_" + groupId, '', 0);
+			$('#msgedit').val('')
 		}, () => {
 			base.showMsg('消息发送失败，请重新发送');
 		});
@@ -484,11 +487,15 @@ define([
 		if(fromAccount == 'admin'){
 			msghead.innerHTML =  adminMsg + '<samp>('+webim.Tool.formatText2Html(webim.Tool.formatTimeStamp(msg.getTime()))+")</samp>";
 			onemsg.setAttribute('class','onemsg admin')
+		
+		//对方消息
 		}else if(fromAccount!=base.getUserId()){
-			msghead.innerHTML = "<div class='photoWrap'>"+tradePhoto+"</div><div class='nameWrap'><samp class='name'>" + webim.Tool.formatText2Html(fromAccountNick) + "</samp><samp>" + webim.Tool.formatText2Html(webim.Tool.formatTimeStamp(msg.getTime()))+'</samp></div>';
+			msghead.innerHTML = "<div class='photoWrap'>"+tradePhoto+"</div><div class='nameWrap'><samp class='name'>" + webim.Tool.formatText2Html(userName) + "</samp><samp>" + webim.Tool.formatText2Html(webim.Tool.formatTimeStamp(msg.getTime()))+'</samp></div>';
 			onemsg.setAttribute('class','onemsg user')
+		
+		//我的消息
 		}else{
-			msghead.innerHTML = "<div class='photoWrap'>"+tradePhotoMy+"</div><div class='nameWrap'><samp class='name'>" +  webim.Tool.formatText2Html(fromAccountNick) + "</samp><samp>" + webim.Tool.formatText2Html(webim.Tool.formatTimeStamp(msg.getTime()))+'</samp></div>';
+			msghead.innerHTML = "<div class='photoWrap'>"+tradePhotoMy+"</div><div class='nameWrap'><samp class='name'>" +  webim.Tool.formatText2Html(myName) + "</samp><samp>" + webim.Tool.formatText2Html(webim.Tool.formatTimeStamp(msg.getTime()))+'</samp></div>';
 			onemsg.setAttribute('class','onemsg my')
 		}
 		
@@ -793,7 +800,8 @@ define([
 		
 	    $(document).keyup(function(event){
 			if(event.keyCode==13){
-				$('#send').click()
+				$('#send').click();
+				$('#msgedit').blur()
 			}
 		}); 
 		
@@ -851,6 +859,11 @@ define([
 				showEmotionDialog();
 			}
 		})
+		
+		
+        $("#commentDialog .comment-Wrap .item").click(function(){
+        	$(this).addClass("on").siblings(".item").removeClass("on")
+        })
 
 	}
 });

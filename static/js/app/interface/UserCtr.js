@@ -15,7 +15,7 @@ define([
         },
         /**
          * 注册
-         * @param config {loginName, loginPwd, nickname, smsCaptcha}
+         * @param config {loginName, loginPwd, nickname, smsCaptcha,userReferee}
          */
         register(config) {
             return Ajax.post("805041", {
@@ -165,6 +165,21 @@ define([
                 userId: base.getUserId(),
             },refresh);
         },
-
+        /**
+         * 查询我的推荐历史
+         * @param config {limit, start}
+         */
+        getInvitationHistory(config,refresh){
+            return Ajax.get("805120", {
+                userReferee: base.getUserId(),
+                ...config
+            },refresh);
+        },
+		//更新用户登录时间
+		updateLoginTime(){
+			return Ajax.get("805083", {
+                userid: base.getUserId(),
+            },true);
+		}
     };
 })

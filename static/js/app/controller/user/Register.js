@@ -8,6 +8,9 @@ define([
 ], function(base, Swiper, Validate, UserCtr, GeneralCtr,smsCaptcha) {
     var inviteCode = base.getUrlParam("inviteCode") || "";
 	
+	if(inviteCode!=""){
+		$("#userReferee-Wrap").addClass("hidden")
+	}
     if(base.isLogin()){
 		base.gohref("../user/user.html")
 	}else{
@@ -16,9 +19,17 @@ define([
     
     function init() {
     	$(".head-button-wrap .button-login").removeClass("hidden");
-    	// $('.register-container.minheight').css('margin-top','68px');
+    	base.showLoadingSpin();
+    	getSysConfig();
         addListener();
         
+    }
+    
+    function getSysConfig(){
+    	return GeneralCtr.getSysConfig("reg_protocol").then((data)=>{
+    		$("#content").html(data.cvalue);
+    		base.hideLoadingSpin();
+		},base.hideLoadingSpin)
     }
 	
 	function register(params){
@@ -31,21 +42,7 @@ define([
 		},base.hideLoadingSpin)
 	}
 	
-	// 獲取註冊協議的詳情
-	function getProtocol() {
-        GeneralCtr.getProtocol().then((data)=>{
-        	console.log(data);
-        	var html = data.cvalue;
-		})
-    }
     function addListener() {
-        $(window).off("scroll").on("load", function() {
-            if ($(document).scrollTop()>=0) {
-                $("#head").addClass("on").css('position','static');
-            }else{
-                $("#head").removeClass("on")
-            }
-        });
         var _registerForm = $("#register-form");
 	    _registerForm.validate({
 	    	'rules': {
@@ -63,6 +60,9 @@ define([
 	        	"loginPwd": {
 	        		required: true,
 	        		minlength: 6,
+	        	},
+	        	"userReferee": {
+	        		mobile: true
 	        	},
 	    	},
 	    	onkeyup: false
@@ -101,7 +101,7 @@ define([
 		});
 	    
 	    $('.protocol').click(function () {
-            getProtocol();
+	    	$("#registerDialog").removeClass("hidden")
         })
     }
 });

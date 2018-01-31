@@ -14,6 +14,9 @@
 .ml60{
     margin-left: 60px;
 }
+.mr10{
+    margin-right: 10px;
+}
 .mr20{
     margin-right: 20px;
 }
@@ -23,6 +26,9 @@
 .mr40{
     margin-right: 40px;
 }
+.mr60{
+    margin-right: 60px;
+}
 .mr80{
     margin-right: 80px;
 }
@@ -31,6 +37,9 @@
 }
 .mt20{
     margin-top: 20px;
+}
+.mt90i{
+    margin-top: 90px !important;
 }
 .mb10{
     margin-bottom: 10px;
@@ -498,16 +507,13 @@ table {
 /*首页头部*/
 .index-head{
     width: 100%;
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     z-index: 99;
     height: 96px;
     padding: 16px 0;
-    transition: all .4s;
-    -ms-transition: all .4s;
-    -moz-transition: all .4s;
-    -webkit-transition: all .4s;
+    background-color: #2c2c2c !important;
     .logo{
         width: 129px;
     }
@@ -529,10 +535,6 @@ table {
                     font-weight: bold;
                     line-height: 1;
                     margin-top: 14px;
-                    transition: all .4s;
-                    -ms-transition: all .4s;
-                    -moz-transition: all .4s;
-                    -webkit-transition: all .4s;
                 }
                 samp{
                     display: inline-block;
@@ -547,7 +549,6 @@ table {
     }
     .head-nav-wrap{
         padding: 22px 30px;
-        opacity: 0;
     }
     .head-button-wrap{
         transition: all .4s;
@@ -555,7 +556,6 @@ table {
         -moz-transition: all .4s;
         -webkit-transition: all .4s;
         padding: 15px 0;
-        opacity: 0;
         
         .head-button{
             margin: 0 10px;
@@ -563,37 +563,16 @@ table {
     }
     .head-user-wrap{
         padding: 22px 0;
-        opacity: 0;
         
-    }
-    &.on{
-        height: 68px !important;
-        padding: 14px 0 !important;
-        background-color: #2c2c2c !important;
-        .title p{
-            margin-top: 3px !important;
-        }
-        .head-nav-wrap{
-            padding: 10px 30px;
-            opacity: 1;
-        }
-        .head-button-wrap{
-            padding: 7px 0;
-            opacity: 1;
-        }
-        .head-user-wrap{
-            padding: 10px 0;
-            opacity: 1;
-        }
     }
     
     .head-user-wrap{
         .head-user{
             .head-triangle{
-                top: 35px;
+                top: 49px;
             }
             .down-wrap{
-                padding-top: 28px;
+                padding-top: 42px;
             }
         }
         
@@ -601,13 +580,14 @@ table {
     
     .head-nav-wrap{
         .down-wrap{
-            padding-top: 65px;
-            top: -24px;
+            padding-top: 93px;
+            top: -38px;
+    
         }
         
         &:hover{
             .down-wrap{
-                height: 105px;
+                height: 136px;
             }
         }
     }
@@ -730,6 +710,43 @@ table {
                         width: 100%;
                     }
                 }
+                
+                .text{
+                    width: 0;
+                    height: 0;
+                    overflow: hidden;
+                    opacity: 0;
+                    transition: all .4s;
+                    -ms-transition: all .4s;
+                    -moz-transition: all .4s;
+                    -webkit-transition: all .4s;
+                    position: absolute;
+                    bottom: 40px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    -ms-transform: translateX(-50%);
+                    -moz-transform: translateX(-50%);
+                    -webkit-transform: translateX(-50%);
+                    margin-left: 0px\9;
+                    z-index: 99;
+                    background-color: #fff;
+                    text-align: center;
+                    
+                    p{
+                        position: absolute;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        -ms-transform: translateX(-50%);
+                        -moz-transform: translateX(-50%);
+                        -webkit-transform: translateX(-50%);
+                        margin-left: 0px\9;
+                        font-size: 14px;
+                        color: #000;
+                        line-height: 40px;
+                        white-space: nowrap;
+                        padding: 0 10px;
+                    }
+                }
                 &:hover{
                     .qrcode{
                         width: 124px;
@@ -737,6 +754,19 @@ table {
                         opacity: 1;
                         padding: 3px;
                         margin-left: -62px\9;
+                    }
+                    .tuite{
+                        width: 130px;
+                        height: 40px;
+                        opacity: 1;
+                        margin-left: -65px\9;
+                        
+                    }
+                    .emaill{
+                        width: 160px;
+                        height: 40px;
+                        opacity: 1;
+                        margin-left: -80px\9;
                     }
                 }
             }
@@ -1095,6 +1125,40 @@ table {
             }
         }
     }
+    .register-dialog {
+        .am-modal {
+            width: 740px;
+        }
+        .am-modal-body {
+            height: 460px;
+            overflow-y: auto;
+            margin: 20px 0;
+            color: #484848;
+            line-height: 1.7;
+            scrollbar-face-color: $primary-color;
+        }
+   
+        /* Let's get this party started */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+         
+        /* Track */
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+        }
+         
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 10px;
+            border-radius: 10px;
+            background: rgba(243,31,29,0.8); 
+            -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.3); 
+        }
+
+    }
 }
 
 .all-head{
@@ -1106,6 +1170,20 @@ table {
     }
     .head-button-wrap{
         padding: 10px 0;
+    }
+}
+.photoWrap{
+    width: 80px;
+    position: relative;
+    
+    .photo{
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 }
 .user-container{
@@ -1204,24 +1282,72 @@ table {
         width: 965px;
         min-height: 425px;
     }
-}
-.photoWrap{
-    width: 80px;
-    position: relative;
     
-    .photo{
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        overflow: hidden;
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
+    .editPhoto-dialog{
+        .am-modal{
+            width: 400px;
+        }
+        .am-modal-body{
+            padding: 30px 50px 20px;
+        }
+        
+        .fileBtn-wrap{
+            width: 100px;
+            position: relative;
+            .am-button{
+                height: 34px;
+                line-height: 34px !important;
+                font-size: 14px;
+                position: relative;
+                z-index: 9;
+            }
+            .input-file {
+                display: inline-block;
+                width: 100%;
+                height: 34px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                opacity: 0;
+                z-index: 99;
+                cursor: pointer;
+            }
+        }
+        
+        .img-wrap{
+            padding: 20px 0;
+            
+            .photoWrap{
+                padding: 3px;
+            }
+            .photoWrapSquare{
+                width: 168px;
+                height: 168px;
+                .photo{
+                    width: 160px;
+                    height: 160px;
+                    border-radius: inherit;
+                }
+            }
+            
+            .photoWrapCircular{
+                width: 88px;
+                height: 88px;
+                margin-top: 80px;
+                margin-left: 40px;
+                border-radius: 50%;
+            }
+        }
+        
+        .am-modal-footer .am-button{
+            width: 120px;
+        }
     }
 }
 .userInfo-wrap{
     .info{
         .nickname{
+            height: 80px;
             line-height: 80px;
             font-size: 18px;
             color: #2d2d2d;
@@ -1233,6 +1359,7 @@ table {
             
             .no{
                 color: $red-color;
+                cursor: pointer;
             }
         }
     }
@@ -1775,6 +1902,10 @@ table {
     }
 }
 .wAddress-dialog{
+    .am-modal{
+        min-width: 400px;
+    }
+    
     .am-modal-body{
         ul li{
             width: 100%;
@@ -1939,6 +2070,53 @@ table {
                 font-size: 15px;
                 color: #484848;
             }
+        }
+    }
+    
+    .userReferee-dialog{
+        .am-modal{
+            width: 600px;
+        }
+        .am-modal .am-modal-header{
+            padding-top: 30px;
+        }
+        .trust-wrap .trust-form td{
+            
+            p{
+                word-break:keep-all;
+                white-space:nowrap;  
+            }
+        }
+        .trust-wrap .trust-form .photoWrap{
+            width: 44px;
+            .photo{
+                width: 44px;
+                height: 44px;
+            }
+            
+            .noPhoto{
+                font-size: 20px;
+                line-height: 44px;
+            }
+        }
+        .trust-wrap .trust-form td.credit{
+            width: 250px;
+        }
+        .trust-wrap .trust-form td{
+            padding: 20px 10px;
+            border-bottom: 0;
+            border-top: 1px solid $border-color;
+        }
+        .trust-wrap .trust-form td:first-child{
+            width: 66px;
+            padding-left: 10px;
+        }
+        .trust-wrap .trust-form tr:first-child td{
+            border-top: 0;
+        }
+        .trust-wrap .trust-form td:last-child {
+            width: 100px;
+            padding-right: 10px;
         }
     }
 }
@@ -2466,6 +2644,13 @@ table {
         samp{
             font-size: 18px;
         }
+        .small{
+            font-size: 13px;
+            color: $red-color;
+            i{
+                font-style: normal;
+            }
+        }
     }
     
     .detail-container-wrap{
@@ -2508,6 +2693,11 @@ table {
                     position: relative;
                     top: 4px;
                     margin-left: 12px;
+                }
+                .am-button{
+                    width: 72px;
+                    color: #fff;
+                    margin-top: 15px;
                 }
             }
         }
@@ -2701,15 +2891,24 @@ table {
                 line-height: 24px;
                 font-size: 12px;
                 border-radius: 3px;
-                border: 1px solid transparent;
+                
+                &.am-button-gray{
+                    border: 1px solid #ddd;
+                }
+                &.am-button-red{
+                    border: 1px solid $red-color;
+                }
                 
                 &.am-button:hover{
-                    height: 24px;
                     border: 1px solid $red-color;
                     color: $red-color;
-                    line-height: 22px;
                     background-color: #fff;
                 }
+                
+            }
+            .arbitrationBtn{
+                border: 1px solid $red-color;
+                color: $red-color;
             }
             .operation{
                 width: 170px;
@@ -2827,6 +3026,18 @@ table {
             color: #333;
         }
         
+    }
+    .accountCount{
+        padding-left: 10px;
+        position: relative;
+        top: 10px;
+        samp{
+            font-size: 13px;
+            color: $red-color;
+        }
+        i{
+            font-style: normal;
+        }
     }
     .trade-type-wrap{
         .trade-type{
@@ -3120,12 +3331,25 @@ table {
             border: 1px solid $red-color;
             color: $red-color;
             
-            &.am-button:hover{
+            &:hover{
                 height: 30px;
                 line-height: 30px !important;
                 background-color: $red-color;
                 color: #fff;
             }
+        }
+        .trade-list-wrap .trade-wrap  .am-button-red{
+            color: #fff;
+            
+            &:hover{
+                height: 30px;
+                line-height: 30px !important;
+                background-color: #fff;
+                color: $red-color;
+            }
+        }
+        .trade-list-wrap .trade-wrap .operation{
+            width: 230px;
         }
     }
     .no-data{
@@ -3553,6 +3777,7 @@ table {
             
         }
     }
+    
 }
 .number-item-wrap{
     padding-top: 0 !important;
@@ -3563,7 +3788,56 @@ table {
         padding-bottom: 12px;
     }
 }
-
+.comment-dialog{
+    .am-modal-header{
+        padding: 30px 0 10px;
+    }
+    .am-modal-body {
+        .title{
+            font-size: 14px;
+            color: #484848;
+            text-align: center;
+        }
+    }
+    .comment-Wrap{
+        overflow: hidden;
+        padding: 40px 30px 20px;
+        
+        .item{
+            width: 100px;
+            float: left;
+            text-align: center;
+            
+            .icon{
+                width: 50px;
+                height: 50px;
+                background-size: 40px;
+            }
+            .icon-good{
+                background-image: url('../images/好评灰@2x.png');
+            }
+            .icon-bad{
+                background-image: url('../images/差评灰@2x.png');
+            }
+            
+            &.on{
+                p{
+                    color: $red-color;
+                }
+                
+                .icon-good{
+                    background-image: url('../images/好评红@2x.png');
+                }
+                .icon-bad{
+                    background-image: url('../images/差评红@2x.png');
+                }
+            }
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+}
 
 
 

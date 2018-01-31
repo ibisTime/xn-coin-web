@@ -93,18 +93,29 @@ define([
     		if(item.status=="0"){
 				operationHtml=`<div class="am-button am-button-red payBtn" data-ocode="${item.code}">標記付款</div>
 								<div class="am-button am-button-gray ml5 cancelBtn" data-ocode="${item.code}">取消交易</div>`;
+			}else if(item.status=="2"){
+				if(item.bsComment!="0"&&item.bsComment!="2"){
+					operationHtml=`<div class="am-button am-button-red commentBtn"  data-ocode="${item.code}">交易評價</div>`
+				}
 			}
     	//当前用户为卖家
     	}else{
     		var user = item.buyUserInfo;
+    		
+    		//待支付
+    		if(item.status=="1"){
+				operationHtml=`<div class="am-button am-button-red releaseBtn mr10" data-ocode="${item.code}">释放货币</div>`;
+			}else if(item.status=="2"){
+				if(item.sbComment!="0"&&item.sbComment!="2"){
+					operationHtml=`<div class="am-button am-button-red commentBtn"  data-ocode="${item.code}">交易評價</div>`
+				}
+			}
     	}
     	
     	//操作按鈕
     	//已支付，待释放
 		if(item.status=="1"){
-			operationHtml=`<div class="am-button am-button-red arbitrationBtn"  data-ocode="${item.code}">申请仲裁</div>`
-		}else if(item.status=="2"){
-			operationHtml=`<div class="am-button am-button-red commentBtn"  data-ocode="${item.code}">交易評價</div>`
+			operationHtml+=`<div class="am-button arbitrationBtn"  data-ocode="${item.code}">申请仲裁</div>`
 		}
     	
     	if(user.photo){
@@ -121,7 +132,6 @@ define([
 						</div>
 						<samp class="name">${user.nickname}</samp>
 					</td>
-					<!--訂單編號截取后8位展示-->
 					<td class="code">${item.code.substring(item.code.length-8)}</td>
 					<td class="type">${typeList[item.type]}</td>
 					<td class="amount">${item.tradeAmount}CNY</td>
@@ -169,7 +179,7 @@ define([
         	var orderCode = $(this).attr("data-ocode");
         	base.confirm("確認標記打款？").then(()=>{
         		base.showLoadingSpin()
-        		TradeCtr.paylOrder(orderCode).then(()=>{
+        		TradeCtr.payOrder(orderCode).then(()=>{
         			base.hideLoadingSpin();
         			
         			base.showMsg("操作成功");
@@ -229,6 +239,46 @@ define([
         //交易評價按钮 点击
         $("#content").on("click", ".operation .commentBtn", function(){
         	var orderCode = $(this).attr("data-ocode");
+        	$("#commentDialog .subBtn").attr("data-ocode",orderCode)
+        	$("#commentDialog").removeClass("hidden")
+        })
+        
+        //释放货币按钮 点击
+        $("#content").on("click", ".operation .releaseBtn", function(){
+        	var orderCode = $(this).attr("data-ocode");
+        	base.confirm("確認释放货币？").then(()=>{
+        		base.showLoadingSpin()
+        		TradeCtr.releaseOrder(orderCode).then(()=>{
+        			base.hideLoadingSpin();
+        			
+        			base.showMsg("操作成功");
+        			setTimeout(function(){
+			            base.showLoadingSpin();
+			            getPageOrder(true)
+        			},1500)
+        		},base.hideLoadingSpin)
+        	},base.emptyFun)
+        })
+        
+        $("#commentDialog .comment-Wrap .item").click(function(){
+        	$(this).addClass("on").siblings(".item").removeClass("on")
+        })
+        
+        $("#commentDialog .subBtn").click(function(){
+        	var orderCode= $(this).attr("data-ocode");
+        	var comment = $("#commentDialog .comment-Wrap .item.on").attr("data-value");
+        	
+        	base.showLoadingSpin();
+        	TradeCtr.commentOrder(orderCode,comment).then(()=>{
+    			base.hideLoadingSpin();
+    			base.showMsg("操作成功");
+    			$("#commentDialog").addClass("hidden");
+    			setTimeout(function(){
+		            base.showLoadingSpin();
+		            $("#commentDialog .comment-Wrap .item").eq(0).addClass("on").siblings(".item").removeClass("on")
+		            getPageOrder(true)
+    			},1500)
+    		},base.hideLoadingSpin)
         })
         
     }

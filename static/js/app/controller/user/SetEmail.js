@@ -13,6 +13,8 @@ define([
 	}
     
     function init() {
+    	
+        base.hideLoadingSpin();
         addListener();
     }
     

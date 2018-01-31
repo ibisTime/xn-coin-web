@@ -11,11 +11,11 @@ define([
 	
 	var config={
         start: 1,
-        limit: 5,
+        limit: 10,
 	},
 		configAddress={
         start: 1,
-        limit: 1,
+        limit: 10,
 	},accountNumber;
 	
 	var bizTypeList={
@@ -83,11 +83,18 @@ define([
 			}
 		}
 		
-		GeneralCtr.getDictList({"parentKey":"jour_biz_type"}).then((data)=>{
+		$.when(
+			GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
+			GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"})
+		).then((data1,data2)=>{
     		
-    		data.forEach(function(item){
+    		data1.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
     		})
+    		data2.forEach(function(item){
+    			bizTypeValueList[item.dkey] = item.dvalue
+    		})
+    		
     		getAccount();
     	},base.hideLoadingSpin)
 		
@@ -112,17 +119,17 @@ define([
 		    		$("#myCoinAddress").text(item.coinAddress);
 			    	var qrcode = new QRCode('qrcode',item.coinAddress);
 				 	qrcode.makeCode(item.coinAddress);
+				 	$("#sendOut-form .amount").attr("placeholder","發送數量，本次最多可發送"+base.formatMoneySubtract(item.amountString,item.frozenAmountString)+"ETH")
     			}
     			
     		})
     		getPageFlow(config);
-    		base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
     
     // 初始化交易记录分页器
     function initPaginationFlow(data){
-        $("#pagination .pagination").pagination({
+    	$("#pagination .pagination").pagination({
             pageCount: data.totalPage,
             showData: config.limit,
             jump: true,
@@ -185,11 +192,11 @@ define([
                     html += buildHtmlAddress(item, i);
                 });
     			$("#wAddressDialog .list").html(html)
-            	config.start == 1 && initPaginationAddress(data);
             }else{
-            	config.start == 1 && $(".tradeRecord-list-wrap .list-wrap").empty()
+            	config.start == 1 && $("#wAddressDialog .list").empty()
     			config.start == 1 && $("#wAddressDialog .list").html("<div class='tc ptb30 fs13'>暂无地址</div>")
             }
+        	config.start == 1 && initPaginationAddress(data);
             base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
@@ -199,7 +206,7 @@ define([
     
     // 初始化地址分页器
     function initPaginationAddress(data){
-        $("#paginationAddress .pagination").pagination({
+    	$("#paginationAddress .pagination").pagination({
             pageCount: data.totalPage,
             showData: config.limit,
             jump: true,

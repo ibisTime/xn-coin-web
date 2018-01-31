@@ -38,7 +38,6 @@ define([
         addListener();
     }
 
-
     // 初始化交易记录分页器
     function initPagination(data){
         $("#pagination .pagination").pagination({
@@ -64,24 +63,22 @@ define([
         });
     }
 
-
 	// 获取广告列表
     function getPageAdvertise(refresh) {
         return TradeCtr.getPageAdvertiseUser(config,refresh).then((data)=>{
-            $('#content').empty();
-            $('.no-data').css('display','block');
-            var lists = data.list;
-            if(data.list.length) {
-                var html = '';
+        	var lists = data.list;
+    		if(data.list.length){
+                var html = "";
                 lists.forEach((item, i) => {
-                    item.status = +item.status
-                    html+= buildHtml(item);
+                    html += buildHtml(item);
                 });
-                $('.no-data').css('display','none');
-                $('#content').append(html);
+    			$("#content").html(html);
+    			$(".trade-list-wrap .no-data").addClass("hidden")
+            }else{
+            	config.start == 1 && $("#content").empty()
+    			config.start == 1 && $(".trade-list-wrap .no-data").removeClass("hidden")
             }
             config.start == 1 && initPagination(data);
-            
             base.hideLoadingSpin();
         },base.hideLoadingSpin);
 
@@ -89,29 +86,35 @@ define([
 
 
     function buildHtml(item){
+    	var operationHtml = ''
+    	
+    	//待发布
         if(config.statusList == null || config.statusList.length == 1) {
-            return `<tr>
-					<td class="type">${adsStatusList[item.tradeType]}</td>
-					<td class="price">${item.truePrice}</td>
-					<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
-					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
-					<td class="status">${adsStatusValueList[item.status]}</td>
-					<td class="operation">
-						<div class="am-button am-button-ghost publish goHref" data-href="../trade/advertise-eth.html?code=${item.code}">發佈</div>
-					</td>
-				</tr>`
-        }else {
-            return `<tr>
-					<td class="type">${adsStatusList[item.tradeType]}</td>
-					<td class="price">${item.truePrice}</td>
-					<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
-					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
-					<td class="status">${adsStatusValueList[item.status]}</td>
-					<td class="operation">
-						<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">查看详情</div>
-					</td>
-				</tr>`
+        	operationHtml = `<div class="am-button am-button-red publish goHref mr20" data-href="../trade/advertise-eth.html?code=${item.code}">發佈</div>`
+        
+        //已发布 
+        }else{
+        	//已上架
+	        if(item.status=="1"){
+	        	operationHtml = `<div class="am-button am-button-red mr20 doDownBtn" data-code="${item.code}">下架</div>`
+	    	}
+	        if(type=='buy'){
+				operationHtml+=`<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}&isD=1">查看详情</div>`
+	    	}else if(type=='sell'){
+				operationHtml+=`<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}&isD=1">查看详情</div>`
+	    	}
         }
+    	
+        //<td class="type">${adsStatusList[item.tradeType]}</td>
+            return `<tr>
+					<td class="price">${item.truePrice}</td>
+					<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
+					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
+					<td class="status tc">${adsStatusValueList[item.status]}</td>
+					<td class="operation">
+						${operationHtml}
+					</td>
+				</tr>`
 
     }
 
@@ -129,5 +132,21 @@ define([
         	getPageAdvertise(true);
         })
 		
+		$("#content").on("click", ".doDownBtn", function(){
+			var adsCode = $(this).attr("data-code");
+        	base.confirm("確認下架此廣告？").then(()=>{
+        		base.showLoadingSpin()
+        		TradeCtr.downAdvertise(adsCode).then(()=>{
+        			base.hideLoadingSpin();
+        			
+        			base.showMsg("操作成功");
+        			setTimeout(function(){
+			            base.showLoadingSpin();
+			            config.start = 1;
+			            getPageAdvertise(true)
+        			},1500)
+        		},base.hideLoadingSpin)
+        	},base.emptyFun)
+		})
     }
 });

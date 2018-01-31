@@ -17,6 +17,8 @@ define([
     	$(".head-button-wrap .button-login").removeClass("hidden")
     	$(".head-button-wrap .button-login").removeClass("hidden")
     	$(".head-button-wrap .button-register").removeClass("hidden")
+    	
+        base.hideLoadingSpin();
         addListener();
         
     }

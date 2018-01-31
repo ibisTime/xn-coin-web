@@ -12,7 +12,7 @@
         <div class="invitation-wrap wp100">
         	<div class="invitation-top wp100 mb20"></div>
         	<div class="invitation-content over-hide bg_fff">
-        		<div class="fl txt mr250">
+        		<div class="fl txt mr250 cur-pointer" id="myInvitationList">
         			<p>成功邀請</p>
         			<p><samp class="inviteCount"></samp>人</p>
         		</div>
@@ -59,6 +59,45 @@
 	                    	<div class="hrefWrap b_e">
 	                    		<p>http://localhost:400915761663457</p>
 	                    	</div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
+		    
+		    <!--推荐人列表弹窗-->
+		    <div class="am-modal-wrap dialog userReferee-dialog hidden" id="userRefereeDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                	<div class="am-modal-header">
+	                    	<p>推薦歷史</p>
+	                    </div>
+	                    <div class="am-modal-body">
+	                    	<div class="trust-wrap over-hide wp100">
+								<table id="userRefereeList" class="wp100 trust-form" cellpadding="0" cellspacing="0">
+									<!--<tr>
+										<td>
+											<div class="photoWrap">
+												<div class="photo"><div class="noPhoto">J</div></div>
+											</div>
+										</td>
+										<td><div class="txt1">junxi</div></td>
+										<td class="credit">
+											<p>交易15·好評率100% · 信任15</p>
+										</td>
+										<td>
+											<div class="datetime">2018-01-25</div>
+										</td>
+									</tr>-->
+								</table>
+							</div>
+							<div class="no-data hidden">
+								<img src="../../images/暂无明细.png" />
+								<p>暫無推薦歷史</p>
+							</div>
+							<div id="pagination" class="wp100 pagination-wrap dialog-pagination-wrap tc">
+								<p class="pagination"></p>
+							</div>
 	                    </div>
 	                </div>
 	            </div>

@@ -16,6 +16,8 @@ define([
     
     function init() {
     	$("#mobile").val(base.getUserMobile())
+    	
+        base.hideLoadingSpin();
         addListener();
     }
     

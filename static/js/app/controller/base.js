@@ -22,6 +22,7 @@ define([
     $("body").on("click",".goHref", function(){
     	var thishref = $(this).attr("data-href");
     	if(thishref!=""&&thishref){
+    		Base.updateLoginTime();
 			Base.gohref(thishref)
     	}
     })
@@ -146,7 +147,7 @@ define([
 		    //保留8位小数
 		    s = new BigDecimal.BigDecimal(s);
 		    s = s.divide(new BigDecimal.BigDecimal("1e18"), t||8, BigDecimal.MathContext.ROUND_DOWN).toString();
-		    return s;
+		    return parseFloat(s);
         },
         //金额减法 s1-s2
         formatMoneySubtract: function(s1, s2) {
@@ -470,6 +471,12 @@ define([
         		return '100%';
         	}
         	return n1/n2*100+"%"
+        },
+        //更新登录时间
+        updateLoginTime: function(){
+        	return Ajax.get("805083", {
+                userid: Base.getUserId()
+            },true)
         }
     };
     return Base;

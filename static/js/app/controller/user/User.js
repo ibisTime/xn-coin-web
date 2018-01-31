@@ -1,7 +1,9 @@
 define([
     'app/controller/base',
-    'app/interface/UserCtr'
-], function(base, UserCtr) {
+    'app/interface/UserCtr',
+    'app/interface/GeneralCtr',
+    'app/module/qiniu'
+], function(base, UserCtr, GeneralCtr, QiniuUpdata) {
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -12,8 +14,11 @@ define([
     
     function init() {
     	base.showLoadingSpin();
-    	getUser();
         addListener();
+    	$.when(
+        	getUser(),
+        	getQiniuToken()
+        )
     }
     
     //获取用户详情
@@ -33,7 +38,7 @@ define([
     		$("#mobile").html(base.hideMobile(data.mobile))
     		$("#beiXinRenCount").text(data.userStatistics.beiXinRenCount)
     		$("#jiaoYiCount").text(data.userStatistics.jiaoYiCount)
-    		$("#totalTradeCount").text(data.userStatistics.totalTradeCount)
+    		$("#totalTradeCount").text(base.formatMoney(data.userStatistics.totalTradeCount))
     		
     		if(data.email){
     			$("#email").text(data.email)
@@ -49,12 +54,66 @@ define([
                     base.gohref("./identity.html");
 				});
     		}
-    		
+    		base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
-    function goIdentity() {
-
+    
+    //加载七牛token
+	function getQiniuToken(){
+		return GeneralCtr.getQiniuToken().then((data)=>{
+			var token = data.uploadToken;
+			
+    		base.showLoadingSpin();
+			QiniuUpdata.uploadInit({
+	        	btnId:'photoFile',
+	        	containerId:'photoFile-wrap',
+	        	starBtnId: 'subBtn',
+	        	token: token
+	        })
+        	
+			base.hideLoadingSpin();
+    	},base.hideLoadingSpin)
 	}
+    
+    function changePhoto(){
+		return UserCtr.changePhoto($("#editPhotoDialog .img-wrap .photoWrapSquare .photo").attr("data-src")).then((data)=>{
+			base.hideLoadingSpin();
+        	$("#editPhotoDialog").addClass("hidden")
+			base.showMsg("修改成功")
+    	},base.hideLoadingSpin)
+	}
+    
     function addListener() {
+    	
+    	$("#editPhoto").click(function(){
+        	$("#editPhotoDialog").removeClass("hidden")
+    	})
+    	$("#editPhotoDialog .cancelBtn").click(function(){
+        	$("#editPhotoDialog").addClass("hidden");
+        	$("#editPhotoDialog .img-wrap .photoWrapSquare .photo").attr("data-src","")
+        	$("#editPhotoDialog .img-wrap").addClass("hidden")
+    	})
+    	
+    	//选择图片
+    	$("#photoFile").bind('change',function(){
+        	if($(this).attr("data-src")!=""){
+        		var src= $(this).attr("data-src");
+	        	$("#editPhotoDialog .img-wrap").removeClass("hidden")
+	        	$("#editPhotoDialog .img-wrap .photo").css({"background-image":"url('"+base.getPic(src)+"')"})
+	        	$("#editPhotoDialog .img-wrap .photo").attr("data-src",src)
+        	}
+	        	
+        })
+    	
+    	//提交按钮
+    	$("#subBtn").click(function(){
+    		var src = $("#editPhotoDialog .img-wrap .photoWrapSquare .photo").attr("data-src")
+    		if(src==""||!src){
+    			base.showMsg("请选择图片");
+    			return;
+    		}
+    		base.showLoadingSpin();
+			changePhoto();
+        })
     }
 });

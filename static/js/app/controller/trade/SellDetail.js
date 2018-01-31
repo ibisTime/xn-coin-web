@@ -6,6 +6,7 @@ define([
     'app/interface/TradeCtr'
 ], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
 	var code = base.getUrlParam("code");
+	var isDetail = !!base.getUrlParam("isD");//是否我的广告查看详情
 	var bizTypeList = {
             "0": "支付宝",
             "1": "微信",
@@ -23,6 +24,10 @@ define([
     	base.showLoadingSpin();
     	$(".head-nav-wrap .buy").addClass("active");
     	
+    	if(!isDetail){
+    		$(".buy-wrap").removeClass("hidden")
+    		$("#chatBtn").removeClass("hidden");
+    	}
     	GeneralCtr.getSysConfig("trade_remind").then((data)=>{
     		$("#tradeWarn").html(data.cvalue.replace(/\n/g,'<br>'))
     		getAdvertiseDetail();
@@ -44,6 +49,9 @@ define([
     		
     		config.tradePrice = data.truePrice.toFixed(2);
     		$("#nickname").html(data.user.nickname)
+    		if(data.status=="1"&&isDetail){
+    			$("#doDownBtn").removeClass("hidden");
+    		}
     		$("#jiaoYiCount").html(data.user.userStatistics.jiaoYiCount)
     		$("#beiXinRenCount").html(data.user.userStatistics.beiXinRenCount)
     		$("#beiHaoPingCount").html(base.getPercentum(data.user.userStatistics.beiHaoPingCount,data.user.userStatistics.beiPingJiaCount))
@@ -77,38 +85,39 @@ define([
     	_formWrapper.validate({
     		'rules': {
     			'buyAmount':{
-    				min: '0'
+    				min: '0',
+    				amountCny: true
     			},
     			'buyEth':{
-    				min: '0'
+    				min: '0',
+    				amount: true
     			},
     		}
     	})
     	
     	//立即下单点击
 	    $("#buyBtn").click(function(){
-	    	if(_formWrapper.valid()){
-	    		if($("#buyAmount").val()!=''&&$("#buyAmount").val()){
-					$("#submitDialog").removeClass("hidden")
-		    	}else{
-		    		base.showMsg("請輸入您購買的金額")
-		    	}
-	    	}
-//	    	UserCtr.getUser().then((data)=>{
-//  			if(data.tradepwdFlag&&data.realname){
-//			    	
-//  			}else if(!data.tradepwdFlag){
-//  				base.showMsg("請先設置資金密碼")
-//  				setTimeout(function(){
-//  					base.gohref("../user/setTradePwd.html?type=1")
-//  				},1800)
-//  			}else if(!data.realname){
-//  				base.showMsg("請先进行身份验证")
-//  				setTimeout(function(){
-//  					base.gohref("../user/identity.html")
-//  				},1800)
-//  			}
-//  		},base.hideLoadingSpin)
+	    	UserCtr.getUser().then((data)=>{
+    			if(data.tradepwdFlag&&data.realname){
+			    	if(_formWrapper.valid()){
+			    		if($("#buyAmount").val()!=''&&$("#buyAmount").val()){
+							$("#submitDialog").removeClass("hidden")
+				    	}else{
+				    		base.showMsg("請輸入您購買的金額")
+				    	}
+			    	}
+    			}else if(!data.tradepwdFlag){
+    				base.showMsg("請先設置資金密碼")
+    				setTimeout(function(){
+    					base.gohref("../user/setTradePwd.html?type=1")
+    				},1800)
+    			}else if(!data.realname){
+    				base.showMsg("請先进行身份验证")
+    				setTimeout(function(){
+    					base.gohref("../user/identity.html")
+    				},1800)
+    			}
+    		},base.hideLoadingSpin)
     	})
     	
     	//下单确认弹窗-放弃点击
@@ -136,6 +145,17 @@ define([
 			config.tradeAmount = $("#buyAmount").val()
     		config.count=base.formatMoneyParse($("#buyEth").val())
     	})
-    	
+    	//下架-点击
+    	$("#doDownBtn").click(function(){
+        	base.confirm("確認下架此廣告？").then(()=>{
+        		base.showLoadingSpin()
+        		TradeCtr.downAdvertise(code).then(()=>{
+        			base.hideLoadingSpin();
+        			
+        			base.showMsg("操作成功");
+        			$("#doDownBtn").addClass("hidden")
+        		},base.hideLoadingSpin)
+        	},base.emptyFun)
+		})
     }
 });

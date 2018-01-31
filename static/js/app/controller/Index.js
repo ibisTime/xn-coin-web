@@ -10,15 +10,9 @@ define([
     // 初始化页面
     function init() {
     	base.showLoadingSpin();
-        // $("#head").addClass("on")
     	getBanner();
     	$(".head-nav-wrap .index").addClass("active")
     	
-    	if ($(document).scrollTop()>10) {
-        	$("#head").addClass("on")
-        }else{
-        	$("#head").removeClass("on")
-        }
         addListener();
     }
     
@@ -68,13 +62,6 @@ define([
     }
 	
     function addListener() {
-        $(window).off("scroll").on("load", function() {
-            if ($(document).scrollTop()>=0) {
-            	$("#head").addClass("on")
-            }else{
-            	$("#head").removeClass("on")
-            }
-        });
         
         $("#swiper").on("touchstart", ".swiper-slide div", function (e) {
             var touches = e.originalEvent.targetTouches[0],

@@ -15,6 +15,7 @@ define([
     
     function init() {
     	base.showLoadingSpin();
+    	$("#mobile").val(base.getUserMobile())
     	getGooglePwd();
         addListener();
     }

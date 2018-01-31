@@ -10,6 +10,8 @@ define([
     // 初始化页面
     function init() {
     	base.showLoadingSpin()
+    	$("#footTeTui").html(FOOT_TETUI)
+		$("#footEmail").html(FOOT_EMAIL)
     	if(base.isLogin()){
     		$("#head-user-wrap .nickname").text(sessionStorage.getItem("nickname"))
     		$("#head-user-wrap").removeClass("hidden");
@@ -39,7 +41,6 @@ define([
 	            	$('#wxImg').attr("src",base.getPic(item.pic));
 	        	}
         	})
-        	base.hideLoadingSpin()
         }, (msg) => {
             base.showMsg(msg || "加载失败");
         });
@@ -54,6 +55,7 @@ define([
     				$("#head-user-wrap .wallet .wallet-account-mx .eth .amount").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString));
 		    		$("#head-user-wrap .wallet .wallet-account-mx .eth .frozenAmountString").text(base.formatMoney(item.frozenAmountString));
 		    		$("#head-user-wrap .wallet .wallet-account-wrap .eth samp").text(base.formatMoney(item.amountString));
+		    		$(".accountLeftCountString").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString))
     			}
     			
     		})
@@ -67,6 +69,26 @@ define([
     	})
     	$(".am-modal-mask").click(function(){
     		$(this).parent(".dialog").addClass("hidden")
+    	})
+    	
+    	$("#head .head-nav-wrap .advertise .goHref").off("click").click(function(){
+    		if(!base.isLogin()){
+	    		base.goLogin();
+	    		return false;
+	    	}else{
+	    		var thishref = $(this).attr("data-href");
+				base.gohref(thishref)
+	    	}
+    	})
+    	
+    	$("#head .head-nav-wrap .invitation").off("click").click(function(){
+    		if(!base.isLogin()){
+	    		base.goLogin();
+	    		return false;
+	    	}else{
+	    		var thishref = $(this).attr("data-href");
+				base.gohref(thishref)
+	    	}
     	})
     	
     	$("#head-user-wrap .isTradePwdFlag").click(function(){

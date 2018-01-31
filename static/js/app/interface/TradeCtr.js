@@ -106,10 +106,25 @@ define([
             });
         },
         //訂單-標記打款
-        paylOrder(code) {
+        payOrder(code) {
             return Ajax.get("625243",{
             	updater: base.getUserId(),
             	code
+            });
+        },
+        //訂單-释放以太币
+        releaseOrder(code) {
+            return Ajax.get("625244",{
+            	updater: base.getUserId(),
+            	code
+            });
+        },
+        //訂單-评价
+        commentOrder(code,comment) {
+            return Ajax.get("625245",{
+            	updater: base.getUserId(),
+            	code,
+            	comment
             });
         },
         /**

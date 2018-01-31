@@ -37,6 +37,7 @@ define([
     			$(".setGoogle .open").removeClass("hidden")
     		}
     		
+        base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
     

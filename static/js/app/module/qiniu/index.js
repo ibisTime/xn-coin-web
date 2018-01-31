@@ -97,7 +97,9 @@ define([
 
                         // console.log(sourceLink);
 						//上传后的图片显示
-                        $("#showAvatar").attr("src", sourceLink).attr("data-src", res.key);
+//                      $("#showAvatar").attr("src", sourceLink).attr("data-src", res.key);
+                        $("#"+btnId).attr("data-src",res.key)
+                        $("#"+btnId).change();
                         option.fileUploaded && option.fileUploaded(up, sourceLink, res.key, file);
                     },
                     'Error': function(up, err, errTip) {

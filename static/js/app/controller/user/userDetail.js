@@ -39,7 +39,7 @@ define([
             	payType[item.dkey] = item.dvalue;
             })
 			getPageAdvertise();
-			
+			base.hideLoadingSpin()
 		},base.hideLoadingSpin)
         addListener();
     }
@@ -106,22 +106,24 @@ define([
 	// 分页查广告
     function getPageAdvertise() {
         TradeCtr.getPageAdvertiseUserStatus(config, true).then((data)=> {
-            $('#content').empty();
-            $('.no-data').css('display','block');
-            var list = data.list;
-            if(data.list.length) {
-                var html = '';
-                list.forEach((item, i) => {
-                    html+= buildHtmlFlow(item);
+        	 var lists = data.list;
+    		if(data.list.length){
+                var html = "";
+                lists.forEach((item, i) => {
+                    html += buildHtml(item);
                 });
-                $('.no-data').css('display','none');
-                $('#content').append(html);
+    			$("#content").html(html)
+    			$(".trade-list-wrap .no-data").addClass("hidden")
+            }else{
+            	config.start == 1 && $("#content").empty()
+    			config.start == 1 && $(".trade-list-wrap .no-data").removeClass("hidden")
             }
-	        config.start == 1 && initPagination(data);
+        	config.start == 1 && initPagination(data);
+            base.hideLoadingSpin();
         },base.hideLoadingSpin)
     }
 
-    function buildHtmlFlow(item){
+    function buildHtml(item){
         if(config.tradeType == 1){
             return `<tr>
 						<td class="currency">${coinList[item.tradeCoin]}</td>
@@ -172,7 +174,7 @@ define([
     }
     function addListener() {
         // 切换在线购买和在线出售
-        $('.titleStatus.over-hide li').click(function () {
+        $('.titleStatus li').click(function () {
             var _this = $(this)
             _this.addClass("on").siblings('li').removeClass("on");
             if(_this.hasClass("sell")) {
@@ -180,68 +182,63 @@ define([
             }else if(_this.hasClass("buy")) {
                 config.tradeType = 0;
             }
+            base.showLoadingSpin();
+            config.start = 1;
             getPageAdvertise();
         })
         
         // 信任按钮的点击事件
         $('.infoWrap .trust').click(function () {
-            if(base.getUserId()){
-                relationConfig.type = '1';
-                var _this = $(this);
-                if(_this.attr("data-isTrust")=='1') {
-                    base.showLoadingSpin();
-                    UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
-                        _this.empty().append('信任');
-                        base.showMsg('已取消信任');
-                    },base.hideLoadingSpin())
-                } else {
-                    base.showLoadingSpin();
-                    UserCtr.addUserRelation(relationConfig,true).then((data)=>{
-                        _this.empty().append('已信任');
-                        if($('.infoWrap .black').attr("data-isAddBlackList")=='1') {
-                            $('.infoWrap .black').empty().append('屏蔽');
-                            $('.infoWrap .black').attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
-                        }
-                        base.showMsg('已信任');
-                    },base.hideLoadingSpin())
-                }
-                _this.attr("data-isTrust",_this.attr("data-isTrust")=='1'?'0':'1');
-            }else {
-                base.showMsg('您未登錄');
-                setTimeout(function () {
-                    base.gohref("../user/login.html")
-                },500)
+            relationConfig.type = '1';
+            var _this = $(this);
+            base.showLoadingSpin();
+            if(_this.attr("data-isTrust")=='1') {
+                
+                UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
+                    _this.empty().append('信任');
+                    
+            		_this.attr("data-isTrust",_this.attr("data-isTrust")=='1'?'0':'1');
+                    base.hideLoadingSpin()
+                    base.showMsg('已取消信任');
+                },base.hideLoadingSpin)
+            } else {
+                UserCtr.addUserRelation(relationConfig,true).then((data)=>{
+                    _this.empty().append('已信任');
+                    if($('.infoWrap .black').attr("data-isAddBlackList")=='1') {
+                        $('.infoWrap .black').empty().append('屏蔽');
+                        $('.infoWrap .black').attr("data-isAddBlackList",!_this.attr("data-isAddBlackList"))
+                    }
+                    
+           			 _this.attr("data-isTrust",_this.attr("data-isTrust")=='1'?'0':'1');
+                    base.hideLoadingSpin()
+                    base.showMsg('已信任');
+                },base.hideLoadingSpin)
             }
         })
         // 屏蔽按钮的点击事件
         $('.infoWrap .black').click(function () {
-            if(base.getUserId()){
-                relationConfig.type = '0';
-                var _this = $(this);
-                if(_this.attr("data-isAddBlackList")=='1') {
-                    base.showLoadingSpin();
-                    UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
-                        _this.empty().append('屏蔽');
-                    base.showMsg('已取消拉黑');
-
-                },base.hideLoadingSpin())
-                }else {
-                    base.showLoadingSpin();
-                    UserCtr.addUserRelation(relationConfig,true).then((data)=>{
-                        _this.empty().append('已拉黑');
-                        if($('.infoWrap .trust').attr("data-isTrust")=='1') {
-                            $('.infoWrap .trust').empty().append('信任');
-                            $('.infoWrap .trust').attr("data-isTrust",!_this.attr("data-isTrust"))
-                        }
-                        base.showMsg('已拉黑');
-                    },base.hideLoadingSpin())
-                }
-                _this.attr("data-isAddBlackList",_this.attr("data-isAddBlackList")=='1'?'0':'1');
+            relationConfig.type = '0';
+            var _this = $(this);
+            base.showLoadingSpin();
+            if(_this.attr("data-isAddBlackList")=='1') {
+                UserCtr.removeUserRelation(relationConfig,true).then((data)=>{
+                    _this.empty().append('屏蔽');
+           			 _this.attr("data-isAddBlackList",_this.attr("data-isAddBlackList")=='1'?'0':'1');
+                    base.hideLoadingSpin();
+	                base.showMsg('已取消拉黑');
+	            },base.hideLoadingSpin)
             }else {
-                base.showMsg('您未登錄');
-                setTimeout(function () {
-                    base.gohref("../user/login.html")
-                },500)
+                UserCtr.addUserRelation(relationConfig,true).then((data)=>{
+                    _this.empty().append('已拉黑');
+                    if($('.infoWrap .trust').attr("data-isTrust")=='1') {
+                        $('.infoWrap .trust').empty().append('信任');
+                        $('.infoWrap .trust').attr("data-isTrust",!_this.attr("data-isTrust"))
+                    }
+                    
+            		_this.attr("data-isAddBlackList",_this.attr("data-isAddBlackList")=='1'?'0':'1');
+                    base.hideLoadingSpin();
+                    base.showMsg('已拉黑');
+                },base.hideLoadingSpin)
             }
         })
     }

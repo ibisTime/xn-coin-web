@@ -36,6 +36,10 @@
 							<i class="item-icon icon-pwd"></i>
 							<input type="password" class="input-item" id="loginPwd" name="loginPwd"  placeholder="請輸入密碼，密碼不少於6位" />
 						</div>
+						<div class="form-item b_e" id="userReferee-Wrap">
+							<i class="item-icon icon-user"></i>
+							<input type="text" class="input-item" id="userReferee" name="userReferee" placeholder="推薦人手機號" />
+						</div>
 						<div class="text-wrap over-hide wp100">
 							<div class="checkTxt">
 								<i class="icon active" id="subFlag"></i>
@@ -50,6 +54,21 @@
 				</div>
 				<div class="showProtocol"></div>
 			</div>
+			
+			<!--註冊協議弹窗-->
+		    <div class="am-modal-wrap dialog register-dialog hidden" id="registerDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-header">
+	                    	<p>註冊協議</p>
+	                    </div>
+	                    <div class="am-modal-body">
+	                    	<div id="content"></div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
 		</div>
 		
         <link rel="import" href="../footer.html?__inline">

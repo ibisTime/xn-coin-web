@@ -3,6 +3,10 @@ define([
     'app/util/ajax'
 ], function(base, Ajax) {
     return {
+        // 七牛获取上传图片凭证
+        getQiniuToken(fromCurrency, toCurrency) {
+            return Ajax.get("805951");
+        },
         // 发送短信
         sendCaptcha(bizType, mobile, sendCode) {
     		var param={

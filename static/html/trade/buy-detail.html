@@ -10,7 +10,7 @@
     <body class="bg_fff">
         <link rel="import" href="../top/top.html?__inline">
         
-        <div class="detail-container tradeDetail-container">
+        <div class="detail-container tradeDetail-container minheight">
         	<div class="detail-container-wrap">
 				<div class="userInfo-wrap b_e_b">
 					<div class="top over-hide">
@@ -19,7 +19,8 @@
 						</div>
 						<div class="name fl">
 							<samp id="nickname"></samp>
-							<i class="icon icon-chat"></i>
+							<i class="icon icon-chat hidden" id="chatBtn"></i>
+							<samp class="am-button am-button-red am-button-small hidden" id="doDownBtn">下架</samp>
 						</div>
 					</div>
 					<div class="statistics mb20">
@@ -58,8 +59,11 @@
 						<samp class="tit">賣家留言:</samp><samp id="leaveMessage"></samp>
 					</div>
 				</div>
-				<div class="buy-wrap">
-					<div class="titleWrap"><i class="icon icon-buy"></i><samp>你想購買多少?</samp></div>
+				<div class="buy-wrap hidden">
+					<div class="titleWrap">
+						<i class="icon icon-buy"></i><samp>你想購買多少?</samp>
+						<samp class="small">廣告剩餘可交易量：<i id="leftCountString"></i></samp>
+					</div>
 					<form class="form-wrapper wp100 form-wrapper-noIcon over-hide" id="form-wrapper">
 						<div class="form-item b_e fl">
 							<i class="item-unit">CNY</i>

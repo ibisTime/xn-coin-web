@@ -6,7 +6,7 @@ define([
 	var type = base.getUrlParam("type");// 0: 你屏蔽的人，1:你信任的人，2:信任你的人
 	var config={
 	        start: 1,
-	        limit: 1,
+	        limit: 10,
 		};
 	
 	if(!base.isLogin()){

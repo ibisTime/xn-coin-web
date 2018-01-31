@@ -17,6 +17,7 @@
 				<div class="userInfo-wrap over-hide wp100">
 					<div class="photoWrap fl mr30">
 						<div class="photo icon" id="photo" ></div>
+						<div class="wp100 tc tc_red_i cur-pointer" id="editPhoto">[ 更换头像 ]</div>
 					</div>
 					<div class="info fl">
 						<div class="nickname" id="nickname"></div>
@@ -30,8 +31,42 @@
 					</div>
 				</div>
 			</div>
+			
+			<!--评价弹窗-->
+		    <div class="am-modal-wrap dialog editPhoto-dialog hidden" id="editPhotoDialog">
+		        <div class="am-modal-mask"></div>
+	            <div class="am-modal">
+	                <div class="am-modal-content">
+	                    <div class="am-modal-header">
+	                    	<p>更换头像</p>
+	                    </div>
+	                    <div class="am-modal-body">
+	                    	<div class="fileBtn-wrap" id="photoFile-wrap">
+	                    		<samp class="am-button am-button-ghost">选择图片</samp>
+	                    		<input id="photoFile" type="file" class="input-file photoFile" accept="image/png,image/gif,image/jpg,image/jpeg" />
+	                    	</div>
+							<div class="img-wrap over-hide hidden">
+								<div class="photoWrap photoWrapSquare b_e fl">
+									<div class="photo icon"></div>
+								</div>
+								<div class="photoWrap photoWrapCircular b_e fl">
+									<div class="photo icon"></div>
+								</div>
+							</div>
+	                    </div>
+	                    <div class="am-modal-footer">
+	                    	<div class="am-button am-button-gray cancelBtn mr60">取消</div>
+	                    	<div class="am-button am-button-red subBtn" id="subBtn">提交</div>
+	                    </div>
+	                </div>
+	            </div>
+		    </div>
+			
 		</div>		
         <link rel="import" href="../footer.html?__inline">
+        
+        <script type="text/javascript" src="../../js/lib/qiniu/plupload.full.min.js"></script>
+    	<script type="text/javascript" src="../../js/lib/qiniu/qiniu.min.js"></script>
         <script>
             require(['app/controller/user/User']);
         </script>

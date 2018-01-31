@@ -94,8 +94,35 @@
 	                </div>
 	            </div>
 		    </div>
-			
 		</div>	
+		
+		<!--评价弹窗-->
+	    <div class="am-modal-wrap dialog comment-dialog hidden" id="commentDialog">
+	        <div class="am-modal-mask"></div>
+            <div class="am-modal">
+                <div class="am-modal-content">
+                    <div class="am-modal-header">
+                    	<p>交易評價</p>
+                    </div>
+                    <div class="am-modal-body">
+                    	<p class="title">交易有何印象？快來評價吧</p>
+                    	<div class="comment-Wrap">
+                    		<div class="item on" data-value="2">
+                    			<div class="icon icon-good"></div>
+                    			<p>好評</p>
+                    		</div>
+                    		<div class="item ml20" data-value="0">
+                    			<div class="icon icon-bad"></div>
+                    			<p>差評</p>
+                    		</div>
+                    	</div>
+                    </div>
+                    <div class="am-modal-footer">
+                    	<div class="am-button am-button-red subBtn">提交</div>
+                    </div>
+                </div>
+            </div>
+	    </div>
 		
         <link rel="import" href="../footer.html?__inline">
         <script>

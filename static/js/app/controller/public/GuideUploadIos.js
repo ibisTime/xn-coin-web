@@ -6,7 +6,8 @@ define([
 	init();
     
     function init() {
-    	base.showLoadingSpin();
+    	
+        base.hideLoadingSpin();
         addListener();
     }
     
