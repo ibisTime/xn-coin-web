@@ -3,8 +3,9 @@ define([
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
-    'app/interface/TradeCtr'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
+    'app/interface/TradeCtr',
+    'app/module/tencentChat'
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, TencentChat) {
 	var code = base.getUrlParam("code");
 	var isDetail = !!base.getUrlParam("isD");//是否我的广告查看详情
 	var bizTypeList = {
@@ -15,8 +16,28 @@ define([
     var config = {
     	adsCode:code,
     	tradePrice: 0
-    }
+    };
+    
+    var loginInfo = {};
+	var userId = base.getUserId();
+	const selType = webim.SESSION_TYPE.GROUP;
+	const subType = webim.GROUP_MSG_SUB_TYPE.COMMON;
+	const groupId = code;
+	const groupName = 'groupName';
+	const reqMsgCount = 10;
+	var selSess;
+	var getPrePageGroupHistroyMsgInfoMap = {};
+	var emotionFlag = false;
+	var tradePhoto = '';
+	var tradePhotoMy = '';
+	var userName = '', myName='';
+	var payType = {};
+	var firstLoad = false;
 	
+	if(!base.isLogin()){
+		base.goLogin();
+		return;
+	}
 	init();
     
     function init() {
@@ -163,5 +184,19 @@ define([
         		},base.hideLoadingSpin)
         	},base.emptyFun)
 		})
+    	
+    	//聊天框加载
+    	TencentChat.addCont();
+    	//聊天按钮点击
+    	$("#chatBtn").click(function(){
+    		// 购买开始聊天，提交交易订单
+    		TradeCtr.chatOrderBuy(code).then((data)=>{
+    			TencentChat.showCont({
+    				code: data.code
+    			})
+				base.hideLoadingSpin();
+	    	},base.hideLoadingSpin)
+    		
+    	})
     }
 });

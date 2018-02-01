@@ -75,7 +75,7 @@
 							<input type="text" class="input-item" id="buyEth" name="buyEth" placeholder="請輸入您出售的數量" />
 						</div>
 					</form>
-					<div class="am-button am-button-gray" id="buyBtn">立即出售</div>
+					<div class="am-button am-button-red" id="buyBtn">立即出售</div>
 				</div>
 				<div class="tradeWarn-wrap">
 					<div class="titleWrap"><i class="icon icon-warn"></i><samp>交易提醒</samp></div>
@@ -122,6 +122,10 @@
         </div>
         
         <link rel="import" href="../footer.html?__inline">
+        
+		<script type="text/javascript" src="../js/lib/webim/spark-md5.js"></script>
+		<script type="text/javascript" src="../js/lib/webim/json2.js"></script>
+		<script type="text/javascript" src="../js/lib/webim/webim.min.js"></script>
         <script>
             require(['app/controller/trade/SellDetail']);
         </script>

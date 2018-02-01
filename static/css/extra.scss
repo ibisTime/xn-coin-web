@@ -3483,6 +3483,12 @@ table {
             top: 3px;
             margin-right: 10px;
         }
+        .btn-wrap{
+            margin-top: 14px;
+            .am-button{
+                width: 90px;
+            }
+        }
     }
     
     .orderDetail-middle{
@@ -3510,76 +3516,6 @@ table {
             background-color: #f7f7f7;
             height: 530px;
             
-            .chat-wrap{
-                .msgflow{
-                    height: 470px;
-                    overflow-y: scroll;
-                    padding: 20px 0;
-                }
-                
-                .btnWrap{
-                    height: 60px;
-                    background-color: #fff;
-                    position: relative;
-                }
-                .msgedit{
-                    width: 100%;
-                    font-size: 14px;
-                    line-height: 24px;
-                    padding: 18px 250px 18px 30px;
-                }
-                .msgImg,
-                .openPic{
-                    width: 30px;
-                    height: 60px;
-                    background-color: #fff;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    background-size: 30px;
-                    position: absolute;
-                    top: 0 ;
-                }
-                .msgImg{
-                    background-image: url('../images/发送表情.png');
-                    right: 210px;
-                }
-                .openPic{
-                    background-image: url('../images/发送图片.png');
-                    right: 160px;
-                }
-                .send{
-                    width: 80px;
-                    height: 34px;
-                    color: $primary-color;
-                    border: 1px solid $primary-color;
-                    background-color: #fff;
-                    line-height: 34px;
-                    font-size: 14px;
-                    position: absolute;
-                    top: 13px;
-                    right: 50px;
-                }
-                .emotionUL-wrap{
-                    width: 226px;
-                    border: 1px solid $border-color;
-                    box-shadow: 0 0 3px rgba(119,119,119,.8);
-                    background-color: #fff;
-                    position: absolute;
-                    right: 110px;
-                    bottom: 60px;
-                    padding: 10px 5px;
-                    ul{
-                        overflow: hidden;
-                        li{
-                            float: left;
-                            width: 30px;
-                            height: 30px;
-                            text-align: center;
-                            padding-top: 4px;
-                        }
-                    }
-                }
-            }
             .userInfo-wrap{
                 padding:  30px;
                 .photoWrap{
@@ -3638,7 +3574,142 @@ table {
             }
         }
     }
+}
+.number-item-wrap{
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
     
+    .number-item{
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+}
+.comment-dialog{
+    .am-modal-header{
+        padding: 30px 0 10px;
+    }
+    .am-modal-body {
+        .title{
+            font-size: 14px;
+            color: #484848;
+            text-align: center;
+        }
+    }
+    .comment-Wrap{
+        overflow: hidden;
+        padding: 40px 30px 20px;
+        
+        .item{
+            width: 100px;
+            float: left;
+            text-align: center;
+            
+            .icon{
+                width: 50px;
+                height: 50px;
+                background-size: 40px;
+            }
+            .icon-good{
+                background-image: url('../images/好评灰@2x.png');
+            }
+            .icon-bad{
+                background-image: url('../images/差评灰@2x.png');
+            }
+            
+            &.on{
+                p{
+                    color: $red-color;
+                }
+                
+                .icon-good{
+                    background-image: url('../images/好评红@2x.png');
+                }
+                .icon-bad{
+                    background-image: url('../images/差评红@2x.png');
+                }
+            }
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+}
+.chat-container{
+    overflow: hidden;
+    .chat-wrap{
+        .msgflow{
+            height: 470px;
+            overflow-y: auto;
+            padding: 20px 0;
+        }
+        
+        .btnWrap{
+            height: 60px;
+            background-color: #fff;
+            position: relative;
+        }
+        .msgedit{
+            width: 1220px;
+            height: 40px;
+            padding: 8px 300px 8px 20px;
+            margin-top: 10px;
+            font-size: 14px;
+            line-height: 24px;
+        }
+        .msgImg,
+        .openPic{
+            height: 60px;
+            background-color: #fff;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: absolute;
+            top: 0 ;
+        }
+        .msgImg{
+            width: 30px;
+            background-image: url('../images/发送表情.png');
+            right: 210px;
+            background-size: 30px;
+        }
+        .openPic{
+            width: 40px;
+            background-image: url('../images/发送图片.png');
+            right: 153px;
+            background-size: 34px;
+        }
+        .send{
+            width: 80px;
+            height: 34px;
+            color: $primary-color;
+            border: 1px solid $primary-color;
+            background-color: #fff;
+            line-height: 34px;
+            font-size: 14px;
+            position: absolute;
+            top: 13px;
+            right: 50px;
+        }
+        .emotionUL-wrap{
+            width: 226px;
+            border: 1px solid $border-color;
+            box-shadow: 0 0 3px rgba(119,119,119,.8);
+            background-color: #fff;
+            position: absolute;
+            right: 110px;
+            bottom: 60px;
+            padding: 10px 5px;
+            ul{
+                overflow: hidden;
+                li{
+                    float: left;
+                    width: 30px;
+                    height: 30px;
+                    text-align: center;
+                    padding-top: 4px;
+                }
+            }
+        }
+    }
     .pic-dialog{
         .am-modal-content{
             width: 500px;
@@ -3804,67 +3875,82 @@ table {
             
         }
     }
-    
 }
-.number-item-wrap{
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+.tencentChatContainer-wrap{
+    width: 420px;
+    height: 600px;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: #f7f7f7;
+    box-shadow: 0 0 7px rgba(119,119,119,.3);
+    position: fixed;
+    bottom: 15px;
+    right: 150px;
+    z-index: 999;
     
-    .number-item{
-        padding-top: 12px;
-        padding-bottom: 12px;
-    }
-}
-.comment-dialog{
-    .am-modal-header{
-        padding: 30px 0 10px;
-    }
-    .am-modal-body {
-        .title{
-            font-size: 14px;
-            color: #484848;
-            text-align: center;
-        }
-    }
-    .comment-Wrap{
-        overflow: hidden;
-        padding: 40px 30px 20px;
+    .tencentChatContainer-top{
+        width: 100%;
+        height: 80px;
+        background-color: $primary-color;
+        padding: 15px 20px;
+        position: relative;
+        box-shadow: 0 3px 5px rgba(119,119,119,.3);
         
-        .item{
-            width: 100px;
-            float: left;
-            text-align: center;
-            
-            .icon{
-                width: 50px;
-                height: 50px;
-                background-size: 40px;
-            }
-            .icon-good{
-                background-image: url('../images/好评灰@2x.png');
-            }
-            .icon-bad{
-                background-image: url('../images/差评灰@2x.png');
-            }
-            
-            &.on{
-                p{
-                    color: $red-color;
-                }
-                
-                .icon-good{
-                    background-image: url('../images/好评红@2x.png');
-                }
-                .icon-bad{
-                    background-image: url('../images/差评红@2x.png');
-                }
-            }
-            &:hover{
-                cursor: pointer;
+        
+        .icon{
+            width: 30px;
+            height: 30px;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            z-index: 9;
+            background-image: url('../images/聊天关闭.png');
+            background-size: 28px;
+        }
+        
+        .advertise-info{
+            p{
+                font-size: 13px;
+                color: #fff;
             }
         }
     }
+    
+    .chat-container {
+        .chat-wrap {
+            .msgflow{
+                height: 455px;
+            }
+            .btnWrap,
+            .msgImg,
+            .openPic{
+                height: 65px; 
+            }
+            .msgImg{
+                width: 22px;
+                right: 123px;
+                background-size: 22px;
+            }
+            .openPic{
+                width: 28px;
+                right: 85px;
+                background-size: 28px;
+            }
+            .send{
+                width: 50px;
+                height: 30px;
+                line-height: 30px;
+                font-size: 14px;
+                top: 18px;
+                right: 20px;
+            }
+            .msgedit{
+                width: 440px;
+                height: 45px;
+                padding: 8px 170px 5px 20px;
+                margin-top: 10px;
+            }
+        }
+    }
+    
 }
-
-
-

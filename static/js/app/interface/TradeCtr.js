@@ -72,6 +72,20 @@ define([
             	...config
             });
         },
+        // 购买开始聊天，提交交易订单
+        chatOrderBuy(adsCode){
+        	return Ajax.get("625247", {
+            	buyUser: base.getUserId(),
+            	adsCode
+            });
+        },
+        //出售开始聊天，提交交易订单
+        chatOrderSell(adsCode){
+        	return Ajax.get("625248", {
+            	sellUser: base.getUserId(),
+            	adsCode
+            });
+        },
         /**
          * 分页查询我的订单
          * @param config: {start, limit, statusList,tradeCoin}
@@ -86,7 +100,7 @@ define([
         getOrderDetail(code) {
             return Ajax.get("625251",{
             	code
-            });
+            }, true);
         },
         //訂單-取消交易
         cancelOrder(code) {

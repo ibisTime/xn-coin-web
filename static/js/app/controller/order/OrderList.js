@@ -261,6 +261,7 @@ define([
         	},base.emptyFun)
         })
         
+        //評價
         $("#commentDialog .comment-Wrap .item").click(function(){
         	$(this).addClass("on").siblings(".item").removeClass("on")
         })

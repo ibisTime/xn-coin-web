@@ -1,22 +1,15 @@
 define([
 	'app/controller/base',
-	'app/module/validate',
 	'app/interface/GeneralCtr',
-	'app/interface/UserCtr',
-	'app/interface/TradeCtr'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
-	var code = base.getUrlParam("code");
-	var typeList = {
-		"buy": "購買ETH",
-		"sell": "出售ETH",
-	};
+], function(base, GeneralCtr,) {
+	var tmpl = __inline("index.html");
 	var loginInfo = {};
 	var userId = base.getUserId();
-	const selType = webim.SESSION_TYPE.GROUP;
-	const subType = webim.GROUP_MSG_SUB_TYPE.COMMON;
-	const groupId = code;
-	const groupName = 'groupName';
-	const reqMsgCount = 10;
+	var selType = webim.SESSION_TYPE.GROUP;
+	var subType = webim.GROUP_MSG_SUB_TYPE.COMMON;
+	var groupId;
+	var groupName = 'groupName';
+	var reqMsgCount = 10;
 	var selSess;
 	var getPrePageGroupHistroyMsgInfoMap = {};
 	var emotionFlag = false;
@@ -24,18 +17,13 @@ define([
 	var tradePhotoMy = '';
 	var userName = '', myName='';
 	var payType = {};
-	var firstLoad = false;
+	var defaultOpt={};
+	var _wrap = $("#TencentChatContainer");
+	var firstChat = true; //页面第一次点击聊天
 	
 	init();
 
 	function init() {
-		base.showLoadingSpin();
-        GeneralCtr.getDictList({"parentKey":"pay_type"}).then((data)=>{
-            data.forEach(function(item){
-            	payType[item.dkey] = item.dvalue;
-        	});
-	        getOrderDetail();
-	    },base.hideLoadingSpin);
 
 		addListener();
 	}
@@ -55,61 +43,18 @@ define([
 	function getOrderDetail() {
 		return TradeCtr.getOrderDetail(code).then((data) => {
 
-			//待支付
-			if(data.status == '0'||data.status == '1') {
-				$("#invalidDatetime samp").html("訂單將在託管中保持至<i>" + base.formatDate(data.invalidDatetime, "hh:mm:ss") + "</i>，逾期未支付交易將自動取消")
-				$("#invalidDatetime").removeClass("hidden")
-				$("#statusInfo").addClass("hidden")
-			}
-			$("#statusInfo samp").html(data.remark)
-			$("#tradePrice").html(data.tradePrice);
-			$("#countString").html(base.formatMoney(data.countString));
-			$("#tradeAmount").html(data.tradeAmount);
-			$("#orderCode").html(data.code.substring(data.code.length - 8));
-			// $("#payType").html(typeList[data.payType]);
-			$("#payType").html(payType[data.payType]);
-			$("#leaveMessage").html(data.leaveMessage);
-
 			//卖家/买家信息
 			$(".btn-wrap .am-button").addClass("hidden");
 			//当前用户为买家，显示卖家信息
 			if(data.buyUser == base.getUserId()) {
 				var user = data.sellUserInfo;
 				var myInfo = data.buyUserInfo;
-				$("#user").html("賣家信息")
-				
-				//待支付
-	    		if(data.status=="0"){
-	    			$(".payBtn").removeClass("hidden");
-	    			$(".cancelBtn").removeClass("hidden");
-	    			
-				}else if(data.status=="2"){
-					if(data.bsComment!="0"&&data.bsComment!="2"){
-						
-	    				$(".commentBtn").removeClass("hidden");
-					}
-				}
 				
 				//当前用户为卖家，显示买家信息
 			} else {
 				var user = data.buyUserInfo;
 				var myInfo = data.sellUserInfo;
-				$("#user").html("買家信息")
 				
-				//待支付
-	    		if(data.status=="1"){
-	    			$(".releaseBtn").removeClass("hidden");
-				}else if(data.status=="2"){
-					if(data.sbComment!="0"&&data.sbComment!="2"){
-	    			$(".commentBtn").removeClass("hidden");
-					}
-				}
-			}
-			
-			//操作按鈕
-	    	//已支付，待释放
-			if(data.status=="1"){
-    			$(".arbitrationBtn").removeClass("hidden");
 			}
 			
 			userName = user.nickname;
@@ -127,18 +72,6 @@ define([
 				tradePhotoMy = '<div class="photo"><div class="noPhoto">'+tmpl+'</div></div>'
 			}
 			
-			$("#photoWrap").html(tradePhoto)
-			$("#nickname").html(user.nickname)
-			
-			if(!firstLoad){
-				getTencunLogin();
-				firstLoad = true;
-			}
-			
-			$("#mobile").html(user.mobile != "" && user.mobile ? '已驗證' : '未驗證')
-			$("#email").html(user.email != "" && user.email ? '已驗證' : '未驗證')
-			$("#identity").html(user.realname != "" && user.realName ? '已驗證' : '未驗證')
-			$("#createDatetime").html(base.formateDatetime(user.createDatetime))
 
 			base.hideLoadingSpin();
 		}, base.hideLoadingSpin)
@@ -462,7 +395,8 @@ define([
 		webim.sendMsg(msg, () => {
 			webim.Tool.setCookie("tmpmsg_" + groupId, '', 0);
 			$('#msgedit').val('')
-		}, () => {
+		}, (err) => {
+			console.log(err.ErrorInfo)
 			base.showMsg('消息发送失败，请重新发送');
 		});
 	}
@@ -819,15 +753,6 @@ define([
 
 	function addListener() {
 
-		//立即下单点击
-		$(".orderDetail-middle .title .item").click(function() {
-			var _this = $(this)
-			if(!_this.hasClass("on")) {
-				_this.addClass("on").siblings(".item").removeClass("on");
-				$(".orderDetail-middle .content-wrap .wrap").eq(_this.index())
-					.removeClass("hidden").siblings(".wrap").addClass("hidden");
-			}
-		})
 		//--聊天 star--
 		$('#send').on('click', function() {
 			if($('#msgedit').val()!=""&&$('#msgedit').val()){
@@ -896,109 +821,52 @@ define([
 			}
 		})
 		//--end--
-		
-		//評價
-        $("#commentDialog .comment-Wrap .item").click(function(){
-        	$(this).addClass("on").siblings(".item").removeClass("on")
-        })
-        
-        //取消订单按钮 点击
-        $(".cancelBtn").on("click", function(){
-        	base.confirm("確認取消交易？").then(()=>{
-        		base.showLoadingSpin()
-        		TradeCtr.cancelOrder(code).then(()=>{
-        			base.hideLoadingSpin();
-        			
-        			base.showMsg("操作成功");
-        		},base.hideLoadingSpin)
-        	},base.emptyFun)
-        })
-        
-        //標記打款按钮 点击
-        $(".payBtn").on("click", function(){
-        	base.confirm("確認標記打款？").then(()=>{
-        		base.showLoadingSpin()
-        		TradeCtr.payOrder(code).then(()=>{
-        			base.hideLoadingSpin();
-        			
-        			base.showMsg("操作成功");
-        		},base.hideLoadingSpin)
-        	},base.emptyFun)
-        })
-        
-        //申請仲裁按钮 点击
-        $(".arbitrationBtn").on("click", function(){
-        	
-        	$("#arbitrationDialog").removeClass("hidden")
-        	
-        })
-        
-        //彈窗-放棄
-        $("#arbitrationDialog .closeBtn").click(function(){
-        	$("#arbitrationDialog").addClass("hidden");
-        	$("#form-wrapper .textarea-item").val("")
-        })
-        
-        var _formWrapper = $("#form-wrapper");
-    	_formWrapper.validate({
-    		'rules': {
-    			'reason':{
-    				required: true
-    			},
-    		}
-    	})
-        
-        //彈窗-申請仲裁
-        $("#arbitrationDialog .subBtn").click(function(){
-        	var params = _formWrapper.serializeObject()
-        	base.showLoadingSpin()
-    		TradeCtr.arbitrationlOrder({
-    			code: code,
-    			reason: params.reason
-    		}).then(()=>{
-    			base.hideLoadingSpin();
-    			
-    			base.showMsg("操作成功");
-    			$("#arbitrationDialog").addClass("hidden");
-    			$("#form-wrapper .textarea-item").val("")
-    		},base.hideLoadingSpin)
-        })
-        
-        //交易評價按钮 点击
-        $(".commentBtn").on("click", function(){
-        	var orderCode = $(this).attr("data-ocode");
-        	$("#commentDialog .subBtn").attr("data-ocode",orderCode)
-        	$("#commentDialog").removeClass("hidden")
-        })
-        
-        //释放货币按钮 点击
-        $(".releaseBtn").on("click", function(){
-        	base.confirm("確認释放货币？").then(()=>{
-        		base.showLoadingSpin()
-        		TradeCtr.releaseOrder(code).then(()=>{
-        			base.hideLoadingSpin();
-        			
-        			base.showMsg("操作成功");
-        		},base.hideLoadingSpin)
-        	},base.emptyFun)
-        })
-        
-        $("#commentDialog .comment-Wrap .item").click(function(){
-        	$(this).addClass("on").siblings(".item").removeClass("on")
-        })
-        
-        $("#commentDialog .subBtn").click(function(){
-        	var orderCode= $(this).attr("data-ocode");
-        	var comment = $("#commentDialog .comment-Wrap .item.on").attr("data-value");
-        	
-        	base.showLoadingSpin();
-        	TradeCtr.commentOrder(code,comment).then(()=>{
-    			base.hideLoadingSpin();
-    			base.showMsg("操作成功");
-    			$("#commentDialog").addClass("hidden");
-	            $("#commentDialog .comment-Wrap .item").eq(0).addClass("on").siblings(".item").removeClass("on")
-    		},base.hideLoadingSpin)
-        })
-
 	}
+	
+	
+	var TencentChatObj ={
+		/**
+		 * TencentChat.addCont({code})
+		 * */
+		addCont: function(option){
+			option = option || {};
+            defaultOpt = $.extend(defaultOpt, option);
+            groupId = defaultOpt.code;
+            if(!this.hasCont()){
+                var temp = $(tmpl);
+                $("body").append(tmpl);
+                addListener();
+            }
+		},
+        hasCont: function(){
+            return !!$("#TencentChatContainer").length;
+        },
+        showCont: function (option = {}){
+            if(this.hasCont()){
+            	if(option.code) {
+                    groupId = option.code;
+            	};
+                TencentChatObj._showCont();
+                
+                if(firstChat){
+                	getTencunLogin();
+                	firstChat = false;
+                }
+                
+            }
+            return this;
+        },
+        //显示效果
+        _showCont: function(){
+        	//登录获取消息
+        },
+        //隐藏
+        hideCont: function (func){
+            if(this.hasCont()){
+                func && func(proList);
+            }
+            return this;
+        }
+	}
+	return TencentChatObj;
 });

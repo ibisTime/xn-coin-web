@@ -17,7 +17,12 @@ define([
     	adsCode:code,
     	tradePrice: 0
     }
-    	
+    
+    if(!base.isLogin()){
+		base.goLogin();
+		return;
+	}
+    
 	init();
     
     function init() {

@@ -6,11 +6,12 @@ define([
 ], function(base, UserCtr, GeneralCtr, QiniuUpdata) {
 	
 	if(!base.isLogin()){
-		base.goLogin()
-	}else{
-		$("#left-wrap .user").addClass("on")
-    	init();
+		base.goLogin();
+		return;
 	}
+	
+	$("#left-wrap .user").addClass("on")
+	init();
     
     function init() {
     	base.showLoadingSpin();

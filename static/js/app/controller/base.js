@@ -149,6 +149,7 @@ define([
 		    s = s.divide(new BigDecimal.BigDecimal("1e18"), t||8, BigDecimal.MathContext.ROUND_DOWN).toString();
 		    if(s.match(/\.\d+0+/)){
 		    	var _tmp = s.match(/\.\d+0+/)[0].replace(/0+$/,'');
+		    	_tmp = _tmp=='.'?'':_tmp;
 		    	s = s.replace(/\.\d+0+/, _tmp)
 		    }
 		    return s;
@@ -491,7 +492,7 @@ define([
         //更新登录时间
         updateLoginTime: function(){
         	return Ajax.get("805083", {
-                userid: Base.getUserId()
+                userId: Base.getUserId()
             },true)
         }
     };
