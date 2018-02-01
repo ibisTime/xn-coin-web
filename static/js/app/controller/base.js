@@ -470,7 +470,8 @@ define([
         	if(n1=='0'&&n2=='0'){
         		return '100%';
         	}
-        	return n1/n2*100+"%"
+        	var n = n1/n2*100
+        	return parseInt(n)+"%"
         },
         //更新登录时间
         updateLoginTime: function(){
