@@ -47,6 +47,7 @@ define([
             return Ajax.post("625205", {
                 userId: base.getUserId(),
                 type:'Y',
+                statusList: ['0','1'],
                 ...config
             },refresh);
         },
@@ -60,6 +61,11 @@ define([
                 ...config
             },true);
         },
-
+        //弃用地址
+		deleteETHCoinAddress(code) {
+            return Ajax.post("625202", {
+                code
+            },true);
+        },
     };
 })

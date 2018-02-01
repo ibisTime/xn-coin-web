@@ -1717,7 +1717,7 @@ table {
             .warn{
                 .icon-warn{
                     width: 10px;
-                    height: 38px;
+                    height: 20px;
                     background-size: 10px;
                     background-image: url('../images/提示.png');
                     background-position: 0 4px;
@@ -1793,6 +1793,7 @@ table {
     }
     .sendOut-form-wrap{
         padding-top: 36px;
+        padding-bottom: 10px;
         
         .form-wrapper{
             .form-item-wrap{
@@ -1910,12 +1911,37 @@ table {
         ul li{
             width: 100%;
             font-size: 15px;
-            margin: 15px 0;
+            padding: 15px 0;
+            position: relative;
+            
+            p{
+                padding: 3px 0;
+            }
+            .icon{
+                width: 30px;
+                height: 20px;
+                background-size: 15px;
+                position: absolute;
+                top: 18px;
+                right: 0px;
+                margin-left: 10px;
+                background-image: url('../images/删除灰.png');
+
+                &:hover{
+                    background-image: url('../images/删除点击.png');
+                }
+            }
             
             &.on,
             &:hover{
                 cursor: default;
-                color: $red-color;
+                p {
+                    color: $red-color;  
+                }
+            }
+            
+            &:first-child{
+                border-top: 0;
             }
         }
     }
@@ -2967,9 +2993,10 @@ table {
             
             tbody tr:nth-child(even){
                 background-color: #fff;
-                &:hover{
-                    background-color: #fffafa;
-                }
+                
+            }
+            tbody tr:hover{
+                background-color: #fffafa;
             }
             
             .goDetail{

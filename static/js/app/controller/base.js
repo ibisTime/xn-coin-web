@@ -147,7 +147,11 @@ define([
 		    //保留8位小数
 		    s = new BigDecimal.BigDecimal(s);
 		    s = s.divide(new BigDecimal.BigDecimal("1e18"), t||8, BigDecimal.MathContext.ROUND_DOWN).toString();
-		    return parseFloat(s);
+		    if(s.match(/\.\d+0+/)){
+		    	var _tmp = s.match(/\.\d+0+/)[0].replace(/0+$/,'');
+		    	s = s.replace(/\.\d+0+/, _tmp)
+		    }
+		    return s;
         },
         //金额减法 s1-s2
         formatMoneySubtract: function(s1, s2) {
@@ -157,9 +161,20 @@ define([
             var s2 = new BigDecimal.BigDecimal(s2);
             return Base.formatMoney(s1.subtract(s2).toString());
         },
+        //金额乘法 s1-s2
+        formatMoneyMultiply: function(s1, s2) {
+            if(!$.isNumeric(s1)||!$.isNumeric(s2))
+                return "-";
+		    var s1 = new BigDecimal.BigDecimal(s1);
+            var s2 = new BigDecimal.BigDecimal(s2);
+            return Base.formatMoney(s1.multiply(s2).toString());
+        },
         //金额金额放大 默认 放大 r || 8位 
         formatMoneyParse: function(m, r) {
             var r = r || new BigDecimal.BigDecimal("1e18");
+            if(m==''){
+            	m = '0';
+            }
 			m = new BigDecimal.BigDecimal(m);
 			m = m.multiply(r).toString();
 		    return m;

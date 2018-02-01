@@ -89,13 +89,6 @@
     .container {
         width:935px !important;
     }
-    
-    .minheight{
-        min-height: 320px !important;
-    }
-    .articleHeight{
-        min-height: 420px !important;
-    }
 }
 
 @media only screen and (min-width: 1200px) {
@@ -103,49 +96,46 @@
         width:1200px !important;
     }
     .login-container{
-       height: 560px !important; 
+       height: 600px !important; 
     }
     .login-swiper{
-       height: 560px !important; 
+       height: 600px !important; 
     }
     .minheight{
-        min-height: 520px !important;
+        min-height: 540px !important;
     }
     .articleHeight{
-        min-height: 620px !important;
+        min-height: 640px !important;
     }
 }
 @media only screen and (min-width: 1800px) {
     .login-container{
-        height: 700px !important;
+        height: 750px !important;
     }
     .login-swiper{
-        height: 700px !important;
+        height: 750px !important;
     }
     .login-container .login-swiper{
-        height: 700px !important;
+        height: 750px !important;
     }
     .minheight{
-        min-height: 700px !important;
+        min-height: 730px !important;
     }
     .articleHeight{
-        min-height: 800px !important;
+        min-height: 830px !important;
     }
 }
 @media only screen and (min-width: 2100px) {
     .login-container{
-        min-height: 980px !important;
+        min-height: 1020px !important;
     }
     .login-swiper{
-        height: 980px !important;
-    }
-    .login-container .login-swiper{
-        min-height: 980px !important;
+        height: 1020px !important;
     }
     .minheight{
-        min-height: 980px !important;
+        min-height: 1000px !important;
     }
     .articleHeight{
-        min-height: 1080px !important;
+        min-height: 1100px !important;
     }
 }

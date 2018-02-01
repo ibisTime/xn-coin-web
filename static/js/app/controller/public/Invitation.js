@@ -28,7 +28,7 @@ define([
     function getInvitation() {
         return UserCtr.getInvitation().then((data)=>{
         	$('.inviteCount').append(data.inviteCount);
-        	$('.inviteProfit').append(data.inviteProfit);
+        	$('.inviteProfit').append(base.formatMoney(data.inviteProfit));
 		},base.hideLoadingSpin)
     }
     
@@ -88,10 +88,10 @@ define([
     function buildHtml(item){
     	var photoHtml = ""
     	if(item.photo){
-    		photoHtml = `<div class="photo goHref" style="background-image:url('${base.getAvatar(item.photo)}')" data-href="./user-detail.html?userId=${item.userId}"></div>`
+    		photoHtml = `<div class="photo goHref" style="background-image:url('${base.getAvatar(item.photo)}')" data-href="../user/user-detail.html?userId=${item.userId}"></div>`
 		}else{
 			var tmpl = item.nickname.substring(0,1).toUpperCase();
-			photoHtml = `<div class="photo"><div class="noPhoto goHref" data-href="./user-detail.html?userId=${item.userId}">${tmpl}</div></div>`
+			photoHtml = `<div class="photo"><div class="noPhoto goHref" data-href="../user/user-detail.html?userId=${item.userId}">${tmpl}</div></div>`
 		}
     	
     	return `<tr>

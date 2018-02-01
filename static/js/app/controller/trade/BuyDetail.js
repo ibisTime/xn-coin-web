@@ -47,7 +47,7 @@ define([
     			var photoHtml = `<div class="noPhoto">${tmpl}</div>`
     			$("#photo").html(photoHtml)
     		}
-    		config.tradePrice = data.truePrice;
+    		config.tradePrice = Math.floor(data.truePrice*100)/100;
     		
     		$("#nickname").html(data.user.nickname)
     		if(data.status=="1"&&isDetail){
@@ -58,8 +58,8 @@ define([
     		$("#beiHaoPingCount").html(base.getPercentum(data.user.userStatistics.beiHaoPingCount,data.user.userStatistics.beiPingJiaCount))
     		$("#totalTradeCount").html(base.formatMoney(data.user.userStatistics.totalTradeCount,'0')+"+ETH")
     		$("#leaveMessage").html(data.leaveMessage.replace(/\n/g,'<br>'))
-    		$("#truePrice").html(data.truePrice)
-    		$("#submitDialog .tradePrice").html(data.truePrice+"CNY")
+    		$("#truePrice").html(config.tradePrice)
+    		$("#submitDialog .tradePrice").html(config.tradePrice+"CNY")
     		$("#limit").html(data.minTrade+'-'+data.maxTrade)
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
@@ -91,7 +91,7 @@ define([
     				amountCny: true
     			},
     			'buyEth':{
-    				amount: true
+    				amountEth: true
     			},
     		}
     	})
@@ -106,14 +106,14 @@ define([
 				    	}
 			    	}
 //	    	UserCtr.getUser().then((data)=>{
-//  			if(data.tradepwdFlag&&data.realname){
+//  			if(data.tradepwdFlag&&data.realName){
 //			    	
 //  			}else if(!data.tradepwdFlag){
 //  				base.showMsg("請先設置資金密碼")
 //  				setTimeout(function(){
 //  					base.gohref("../user/setTradePwd.html?type=1")
 //  				},1800)
-//  			}else if(!data.realname){
+//  			}else if(!data.realName){
 //  				base.showMsg("請先进行身份验证")
 //  				setTimeout(function(){
 //  					base.gohref("../user/identity.html")
@@ -156,7 +156,10 @@ define([
         			base.hideLoadingSpin();
         			
         			base.showMsg("操作成功");
-        			$("#doDownBtn").addClass("hidden")
+        			$("#doDownBtn").addClass("hidden");
+        			setTimeout(function(){
+        				base.gohref("./buy-list.html")
+        			},1000)
         		},base.hideLoadingSpin)
         	},base.emptyFun)
 		})

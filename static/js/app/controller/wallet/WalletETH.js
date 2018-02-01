@@ -8,6 +8,7 @@ define([
     'app/interface/UserCtr'
 ], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
 	var isWithdraw = !!base.getUrlParam("isWithdraw");//提币
+	var withdrawFee = 0; // 取现手续费
 	
 	var config={
         start: 1,
@@ -27,6 +28,7 @@ define([
 			"5":"tradefee",
 			"6":"withdrawfee",
 			"7":"invite",
+			"8":"",
 	}, bizTypeValueList={};
 	
 	var addAddressWrapperRules = {
@@ -40,9 +42,7 @@ define([
         		required: true,
         		sms: true
         	},
-        	"tradePwd":{
-        		required: true,
-        	},
+        	"tradePwd":{},
         	"googleCaptcha":{}
 	},
 		sendOutWrapperRules = {
@@ -51,10 +51,13 @@ define([
         	},
         	"amount": {
         		required: true,
-        		amount: true
+        		amountEth: true,
         	},
         	"tradePwd":{
         		required: true,
+        	},
+        	"payCardNo":{
+        		required: true
         	},
         	"applyNote":{},
         	"googleCaptcha":{}
@@ -85,8 +88,9 @@ define([
 		
 		$.when(
 			GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
-			GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"})
-		).then((data1,data2)=>{
+			GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
+			GeneralCtr.getSysConfig("withdraw_fee",true)
+		).then((data1,data2, data3)=>{
     		
     		data1.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
@@ -95,6 +99,7 @@ define([
     			bizTypeValueList[item.dkey] = item.dvalue
     		})
     		
+    		withdrawFee = data3.cvalue
     		getAccount();
     	},base.hideLoadingSpin)
 		
@@ -120,10 +125,14 @@ define([
 			    	var qrcode = new QRCode('qrcode',item.coinAddress);
 				 	qrcode.makeCode(item.coinAddress);
 				 	$("#sendOut-form .amount").attr("placeholder","發送數量，本次最多可發送"+base.formatMoneySubtract(item.amountString,item.frozenAmountString)+"ETH")
+				 	sendOutWrapperRules["amount"]={
+				 		max: base.formatMoneySubtract(item.amountString,item.frozenAmountString)
+					}
     			}
     			
     		})
     		getPageFlow(config);
+    		base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
     
@@ -201,7 +210,19 @@ define([
     	},base.hideLoadingSpin)
     }
     function buildHtmlAddress(item,i){
-    	return `<li data-address="${item.address}" class="${i=='0'?'on':''}">${item.address}</li>`
+    	var statusHtml = ''
+    	if(item.status=='0'){
+    		statusHtml='未認證'
+    	}else if(item.status=='1'){
+    		statusHtml='已認證'
+    	}
+    	return `<li data-address="${item.address}" data-status="${item.status}" class="${i=='0'?'on':''} b_e_t">
+    				<div class="txt wp100">
+						<p>標籤: ${item.label}</p>
+						<p>${item.address}(${statusHtml})</p>
+					</div>
+    				<i class="icon deleteBtn" data-code="${item.code}"></i>
+    			</li>`
     }
     
     // 初始化地址分页器
@@ -234,6 +255,14 @@ define([
     	return AccountCtr.addETHCoinAddress(params).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
+    		setTimeout(function(){
+	    		$("#addWAddressDialog").addClass("hidden");
+		    	document.getElementById("addAddress-form").reset();
+		    	$("#addWAddressDialog .setSecurityAccount .icon-switch").addClass("on")
+	    		base.showLoadingSpin();
+	    		configAddress.start = 1;
+	    		getPageCoinAddress(configAddress)
+    		},800)
     	},base.hideLoadingSpin)
     }
     
@@ -242,6 +271,21 @@ define([
     	return AccountCtr.withDraw(params).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
+    		$("#addWAddressDialog").addClass("hidden")
+    		document.getElementById("sendOut-form").reset();
+    	},base.hideLoadingSpin)
+    }
+    
+    //弃用地址
+    function deleteETHCoinAddress(code){
+    	return AccountCtr.deleteETHCoinAddress(code).then((data)=>{
+            base.hideLoadingSpin();
+    		base.showMsg("操作成功");
+    		setTimeout(function(){
+    			base.showLoadingSpin();
+	    		configAddress.start = 1;
+	    		getPageCoinAddress(configAddress)
+    		},800)
     	},base.hideLoadingSpin)
     }
     
@@ -266,6 +310,7 @@ define([
 	    	onkeyup: false
 	    });
     	
+    	//接受/发送点击
     	$("#address-nav ul li").click(function(){
     		if(!$(this).hasClass("on")){
     			var _this = $(this)
@@ -297,6 +342,7 @@ define([
     		}
     	})
     	
+    	//交易记录 类型点击
     	$(".tradeRecord-top ul li").click(function(){
     		// if(!$(this).hasClass("on")){
     			var index = $(this).index();
@@ -305,16 +351,34 @@ define([
     			base.showLoadingSpin();
     			config.bizType = bizTypeList[index];
     			config.start = 1;
+    			if(index=='8'){
+    				config.kind='1';
+    			}else{
+    				delete config.kind;
+    			}
     			getPageFlow(config);
     		// }
     	})
     	
-    	$("#wAddressDialog .am-modal-body ul").on("click","li",function(){
-    		if(!$(this).hasClass("on")){
-    			$(this).addClass("on").siblings("li").removeClass("on");
+    	//选择地址弹窗
+    	$("#wAddressDialog .am-modal-body ul").on("click","li .txt",function(){
+    		var _this = $(this).parent("li");
+    		if(!_this.hasClass("on")){
+    			_this.addClass("on").siblings("li").removeClass("on");
     		}
     	})
     	
+    	//选择地址-删除点击
+	    $("#wAddressDialog .am-modal-body ul").on("click","li .deleteBtn",function(){
+    		var addressCode = $(this).attr("data-code");
+    		base.confirm("確定刪除此地址？").then(()=>{
+    			base.showLoadingSpin();
+    			deleteETHCoinAddress(addressCode)
+    		},base.emptyFun)
+    		
+    	})
+    	
+    	// 新增地址弹窗
     	$("#addWAddressDialog .setSecurityAccount .icon-switch").click(function(){
     		if($(this).hasClass("on")){
     			$(this).removeClass("on");
@@ -344,6 +408,7 @@ define([
     	//管理地址點擊
     	$("#sendOut-form .addressBtn").click(function(){
     		base.showLoadingSpin();
+    		$("#wAddressDialog .list").empty()
     		configAddress.start = 1;
     		getPageCoinAddress(configAddress).then(()=>{
     			$("#wAddressDialog").removeClass("hidden")
@@ -367,17 +432,22 @@ define([
 	    			params.isCerti = "0"
 	    		}
 	    		
-	    		addETHCoinAddress(params).then(()=>{
-			    	_addAddressWrapper.reset();
-		    		$("#addWAddressDialog").addClass("hidden")
-	    		})
+	    		addETHCoinAddress(params)
 	    	}
 
     	})
     	
     	//管理地址弹窗-确定点击
 	    $("#wAddressDialog .subBtn").click(function(){
-			var address= $("#wAddressDialog .am-modal-body ul li.on").attr("data-address")
+			var address= $("#wAddressDialog .am-modal-body ul li.on").attr("data-address");
+			var status =  $("#wAddressDialog .am-modal-body ul li.on").attr("data-status");
+			
+			if(status=='1'){
+				$("#sendOut-form .tradePwdWrap").addClass("hidden")
+			}else if(status=='0'){
+				
+				$("#sendOut-form .tradePwdWrap").removeClass("hidden")
+			}
 			$("#sendOut-form .payCardNo").val(address);
 			$("#wAddressDialog").addClass("hidden")
     	})
@@ -390,24 +460,15 @@ define([
 	    		params.amount = base.formatMoneyParse(params.amount);
 	    		params.accountNumber = accountNumber;
 	    		params.payCardInfo = 'ETH'
-	    		withDraw(params).then(()=>{
-			    	_sendOutWrapper.reset();
-		    		$("#addWAddressDialog").addClass("hidden")
-	    		})
+	    		withDraw(params)
 	    	}
     	})
 	    
-	    $("#head-user-wrap .isTradePwdFlag").click(function(){
-    		UserCtr.getUser().then((data)=>{
-    			if(data.tradepwdFlag){
-    				base.gohref("../wallet/wallet-eth.html?isWithdraw=1")
-    			}else{
-    				base.showMsg("請先設置資金密碼")
-    				setTimeout(function(){
-    					base.gohref("../user/setTradePwd.html?type=1")
-    				},1800)
-    			}
-    		},base.hideLoadingSpin)
-    	})
+	    // 发送 - 手续费
+	    $("#sendOut-form .amount").keyup(function(){
+	    	var amount = $("#sendOut-form .amount").val();
+	    	$("#withdrawFee").val(base.formatMoneyMultiply(base.formatMoneyParse(amount), withdrawFee)+'ETH')
+	    })
+	    
     }
 });

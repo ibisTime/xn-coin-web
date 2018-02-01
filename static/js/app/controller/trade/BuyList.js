@@ -110,6 +110,13 @@ define([
 			loginStatus = 'gray'
 		}
 		
+		var operationHtml = '';
+		if(item.userId == base.getUserId()){
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise-eth.html?code=${item.code}">編輯</div>`;
+		}else{
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買ETH</div>`;
+		}
+		
     	return `<tr>
 					<td class="nickname">
 						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${item.userId}">
@@ -125,7 +132,7 @@ define([
 					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
 					<td class="price">${item.truePrice.toFixed(2)}CNY</td>
 					<td class="operation">
-						<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買ETH</div>
+						${operationHtml}
 					</td>
 				</tr>`
     }

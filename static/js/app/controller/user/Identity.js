@@ -19,22 +19,12 @@ define([
     //获取用户详情
     function getUser(){
     	return UserCtr.getUser().then((data)=>{
-    		if(data.tradepwdFlag){
-    			$(".setTradPwd .edit").removeClass("hidden")
-    		}else{
-    			$(".setTradPwd .set").removeClass("hidden")
-    		}
     		
-    		if(data.email){
-    			$(".setEmail .edit").removeClass("hidden")
+    		if(data.realName){
+    			$("#form-wrapper").setForm(data);
+    			$("#alreadyIdentity").removeClass("hidden")
     		}else{
-    			$(".setEmail .set").removeClass("hidden")
-    		}
-    		
-    		if(data.googleAuthFlag){
-    			$(".setGoogle .close").removeClass("hidden")
-    		}else{
-    			$(".setGoogle .open").removeClass("hidden")
+    			$("#goAppIdentity").removeClass("hidden")
     		}
     		
         	base.hideLoadingSpin();

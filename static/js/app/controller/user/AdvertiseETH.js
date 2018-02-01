@@ -91,7 +91,7 @@ define([
     	
     	//待发布
         if(config.statusList == null || config.statusList.length == 1) {
-        	operationHtml = `<div class="am-button am-button-red publish goHref mr20" data-href="../trade/advertise-eth.html?code=${item.code}">發佈</div>`
+        	operationHtml = `<div class="am-button am-button-red publish mr20">發佈</div>`
         
         //已发布 
         }else{
@@ -107,7 +107,7 @@ define([
         }
     	
         //<td class="type">${adsStatusList[item.tradeType]}</td>
-            return `<tr>
+            return `<tr class="goHref" data-href="../trade/advertise-eth.html?code=${item.code}">
 					<td class="price">${item.truePrice}</td>
 					<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>

@@ -9,6 +9,7 @@
     <body>
         <link rel="import" href="../top/top.html?__inline">
 		<div class="wallet-container">
+			<!-- 幣種 -->
 			<!--<div class="wallet-top-wrap b_e_b" id="wallet-top">
 				<link rel="import" href="./wallet-top.html?__inline">
 			</div>-->
@@ -39,9 +40,6 @@
 						<div class="warn over-hide">
 							<i class="icon icon-warn fl"></i>
 							<p class="fl">
-								<!--温馨提示：<i>ETH 地址只能充值 ETH 资产，任何充入 ETH 地址的非 ETH 资产将不可找回。</i>在 ETH 网络接收 ETH 通常需要 10 分钟。-->
-								<!--我们会在收到 ETH 网络 12 个确认后给您入账。最低存入金额为 0.01 ETH，我们不会处理少于该金额的 ETH 存入请求。-->
-								<!--在平台内相互转账是实时到账且免费的。-->
 								温馨提示：<i>ETH 錢包地址禁止充值除 ETH 之外的其他資產，任何 ETH 資產充值将不可找回。</i>
 							</p>
 						</div>
@@ -52,9 +50,6 @@
 						<div class="warn over-hide">
 							<i class="icon icon-warn fl"></i>
 							<p class="fl">
-								<!--温馨提示：<i>ETH 地址只能充值 ETH 资产，任何充入 ETH 地址的非 ETH 资产将不可找回。</i>在 ETH 网络接收 ETH 通常需要 10 分钟。-->
-								<!--我们会在收到 ETH 网络 12 个确认后给您入账。最低存入金额为 0.01 ETH，我们不会处理少于该金额的 ETH 存入请求。-->
-								<!--在平台内相互转账是实时到账且免费的。-->
 								温馨提示：<i>提現手續費將在提現金額中扣除。</i>
 							</p>
 						</div>
@@ -75,6 +70,12 @@
 									</div>
 								</div>
 								<div class="form-item-wrap">
+									<samp class="label">手續費：</samp>
+									<div class="form-item b_e">
+										<input type="text" class="input-item withdrawFee" id="withdrawFee" value="0ETH" disabled="disabled" />
+									</div>
+								</div>
+								<div class="form-item-wrap tradePwdWrap">
 									<samp class="label">資金密碼：</samp>
 									<div class="form-item b_e mr20">
 										<input type="password" class="input-item" name="tradePwd" placeholder="請輸入資金密碼" />
@@ -114,6 +115,7 @@
 						<li>交易手續費</li>
 						<li>提現手續費</li>
 						<li>邀請好友收入</li>
+						<li>冻结記錄</li>
 					</ul>
 				</div>
 				<div class="tradeRecord-list-wrap">
@@ -142,7 +144,7 @@
             <div class="am-modal">
                 <div class="am-modal-content">
                     <div class="am-modal-header">
-                    	<p>地址</p>
+                    	<p>ETH地址</p>
                     </div>
                     <div class="am-modal-body">
                     	<ul class="over-hide wp100 list">
@@ -152,8 +154,8 @@
 						</div>
                     </div>
                     <div class="am-modal-footer">
-                    	<div class="am-button am-button-red mr40 subBtn">確認地址</div>
-                    	<div class="am-button am-button-gray addBtn">添加新地址</div>
+                    	<div class="am-button am-button-gray mr40 addBtn">添加新地址</div>
+                    	<div class="am-button am-button-red subBtn">確認地址</div>
                     </div>
                 </div>
             </div>
@@ -165,7 +167,7 @@
             <div class="am-modal">
                 <div class="am-modal-content">
                     <div class="am-modal-header">
-                    	<p>添加新地址</p>
+                    	<p>添加新ETH地址</p>
                     </div>
                     <div class="am-modal-body">
                     	<div class="addWAddress-form-wrap">
@@ -198,7 +200,7 @@
 										<button class="sms-button am-button am-button-red" id="getVerification">獲取驗證碼</button>
 									</div>
 								</div>
-								<div class="form-item-wrap tradePwdFlag">
+								<div class="form-item-wrap tradePwdFlag hidden">
 									<samp class="label">資金密碼：</samp>
 									<div class="form-item b_e mr20">
 										<input type="password" class="input-item" name="tradePwd" placeholder="請輸入資金密碼" />
@@ -206,14 +208,14 @@
 								</div>
 							</form>
 							<div class="setSecurityAccount userSelect_none">
-								<samp>將該賬戶設置為認證賬戶</samp><i class="icon icon-switch on"></i>
+								<samp>將該賬戶設置為認證賬戶</samp><i class="icon icon-switch"></i>
 							</div>
 							<div class="remark">向認證賬戶提現不再輸入資金密碼、谷歌驗證碼</div>
 						</div>
                     </div>
                     <div class="am-modal-footer">
-                    	<div class="am-button am-button-red mr40 subBtn">確認地址</div>
-                    	<div class="am-button am-button-gray closeBtn">關閉</div>
+                    	<div class="am-button am-button-gray mr40 closeBtn">關閉</div>
+                    	<div class="am-button am-button-red  subBtn">確認地址</div>
                     </div>
                 </div>
             </div>

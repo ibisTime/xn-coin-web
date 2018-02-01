@@ -22,7 +22,7 @@ define([
     
     function init() {
     	base.showLoadingSpin();
-    	$(".head-nav-wrap .buy").addClass("active");
+    	$(".head-nav-wrap .sell").addClass("active");
     	
     	if(!isDetail){
     		$(".buy-wrap").removeClass("hidden")
@@ -90,7 +90,7 @@ define([
     			},
     			'buyEth':{
     				min: '0',
-    				amount: true
+    				amountEth: true
     			},
     		}
     	})
@@ -105,14 +105,14 @@ define([
 				    	}
 			    	}
 //	    	UserCtr.getUser().then((data)=>{
-//  			if(data.tradepwdFlag&&data.realname){
+//  			if(data.tradepwdFlag&&data.realName){
 //			    	
 //  			}else if(!data.tradepwdFlag){
 //  				base.showMsg("請先設置資金密碼")
 //  				setTimeout(function(){
 //  					base.gohref("../user/setTradePwd.html?type=1")
 //  				},1800)
-//  			}else if(!data.realname){
+//  			}else if(!data.realName){
 //  				base.showMsg("請先进行身份验证")
 //  				setTimeout(function(){
 //  					base.gohref("../user/identity.html")
@@ -154,7 +154,11 @@ define([
         			base.hideLoadingSpin();
         			
         			base.showMsg("操作成功");
-        			$("#doDownBtn").addClass("hidden")
+        			$("#doDownBtn").addClass("hidden");
+        			
+        			setTimeout(function(){
+        				base.gohref("./sell-list.html")
+        			},1000)
         		},base.hideLoadingSpin)
         	},base.emptyFun)
 		})

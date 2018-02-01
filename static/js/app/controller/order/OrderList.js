@@ -128,7 +128,7 @@ define([
     	
     	return `<tr>
 					<td class="nickname">
-						<div class="photoWrap fl goHref" data-href="../user/user-detail.html" >
+						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${user.userId}" >
 							${photoHtml}
 						</div>
 						<samp class="name">${user.nickname}</samp>

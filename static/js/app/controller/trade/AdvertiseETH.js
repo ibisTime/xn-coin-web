@@ -82,9 +82,9 @@ define([
     		
     		//广告类型
     		if(data.tradeType=='1'){
-    			$(".trade-type .item").eq(0).addClass("on").siblings('.item').removeClass("on")
+    			$(".trade-type .item").eq(0).addClass("on").siblings('.item').removeClass("on").addClass("hidden")
     		}else{
-    			$(".trade-type .item").eq(1).addClass("on").siblings('.item').removeClass("on")
+    			$(".trade-type .item").eq(1).addClass("on").siblings('.item').removeClass("on").addClass("hidden")
     		}
     		
     		//是否仅粉丝
@@ -237,11 +237,13 @@ define([
 	        	"premiumRate": {
 	        		required: true,
 	        		number: true,
-	        		tofixed2: true
+	        		tofixed2: true,
+	        		range:[-99.99,99.99]
 	        	},
 	        	"protectPrice": {
 	        		required: true,
-	        		number: true
+	        		number: true,
+	        		amountCny: true
 	        	},
 	        	"minTrade": {
 	        		required: true,
@@ -256,7 +258,7 @@ define([
 	        	"totalCount": {
 	        		required: true,
 	        		number: true,
-	        		amount:true
+	        		amountEth:true
 	        	},
 	        	"payType": {
 	        		required: true,

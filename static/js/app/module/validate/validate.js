@@ -122,19 +122,17 @@ define([
     }, '资金密码长度为6位');
     
     //小数最后8位
-	$.validator.addMethod("amount", function(value, element) {
-		var aint = parseFloat(value);
-	    return this.optional(element) || (aint > 0 && /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,8})?$/.test(value));
+	$.validator.addMethod("amountEth", function(value, element) {
+	    return this.optional(element) || (value > 0 && /^\d+(?:\.\d{1,8})?$/.test(value));
 	}, '必须>0，且小数点后最多8位');
 	//小数最后2位
 	$.validator.addMethod("amountCny", function(value, element) {
-		var aint = parseFloat(value);
-	    return this.optional(element) || (aint > 0 && /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/.test(value));
+	    return this.optional(element) || (value > 0 && /^\d+(?:\.\d{1,2})?$/.test(value));
 	}, '必须>0，且小数点后最多2位');
 	
-	//小数最后8位
+	//小数最后2位
 	$.validator.addMethod("tofixed2", function(value, element) {
-	    return this.optional(element) || (value==0 || /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/.test(value));
+		return this.optional(element) || /^-?\d+(?:\.\d{1,2})?$/.test(value);
 	}, '合法数字，且小数点后最多2位');
     
     //身份证号码的验证规则
