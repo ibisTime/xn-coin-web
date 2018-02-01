@@ -5,7 +5,7 @@ fis.hook('amd', {
         'IScroll': "lib/iscroll",
         'iScroll': "lib/iscroll1",
         'jValidate': "lib/validate/jquery.validate",
-        'jquery': "lib/jquery-2.1.4",
+        'jquery': "lib/jquery-1.10.2",
         'swiper': "lib/swiper/idangerous.swiper.min",
         'pagination': "lib/pagination/jquery.pagination",
         'Chosen': "lib/chosen.jquery",

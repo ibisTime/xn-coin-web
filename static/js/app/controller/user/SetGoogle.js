@@ -47,6 +47,7 @@ define([
     function getGooglePwd(){
     	return UserCtr.getGooglePwd().then((data)=>{
     		$("#secret").val(data.secret)
+    		base.hideLoadingSpin();
 		},base.hideLoadingSpin)
     }
     

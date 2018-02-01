@@ -58,6 +58,7 @@ define([
 			if(data.status == '0'||data.status == '1') {
 				$("#invalidDatetime samp").html("訂單將在託管中保持至<i>" + base.formatDate(data.invalidDatetime, "hh:mm:ss") + "</i>，逾期未支付交易將自動取消")
 				$("#invalidDatetime").removeClass("hidden")
+				$("#statusInfo").addClass("hidden")
 			}
 			$("#statusInfo samp").html(data.remark)
 			$("#tradePrice").html(data.tradePrice);

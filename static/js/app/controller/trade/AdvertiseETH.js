@@ -18,6 +18,7 @@ define([
     		$("#draftBtn").addClass("hidden")
     	}
     	
+    	// 高级设置-开放时间
     	var htmlStart = '<option value="24">关闭</option>';
     	var htmlEnd = '<option value="24">关闭</option>';
     	
@@ -130,6 +131,10 @@ define([
     	}else if(type=='sell'){
     		param = 'sell_ads_hint'
     	}
+    	
+    	document.getElementById("form-wrapper").reset();
+    	$("#price").val(mid);
+    	
     	return GeneralCtr.getSysConfigType(param, true).then((data)=>{
     		$("#displayTimeExp").html(data.displayTime)
     		$("#maxTradeExp").html(data.maxTrade)
