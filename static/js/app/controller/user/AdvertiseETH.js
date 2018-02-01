@@ -16,7 +16,8 @@ define([
         limit:10,
         tradeType: 1,
         statusList: [0],
-        userId:base.getUserId()
+        userId:base.getUserId(),
+        coin:'ETH'
     }
 	init();
 

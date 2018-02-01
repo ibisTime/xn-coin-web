@@ -6,7 +6,8 @@ define([
 	var config={
         start: 1,
         limit:10,
-        tradeType: 1
+        tradeType: 1,
+        coin: 'ETH'
 	};
 	var bizTypeList = {
             "0": "支付宝",

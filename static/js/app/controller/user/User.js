@@ -79,7 +79,10 @@ define([
 		return UserCtr.changePhoto($("#editPhotoDialog .img-wrap .photoWrapSquare .photo").attr("data-src")).then((data)=>{
 			base.hideLoadingSpin();
         	$("#editPhotoDialog").addClass("hidden")
-			base.showMsg("修改成功")
+			base.showMsg("修改成功");
+			setTimeout(function(){
+				location.reload(true);
+			},800)
     	},base.hideLoadingSpin)
 	}
     

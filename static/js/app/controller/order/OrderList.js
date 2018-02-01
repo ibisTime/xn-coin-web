@@ -9,7 +9,8 @@ define([
 	var config={
 	    start:1,
         limit:10,
-        statusList: ["0","1","5"]
+        statusList: ["0","1","5"],
+        tradeCoin:'ETH'
     };
     var statusList={
     	"inProgress":["0","1","5"],

@@ -5,27 +5,17 @@ define([
     return {
         /**
          * 分页查询广告
-         * @param config: {start, limit, maxPrice, minPrice,payType,tradeType(0买、1卖)}
+         * @param config: {start, limit, maxPrice, minPrice, payType, tradeType(0买、1卖),coin}
          */
         getPageAdvertise(config,refresh) {
             return Ajax.get("625228", config, refresh);
         },
         /**
-         * 分页查询广告 带userId
-         * @param config: {start, limit, maxPrice, minPrice,payType,tradeType(0买、1卖),userId}
+         * 分页查询广告 带userId,status
+         * @param config: {start, limit, maxPrice, minPrice,payType,tradeType(0买、1卖),userId,status,coin}
          */
         getPageAdvertiseUser(config,refresh) {
             return Ajax.get("625227",config, refresh);
-        },
-        /**
-         * 分页查询广告 带status
-         * @param config: {start, limit, maxPrice, minPrice,payType,tradeType(0买、1卖),userId}
-         */
-        getPageAdvertiseUserStatus(config,refresh) {
-            return Ajax.get("625227", {
-                status:'1',
-                ...config
-            }, refresh);
         },
         /**
          * 发布/编辑广告
@@ -83,8 +73,8 @@ define([
             });
         },
         /**
-         * 分页查询我的订单  带userId
-         * @param config: {start, limit, statusList}
+         * 分页查询我的订单
+         * @param config: {start, limit, statusList,tradeCoin}
          */
         getPageOrder(config,refresh) {
             return Ajax.get("625250",{

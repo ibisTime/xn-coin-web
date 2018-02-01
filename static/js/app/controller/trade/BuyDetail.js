@@ -98,27 +98,28 @@ define([
     	
     	//立即下单点击
 	    $("#buyBtn").click(function(){
-	    	UserCtr.getUser().then((data)=>{
-    			if(data.tradepwdFlag&&data.realname){
-			    	if(_formWrapper.valid()){
+	    	if(_formWrapper.valid()){
 			    		if($("#buyAmount").val()!=''&&$("#buyAmount").val()){
 							$("#submitDialog").removeClass("hidden")
 				    	}else{
 				    		base.showMsg("請輸入您購買的金額")
 				    	}
 			    	}
-    			}else if(!data.tradepwdFlag){
-    				base.showMsg("請先設置資金密碼")
-    				setTimeout(function(){
-    					base.gohref("../user/setTradePwd.html?type=1")
-    				},1800)
-    			}else if(!data.realname){
-    				base.showMsg("請先进行身份验证")
-    				setTimeout(function(){
-    					base.gohref("../user/identity.html")
-    				},1800)
-    			}
-    		},base.hideLoadingSpin)
+//	    	UserCtr.getUser().then((data)=>{
+//  			if(data.tradepwdFlag&&data.realname){
+//			    	
+//  			}else if(!data.tradepwdFlag){
+//  				base.showMsg("請先設置資金密碼")
+//  				setTimeout(function(){
+//  					base.gohref("../user/setTradePwd.html?type=1")
+//  				},1800)
+//  			}else if(!data.realname){
+//  				base.showMsg("請先进行身份验证")
+//  				setTimeout(function(){
+//  					base.gohref("../user/identity.html")
+//  				},1800)
+//  			}
+//  		},base.hideLoadingSpin)
     	})
     	
     	//下单确认弹窗-放弃点击

@@ -15,7 +15,9 @@ define([
 	    start:1,
         limit:10,
         tradeType:0,
-        userId:userId
+        status:'1',
+        userId:userId,
+        coin:'ETH'
     }
     var relationConfig = {
     	toUser: userId
@@ -105,7 +107,7 @@ define([
     
 	// 分页查广告
     function getPageAdvertise() {
-        TradeCtr.getPageAdvertiseUserStatus(config, true).then((data)=> {
+        TradeCtr.getPageAdvertiseUser(config, true).then((data)=> {
         	 var lists = data.list;
     		if(data.list.length){
                 var html = "";
