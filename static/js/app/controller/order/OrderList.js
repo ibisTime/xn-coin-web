@@ -4,16 +4,11 @@ define([
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
-    'app/interface/TradeCtr'
-], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr) {
-	var config={
-	    start:1,
-        limit:10,
-        statusList: ["0","1","5"],
-        tradeCoin:'ETH'
-    };
-    var statusList={
-    	"inProgress":["0","1","5"],
+    'app/interface/TradeCtr',
+    'app/module/tencentCloudLogin/orderList'
+], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr, TencentCloudLogin) {
+	var statusList={
+    	"inProgress":["-1","0","1","5"],
     	"end":["2","3","4"]
     },
     	typeList={
@@ -21,10 +16,23 @@ define([
     	"sell":"出售ETH",
     },
     	statusValueList={};
+	var config={
+	    start:1,
+        limit:10,
+        statusList: statusList["inProgress"],
+        tradeCoin:'ETH'
+    };
+    var unreadMsgList = {};
+    var isUnreadList=false,isOrderList=false;
 	init();
     
     function init() {
     	base.showLoadingSpin();
+    	TencentCloudLogin.goLogin(function(list){
+    		unreadMsgList = list;
+    		isUnreadList = true;
+    		addUnreadMsgNum();
+    	})
     	GeneralCtr.getDictList({"parentKey":"trade_order_status"}).then((data)=>{
     		
     		data.forEach(function(item){
@@ -69,7 +77,10 @@ define([
                 lists.forEach((item, i) => {
                     html += buildHtml(item);
                 });
-    			$("#content").html(html)
+    			$("#content").html(html);
+    			isOrderList = true;
+    			addUnreadMsgNum()
+    			
     			$(".trade-list-wrap .no-data").addClass("hidden")
             }else{
             	config.start == 1 && $("#content").empty()
@@ -85,6 +96,8 @@ define([
     	var photoHtml = "";
     	//操作按钮
 		var operationHtml = '';
+		//未读消息
+		var unreadHtml = '';
 		
 		//当前用户为买家
     	if(item.buyUser==base.getUserId()){
@@ -125,8 +138,8 @@ define([
 			var tmpl = user.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
 		}
-    	
-    	return `<tr>
+		
+    	return `<tr data-code="${item.code}">
 					<td class="nickname">
 						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${user.userId}" >
 							${photoHtml}
@@ -135,17 +148,36 @@ define([
 					</td>
 					<td class="code">${item.code.substring(item.code.length-8)}</td>
 					<td class="type">${typeList[item.type]}</td>
-					<td class="amount">${item.tradeAmount}CNY</td>
-					<td class="quantity">${base.formatMoney(item.countString)}ETH</td>
+					<td class="amount">${item.status!="-1"?item.tradeAmount+'CNY':''}</td>
+					<td class="quantity">${item.status!="-1"?base.formatMoney(item.countString)+'ETH':''}</td>
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
-					<td class="status">${statusValueList[item.status]}</td>
+					<td class="status">${item.status=="-1"?'交谈中,'+statusValueList[item.status]:statusValueList[item.status]}</td>
 					<td class="operation">
 						${operationHtml}
 					</td>
-					<td class="goDetail"><i class="icon icon-detail goHref" data-href="../order/order-detail.html?code=${item.code}"></i></td>
+					<td class="goDetail">
+						<samp class="unread goHref fl" data-href="../order/order-detail.html?code=${item.code}"></samp>
+						<i class="icon icon-detail goHref fl"  data-href="../order/order-detail.html?code=${item.code}"></i>
+					</td>
 				</tr>`;
     }
     
+    //添加未读消息数
+    function addUnreadMsgNum(){
+    	if(isUnreadList&&isOrderList){
+    		$("#content tr").each(function(){
+    			var _this = $(this)
+    			var oCode = _this.attr("data-code")
+				if(unreadMsgList[oCode]&&unreadMsgList[oCode]!='0'){
+					if(unreadMsgList[oCode]>=100){
+						_this.find(".unread").html('(99+)')
+					}else{
+						_this.find(".unread").html('('+unreadMsgList[oCode]+')')
+					}
+				}
+			})
+    	}
+    }
 
     function addListener() {
         // 进行中，已结束 点击

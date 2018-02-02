@@ -1,7 +1,7 @@
 define([
     'app/controller/base',
     'pagination',
-    'app/interface/TradeCtr'
+    'app/interface/TradeCtr',
 ], function(base, pagination, TradeCtr) {
 	var config={
         start: 1,
@@ -133,7 +133,84 @@ define([
 				</tr>`
     }
     
-    function addListener() {
+    //用户昵称查询广告
+    function getListAdvertiseNickname(nickName){
+    	return TradeCtr.getListAdvertiseNickname(nickName, true).then((data)=>{
+    		var lists = data;
+    		if(lists.length){
+                var html = "";
+                lists.forEach((item, i) => {
+                	if(item.tradeType == '0'){
+                		html += buildHtml(item);
+                	}
+                });
+    			$("#content").html(html);
+    			$(".trade-list-wrap .no-data").addClass("hidden")
+    			
+    			$("#content .operation .goHref").off("click").click(function(){
+		    		if(!base.isLogin()){
+			    		base.goLogin();
+			    		return false;
+			    	}else{
+			    		var thishref = $(this).attr("data-href");
+						base.gohref(thishref)
+			    	}
+		    	})
+		    	$("#content .photoWrap").off("click").click(function(){
+		    		if(!base.isLogin()){
+			    		base.goLogin();
+			    		return false;
+			    	}else{
+			    		var thishref = $(this).attr("data-href");
+						base.gohref(thishref)
+			    	}
+		    	})
+            }else{
+            	$("#content").empty()
+    			$(".trade-list-wrap .no-data").removeClass("hidden")
+            }
+            base.hideLoadingSpin();
+    	},base.hideLoadingSpin)
     	
+    }
+    
+    function addListener() {
+    	$("#searchTypeWrap .select-ul li").click(function(){
+    		var _this = $(this);
+    		var _thisType= $(this).attr("data-type")
+    		
+    		if($("#searchTypeWrap .show-wrap").attr("data-type")!=_thisType){
+    			$("#searchTypeWrap .show-wrap").attr("data-type",_thisType);
+    			$("#searchTypeWrap .show-wrap samp").text(_this.text());
+    			$("#searchConWrap ."+_thisType).removeClass("hidden").siblings().addClass("hidden")
+    		}
+    	})
+    	
+    	$("#searchBtn").click(function(){
+    		var _searchType= $("#searchTypeWrap .show-wrap").attr("data-type")
+    		//搜广告
+    		if(_searchType=="adver"){
+    			
+    			if($("#searchConWrap .minPrice").val()){
+    				config.minPrice = $("#searchConWrap .minPrice").val();
+    			}
+    			if($("#searchConWrap .maxPrice").val()){
+    				config.maxPrice = $("#searchConWrap .maxPrice").val();
+    			}
+    			if($("#searchConWrap .payType").val()){
+    				config.payType = $("#searchConWrap .payType").val();
+    			}
+    			config.start=1;
+    			base.showLoadingSpin();
+    			
+    			getPageAdvertise();
+    		//搜用户
+    		}else if(_searchType=="user"){
+    			if($("#searchConWrap .nickname").val()!=""){
+    				base.showLoadingSpin()
+    				getListAdvertiseNickname($("#searchConWrap .nickname").val())
+    			}
+    		}
+    	})
     }
 });

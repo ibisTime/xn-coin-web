@@ -12,7 +12,7 @@ define([
         d.show();
         setTimeout(function() {
             d.close().remove();
-        }, time || 1500);
+        }, time || 2000);
     };
     var Ajax = {
         get: function(code, json, reload) {

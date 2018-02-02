@@ -98,9 +98,10 @@ define([
     		data2.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
     		})
-    		
     		withdrawFee = data3.cvalue
+    		$("#withdrawFee").val(withdrawFee+'ETH')
     		getAccount();
+    		
     	},base.hideLoadingSpin)
 		
         addListener();
@@ -273,6 +274,10 @@ define([
     		base.showMsg("操作成功");
     		$("#addWAddressDialog").addClass("hidden")
     		document.getElementById("sendOut-form").reset();
+    		base.showLoadingSpin();
+    		config.start = 1;
+    		getAccount();
+    		$("#withdrawFee").val(withdrawFee+'ETH')
     	},base.hideLoadingSpin)
     }
     
@@ -463,12 +468,6 @@ define([
 	    		withDraw(params)
 	    	}
     	})
-	    
-	    // 发送 - 手续费
-	    $("#sendOut-form .amount").keyup(function(){
-	    	var amount = $("#sendOut-form .amount").val();
-	    	$("#withdrawFee").val(base.formatMoneyMultiply(base.formatMoneyParse(amount), withdrawFee)+'ETH')
-	    })
 	    
     }
 });

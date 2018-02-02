@@ -25,6 +25,9 @@ define([
 	var userName = '', myName='';
 	var payType = {};
 	var firstLoad = false;
+	var newMsgHtml = '<div id="newMsgWrap" class="newMsg-wrap goHref" data-href="../order/order-list.html">您有未读消息</div>';
+	var tradeType ;
+	var adsCode ;
 	
 	init();
 
@@ -54,7 +57,7 @@ define([
 	}
 	function getOrderDetail() {
 		return TradeCtr.getOrderDetail(code).then((data) => {
-
+			adsCode = data.adsCode
 			//待支付
 			if(data.status == '0'||data.status == '1') {
 				$("#invalidDatetime samp").html("訂單將在託管中保持至<i>" + base.formatDate(data.invalidDatetime, "hh:mm:ss") + "</i>，逾期未支付交易將自動取消")
@@ -66,7 +69,6 @@ define([
 			$("#countString").html(base.formatMoney(data.countString));
 			$("#tradeAmount").html(data.tradeAmount);
 			$("#orderCode").html(data.code.substring(data.code.length - 8));
-			// $("#payType").html(typeList[data.payType]);
 			$("#payType").html(payType[data.payType]);
 			$("#leaveMessage").html(data.leaveMessage);
 
@@ -74,6 +76,7 @@ define([
 			$(".btn-wrap .am-button").addClass("hidden");
 			//当前用户为买家，显示卖家信息
 			if(data.buyUser == base.getUserId()) {
+				tradeType = '0';
 				var user = data.sellUserInfo;
 				var myInfo = data.buyUserInfo;
 				$("#user").html("賣家信息")
@@ -92,6 +95,7 @@ define([
 				
 				//当前用户为卖家，显示买家信息
 			} else {
+				tradeType = '1';
 				var user = data.buyUserInfo;
 				var myInfo = data.sellUserInfo;
 				$("#user").html("買家信息")
@@ -110,6 +114,25 @@ define([
 	    	//已支付，待释放
 			if(data.status=="1"){
     			$(".arbitrationBtn").removeClass("hidden");
+    		
+			}
+			//待下单
+			if(data.status=="-1"){
+				
+				$("title").html("廣告詳情-倍可盈");
+				$(".orderDetail-info .info-wrap").addClass("hidden");
+				if(tradeType=='0'){
+					
+					$(".orderDetail-info .title").html('<i class="icon icon-order"></i>購買訂單')
+					$(".goBuyDetailBtn").removeClass("hidden");
+				}else if(tradeType=='1'){
+					$(".orderDetail-info .title").html('<i class="icon icon-order"></i>出售訂單')
+					$(".goSellDetailBtn").removeClass("hidden");
+				}
+    			
+    			getAdvertiseDetail();
+			}else{
+				$("title").html("訂單詳情-倍可盈")
 			}
 			
 			userName = user.nickname;
@@ -143,6 +166,16 @@ define([
 			base.hideLoadingSpin();
 		}, base.hideLoadingSpin)
 	}
+	
+	//获取详情
+    function getAdvertiseDetail(){
+    	return TradeCtr.getAdvertiseDetail(adsCode).then((data)=>{
+    		var limit = data.minTrade+'-'+data.maxTrade;
+    		$("#truePrice").html(Math.floor(data.truePrice*100)/100)
+    		$("#limit").html(limit);
+    		$(".info-wrap1").removeClass("hidden")
+    	},base.hideLoadingSpin)
+    }
 
 	function login() {
 		let listeners = {
@@ -174,6 +207,7 @@ define([
 					}
 				};
 				bindScrollHistoryEvent.init();
+				getMyGroup();
 			}, function(err) {
 				alert(err.ErrorInfo);
 			});
@@ -182,6 +216,45 @@ define([
 //			console.log('login err');
 			// self.setTententLogined(false);
 		});
+	}
+	//获取我的群组
+	function getMyGroup(){
+		
+	    var options = {
+	        'Member_Account': loginInfo.identifier,
+	        //'GroupType':'',
+	        'GroupBaseInfoFilter': [
+	        ],
+	        'SelfInfoFilter': [
+	            'UnreadMsgNum'
+	        ]
+	    };
+	    webim.getJoinedGroupListHigh(
+	            options,
+	            function (resp) {
+	                if (!resp.GroupIdList || resp.GroupIdList.length == 0) {
+	                    return;
+	                }
+	                for (var i = 0; i < resp.GroupIdList.length; i++) {
+	                    var unreadMsgNum = resp.GroupIdList[i].SelfInfo.UnreadMsgNum;
+	                    
+	                    if(unreadMsgNum>1){
+	                    	unreadMsgFlag = true
+	                    }
+	                }
+	                if(unreadMsgFlag){
+		            	if(!$("#newMsgWrap").length){
+							$("body").append(newMsgHtml)
+						}
+						if(!$("#newMsgWrap").hasClass("on")){
+							$("#newMsgWrap").addClass('on')
+						}
+		            }
+	            },
+	            function (err) {
+	                alert(err.ErrorInfo);
+	            }
+	    );
 	}
 
 	//表情初始化 
@@ -257,9 +330,29 @@ define([
 //				console.warn(newMsg);
 				addMsg(newMsg,'',1);
 			}
+			
 		}
 		//消息已读上报，以及设置会话自动已读标记
 		webim.setAutoRead(selSess, true, true);
+		var otherNew = false;
+		for (var i in sessMap) {
+	        sess = sessMap[i];
+	        if (groupId != sess.id()) {//更新其他聊天对象的未读消息数
+	        	if(sess.unread()>=1){
+	        		otherNew = true;
+//		            updateSessDiv(sess.type(), sess.id(), sess.unread());
+				}
+	        }
+	    }
+        if(otherNew){
+        	if(!$("#newMsgWrap").length){
+				$("body").append(newMsgHtml)
+			}
+			if(!$("#newMsgWrap").hasClass("on")){
+				$("#newMsgWrap").addClass('on')
+			}
+        }
+		
 	}
 
 	//读取群组基本资料-高级接口
@@ -484,9 +577,6 @@ define([
 		fromAccountImage = msg.fromAccountHeadurl || '';
 		if(fromAccount == 'admin') {
 			fromAccountNick = '系统消息';
-			if(isNew){
-				getOrderDetail();
-			}
 		}
 		var onemsg = document.createElement("div");
 
@@ -541,8 +631,15 @@ define([
 		}
 
 		onemsg.appendChild(msghead);
-		
 		onemsg.appendChild(msgbody);
+		
+		if(fromAccount == 'admin') {
+			if(isNew){
+				setTimeout(function(){
+					getOrderDetail();
+				},100)
+			}
+		}
 		//消息列表
 		var msgflow = document.getElementById("msgflow");
 		if(prepend) {
@@ -999,6 +1096,15 @@ define([
 	            $("#commentDialog .comment-Wrap .item").eq(0).addClass("on").siblings(".item").removeClass("on")
     		},base.hideLoadingSpin)
         })
-
+		
+		//购买 点击
+        $(".goBuyDetailBtn").on("click", function(){
+    		base.gohref("../trade/buy-detail.html?code="+adsCode)
+        	
+        })
+        //出售 点击
+        $(".goSellDetailBtn").on("click", function(){
+    		base.gohref("../trade/sell-detail.html?code="+adsCode)
+        })
 	}
 });

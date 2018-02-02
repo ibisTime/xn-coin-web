@@ -147,11 +147,7 @@ define([
 		    //保留8位小数
 		    s = new BigDecimal.BigDecimal(s);
 		    s = s.divide(new BigDecimal.BigDecimal("1e18"), t||8, BigDecimal.MathContext.ROUND_DOWN).toString();
-		    if(s.match(/\.\d+0+/)){
-		    	var _tmp = s.match(/\.\d+0+/)[0].replace(/0+$/,'');
-		    	_tmp = _tmp=='.'?'':_tmp;
-		    	s = s.replace(/\.\d+0+/, _tmp)
-		    }
+		    s = s.replace(/(-?\d+)\.0+$/, '$1').replace(/(.+[^0]+)0+$/, '$1')
 		    return s;
         },
         //金额减法 s1-s2
@@ -484,7 +480,7 @@ define([
         //计算百分比
         getPercentum: function(n1,n2){
         	if(n1=='0'&&n2=='0'){
-        		return '100%';
+        		return '0';
         	}
         	var n = n1/n2*100
         	return parseInt(n)+"%"

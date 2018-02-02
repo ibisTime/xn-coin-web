@@ -119,6 +119,9 @@ define([
     			$("#timeWrap").addClass("hide")
     		}
     		
+    		if(data.status=="1"){
+    			$("#doDownBtn").removeClass("hidden")
+    		}
     		base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
@@ -369,6 +372,20 @@ define([
 
 		}
 		
+		
+		$("#doDownBtn").on("click", function(){
+        	base.confirm("確認下架此廣告？").then(()=>{
+        		base.showLoadingSpin()
+        		TradeCtr.downAdvertise(code).then(()=>{
+        			base.hideLoadingSpin();
+        			
+        			base.showMsg("操作成功");
+        			setTimeout(function(){
+			            history.go(-1)
+        			},1500)
+        		},base.hideLoadingSpin)
+        	},base.emptyFun)
+		})
 		
     }
 });

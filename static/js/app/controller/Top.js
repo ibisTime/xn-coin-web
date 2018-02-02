@@ -3,7 +3,8 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/AccountCtr',
     'app/interface/UserCtr',
-], function(base, GeneralCtr, AccountCtr, UserCtr) {
+    'app/module/tencentCloudLogin'
+], function(base, GeneralCtr, AccountCtr, UserCtr, TencentCloudLogin) {
 
     init();
     

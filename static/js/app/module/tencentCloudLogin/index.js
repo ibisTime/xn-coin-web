@@ -2,7 +2,6 @@ define([
 	'app/controller/base',
 	'app/interface/GeneralCtr',
 ], function(base, GeneralCtr,) {
-	var tmpl = __inline("index.html");
 	var loginInfo = {};
 	var userId = base.getUserId();
 	var selType = webim.SESSION_TYPE.GROUP;
@@ -18,17 +17,22 @@ define([
 	var userName = '', myName='';
 	var defaultOpt={};
 	var firstChat = true; //页面第一次点击聊天
-	var newMsgHtml = '<div id="newMsgWrap" class="newMsg-wrap goHref" data-href="../order/order-list.html">您有其他未读消息</div>';
+	var newMsgHtml = '<div id="newMsgWrap" class="newMsg-wrap goHref" data-href="../order/order-list.html">您有未读消息</div>';
+	var unreadMsgList={};//未读消息数
 	var unreadMsgFlag = false;
 	
+	if(base.isLogin()&&!/\/order-list\.html/.test(location.href)&&!/\/buy-detail\.html/.test(location.href)&&!/\/sell-detail\.html/.test(location.href)){
+		getTencunLogin();
+	}
+	
 	function init() {
-		$("#TencentChatContainer .advertise-info .nickname").html(userName)
-		$("#TencentChatContainer .advertise-info .truePrice").html(defaultOpt.truePrice)
-		$("#TencentChatContainer .advertise-info .limit").html(defaultOpt.limit)
+		$(".advertise-info .nickname").html(userName)
+		$(".advertise-info .truePrice").html(defaultOpt.truePrice)
+		$(".advertise-info .limit").html(defaultOpt.limit)
 		
 		addListener();
 	}
-	
+
 	function getTencunLogin() {
 		return GeneralCtr.getTencunLogin().then((data) => {
 			loginInfo = {
@@ -54,6 +58,7 @@ define([
 		};
 		webim.login(loginInfo, listeners, options, function(resp) {
 			base.hideLoadingSpin();
+			
 			getMyGroup();
 		}, function() {
 //			base.showMsg("聊天加载失败，请刷新页面再试")
@@ -61,37 +66,10 @@ define([
 		});
 	}
 	
-	//获取历史消息显示聊天框
-	function getLastGroupHistoryMsgsFun(){
-		TencentChatObj._showCont();
-    	base.hideLoadingSpin()
-		// 获取历史消息;
-		getLastGroupHistoryMsgs(function(msgList) {
-			getHistoryMsgCallback(msgList);
-
-			var msgflow = document.getElementById("msgflow");
-			var bindScrollHistoryEvent = {
-				init: function() {
-					msgflow.onscroll = function() {
-						if(msgflow.scrollTop == 0) {
-							msgflow.scrollTop = 10;
-							getPrePageGroupHistoryMsgs();
-						}
-					}
-				},
-				reset: function() {
-					msgflow.onscroll = null;
-				}
-			};
-			bindScrollHistoryEvent.init();
-		}, function(err) {
-			base.showMsg(err.ErrorInfo);
-		});
-	}
-	
 	//获取我的群组
 	function getMyGroup(){
 		
+//		    initGetMyGroupTable([]);
 		    var options = {
 		        'Member_Account': loginInfo.identifier,
 		        //'GroupType':'',
@@ -128,7 +106,6 @@ define([
 		            }
 		    );
 	}
-
 	//表情初始化 
 	function showEmotionDialog() {
 		if(emotionFlag) {
@@ -184,51 +161,39 @@ define([
 				break;
 		}
 	}
-
+	
+	//新消息
 	function onMsgNotify(newMsgList) {
-//		console.log(newMsgList);
-
-		var sess, newMsg;
-		//获取所有聊天会话
-		var sessMap = webim.MsgStore.sessMap();
-		var isNewMag = false;
-
-		for(var j in newMsgList) { //遍历新消息
-			newMsg = newMsgList[j];
-			if(!selSess) { // 没有聊天对象
-				selSess = newMsg.getSession();
+		if(!$(".chat-container").length){
+			var sess, newMsg;
+			//获取所有聊天会话
+			var sessMap = webim.MsgStore.sessMap();
+	
+			for(var j in newMsgList) { //遍历新消息
+				var _tmpl  = convertMsgtoHtml(newMsgList[j])
+				if(!_tmpl.sta){
+					newMsg = _tmpl
+				}
 			}
-			if(newMsg.getSession().id() == groupId) { //为当前聊天对象的消息
-				//在聊天窗体中新增一条消息
-//				console.warn(newMsg);
-				isNewMag = true;
-				addMsg(newMsg,'',1);
-			}
-		}
-		if(isNewMag){
-			TencentChatObj._showCont();
-			//消息已读上报，以及设置会话自动已读标记
-			webim.setAutoRead(selSess, true, true);
-		}
-		var otherNew = false;
-		for (var i in sessMap) {
-	        sess = sessMap[i];
-	        if (groupId != sess.id()) {//更新其他聊天对象的未读消息数
-	        	if(sess.unread()>=1){
-	        		otherNew = true;
-//		            updateSessDiv(sess.type(), sess.id(), sess.unread());
+			var otherNew = false;
+			for (var i in sessMap) {
+		        sess = sessMap[i];
+		        if (groupId != sess.id()) {//更新其他聊天对象的未读消息数
+		        	if(sess.unread()>=1){
+		        		otherNew = true;
+	//		            updateSessDiv(sess.type(), sess.id(), sess.unread());
+					}
+		        }
+		    }
+	        if(otherNew){
+	        	if(!$("#newMsgWrap").length){
+					$("body").append(newMsgHtml)
+				}
+				if(!$("#newMsgWrap").hasClass("on")){
+					$("#newMsgWrap").addClass('on')
 				}
 	        }
-	    }
-        if(otherNew){
-        	if(!$("#newMsgWrap").length){
-				$("body").append(newMsgHtml)
-			}
-			if(!$("#newMsgWrap").hasClass("on")){
-				$("#newMsgWrap").addClass('on')
-			}
-        }
-		
+		}
 	}
 
 	//读取群组基本资料-高级接口
@@ -312,8 +277,6 @@ define([
 				}
 			);
 		});
-		
-		
 	}
 	//向上翻页，获取更早的群历史消息
 	function getPrePageGroupHistoryMsgs(cbOk) {
@@ -791,141 +754,6 @@ define([
 
 	function addListener() {
 
-		//--聊天 star--
-		$('#send').on('click', function() {
-			if($('#msgedit').val()!=""&&$('#msgedit').val()){
-				onSendMsg($('#msgedit').val());
-			}
-		});
-//	    $(document).keyup(function(event){
-//			if(event.keyCode==13){
-//				$('#send').click();
-//				$('#msgedit').blur()
-//			}
-//		}); 
-		
-		$('#group').on('click', function() {
-			createGroup();
-		});
-		// 图片上传 star
-		$('#openPic').on('click', selectPicClick);
-		$('#upd_pic').on('change', function() {
-			fileOnChange(this);
-		});
-		$('#upd_send').on('click', function(){
-			if($('#upd_pic').val()!=""&&$('#upd_pic').val()){
-				uploadPic();
-			}
-		});
-		$('#upd_close').on('click', function() {
-			$('#upload_pic_dialog').hide();
-		});
-		$('#upload_pic_dialog .close').on('click', function() {
-			$('#upload_pic_dialog').hide();
-		});
-		
-		// ie<=9
-		$('#updli_send').on('click', function() {
-			if($('#updli_file').val()!=""&&$('#updli_file').val()){
-				uploadPicLowIE();
-			}
-		});
-		$('#updli_close').on('click', function() {
-			$('#upload_pic_low_ie_dialog').hide();
-		});
-		$('#upload_pic_low_ie_dialog .close').on('click', function() {
-			$('#upload_pic_low_ie_dialog').hide();
-		});
-		
-		$('#msgflow').on('click', 'img', function() {
-			imageClick(this);
-		});
-		$('#click_pic_dialog_close').on('click', function() {
-			$('#click_pic_dialog').hide();
-		})
-		$('#click_pic_dialog .close').on('click', function() {
-			$('#click_pic_dialog').hide();
-		});
-		
-		//表情
-		$('#msgImg').on('click', function() {
-			if($(this).hasClass("on")){
-				$(".emotionUL-wrap").addClass("hidden");
-				$(this).removeClass("on")
-			}else{
-				$(".emotionUL-wrap").removeClass("hidden");
-				$(this).addClass("on")
-				showEmotionDialog();
-			}
-		})
-		//--end--
 	}
 	
-	
-	var TencentChatObj ={
-		/**
-		 * TencentChat.addCont({code})
-		 * */
-		addCont: function(option){
-			option = option || {};
-            defaultOpt = $.extend(defaultOpt, option);
-            groupId = defaultOpt.code;
-            tradePhoto = defaultOpt.tradePhoto;
-			tradePhotoMy = defaultOpt.tradePhotoMy;
-			userName = defaultOpt.userName;
-			myName = defaultOpt.myName;
-			
-            if(!this.hasCont()){
-                var temp = $(tmpl);
-                $("body").append(tmpl);
-                
-                TencentChatObj.hideCont(defaultOpt.success);
-                
-                var _wrap = $("#TencentChatContainer .tencentChatContainer-top");
-                _wrap.find(".close").click(function(){
-                	TencentChatObj._hideCont();
-                })
-                
-                init();
-                getTencunLogin();
-            }
-		},
-        hasCont: function(){
-            return !!$("#TencentChatContainer").length;
-        },
-        showCont: function (option = {}){
-            if(this.hasCont()){
-                groupId = option.code;
-                if(firstChat){
-                	//登录获取消息
-                	getLastGroupHistoryMsgsFun();
-                	firstChat = false;
-                }else{
-                	base.hideLoadingSpin()
-                	TencentChatObj._showCont();
-                }
-            }
-            return this;
-        },
-        //显示效果
-        _showCont: function(){
-        	var _wrap = $("#TencentChatContainer");
-        	_wrap.addClass("on");
-        },
-        //隐藏
-        hideCont: function (success){
-            if(this.hasCont()){
-            	
-            	TencentChatObj._hideCont();
-                success && success();
-            }
-            return this;
-        },
-        //隐藏效果
-        _hideCont: function(){
-        	var _wrap = $("#TencentChatContainer");
-        		_wrap.removeClass("on");
-        },
-	}
-	return TencentChatObj;
 });

@@ -52,55 +52,41 @@ define([
         return UserCtr.getUserRelation(userId).then((data)=> {
 
             $('.infoWrap .trust').attr('data-isTrust',data.isTrust);
-            $('.infoWrap .trust').append($('.infoWrap .trust').attr('data-isTrust')!='0'?'已信任':'信任');
+            $('.infoWrap .trust').html($('.infoWrap .trust').attr('data-isTrust')!='0'?'已信任':'信任');
 
             $('.infoWrap .black').attr('data-isAddBlackList',data.isAddBlackList);
-            $('.infoWrap .black').append($('.infoWrap .black').attr('data-isAddBlackList')!='0'?'已拉黑':'屏蔽');
+            $('.infoWrap .black').html($('.infoWrap .black').attr('data-isAddBlackList')!='0'?'已拉黑':'屏蔽');
 
     	},()=>{})
     }
     // 获取用户详情
     function getUserDetail() {
-		return UserCtr.getUser1(userId).then((data) => {
-            var html = `<div class="item">
-							<p>${data.userStatistics.jiaoYiCount}</p>
-							<samp>交易次數</samp>
-						</div>
-						<div class="item">
-							<p>${data.userStatistics.beiXinRenCount}</p>
-							<samp>信任人數</samp>
-						</div>
-                        <div class="item">
-                            <p>${base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount)}</p>
-                             <samp>好評度</samp>
-                        </div>`;
+		return UserCtr.getUser(true,userId).then((data) => {
 
-
-
-        var photoHtml = ""
-        // 头像
-        if(data.photo){
-            photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(data.photo)}')"></div>`
-        }else{
-            var tmpl = data.nickname.substring(0,1).toUpperCase();
-            photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
-        }
-
-        $('.statistics').append(html);
-
-// 邮箱验证，手机验证，身份验证
-        $('.item.email').append(data.email?'<samp>郵箱已驗證</samp>':'<samp>郵箱未驗證</samp>');
-
-        $('.item.mobile').append(data.mobile?'<samp>手機已驗證</samp>':'<samp>手機未驗證</samp>');
-
-        $('.item.identity').append(data.googleAuthFlag?'<samp>身份已驗證</samp>':'<samp>身份未驗證</samp>');
-
-        // 昵称
-        $('.nickname.fl.ml20.mr40').append(`${data.nickname}`);
-        // ___发布的广告
-        $('.fl.tc_red_i').append(`${data.nickname}`);
-        // 头像
-        $('.photoWrap').append(`${photoHtml}`);
+	        var photoHtml = ""
+	        // 头像
+	        if(data.photo){
+	            photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(data.photo)}')"></div>`
+	        }else{
+	            var tmpl = data.nickname.substring(0,1).toUpperCase();
+	            photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
+	        }
+			$('.userDetail-top .nickname').html(data.nickname);
+	        $('.userDetail-top .photoWrap').html(photoHtml);
+	        $('.userDetail-top .userName').html(data.nickname);
+	        
+	        
+    		var totalTradeCount = data.userStatistics.totalTradeCount=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCount,'0')+'+';
+	        $('.jiaoYiCount').html(data.userStatistics.jiaoYiCount);
+	        $('.beiXinRenCount').html(data.userStatistics.beiXinRenCount);
+	        $('.beiHaoPingCount').html(base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount));
+	        $('.totalTradeCount').html(totalTradeCount+"ETH");
+	        
+	
+			// 邮箱验证，手机验证，身份验证
+	        $('.bindWrap .email samp').html(data.email?'郵箱已驗證':'郵箱未驗證');
+	        $('.bindWrap .mobile samp').html(data.mobile?'手機已驗證':'手機未驗證');
+	        $('.bindWrap .identity samp').html(data.realName?'身份已驗證':'身份未驗證');
         
     	},()=>{});
     }
@@ -174,6 +160,8 @@ define([
             }
         });
     }
+    
+    
     function addListener() {
         // 切换在线购买和在线出售
         $('.titleStatus li').click(function () {
@@ -202,6 +190,7 @@ define([
             		_this.attr("data-isTrust",_this.attr("data-isTrust")=='1'?'0':'1');
                     base.hideLoadingSpin()
                     base.showMsg('已取消信任');
+                    getUserDetail();
                 },base.hideLoadingSpin)
             } else {
                 UserCtr.addUserRelation(relationConfig,true).then((data)=>{
@@ -214,6 +203,7 @@ define([
            			 _this.attr("data-isTrust",_this.attr("data-isTrust")=='1'?'0':'1');
                     base.hideLoadingSpin()
                     base.showMsg('已信任');
+                    getUserDetail();
                 },base.hideLoadingSpin)
             }
         })
@@ -228,6 +218,7 @@ define([
            			 _this.attr("data-isAddBlackList",_this.attr("data-isAddBlackList")=='1'?'0':'1');
                     base.hideLoadingSpin();
 	                base.showMsg('已取消拉黑');
+                    getUserDetail();
 	            },base.hideLoadingSpin)
             }else {
                 UserCtr.addUserRelation(relationConfig,true).then((data)=>{
@@ -240,6 +231,7 @@ define([
             		_this.attr("data-isAddBlackList",_this.attr("data-isAddBlackList")=='1'?'0':'1');
                     base.hideLoadingSpin();
                     base.showMsg('已拉黑');
+                    getUserDetail();
                 },base.hideLoadingSpin)
             }
         })

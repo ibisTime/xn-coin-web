@@ -25,25 +25,29 @@
 				</div>
 				<div class="search-con fl bg_fff b_e_b b_e_t" id="searchConWrap">
 					<div class="advertisement-wrap adver">
-						<div class="item fl">
-							<samp>廣告類型</samp>
-							<i class="icon icon-down"></i>
+						<div class="item fl mr10">
+							<samp>價格區間:</samp>
+							<input type="text" name="minPrice" class="text ml5 minPrice"  />
+							<samp>~</samp>
+							<input type="text" name="maxPrice" class="text maxPrice"  />
 						</div>
 						<div class="item fl">
-							<samp>價格區間</samp>
-							<i class="icon icon-down"></i>
-						</div>
-						<div class="item fl">
-							<samp>付款方式</samp>
+							<samp>付款方式:</samp>
+							<select class="payType ml5" name="payType">
+								<option value="">請選擇</option>
+								<option value="0">支付寶</option>
+								<option value="1">微信</option>
+								<option value="2">銀行卡轉賬</option>
+							</select>
 							<i class="icon icon-down"></i>
 						</div>
 					</div>
 					<div class="user-wrap user hidden">
-						<input type="text" placeholder="請輸入用戶名" />
+						<input type="text" class="nickname" placeholder="請輸入用戶名" />
 					</div>
 				</div>
 				<div class="search-btn fl">
-					<div class="am-button am-button-red am-button-noradius">
+					<div class="am-button am-button-red am-button-noradius" id="searchBtn">
 						<i class="icon icon-search"></i>搜索
 					</div>
 				</div>

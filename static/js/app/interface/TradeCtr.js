@@ -17,6 +17,10 @@ define([
         getPageAdvertiseUser(config,refresh) {
             return Ajax.get("625227",config, refresh);
         },
+        //用户昵称查询广告
+        getListAdvertiseNickname(nickName,refresh) {
+            return Ajax.get("625229", {nickName}, refresh);
+        },
         /**
          * 发布/编辑广告
          * @param adsCode

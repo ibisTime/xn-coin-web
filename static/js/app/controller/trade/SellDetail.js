@@ -3,8 +3,9 @@ define([
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
-    'app/interface/TradeCtr'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
+    'app/interface/TradeCtr',
+    'app/module/tencentChat'
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, TencentChat) {
 	var code = base.getUrlParam("code");
 	var isDetail = !!base.getUrlParam("isD");//是否我的广告查看详情
 	var bizTypeList = {
@@ -17,6 +18,11 @@ define([
     	adsCode:code,
     	tradePrice: 0
     }
+    
+	var tradePhoto = '';
+	var tradePhotoMy = '';
+	var userName = '', myName='';
+	var limit = '';
     
     if(!base.isLogin()){
 		base.goLogin();
@@ -31,12 +37,11 @@ define([
     	
     	if(!isDetail){
     		$(".buy-wrap").removeClass("hidden")
-    		$("#chatBtn").removeClass("hidden");
     	}
     	GeneralCtr.getSysConfig("trade_remind").then((data)=>{
     		$("#tradeWarn").html(data.cvalue.replace(/\n/g,'<br>'))
-    		getAdvertiseDetail();
-    	},base.hideLoadingSpin)
+			getAdvertiseDetail()
+    	}, base.hideLoadingSpin)
     	
         addListener();
         
@@ -44,6 +49,16 @@ define([
     
     function getAdvertiseDetail(){
     	return TradeCtr.getAdvertiseDetail(code).then((data)=>{
+    		var user = data.user;
+    		userName = user.nickname;
+			
+			if(user.photo) {
+				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?userId='+user.userId+'"  style="background-image:url(\''+base.getAvatar(user.photo)+'\')"></div>'
+			} else {
+				var tmpl = user.nickname.substring(0, 1).toUpperCase();
+				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?userId='+user.userId+'" ><div class="noPhoto">'+tmpl+'</div></div>'
+			}
+    		
     		if(data.user.photo){
     			$("#photo").css({"background-image":"url('"+base.getAvatar(data.user.photo)+"')"})
     		}else{
@@ -52,23 +67,54 @@ define([
     			$("#photo").html(photoHtml)
     		}
     		
-    		config.tradePrice = data.truePrice.toFixed(2);
+    		config.tradePrice = Math.floor(data.truePrice*100)/100;
+    		limit = data.minTrade+'-'+data.maxTrade
     		$("#nickname").html(data.user.nickname)
     		if(data.status=="1"&&isDetail){
     			$("#doDownBtn").removeClass("hidden");
     		}
+    		
+    		var totalTradeCount = data.user.userStatistics.totalTradeCount=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCount,'0')+'+';
     		$("#jiaoYiCount").html(data.user.userStatistics.jiaoYiCount)
     		$("#beiXinRenCount").html(data.user.userStatistics.beiXinRenCount)
     		$("#beiHaoPingCount").html(base.getPercentum(data.user.userStatistics.beiHaoPingCount,data.user.userStatistics.beiPingJiaCount))
-    		$("#totalTradeCount").html(base.formatMoney(data.user.userStatistics.totalTradeCount,'0')+"+ETH")
+    		$("#totalTradeCount").html(totalTradeCount+"ETH")
     		$("#leaveMessage").html(data.leaveMessage.replace(/\n/g,'<br>'))
     		$("#truePrice").html(data.truePrice.toFixed(2))
     		$("#submitDialog .tradePrice").html(data.truePrice.toFixed(2)+"CNY")
-    		$("#limit").html(data.minTrade+'-'+data.maxTrade)
+    		$("#limit").html(limit)
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
     		
+    		getUser();
 			base.hideLoadingSpin();
+    	},base.hideLoadingSpin)
+    }
+    
+    //获取用户详情
+    function getUser(){
+    	return UserCtr.getUser().then((data)=>{
+    		var myInfo=data;
+    		myName = myInfo.nickname;
+    		if(myInfo.photo) {
+				tradePhotoMy = '<div class="photo" style="background-image:url(\''+base.getAvatar(myInfo.photo)+'\')"></div>'
+			} else {
+				var tmpl = myInfo.nickname.substring(0, 1).toUpperCase();
+				tradePhotoMy = '<div class="photo"><div class="noPhoto">'+tmpl+'</div></div>'
+			}
+			
+			//聊天框加载
+	    	TencentChat.addCont({
+	    		tradePhoto: tradePhoto,
+				tradePhotoMy : tradePhotoMy,
+				userName : userName,
+				myName : myName,
+				truePrice: config.tradePrice+' CNY/ETH',
+				limit: limit+' CNY',
+	    		success: function(){
+	    			$("#chatBtn").removeClass("hidden")
+	    		}
+	    	});
     	},base.hideLoadingSpin)
     }
     
@@ -102,28 +148,34 @@ define([
     	
     	//立即下单点击
 	    $("#buyBtn").click(function(){
-	    	if(_formWrapper.valid()){
+//	    	if(_formWrapper.valid()){
+//	    		if($("#buyAmount").val()!=''&&$("#buyAmount").val()){
+//					$("#submitDialog").removeClass("hidden")
+//		    	}else{
+//		    		base.showMsg("請輸入您購買的金額")
+//		    	}
+//	    	}
+	    	UserCtr.getUser().then((data)=>{
+    			if(data.tradepwdFlag&&data.realName){
+			    	if(_formWrapper.valid()){
 			    		if($("#buyAmount").val()!=''&&$("#buyAmount").val()){
 							$("#submitDialog").removeClass("hidden")
 				    	}else{
 				    		base.showMsg("請輸入您購買的金額")
 				    	}
 			    	}
-//	    	UserCtr.getUser().then((data)=>{
-//  			if(data.tradepwdFlag&&data.realName){
-//			    	
-//  			}else if(!data.tradepwdFlag){
-//  				base.showMsg("請先設置資金密碼")
-//  				setTimeout(function(){
-//  					base.gohref("../user/setTradePwd.html?type=1")
-//  				},1800)
-//  			}else if(!data.realName){
-//  				base.showMsg("請先进行身份验证")
-//  				setTimeout(function(){
-//  					base.gohref("../user/identity.html")
-//  				},1800)
-//  			}
-//  		},base.hideLoadingSpin)
+    			}else if(!data.tradepwdFlag){
+    				base.showMsg("請先設置資金密碼")
+    				setTimeout(function(){
+    					base.gohref("../user/setTradePwd.html?type=1")
+    				},1800)
+    			}else if(!data.realName){
+    				base.showMsg("請先进行身份验证")
+    				setTimeout(function(){
+    					base.gohref("../user/identity.html")
+    				},1800)
+    			}
+    		},base.hideLoadingSpin)
     	})
     	
     	//下单确认弹窗-放弃点击
@@ -167,5 +219,17 @@ define([
         		},base.hideLoadingSpin)
         	},base.emptyFun)
 		})
+    	
+    	//聊天按钮点击
+    	$("#chatBtn").click(function(){
+    		base.showLoadingSpin();
+    		// 购买开始聊天，提交交易订单
+    		TradeCtr.chatOrderSell(code).then((data)=>{
+    			TencentChat.showCont({
+    				code: data.code,
+    			})
+	    	},base.hideLoadingSpin)
+    		
+    	})
     }
 });

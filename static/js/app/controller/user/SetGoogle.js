@@ -81,7 +81,8 @@ define([
 		$("#subBtn").click(function(){
     		if(_formWrapper.valid()){
 	    		base.showLoadingSpin();
-	    		var params = _formWrapper.serializeObject()
+	    		var params = _formWrapper.serializeObject();
+	    		params.secret = $("#secret").val();
 	    		
 	    		if(type=='0'){
 	    			openGoogle(params)

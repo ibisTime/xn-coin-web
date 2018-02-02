@@ -23,10 +23,13 @@
 			</div>
 
 			<div class="orderDetail-info b_e mb20">
-				<samp class="tc_red_i"><i class="icon icon-order"></i>訂單信息</samp>
-				<samp>交易價格: <i id="tradePrice"></i> CNY</samp>
-				<samp>交易數量: <i id="countString"></i> ETH</samp>
-				<samp>交易金額: <i id="tradeAmount"></i> CNY</samp>
+				<samp class="tc_red_i title"><i class="icon icon-order"></i>訂單信息</samp>
+				<samp class="info-wrap">交易價格: <i id="tradePrice"></i> CNY</samp>
+				<samp class="info-wrap">交易數量: <i id="countString"></i> ETH</samp>
+				<samp class="info-wrap">交易金額: <i id="tradeAmount"></i> CNY</samp>
+				
+				<samp class="info-wrap1 hidden">報價: <i id="truePrice"></i> CNY/ETH</samp>
+				<samp class="info-wrap1 hidden">交易限額: <i id="limit"></i> CNY</samp>
 				
 				<div class="btn-wrap fr">
 					<div class="am-button am-button-red am-button-small ml20 fl payBtn hidden">標記付款</div>
@@ -34,6 +37,8 @@
 					<div class="am-button am-button-red am-button-small ml20 fl commentBtn hidden">交易評價</div>
 					<div class="am-button am-button-red am-button-small ml20 fl releaseBtn hidden">释放货币</div>
 					<div class="am-button am-button-ghost am-button-small ml20 fl arbitrationBtn hidden">申请仲裁</div>
+					<div class="am-button am-button-ghost am-button-small ml20 fl goBuyDetailBtn hidden">購買</div>
+					<div class="am-button am-button-ghost am-button-small ml20 fl goSellDetailBtn hidden">出售</div>
 				</div>
 			</div>
 
@@ -252,9 +257,6 @@
 	    </div>
 
 		<link rel="import" href="../footer.html?__inline">
-		<script type="text/javascript" src="../js/lib/webim/spark-md5.js"></script>
-		<script type="text/javascript" src="../js/lib/webim/json2.js"></script>
-		<script type="text/javascript" src="../js/lib/webim/webim.min.js"></script>
 		<script>
 			require(['app/controller/order/OrderDetail']);
 		</script>

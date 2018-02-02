@@ -10,10 +10,12 @@ define([
 		return;
 	}
 	
-	$("#left-wrap .user").addClass("on")
 	init();
     
     function init() {
+    	if($("#head-user-wrap").hasClass("hidden")){
+    		$("#head-user-wrap").removeClass("hidden")
+    	}
     	base.showLoadingSpin();
         addListener();
     	$.when(
