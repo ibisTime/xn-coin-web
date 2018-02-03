@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>購買-ETH-倍可盈</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+        <link rel="import" href="../top/top-zendesk.html?__inline">
+    </head>
+    
+    <body>
+        <link rel="import" href="../top/top.html?__inline">
+		<div class="user-container myAdvertise-container">
+			<div class="left-wrap b_e bg_fff fl" id="left-wrap">
+				<link rel="import" href="./advertise-left.html?__inline">
+			</div>
+			<div class="right-wrap b_e bg_fff fr minheight">
+				<div class="order-container wp100">
+					<div class="titleWrap wp100 over-hide b_e_b">
+						<div class="fl">
+							<ul class="titleStatus over-hide">
+								<li class="wait on">待发布</li>
+								<li class="already">已发布</li>
+							</ul>
+						</div>
+					</div>
+					<div class="trade-list-wrap userSelect_none">
+						<div class="trade-wrap wp100">
+							<table class="wp100 trade-form b_e_b" cellpadding="0" cellspacing="0">
+								<thead>
+									<tr>
+										<!--<td class="type">廣告類型</td>-->
+										<td class="price">價格</td>
+										<td class="price">溢價比例</td>
+										<td class="createDatetime">創建時間</td>
+										<td class="status tc">狀態</td>
+										<td class="operation"></td>
+									</tr>
+								</thead>
+								<tbody id="content">
+									<!--<tr>
+										<td class="type">廣告類型</td>
+										<td class="price">價格</td>
+										<td class="price">溢價比例</td>
+										<td class="createDatetime">創建時間</td>
+										<td class="status">狀態</td>
+										<td class="operation">
+											<div class="am-button am-button-ghost">發佈</div>
+										</td>
+									</tr>-->
+								</tbody>
+							</table>
+							<div class="no-data hidden">
+								<img src="../../images/暂无明细.png" />
+								<p>暫無广告</p>
+							</div>
+						</div>
+						<div id="pagination" class="wp100 pagination-wrap tc">
+							<p class="pagination"></p>
+						</div>
+					</div>
+					
+				</div>	
+			</div>
+		</div>		
+        <link rel="import" href="../footer.html?__inline">
+        <script>
+            require(['app/controller/user/AdvertiseETH']);
+        </script>
+    </body>
+</html>
