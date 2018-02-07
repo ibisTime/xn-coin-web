@@ -15,4 +15,5 @@ var INVITATION_HREF = 'http://mtest.bcoin.hichengdai.com';
 var ZENDESK_LABEL = 'search';
 var FOOT_TETUI= 'Bcoin Exchange';
 var FOOT_EMAIL = 'contact@bcoin.im';
+var COIN_LIST = {"0": "ETH","1": "SC",}
 

@@ -72,7 +72,7 @@ define([
     
     function init() {
     	base.showLoadingSpin();
-    	$("#wallet-top .eth").addClass("on");
+    	$("#wallet-top .sc").addClass("on");
 		$("#addWAddressMobile").val(base.getUserMobile())
 		if(base.getGoogleAuthFlag()=="true"&&base.getGoogleAuthFlag()){
 			$(".googleAuthFlag").removeClass("hidden");
@@ -89,7 +89,7 @@ define([
 		$.when(
 			GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
 			GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
-			GeneralCtr.getSysConfig("withdraw_fee_eth",true)
+			GeneralCtr.getSysConfig("withdraw_fee_sc",true)
 		).then((data1,data2, data3)=>{
     		
     		data1.forEach(function(item){
@@ -99,7 +99,7 @@ define([
     			bizTypeValueList[item.dkey] = item.dvalue
     		})
     		withdrawFee = data3.cvalue
-    		$("#withdrawFee").val(withdrawFee+'ETH')
+    		$("#withdrawFee").val(withdrawFee+'SC')
     		getAccount();
     		
     	},base.hideLoadingSpin)
@@ -116,7 +116,7 @@ define([
     	return AccountCtr.getAccount().then((data)=>{
     		
     		data.accountList.forEach(function(item){
-    			if(item.currency=="ETH"){
+    			if(item.currency=="SC"){
     				$(".wallet-account-wrap .amount").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString));
 		    		$(".wallet-account-wrap .frozenAmountString").text(base.formatMoney(item.frozenAmountString));
 		    		$(".wallet-account-wrap .amountString").text(base.formatMoney(item.amountString));
@@ -125,7 +125,7 @@ define([
 		    		$("#myCoinAddress").text(item.coinAddress);
 			    	var qrcode = new QRCode('qrcode',item.coinAddress);
 				 	qrcode.makeCode(item.coinAddress);
-				 	$("#sendOut-form .amount").attr("placeholder","發送數量，本次最多可發送"+base.formatMoneySubtract(item.amountString,item.frozenAmountString)+"ETH")
+				 	$("#sendOut-form .amount").attr("placeholder","發送數量，本次最多可發送"+base.formatMoneySubtract(item.amountString,item.frozenAmountString)+"SC")
 				 	sendOutWrapperRules["amount"]={
 				 		max: base.formatMoneySubtract(item.amountString,item.frozenAmountString)
 					}
@@ -252,8 +252,8 @@ define([
     }
     
     //添加地址
-    function addETHCoinAddress(params){
-    	return AccountCtr.addETHCoinAddress(params).then((data)=>{
+    function addSCCoinAddress(params){
+    	return AccountCtr.addSCCoinAddress(params).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
     		setTimeout(function(){
@@ -277,13 +277,13 @@ define([
     		base.showLoadingSpin();
     		config.start = 1;
     		getAccount();
-    		$("#withdrawFee").val(withdrawFee+'ETH')
+    		$("#withdrawFee").val(withdrawFee+'SC')
     	},base.hideLoadingSpin)
     }
     
     //弃用地址
-    function deleteETHCoinAddress(code){
-    	return AccountCtr.deleteETHCoinAddress(code).then((data)=>{
+    function deleteSCCoinAddress(code){
+    	return AccountCtr.deleteSCCoinAddress(code).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
     		setTimeout(function(){
@@ -378,7 +378,7 @@ define([
     		var addressCode = $(this).attr("data-code");
     		base.confirm("確定刪除此地址？").then(()=>{
     			base.showLoadingSpin();
-    			deleteETHCoinAddress(addressCode)
+    			deleteSCCoinAddress(addressCode)
     		},base.emptyFun)
     		
     	})
@@ -437,7 +437,7 @@ define([
 	    			params.isCerti = "0"
 	    		}
 	    		
-	    		addETHCoinAddress(params)
+	    		addSCCoinAddress(params)
 	    	}
 
     	})
@@ -464,7 +464,7 @@ define([
 	    		var params=_sendOutWrapper.serializeObject();
 	    		params.amount = base.formatMoneyParse(params.amount);
 	    		params.accountNumber = accountNumber;
-	    		params.payCardInfo = 'ETH'
+	    		params.payCardInfo = 'SC'
 	    		withDraw(params)
 	    	}
     	})

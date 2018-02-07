@@ -7,6 +7,7 @@ define([
     'app/module/tencentChat'
 ], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, TencentChat) {
 	var code = base.getUrlParam("code");
+	var coin = base.getUrlParam("coin") || '0'; // 币种
 	var isDetail = !!base.getUrlParam("isD");//是否我的广告查看详情
 	var bizTypeList = {
             "0": "支付宝",
@@ -74,17 +75,29 @@ define([
     			$("#doDownBtn").removeClass("hidden");
     		}
     		
-    		var totalTradeCount = data.user.userStatistics.totalTradeCount=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCount,'0')+'+';
+    		var totalTradeCountETH = data.user.userStatistics.totalTradeCountEth=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountEth,'0')+'+';
+    		var totalTradeCountSC = data.user.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountSc,'0','SC')+'+';
+    		
     		$("#jiaoYiCount").html(data.user.userStatistics.jiaoYiCount)
     		$("#beiXinRenCount").html(data.user.userStatistics.beiXinRenCount)
     		$("#beiHaoPingCount").html(base.getPercentum(data.user.userStatistics.beiHaoPingCount,data.user.userStatistics.beiPingJiaCount))
-    		$("#totalTradeCount").html(totalTradeCount+"ETH")
+    		$("#totalTradeCount").html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC")
     		$("#leaveMessage").html(data.leaveMessage.replace(/\n/g,'<br>'))
-    		$("#truePrice").html(data.truePrice.toFixed(2))
-    		$("#submitDialog .tradePrice").html(data.truePrice.toFixed(2)+"CNY")
     		$("#limit").html(limit)
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
+    		
+    		if(data.tradeCoin=="ETH"){
+    			$("#truePrice").html(config.tradePrice+'&nbsp;CNY/ETH')
+    			$("#submitDialog .tradePrice").html(config.tradePrice+'&nbsp;CNY/ETH')
+    			$("#leftCountString").html(base.formatMoney(data.leftCountString));
+    			$("#coin").text('ETH')
+    		}else if(data.tradeCoin=="SC"){
+    			$("#truePrice").html(config.tradePrice+'&nbsp;CNY/SC')
+    			$("#submitDialog .tradePrice").html(config.tradePrice+'&nbsp;CNY/SC')
+    			$("#leftCountString").html(base.formatMoney(data.leftCountString,8,'SC'))
+    			$("#coin").text('SC')
+    		}
     		
     		getUser();
 			base.hideLoadingSpin();
@@ -192,14 +205,14 @@ define([
     	$("#buyEth").keyup(function(){
     		$("#buyAmount").val(($("#buyEth").val()*config.tradePrice).toFixed(2));
     		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
-    		$("#submitDialog .count").html($("#buyEth").val()+"ETH")
+    		$("#submitDialog .count").html($("#buyEth").val()+ COIN_LIST[coin])
     		config.tradeAmount = $("#buyAmount").val()
     		config.count=base.formatMoneyParse($("#buyEth").val())
     	})
     	$("#buyAmount").keyup(function(){
     		$("#buyEth").val(($("#buyAmount").val()/config.tradePrice).toFixed(8));
     		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
-    		$("#submitDialog .count").html($("#buyEth").val()+"ETH")
+    		$("#submitDialog .count").html($("#buyEth").val()+ COIN_LIST[coin])
 			config.tradeAmount = $("#buyAmount").val()
     		config.count=base.formatMoneyParse($("#buyEth").val())
     	})

@@ -586,12 +586,6 @@ table {
             top: -38px;
     
         }
-        
-        &:hover{
-            .down-wrap{
-                height: 136px;
-            }
-        }
     }
 }
 .swiper-pagination{
@@ -1635,6 +1629,7 @@ table {
                 -ms-transition: color,border-color .4s;
                 -moz-transition: color,border-color .4s;
                 -webkit-transition: color,border-color .4s;
+                cursor: default;
                 
                 &:first-child{
                     margin-left: 0;
@@ -2025,6 +2020,10 @@ table {
                 samp{
                     color: $red-color;
                     font-size: 24px;
+                    i{
+                        font-style: normal;
+                        font-size: 14px;
+                    }
                 }
             }
             p:first-child{

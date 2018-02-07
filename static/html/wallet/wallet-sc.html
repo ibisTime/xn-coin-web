@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <link rel="import" href="../head.html?__inline">
-        <title>錢包ETH-倍可盈</title>
+        <title>錢包SC-倍可盈</title>
     	<!--SCRIPT_PLACEHOLDER-->
     </head>
     
@@ -15,19 +15,19 @@
 			</div>
 			
 			<div class="wallet-account-wrap b_e bg_fff mb20 mt20">
-				<p class="yue">錢包可用餘額：<samp class="amount">0</samp>ETH</p>
+				<p class="yue">錢包可用餘額：<samp class="amount">0</samp>SC</p>
 				<div class="account">
-					<samp>可用資產：<i class="amount">0</i>ETH</samp>
-					<samp>凍結資產：<i class="frozenAmountString">0</i>ETH</samp>
-					<samp>總資產：<i class="amountString">0</i>ETH</samp>
+					<samp>可用資產：<i class="amount">0</i>SC</samp>
+					<samp>凍結資產：<i class="frozenAmountString">0</i>SC</samp>
+					<samp>總資產：<i class="amountString">0</i>SC</samp>
 				</div>
 			</div>
 			
 			<div class="wallet-address-wrap wp100 bg_fff b_e mb20">
 				<div class="address-nav b_e_b wp100" id="address-nav">
 					<ul class="wp100 over-hide">
-						<li class="on charge">接收ETH</li>
-						<li class="withdraw">發送ETH</li>
+						<li class="on charge">接收SC</li>
+						<li class="withdraw">發送SC</li>
 					</ul>
 				</div>
 				
@@ -40,7 +40,7 @@
 						<div class="warn over-hide">
 							<i class="icon icon-warn fl"></i>
 							<p class="fl">
-								温馨提示：<i>ETH 錢包地址禁止充值除 ETH 之外的其他資產，任何 ETH 資產充值将不可找回。</i>
+								温馨提示：<i>SC 錢包地址禁止充值除 SC 之外的其他資產，任何 SC 資產充值将不可找回。</i>
 							</p>
 						</div>
 					</div>
@@ -66,13 +66,13 @@
 								<div class="form-item-wrap">
 									<samp class="label">數量：</samp>
 									<div class="form-item b_e">
-										<input type="text" class="input-item amount"  name="amount" placeholder="發送數量，本次最多可發送0ETH" />
+										<input type="text" class="input-item amount"  name="amount" placeholder="發送數量，本次最多可發送0SC" />
 									</div>
 								</div>
 								<div class="form-item-wrap">
 									<samp class="label">手續費：</samp>
 									<div class="form-item b_e">
-										<input type="text" class="input-item withdrawFee" id="withdrawFee" value="0ETH" disabled="disabled" />
+										<input type="text" class="input-item withdrawFee" id="withdrawFee" value="0SC" disabled="disabled" />
 									</div>
 								</div>
 								<div class="form-item-wrap tradePwdWrap">
@@ -144,7 +144,7 @@
             <div class="am-modal">
                 <div class="am-modal-content">
                     <div class="am-modal-header">
-                    	<p>ETH地址</p>
+                    	<p>SC地址</p>
                     </div>
                     <div class="am-modal-body">
                     	<ul class="over-hide wp100 list">
@@ -167,7 +167,7 @@
             <div class="am-modal">
                 <div class="am-modal-content">
                     <div class="am-modal-header">
-                    	<p>添加新ETH地址</p>
+                    	<p>添加新SC地址</p>
                     </div>
                     <div class="am-modal-body">
                     	<div class="addWAddress-form-wrap">
@@ -225,7 +225,7 @@
         <link rel="import" href="../footer.html?__inline">
     	<script src="../../js/lib/qrcode.js"></script>
         <script>
-            require(['app/controller/wallet/WalletETH']);
+            require(['app/controller/wallet/WalletSC']);
         </script>
     </body>
 </html>

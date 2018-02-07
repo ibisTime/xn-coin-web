@@ -134,41 +134,46 @@ define([
                 }
             }
         },
-        // 金额格式化 默认保留t || 8位  小数
-        formatMoney: function(s, t, isNeedString) {
+        // 金额格式化 默认保留t || 8位  小数 coin 默认eth
+        formatMoney: function(s, t, coin) {
+        	var parse = "1e18";
             if(!$.isNumeric(s))
                 return "-";
 		    if (t == '' || t == null || t == undefined || typeof t == 'object') {
 		        t = 8;
 		    }
-		    if(isNeedString){
-		    	s.toString()
+		    if(coin=="SC"){
+		    	parse = "1e24";
 		    }
 		    //保留8位小数
 		    s = new BigDecimal.BigDecimal(s);
-		    s = s.divide(new BigDecimal.BigDecimal("1e18"), t||8, BigDecimal.MathContext.ROUND_DOWN).toString();
+		    s = s.divide(new BigDecimal.BigDecimal(parse), t, BigDecimal.MathContext.ROUND_DOWN).toString();
 		    s = s.replace(/(-?\d+)\.0+$/, '$1').replace(/(.+[^0]+)0+$/, '$1')
 		    return s;
         },
         //金额减法 s1-s2
-        formatMoneySubtract: function(s1, s2) {
+        formatMoneySubtract: function(s1, s2, coin) {
             if(!$.isNumeric(s1)||!$.isNumeric(s2))
                 return "-";
 		    var s1 = new BigDecimal.BigDecimal(s1);
             var s2 = new BigDecimal.BigDecimal(s2);
-            return Base.formatMoney(s1.subtract(s2).toString());
+            return Base.formatMoney(s1.subtract(s2).toString(),'',coin);
         },
         //金额乘法 s1-s2
-        formatMoneyMultiply: function(s1, s2) {
+        formatMoneyMultiply: function(s1, s2, coin) {
             if(!$.isNumeric(s1)||!$.isNumeric(s2))
                 return "-";
 		    var s1 = new BigDecimal.BigDecimal(s1);
             var s2 = new BigDecimal.BigDecimal(s2);
-            return Base.formatMoney(s1.multiply(s2).toString());
+            return Base.formatMoney(s1.multiply(s2).toString(),'',coin);
         },
         //金额金额放大 默认 放大 r || 8位 
-        formatMoneyParse: function(m, r) {
-            var r = r || new BigDecimal.BigDecimal("1e18");
+        formatMoneyParse: function(m, r, coin) {
+        	var pares = "1e18";
+        	if(coin=="SC"){
+		    	parse = "1e24";
+		    }
+            var r = r || new BigDecimal.BigDecimal(pares);
             if(m==''){
             	m = '0';
             }

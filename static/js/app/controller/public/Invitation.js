@@ -27,8 +27,8 @@ define([
     //獲取我推荐的人数和收益统计
     function getInvitation() {
         return UserCtr.getInvitation().then((data)=>{
-        	$('.inviteCount').append(data.inviteCount);
-        	$('.inviteProfit').append(base.formatMoney(data.inviteProfit));
+        	$('.inviteCount').html(data.inviteCount);
+        	$('.inviteProfit').html(base.formatMoney(data.inviteProfitEth)+'<i>ETH&nbsp;&nbsp;/&nbsp;&nbsp;</i>'+base.formatMoney(data.inviteProfitSc)+'<i>SC</i>');
 		},base.hideLoadingSpin)
     }
     

@@ -43,19 +43,19 @@ define([
         },
         // 查询数据字典列表
         getDictList(config,code) {
-            return Ajax.get(code||"625907", config);
+            return Ajax.get(code||"660906", config);
         },
         // 根据key查询系统参数
-        getSysConfig(key, refresh) {
-            return Ajax.get("625917", {key}, refresh);
+        getSysConfig(ckey, refresh) {
+            return Ajax.get("660917", {ckey}, refresh);
         },
         // 根据type查询系统参数
         getSysConfigType(type, refresh) {
-            return Ajax.get("625918", {type}, refresh);
+            return Ajax.get("660918", {type}, refresh);
         },
         // 分页查询系统参数
         getPageSysConfig(config, refresh) {
-            return Ajax.get("625915", {
+            return Ajax.get("660915", {
             	start: 1,
             	limit: 100,
             	orderColumn:'id',
@@ -74,13 +74,6 @@ define([
         getTencunLogin() {
             return Ajax.get("625000",{
             	userId: base.getUserId()
-            });
-        },
-
-        // 获取注册协议
-        getProtocol() {
-            return Ajax.get("625917",{
-                key:'reg_protocol'
             });
         },
     };

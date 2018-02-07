@@ -3,11 +3,12 @@ define([
     'pagination',
     'app/interface/TradeCtr',
 ], function(base, pagination, TradeCtr) {
+	var coin = base.getUrlParam("coin") || '0'; // 币种
 	var config={
         start: 1,
         limit: 10,
         tradeType: 0,
-        coin: 'ETH'
+        coin: COIN_LIST[coin]
 	};
 	var bizTypeList = {
             "0": "支付宝",
@@ -18,7 +19,8 @@ define([
 	init();
     
     function init() {
-    	$(".head-nav-wrap .sell").addClass("active")
+    	$(".head-nav-wrap .sell").addClass("active");
+    	$("#coin-top ul li").eq(coin).addClass("on");
     	getPageAdvertise();
         addListener();
     }
@@ -110,7 +112,11 @@ define([
 		if(item.userId == base.getUserId()){
 			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise-eth.html?code=${item.code}">編輯</div>`;
 		}else{
-			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售ETH</div>`;
+			if(item.tradeCoin=="ETH"){
+				operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=0">出售ETH</div>`;	
+			}else if(item.tradeCoin=="SC"){
+				operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=1">出售SC</div>`;
+			}
 		}
 		
     	return `<tr>
@@ -211,6 +217,17 @@ define([
     				getListAdvertiseNickname($("#searchConWrap .nickname").val())
     			}
     		}
+    	})
+    	
+    	//币种点击
+    	$("#coin-top ul li").click(function(){
+    		var index = $(this).index();
+    		$(this).addClass("on").siblings('li').removeClass('on')
+    		config.coin = COIN_LIST[index];
+    		config.start=1;
+			base.showLoadingSpin();
+			
+			getPageAdvertise();
     	})
     }
 });

@@ -50,16 +50,33 @@ define([
     //我的账户
     function getAccount(){
     	return AccountCtr.getAccount().then((data)=>{
-    		
+    		var html = '';
     		data.accountList.forEach(function(item){
+    			
+    			var className = '', coin='', amount='', frozenAmountString= '';
     			if(item.currency=="ETH"){
-    				$("#head-user-wrap .wallet .wallet-account-mx .eth .amount").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString));
-		    		$("#head-user-wrap .wallet .wallet-account-mx .eth .frozenAmountString").text(base.formatMoney(item.frozenAmountString));
+    				className = 'eth';
+    				coin = 'ETH';
+    				amount = base.formatMoneySubtract(item.amountString,item.frozenAmountString);
+    				frozenAmountString = base.formatMoney(item.frozenAmountString);
+    				
 		    		$("#head-user-wrap .wallet .wallet-account-wrap .eth samp").text(base.formatMoney(item.amountString));
 		    		$(".accountLeftCountString").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString))
+    			}else if(item.currency=="SC"){
+    				className = 'sc';
+    				coin = 'SC';
+    				amount = base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC');
+    				frozenAmountString = base.formatMoney(item.frozenAmountString,8,'SC');
+		    		$("#head-user-wrap .wallet .wallet-account-wrap .sc samp").text(base.formatMoney(item.amountString,'','SC'));
+		    		$(".accountLeftCountStringSC").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC'))
     			}
-    			
+    			html += `<div class="list ${className}">
+					<p>${coin}</p>
+					<p class="amount">${amount}</p>
+					<p class="frozenAmountString">${frozenAmountString}</p>
+				</div>`;
     		})
+    		$("#head-user-wrap .wallet .wallet-account-mx .listWrap").html(html)
     	},base.hideLoadingSpin)
     }
     
