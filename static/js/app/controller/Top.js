@@ -11,6 +11,7 @@ define([
     // 初始化页面
     function init() {
     	base.showLoadingSpin()
+    	getCoinList();
     	$("#footTeTui").html(FOOT_TETUI)
 		$("#footEmail").html(FOOT_EMAIL)
     	if(base.isLogin()){
@@ -28,6 +29,28 @@ define([
     	}
     	addListener();
     }
+    
+    //根据config配置设置 头部币种下拉
+    function getCoinList(){
+    	var coinList = COIN_LIST;
+    	var buyListHtml = '';
+    	var sellListHtml = '';
+    	var advListHtml = '';
+    	
+    	for(var key in coinList){
+    		buyListHtml+=`<li class="goHref" data-href="../trade/buy-list.html?coin=${key}">${coinList[key]}</li>`;
+    		sellListHtml += `<li class="goHref" data-href="../trade/sell-list.html?coin=${key}">${coinList[key]}</li>`;
+    		advListHtml += `<li class="goHref" data-href="../trade/advertise.html?coin=${key}">${coinList[key]}</li>`;
+    	}
+    	
+    	//购买
+    	$(".head-nav-wrap .buy .down-wrap ul").html(buyListHtml);
+    	//购买
+    	$(".head-nav-wrap .sell .down-wrap ul").html(sellListHtml);
+    	//购买
+    	$(".head-nav-wrap .advertise .down-wrap ul").html(advListHtml);
+    }
+    
     // 获取banner
     function getBanner(){
         return GeneralCtr.getBanner({}).then((data) => {
@@ -59,16 +82,13 @@ define([
     				coin = 'ETH';
     				amount = base.formatMoneySubtract(item.amountString,item.frozenAmountString);
     				frozenAmountString = base.formatMoney(item.frozenAmountString);
-    				
 		    		$("#head-user-wrap .wallet .wallet-account-wrap .eth samp").text(base.formatMoney(item.amountString));
-		    		$(".accountLeftCountString").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString))
     			}else if(item.currency=="SC"){
     				className = 'sc';
     				coin = 'SC';
     				amount = base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC');
     				frozenAmountString = base.formatMoney(item.frozenAmountString,8,'SC');
 		    		$("#head-user-wrap .wallet .wallet-account-wrap .sc samp").text(base.formatMoney(item.amountString,'','SC'));
-		    		$(".accountLeftCountStringSC").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC'))
     			}
     			html += `<div class="list ${className}">
 					<p>${coin}</p>

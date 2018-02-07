@@ -45,9 +45,9 @@ define([
             });
         },
         // 获取广告价格
-        getAdvertisePrice() {
+        getAdvertisePrice(coin) {
             return Ajax.get("625292", {
-            	coin:'ETH'
+            	coin
             });
         },
         // 获取广告详情

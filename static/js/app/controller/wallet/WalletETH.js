@@ -17,6 +17,7 @@ define([
 		configAddress={
         start: 1,
         limit: 10,
+        currency: 'ETH'
 	},accountNumber;
 	
 	var bizTypeList={
@@ -193,8 +194,8 @@ define([
     }
     
     //分页查询地址
-    function getPageCoinAddress(params){
-    	return AccountCtr.getPageCoinAddress(params, true).then((data)=>{
+    function getPageCoinAddress(){
+    	return AccountCtr.getPageCoinAddress(configAddress, true).then((data)=>{
     		var lists = data.list;
     		if(data.list.length){
                 var html = "";
@@ -203,10 +204,10 @@ define([
                 });
     			$("#wAddressDialog .list").html(html)
             }else{
-            	config.start == 1 && $("#wAddressDialog .list").empty()
-    			config.start == 1 && $("#wAddressDialog .list").html("<div class='tc ptb30 fs13'>暂无地址</div>")
+            	configAddress.start == 1 && $("#wAddressDialog .list").empty()
+    			configAddress.start == 1 && $("#wAddressDialog .list").html("<div class='tc ptb30 fs13'>暂无地址</div>")
             }
-        	config.start == 1 && initPaginationAddress(data);
+        	configAddress.start == 1 && initPaginationAddress(data);
             base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
@@ -230,7 +231,7 @@ define([
     function initPaginationAddress(data){
     	$("#paginationAddress .pagination").pagination({
             pageCount: data.totalPage,
-            showData: config.limit,
+            showData: configAddress.limit,
             jump: true,
             coping: true,
             prevContent: '<img src="/static/images/arrow---left.png" />',
@@ -242,18 +243,18 @@ define([
             jumpBtn: '确定',
             isHide: true,
             callback: function(_this){
-                if(_this.getCurrent() != config.start){
+                if(_this.getCurrent() != configAddress.start){
     				base.showLoadingSpin();
-                    config.start = _this.getCurrent();
-                    getPageCoinAddress(config);
+                    configAddress.start = _this.getCurrent();
+                    getPageCoinAddress();
                 }
             }
         });
     }
     
     //添加地址
-    function addETHCoinAddress(params){
-    	return AccountCtr.addETHCoinAddress(params).then((data)=>{
+    function addCoinAddress(params){
+    	return AccountCtr.addCoinAddress(params).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
     		setTimeout(function(){
@@ -262,7 +263,7 @@ define([
 		    	$("#addWAddressDialog .setSecurityAccount .icon-switch").addClass("on")
 	    		base.showLoadingSpin();
 	    		configAddress.start = 1;
-	    		getPageCoinAddress(configAddress)
+	    		getPageCoinAddress()
     		},800)
     	},base.hideLoadingSpin)
     }
@@ -282,27 +283,19 @@ define([
     }
     
     //弃用地址
-    function deleteETHCoinAddress(code){
-    	return AccountCtr.deleteETHCoinAddress(code).then((data)=>{
+    function deleteCoinAddress(code){
+    	return AccountCtr.deleteCoinAddress(code).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
     		setTimeout(function(){
     			base.showLoadingSpin();
 	    		configAddress.start = 1;
-	    		getPageCoinAddress(configAddress)
+	    		getPageCoinAddress()
     		},800)
     	},base.hideLoadingSpin)
     }
     
     function addListener() {
-	    smsCaptcha.init({
-			bizType: "625203",
-			id: "getVerification",
-			mobile: "addWAddressMobile",
-			errorFn: function(){
-			}
-		});
-    	
     	var _addAddressWrapper = $("#addAddress-form");
 	    _addAddressWrapper.validate({
 	    	'rules': addAddressWrapperRules,
@@ -378,7 +371,7 @@ define([
     		var addressCode = $(this).attr("data-code");
     		base.confirm("確定刪除此地址？").then(()=>{
     			base.showLoadingSpin();
-    			deleteETHCoinAddress(addressCode)
+    			deleteCoinAddress(addressCode)
     		},base.emptyFun)
     		
     	})
@@ -387,7 +380,7 @@ define([
     	$("#addWAddressDialog .setSecurityAccount .icon-switch").click(function(){
     		if($(this).hasClass("on")){
     			$(this).removeClass("on");
-    			$("#addWAddressDialog .tradePwdFlag").addClass("hidden");
+    			$("#addWAddressDialog .tradePwdFlag").addClass("h idden");
     			addAddressWrapperRules["tradePwd"]={};
     			_addAddressWrapper.validate({
 			    	'rules': addAddressWrapperRules,
@@ -415,7 +408,7 @@ define([
     		base.showLoadingSpin();
     		$("#wAddressDialog .list").empty()
     		configAddress.start = 1;
-    		getPageCoinAddress(configAddress).then(()=>{
+    		getPageCoinAddress().then(()=>{
     			$("#wAddressDialog").removeClass("hidden")
     		})
     		
@@ -423,6 +416,13 @@ define([
     	
     	//管理地址彈窗-新增地址點擊
     	$("#wAddressDialog .addBtn").click(function(){
+    		smsCaptcha.init({
+				bizType: "625203",
+				id: "getVerification",
+				mobile: "addWAddressMobile",
+				errorFn: function(){
+				}
+			});
     		$("#addWAddressDialog").removeClass("hidden")
     	})
     	
@@ -431,13 +431,13 @@ define([
 	    	if(_addAddressWrapper.valid()){
 	    		base.showLoadingSpin();
 	    		var params=_addAddressWrapper.serializeObject();
-	    		if($("#addWAddressDialog .setSecurityAccount .icon-switch").hasClass("on")){
+	    		if($("#addWAddressDialog .setSecurityAccount .icon-switch").removeClass("on")){
 	    			params.isCerti = "1"
 	    		}else{
 	    			params.isCerti = "0"
 	    		}
-	    		
-	    		addETHCoinAddress(params)
+	    		params.currency = 'ETH'
+	    		addCoinAddress(params)
 	    	}
 
     	})

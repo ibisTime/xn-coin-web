@@ -4,8 +4,9 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
     'app/interface/TradeCtr',
+    'app/interface/AccountCtr',
     'app/module/tencentChat'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, TencentChat) {
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr, TencentChat) {
 	var code = base.getUrlParam("code");
 	var coin = base.getUrlParam("coin") || '0'; // 币种
 	var isDetail = !!base.getUrlParam("isD");//是否我的广告查看详情
@@ -39,13 +40,35 @@ define([
     	if(!isDetail){
     		$(".buy-wrap").removeClass("hidden")
     	}
-    	GeneralCtr.getSysConfig("trade_remind").then((data)=>{
+    	$.when(
+    		GeneralCtr.getSysConfig("trade_remind"),
+    		getAccount()
+    	).then((data)=>{
     		$("#tradeWarn").html(data.cvalue.replace(/\n/g,'<br>'))
 			getAdvertiseDetail()
     	}, base.hideLoadingSpin)
     	
         addListener();
         
+    }
+    
+    //我的账户
+    function getAccount(){
+    	return AccountCtr.getAccount().then((data)=>{
+    		data.accountList.forEach(function(item){
+    			if(item.currency=="ETH"){
+		    		$(".accountLeftCountString").attr('data-eth',base.formatMoney(item.amountString));
+    			}else if(item.currency=="SC"){
+		    		$(".accountLeftCountString").attr('data-sc',base.formatMoney(item.amountString,'','SC'));
+    			}
+    		})
+    		//账户余额
+    		if(COIN_LIST[coin]=="ETH"){
+    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-eth'))
+    		}else if(COIN_LIST[coin]=="SC"){
+    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-sc'))
+    		}
+    	},base.hideLoadingSpin)
     }
     
     function getAdvertiseDetail(){

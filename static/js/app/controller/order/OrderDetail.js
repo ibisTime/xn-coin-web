@@ -28,6 +28,7 @@ define([
 	var newMsgHtml = '<div id="newMsgWrap" class="newMsg-wrap goHref" data-href="../order/order-list.html">您有未读消息</div>';
 	var tradeType ;
 	var adsCode ;
+	var tradeCoin = '';//交易币种
 	
 	init();
 
@@ -66,7 +67,13 @@ define([
 			}
 			$("#statusInfo samp").html(data.remark)
 			$("#tradePrice").html(data.tradePrice);
-			$("#countString").html(base.formatMoney(data.countString));
+			tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
+			if(tradeCoin=='SC'){
+				$("#countString").html(base.formatMoney(data.countString,'','SC')+'&nbsp;SC');
+			}else{
+				$("#countString").html(base.formatMoney(data.countString)+'&nbsp;ETH');
+			}
+			
 			$("#tradeAmount").html(data.tradeAmount);
 			$("#orderCode").html(data.code.substring(data.code.length - 8));
 			$("#payType").html(payType[data.payType]);
@@ -171,7 +178,13 @@ define([
     function getAdvertiseDetail(){
     	return TradeCtr.getAdvertiseDetail(adsCode).then((data)=>{
     		var limit = data.minTrade+'-'+data.maxTrade;
-    		$("#truePrice").html(Math.floor(data.truePrice*100)/100)
+    		if(tradeCoin=='SC'){
+    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/SC')
+    		}else if(tradeCoin=='BTC'){
+    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/BTC')
+    		}else{
+    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/ETH')
+    		}
     		$("#limit").html(limit);
     		$(".info-wrap1").removeClass("hidden")
     	},base.hideLoadingSpin)
@@ -235,6 +248,7 @@ define([
 	                if (!resp.GroupIdList || resp.GroupIdList.length == 0) {
 	                    return;
 	                }
+	                var unreadMsgFlag = false;
 	                for (var i = 0; i < resp.GroupIdList.length; i++) {
 	                    var unreadMsgNum = resp.GroupIdList[i].SelfInfo.UnreadMsgNum;
 	                    

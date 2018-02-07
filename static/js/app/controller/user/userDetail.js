@@ -16,8 +16,7 @@ define([
         limit:10,
         tradeType:0,
         status:'1',
-        userId:userId,
-        coin:'ETH'
+        userId:userId
     }
     var relationConfig = {
     	toUser: userId
@@ -76,11 +75,14 @@ define([
 	        $('.userDetail-top .userName').html(data.nickname);
 	        
 	        
-    		var totalTradeCount = data.userStatistics.totalTradeCount=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCount,'0')+'+';
+    		var totalTradeCountETH = data.userStatistics.totalTradeCountEth=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountEth,'0')+'+';
+    		var totalTradeCountSC = data.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountSc,'0','SC')+'+'
+    		
+    		
 	        $('.jiaoYiCount').html(data.userStatistics.jiaoYiCount);
 	        $('.beiXinRenCount').html(data.userStatistics.beiXinRenCount);
 	        $('.beiHaoPingCount').html(base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount));
-	        $('.totalTradeCount').html(totalTradeCount+"ETH");
+	        $('.totalTradeCount').html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC");
 	        
 	
 			// 邮箱验证，手机验证，身份验证
@@ -112,29 +114,24 @@ define([
     }
 
     function buildHtml(item){
-        if(config.tradeType == 1){
-            return `<tr>
-						<td class="currency">${coinList[item.tradeCoin]}</td>
-						<td class="payType">${payType[item.payType]}</td>
-						<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
-						<td class="price">${item.truePrice}CNY/ETH</td>
-						<td class="operation">
-							<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買</div>
-						</td>
-					</tr>`
-        }else {
-            return `<tr>
-						<td class="currency">${coinList[item.tradeCoin]}</td>
-						<td class="payType">${payType[item.payType]}</td>
-						<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
-						<td class="price">${item.truePrice}CNY/ETH</td>
-						<td class="operation">
-							<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售</div>
-						</td>
-					</tr>`
-        }
+    	var operationHtml = '';
+    	if(item.tradeType=='1'){
+    		operationHtml = `<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買</div>`
+    	}else{
+    		operationHtml = `<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售</div>`
+    	}
+    	
+        return `<tr>
+					<td class="currency">${coinList[item.tradeCoin]}</td>
+					<td class="payType">${payType[item.payType]}</td>
+					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
+					<td class="price">${item.truePrice}CNY/${item.tradeCoin?item.tradeCoin:'ETH'}</td>
+					<td class="operation">
+						${operationHtml}
+					</td>
+				</tr>`
 
-        }
+    }
 
     // 初始化交易记录分页器
     function initPagination(data){

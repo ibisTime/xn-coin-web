@@ -169,11 +169,11 @@ define([
         },
         //金额金额放大 默认 放大 r || 8位 
         formatMoneyParse: function(m, r, coin) {
-        	var pares = "1e18";
+        	var parse = "1e18";
         	if(coin=="SC"){
 		    	parse = "1e24";
 		    }
-            var r = r || new BigDecimal.BigDecimal(pares);
+            var r = r || new BigDecimal.BigDecimal(parse);
             if(m==''){
             	m = '0';
             }

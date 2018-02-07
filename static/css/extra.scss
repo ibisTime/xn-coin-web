@@ -68,6 +68,7 @@
     cursor: pointer;
 }
 .container{
+    width: 1200px;
     margin: 0 auto;
 }
 .icon{
@@ -1612,6 +1613,7 @@ table {
         
         ul{
             width: 100%;
+            height: 46px;
             overflow: hidden;
             
             li{
@@ -4045,3 +4047,11 @@ table {
     z-index: 10001;
     
 }
+.wallet-container-sc{
+    .receive-wrap .address{
+        samp{
+            font-size: 18px;
+        }
+    }
+}
+

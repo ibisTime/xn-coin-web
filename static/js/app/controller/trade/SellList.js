@@ -19,10 +19,21 @@ define([
 	init();
     
     function init() {
+    	getCoinList();
     	$(".head-nav-wrap .sell").addClass("active");
     	$("#coin-top ul li").eq(coin).addClass("on");
     	getPageAdvertise();
         addListener();
+    }
+     //根据config配置设置 币种列表
+    function getCoinList(){
+    	var coinList = COIN_LIST;
+    	var listHtml = '';
+    	
+    	for(var key in coinList){
+    		listHtml+=`<li>${COIN_NAME[coinList[key]]}(${coinList[key]})</li>`;
+    	}
+    	$("#coin-top ul").html(listHtml);
     }
     
     // 初始化交易记录分页器

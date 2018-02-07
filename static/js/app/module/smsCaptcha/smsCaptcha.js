@@ -16,6 +16,10 @@ define([
     function initSms(opt){
         this.options = $.extend({}, this.defaultOptions, opt);
         var _self = this;
+        var verification = $("#" + _self.options.id);
+        verification.text("獲取驗證碼").prop("disabled",false);
+        clearInterval(_self.timer);
+        
         $("#" + this.options.id).off("click")
             .on("click", function(e) {
                 e.stopPropagation();
@@ -39,7 +43,7 @@ define([
             .then(() => {
                 var i = 60;
                 _this.timer = window.setInterval(() => {
-                    if(i > 0){
+                    if(i > 0 && verification.attr("disabled")){
                         verification.text("重新發送("+i-- + "s)");
                     }else {
                         verification.text("獲取驗證碼").prop("disabled",false);
@@ -50,7 +54,7 @@ define([
                 _this.options.errorFn && _this.options.errorFn();
                 verification.text("獲取驗證碼").prop("disabled",false);
             });
-    }
+    };
     return {
         init: function (options) {
             new initSms(options);

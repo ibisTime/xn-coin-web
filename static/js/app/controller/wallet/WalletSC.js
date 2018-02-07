@@ -17,6 +17,7 @@ define([
 		configAddress={
         start: 1,
         limit: 10,
+        currency: 'SC'
 	},accountNumber;
 	
 	var bizTypeList={
@@ -117,17 +118,17 @@ define([
     		
     		data.accountList.forEach(function(item){
     			if(item.currency=="SC"){
-    				$(".wallet-account-wrap .amount").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString));
-		    		$(".wallet-account-wrap .frozenAmountString").text(base.formatMoney(item.frozenAmountString));
-		    		$(".wallet-account-wrap .amountString").text(base.formatMoney(item.amountString));
+    				$(".wallet-account-wrap .amount").text(base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC'));
+		    		$(".wallet-account-wrap .frozenAmountString").text(base.formatMoney(item.frozenAmountString,8,'SC'));
+		    		$(".wallet-account-wrap .amountString").text(base.formatMoney(item.amountString,8,'SC'));
 		    		config.accountNumber=item.accountNumber;
 		    		accountNumber=item.accountNumber;
 		    		$("#myCoinAddress").text(item.coinAddress);
 			    	var qrcode = new QRCode('qrcode',item.coinAddress);
 				 	qrcode.makeCode(item.coinAddress);
-				 	$("#sendOut-form .amount").attr("placeholder","發送數量，本次最多可發送"+base.formatMoneySubtract(item.amountString,item.frozenAmountString)+"SC")
+				 	$("#sendOut-form .amount").attr("placeholder","發送數量，本次最多可發送"+base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC')+"SC")
 				 	sendOutWrapperRules["amount"]={
-				 		max: base.formatMoneySubtract(item.amountString,item.frozenAmountString)
+				 		max: base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC')
 					}
     			}
     			
@@ -187,14 +188,14 @@ define([
     	return `<div class="list-item">
 					<div>${base.formateDatetime(item.createDatetime)}</div>
 					<div>${bizTypeValueList[item.bizType]}</div>
-					<div>${base.formatMoney(item.transAmountString)}</div>
+					<div>${base.formatMoney(item.transAmountString,8,'SC')}</div>
 					<div>${item.bizNote}</div>
 				</div>`
     }
     
     //分页查询地址
-    function getPageCoinAddress(params){
-    	return AccountCtr.getPageCoinAddress(params, true).then((data)=>{
+    function getPageCoinAddress(){
+    	return AccountCtr.getPageCoinAddress(configAddress, true).then((data)=>{
     		var lists = data.list;
     		if(data.list.length){
                 var html = "";
@@ -203,10 +204,10 @@ define([
                 });
     			$("#wAddressDialog .list").html(html)
             }else{
-            	config.start == 1 && $("#wAddressDialog .list").empty()
-    			config.start == 1 && $("#wAddressDialog .list").html("<div class='tc ptb30 fs13'>暂无地址</div>")
+            	configAddress.start == 1 && $("#wAddressDialog .list").empty()
+    			configAddress.start == 1 && $("#wAddressDialog .list").html("<div class='tc ptb30 fs13'>暂无地址</div>")
             }
-        	config.start == 1 && initPaginationAddress(data);
+        	configAddress.start == 1 && initPaginationAddress(data);
             base.hideLoadingSpin();
     	},base.hideLoadingSpin)
     }
@@ -230,7 +231,7 @@ define([
     function initPaginationAddress(data){
     	$("#paginationAddress .pagination").pagination({
             pageCount: data.totalPage,
-            showData: config.limit,
+            showData: configAddress.limit,
             jump: true,
             coping: true,
             prevContent: '<img src="/static/images/arrow---left.png" />',
@@ -244,7 +245,7 @@ define([
             callback: function(_this){
                 if(_this.getCurrent() != config.start){
     				base.showLoadingSpin();
-                    config.start = _this.getCurrent();
+                    configAddress.start = _this.getCurrent();
                     getPageCoinAddress(config);
                 }
             }
@@ -252,17 +253,17 @@ define([
     }
     
     //添加地址
-    function addSCCoinAddress(params){
-    	return AccountCtr.addSCCoinAddress(params).then((data)=>{
+    function addCoinAddress(params){
+    	return AccountCtr.addCoinAddress(params).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
     		setTimeout(function(){
 	    		$("#addWAddressDialog").addClass("hidden");
 		    	document.getElementById("addAddress-form").reset();
-		    	$("#addWAddressDialog .setSecurityAccount .icon-switch").addClass("on")
+		    	$("#addWAddressDialog .setSecurityAccount .icon-switch").removeClass("on")
 	    		base.showLoadingSpin();
 	    		configAddress.start = 1;
-	    		getPageCoinAddress(configAddress)
+	    		getPageCoinAddress()
     		},800)
     	},base.hideLoadingSpin)
     }
@@ -282,27 +283,19 @@ define([
     }
     
     //弃用地址
-    function deleteSCCoinAddress(code){
-    	return AccountCtr.deleteSCCoinAddress(code).then((data)=>{
+    function deleteCoinAddress(code){
+    	return AccountCtr.deleteCoinAddress(code).then((data)=>{
             base.hideLoadingSpin();
     		base.showMsg("操作成功");
     		setTimeout(function(){
     			base.showLoadingSpin();
 	    		configAddress.start = 1;
-	    		getPageCoinAddress(configAddress)
+	    		getPageCoinAddress()
     		},800)
     	},base.hideLoadingSpin)
     }
     
     function addListener() {
-	    smsCaptcha.init({
-			bizType: "625203",
-			id: "getVerification",
-			mobile: "addWAddressMobile",
-			errorFn: function(){
-			}
-		});
-    	
     	var _addAddressWrapper = $("#addAddress-form");
 	    _addAddressWrapper.validate({
 	    	'rules': addAddressWrapperRules,
@@ -378,7 +371,7 @@ define([
     		var addressCode = $(this).attr("data-code");
     		base.confirm("確定刪除此地址？").then(()=>{
     			base.showLoadingSpin();
-    			deleteSCCoinAddress(addressCode)
+    			deleteCoinAddress(addressCode)
     		},base.emptyFun)
     		
     	})
@@ -415,7 +408,7 @@ define([
     		base.showLoadingSpin();
     		$("#wAddressDialog .list").empty()
     		configAddress.start = 1;
-    		getPageCoinAddress(configAddress).then(()=>{
+    		getPageCoinAddress().then(()=>{
     			$("#wAddressDialog").removeClass("hidden")
     		})
     		
@@ -423,6 +416,14 @@ define([
     	
     	//管理地址彈窗-新增地址點擊
     	$("#wAddressDialog .addBtn").click(function(){
+    		smsCaptcha.init({
+				bizType: "625203",
+				id: "getVerification",
+				mobile: "addWAddressMobile",
+				errorFn: function(){
+				}
+			});
+			
     		$("#addWAddressDialog").removeClass("hidden")
     	})
     	
@@ -436,8 +437,8 @@ define([
 	    		}else{
 	    			params.isCerti = "0"
 	    		}
-	    		
-	    		addSCCoinAddress(params)
+	    		params.currency = 'SC'
+	    		addCoinAddress(params)
 	    	}
 
     	})
@@ -462,7 +463,7 @@ define([
 	    	if(_sendOutWrapper.valid()){
 	    		base.showLoadingSpin();
 	    		var params=_sendOutWrapper.serializeObject();
-	    		params.amount = base.formatMoneyParse(params.amount);
+	    		params.amount = base.formatMoneyParse(params.amount,'','SC');
 	    		params.accountNumber = accountNumber;
 	    		params.payCardInfo = 'SC'
 	    		withDraw(params)

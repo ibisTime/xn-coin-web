@@ -12,15 +12,14 @@ define([
     	"end":["2","3","4"]
     },
     	typeList={
-    	"buy":"購買ETH",
-    	"sell":"出售ETH",
+    	"buy":"購買",
+    	"sell":"出售",
     },
     	statusValueList={};
 	var config={
 	    start:1,
         limit:10,
-        statusList: statusList["inProgress"],
-        tradeCoin:'ETH'
+        statusList: statusList["inProgress"]
     };
     var unreadMsgList = {};
     var isUnreadList=false,isOrderList=false;
@@ -98,6 +97,8 @@ define([
 		var operationHtml = '';
 		//未读消息
 		var unreadHtml = '';
+		//交易数量
+		var quantity = '';
 		
 		//当前用户为买家
     	if(item.buyUser==base.getUserId()){
@@ -139,6 +140,16 @@ define([
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
 		}
 		
+		if(item.status!="-1"){
+			if(item.tradeCoin=='SC'){
+				quantity = base.formatMoney(item.countString,'','SC')+'SC'
+			}else if(item.tradeCoin=='BTC'){
+				quantity = base.formatMoney(item.countString)+'BTC'
+			}else{
+				quantity = base.formatMoney(item.countString)+'ETH'
+			}
+		}
+		
     	return `<tr data-code="${item.code}">
 					<td class="nickname">
 						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${user.userId}" >
@@ -147,9 +158,9 @@ define([
 						<samp class="name">${user.nickname}</samp>
 					</td>
 					<td class="code">${item.code.substring(item.code.length-8)}</td>
-					<td class="type">${typeList[item.type]}</td>
+					<td class="type">${typeList[item.type]}${item.tradeCoin?item.tradeCoin:'ETH'}</td>
 					<td class="amount">${item.status!="-1"?item.tradeAmount+'CNY':''}</td>
-					<td class="quantity">${item.status!="-1"?base.formatMoney(item.countString)+'ETH':''}</td>
+					<td class="quantity">${quantity}</td>
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
 					<td class="status">${item.status=="-1"?'交谈中,'+statusValueList[item.status]:statusValueList[item.status]}</td>
 					<td class="operation">

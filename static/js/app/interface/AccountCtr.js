@@ -41,10 +41,10 @@ define([
         },
         /**
          * 分页查询地址
-         * @param config: {address,limit,start,statusList,type,userId}
+         * @param config: {address,limit,start,statusList,type,userId,currency}
          */
         getPageCoinAddress(config,refresh) {
-            return Ajax.post("625205", {
+            return Ajax.post("802175", {
                 userId: base.getUserId(),
                 type:'Y',
                 statusList: ['0','1'],
@@ -52,18 +52,18 @@ define([
             },refresh);
         },
         /**
-         * 新增ETH地址
-         * @param config: {address,googleCaptcha,isCerti,label,smsCaptcha,tradePwd}
+         * 新增地址
+         * @param config: {address,googleCaptcha,isCerti,label,smsCaptcha,tradePwd,currency}
          */
-        addETHCoinAddress(config) {
-            return Ajax.post("625203", {
+        addCoinAddress(config) {
+            return Ajax.post("802170", {
                 userId: base.getUserId(),
                 ...config
             },true);
         },
         //弃用地址
-		deleteETHCoinAddress(code) {
-            return Ajax.post("625202", {
+		deleteCoinAddress(code) {
+            return Ajax.post("802171", {
                 code
             },true);
         },

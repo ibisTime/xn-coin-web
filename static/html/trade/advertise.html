@@ -14,7 +14,7 @@
 			<div class="advertise-warn wp100">
 				<div class="titleWrap">
 					<i class="icon icon-advwarn"></i>
-					<samp>發佈 ETH 交易廣告</samp>
+					<samp>發佈交易廣告</samp>
 				</div>
 				<div class="content wp100" id="tradeWarn">
 				</div>
@@ -24,19 +24,31 @@
 				<div class="explain">
 					<i>*</i>
 					<samp class="txt">選擇廣告類型：</samp>
-					<samp>您想要创建什么样的交易广告？如果您希望出售 ETH，请确保您在本网站的钱包中有 ETH。</samp>
+					<samp>您想要创建什么样的交易广告？如果您希望出售，请确保您在本网站的钱包中可用餘額充足。</samp>
 				</div>
 				<div class="trade-type over-hide userSelect_none">
 					<div class="item fl type on mr60">
 						<i class="icon icon-check"></i>
-						<samp>在線出售 ETH</samp>
+						<samp>在線出售</samp>
 					</div>
 					<div class="item fl type">
 						<i class="icon icon-check"></i>
-						<samp>在線購買 ETH</samp>
+						<samp>在線購買</samp>
+					</div>
+				</div>
+				<div class="explain">
+					<i>*</i>
+					<samp class="txt">選擇交易幣種：</samp>
+					<samp>您想要交易什麼幣種？</samp>
+				</div>
+				<div class="form-wrapper userSelect_none">
+					<div class="form-item form-item-select b_e">
+						<select id="tradeCoin" name="tradeCoin"></select>
+						<i class="icon icon-down"></i>
 					</div>
 				</div>
 			</div>
+			
 			<div class="advertise-info b_e_b">
 				<div class="advTitWrap mt20 mb10"><samp>更多信息</samp></div>
 				<form class="form-wrapper form-wrapper-noIcon" id="form-wrapper">
@@ -94,7 +106,7 @@
 						<samp>賬戶可用餘額：<i class="accountLeftCountString"></i></samp>
 					</div>
 					<div class="form-item b_e">
-						<i class="item-unit">ETH</i>
+						<i class="item-unit" id="coin"></i>
 						<input type="text" class="input-item" id="totalCount" name="totalCount" placeholder="請輸入購買幣的總量" />
 					</div>
 					<div class="explain">
@@ -243,7 +255,7 @@
 		
         <link rel="import" href="../footer.html?__inline">
         <script>
-            require(['app/controller/trade/AdvertiseETH']);
+            require(['app/controller/trade/Advertising']);
         </script>
     </body>
 </html>

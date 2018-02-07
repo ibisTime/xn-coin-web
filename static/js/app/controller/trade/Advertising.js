@@ -3,11 +3,12 @@ define([
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
-    'app/interface/TradeCtr'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
+    'app/interface/TradeCtr',
+    'app/interface/AccountCtr'
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr) {
 	var code = base.getUrlParam("code")||'';
+	var coin = base.getUrlParam("coin") || '0'; // 币种
 	var status = '1';
-	
 	var mid=0;
 	
 	init();
@@ -17,6 +18,38 @@ define([
     	if(code!=""){
     		$("#draftBtn").addClass("hidden")
     	}
+    	//币种下拉
+    	getCoinList();
+    	$("#coin").text(COIN_LIST[coin])
+    	$("#tradeCoin").val(COIN_LIST[coin])
+    	
+    	$.when(
+    		GeneralCtr.getSysConfig("trade_remind"),
+    		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
+    		TradeCtr.getAdvertisePrice(COIN_LIST[coin]),
+    		getExplain('sell'),
+    		getAccount()
+    	).then((data1, data2, data3)=>{
+    		//说明
+    		$("#tradeWarn").html(data1.cvalue.replace(/\n/g,'<br>'));
+    		
+    		//付款时限
+    		var html = ''
+    		data2.reverse().forEach((item)=>{
+    			html+=`<option value="${item.dvalue}">${item.dvalue}</option>`
+    		});
+    		$("#payLimit").html(html);
+    		//价格
+			$("#price").attr("data-coin",COIN_LIST[coin])
+    		$("#price").val(data3.mid);
+    		mid = data3.mid;
+    		
+    		if(code!=""){
+    			getAdvertiseDetail();
+    		}else{
+    			base.hideLoadingSpin()
+    		}
+    	},base.hideLoadingSpin)
     	
     	// 高级设置-开放时间
     	var htmlStart = '<option value="24">关闭</option>';
@@ -41,33 +74,37 @@ define([
     	$(".selectWrap select.startTime").html(htmlStart)
     	$(".selectWrap select.endTime").html(htmlEnd);
     	
-    	$.when(
-    		GeneralCtr.getSysConfig("trade_remind"),
-    		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
-    		TradeCtr.getAdvertisePrice(),
-    		getExplain('sell')
-    	).then((data1, data2, data3)=>{
-    		//说明
-    		$("#tradeWarn").html(data1.cvalue.replace(/\n/g,'<br>'));
-    		
-    		//付款时限
-    		var html = ''
-    		data2.reverse().forEach((item)=>{
-    			html+=`<option value="${item.dvalue}">${item.dvalue}</option>`
-    		});
-    		$("#payLimit").html(html);
-    		//价格
-    		$("#price").val(data3.mid);
-    		mid = data3.mid;
-    		
-    		if(code!=""){
-    			getAdvertiseDetail();
-    		}else{
-    			base.hideLoadingSpin()
+        addListener();
+    }
+    
+    //根据config配置设置 币种列表
+    function getCoinList(){
+    	var coinList = COIN_LIST;
+    	var listHtml = '';
+    	
+    	for(var key in coinList){
+    		listHtml+=`<option value="${coinList[key]}">${COIN_NAME[coinList[key]]}(${coinList[key]})</option>`;
+    	}
+    	$("#tradeCoin").html(listHtml);
+    }
+    
+    //我的账户
+    function getAccount(){
+    	return AccountCtr.getAccount().then((data)=>{
+    		data.accountList.forEach(function(item){
+    			if(item.currency=="ETH"){
+		    		$(".accountLeftCountString").attr('data-eth',base.formatMoney(item.amountString));
+    			}else if(item.currency=="SC"){
+		    		$(".accountLeftCountString").attr('data-sc',base.formatMoney(item.amountString,'','SC'));
+    			}
+    		})
+    		//账户余额
+    		if(COIN_LIST[coin]=="ETH"){
+    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-eth'))
+    		}else if(COIN_LIST[coin]=="SC"){
+    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-sc'))
     		}
     	},base.hideLoadingSpin)
-    	
-        addListener();
     }
     
     //获取广告详情
@@ -78,6 +115,8 @@ define([
     		data.totalCount = base.formatMoney(data.totalCountString)
     		data.minTrade = data.minTrade.toFixed(2);
     		data.maxTrade = data.maxTrade.toFixed(2);
+    		mid = data.marketPrice;
+    		
     		$("#form-wrapper").setForm(data);
     		
     		//广告类型
@@ -85,6 +124,21 @@ define([
     			$(".trade-type .item").eq(0).addClass("on").siblings('.item').removeClass("on").addClass("hidden")
     		}else{
     			$(".trade-type .item").eq(1).addClass("on").siblings('.item').removeClass("on").addClass("hidden")
+    		}
+    		
+    		//币种
+    		$("#tradeCoin").val(data.tradeCoin).attr("disabled",true);
+    		
+    		//账户余额
+    		$(".accountLeftCountString").text($(".accountLeftCountString").attr("data-coin"+$("#tradeCoin option:selected").index()))
+			$("#coin").text($("#tradeCoin").val())
+			$("#price").attr("data-coin",$("#tradeCoin").val())
+			$("#price").val(Math.floor(data.truePrice*100)/100);
+			//账户余额
+    		if($("#tradeCoin").val()=="ETH"){
+    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-eth'))
+    		}else if($("#tradeCoin").val()=="SC"){
+    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-sc'))
     		}
     		
     		//是否仅粉丝
@@ -167,21 +221,6 @@ define([
     }
     
     function addListener() {
-    	
-    	//立即下单点击
-	    $("#buyBtn").click(function(){
-			$("#submitDialog").removeClass("hidden")
-    	})
-    	
-    	//下单确认弹窗-放弃点击
-	    $("#submitDialog .closeBtn").click(function(){
-			$("#submitDialog").addClass("hidden")
-    	})
-    	
-    	//下单确认弹窗-确认点击
-	    $("#submitDialog .subBtn").click(function(){
-			$("#submitDialog").addClass("hidden")
-    	})
 	    
     	//選擇切換-点击
 	    $(".trade-type .icon-check").click(function(){
@@ -281,12 +320,16 @@ define([
 			if($("#premiumRate").val()==''||!$("#premiumRate").val()){
 				$("#price").val(mid);
 			}else{
-				$("#price").val((mid+mid*($("#premiumRate").val()/100)).toFixed(2));
+				$("#price").val(Math.floor((mid+mid*($("#premiumRate").val())*100)/100));
 			}
 		})
 		
 		//发布
 		$("#submitBtn").click(function(){
+			if(!base.isLogin()){
+            	base.goLogin();
+            	return;
+            }
 			if(_formWrapper.valid()){
 				var publishType = '0';
 				//草稿发布
@@ -306,6 +349,10 @@ define([
 		
 		//保存草稿
 		$("#draftBtn").click(function(){
+			if(!base.isLogin()){
+            	base.goLogin();
+            	return;
+            }
 			if(_formWrapper.valid()){
 				var publishType = '0';
 				doSubmit(publishType)
@@ -315,19 +362,24 @@ define([
 		//发布/保存草稿
 		function doSubmit(publishType){
             var params = _formWrapper.serializeObject();
-
+            
             if(code!=""){
                 params.adsCode = code;
             }
-
+            
             params.premiumRate = params.premiumRate/100;
             //广告类型 0=买币，1=卖币
             params.tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
             params.onlyTrust = $("#onlyTrust").hasClass("on")?'1':'0';
-            params.tradeCoin = "ETH";
+            params.tradeCoin = $("#tradeCoin").val();
             params.tradeCurrency = "CNY";
             params.publishType = publishType;
-            params.totalCount = base.formatMoneyParse(params.totalCount)
+            
+            if($("#tradeCoin").val()=="ETH"){
+            	params.totalCount = base.formatMoneyParse(params.totalCount)
+            }else if($("#tradeCoin").val()=="SC"){
+            	params.totalCount = base.formatMoneyParse(params.totalCount,'','SC')
+            }
 
             if($(".time-type .item.on").index()=="1"){
                 params.displayTime = [{
@@ -372,8 +424,12 @@ define([
 
 		}
 		
-		
+		//下架
 		$("#doDownBtn").on("click", function(){
+			if(!base.isLogin()){
+            	base.goLogin();
+            	return;
+            }
         	base.confirm("確認下架此廣告？").then(()=>{
         		base.showLoadingSpin()
         		TradeCtr.downAdvertise(code).then(()=>{
@@ -387,5 +443,30 @@ define([
         	},base.emptyFun)
 		})
 		
+		//交易币种 select
+		$("#tradeCoin").change(function(){
+			base.showLoadingSpin();
+			document.getElementById("form-wrapper").reset();
+			TradeCtr.getAdvertisePrice($("#tradeCoin").val()).then((data)=>{
+				mid = data.mid;
+				
+				$(".accountLeftCountString").text($(".accountLeftCountString").attr("data-coin"+$("#tradeCoin option:selected").index()))
+    			$("#coin").text($("#tradeCoin").val())
+				$("#price").attr("data-coin",$("#tradeCoin").val())
+				$("#price").val(mid);
+				//账户余额
+	    		if($("#tradeCoin").val()=="ETH"){
+	    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-eth'))
+	    		}else if($("#tradeCoin").val()=="SC"){
+	    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-sc'))
+	    		}
+				
+				base.hideLoadingSpin();
+			},()=>{
+				$("#tradeCoin").val($("#price").attr("data-coin"));
+				base.hideLoadingSpin();
+			})
+    		
+		})		
     }
 });

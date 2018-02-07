@@ -6,28 +6,26 @@ define([
     'pagination',
 ], function(base, AccountCtr,GeneralCtr,TradeCtr, pagination) {
 	var type = base.getUrlParam("type");// buy: 购买，sell:出售
+	var coin = base.getUrlParam("coin") || '0'; // 币种
 	var adsStatusValueList = {}; // 廣告狀態
-	var adsStatusList = {        // 廣告類型
-	    "0": '購買',
-        "1": '出售'
-    }
 	var config={
 	    start:1,
         limit:10,
         tradeType: 1,
         statusList: [0],
         userId:base.getUserId(),
-        coin:'ETH'
+        coin: COIN_LIST[coin]
     }
 	init();
 
     function init() {
         base.showLoadingSpin();
+        getCoinList();
     	if(type=='buy'){
-			$("#left-wrap .buy-eth").addClass("on");
+			$("#left-wrap .buy-nav-item .buy").eq(coin).addClass("on");
 			config.tradeType = 0;
     	}else if(type=='sell'){
-			$("#left-wrap .sell-eth").addClass("on")
+			$("#left-wrap .sell-nav-item .sell").eq(coin).addClass("on")
     	}
 
         GeneralCtr.getDictList({"parentKey":"ads_status"}).then((data)=>{
@@ -38,7 +36,21 @@ define([
     	},base.hideLoadingSpin);
         addListener();
     }
-
+	
+    //根据config配置设置 币种列表
+    function getCoinList(){
+    	var coinList = COIN_LIST;
+    	var buylistHtml = '';
+    	var selllistHtml = '';
+    	
+    	for(var key in coinList){
+    		buylistHtml+=`<div class="nav-item goHref buy" data-href="../user/advertise.html?type=buy&coin=${key}">${coinList[key]}</div>`;
+    		selllistHtml+=`<div class="nav-item goHref sell" data-href="../user/advertise.html?type=sell&coin=${key}">${coinList[key]}</div>`;
+    	}
+    	$("#left-wrap .buy-nav-item").html(buylistHtml);
+    	$("#left-wrap .sell-nav-item").html(selllistHtml);
+    }
+	
     // 初始化交易记录分页器
     function initPagination(data){
         $("#pagination .pagination").pagination({
@@ -91,8 +103,8 @@ define([
     	
     	//待发布
         if(config.statusList == null || config.statusList.length == 1) {
-        	operationHtml = `<div class="am-button am-button-red publish mr20 goHref" data-href="../trade/advertise-eth.html?code=${item.code}">發佈</div>
-        					<div class="am-button publish goHref" data-href="../trade/advertise-eth.html?code=${item.code}">查看</div>`
+        	operationHtml = `<div class="am-button am-button-red publish mr20 goHref" data-href="../trade/advertise.html?code=${item.code}">發佈</div>
+        					<div class="am-button publish goHref" data-href="../trade/advertise.html?code=${item.code}">查看</div>`
         
         //已发布 
         }else{
@@ -107,16 +119,15 @@ define([
 	    	}
         }
     	
-        //<td class="type">${adsStatusList[item.tradeType]}</td>
-            return `<tr>
-					<td class="price">${item.truePrice}</td>
-					<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
-					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
-					<td class="status tc">${adsStatusValueList[item.status]}</td>
-					<td class="operation">
-						${operationHtml}
-					</td>
-				</tr>`
+        return `<tr>
+				<td class="price">${Math.floor(item.truePrice*100)/100}</td>
+				<td class="price">${(item.premiumRate * 100).toFixed(2) + "%"}</td>
+				<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>
+				<td class="status tc">${adsStatusValueList[item.status]}</td>
+				<td class="operation">
+					${operationHtml}
+				</td>
+			</tr>`
 
     }
 

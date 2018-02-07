@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <link rel="import" href="../head.html?__inline">
-        <title>購買-ETH-倍可盈</title>
+        <title>我的廣告-倍可盈</title>
     	<!--SCRIPT_PLACEHOLDER-->
         <link rel="import" href="../top/top-zendesk.html?__inline">
     </head>
@@ -11,7 +11,19 @@
         <link rel="import" href="../top/top.html?__inline">
 		<div class="user-container myAdvertise-container">
 			<div class="left-wrap b_e bg_fff fl" id="left-wrap">
-				<link rel="import" href="./advertise-left.html?__inline">
+				<div class="left-title">廣告管理</div>
+				<div class="left-item b_e_b">
+					<div class="title-item"><i class="icon icon-ziliao"></i><samp>出售廣告</samp></div>
+					<div class="wp100 sell-nav-item">
+						<!--<div class="nav-item goHref sell-eth" data-href="../user/advertise.html?type=sell">ETH</div>-->
+					</div>
+				</div>
+				<div class="left-item b_e_b">
+					<div class="title-item"><i class="icon icon-anquan"></i><samp>購買廣告</samp></div>
+					<div class="wp100 buy-nav-item">
+						<!--<div class="nav-item goHref buy-eth" data-href="../user/advertise.html?type=buy">ETH</div>-->
+					</div>
+				</div>
 			</div>
 			<div class="right-wrap b_e bg_fff fr minheight">
 				<div class="order-container wp100">
@@ -64,7 +76,7 @@
 		</div>		
         <link rel="import" href="../footer.html?__inline">
         <script>
-            require(['app/controller/user/AdvertiseETH']);
+            require(['app/controller/user/MyAdvertise']);
         </script>
     </body>
 </html>
