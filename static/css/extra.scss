@@ -1882,6 +1882,7 @@ table {
                 float: left;
                 font-size: 16px;
                 line-height: 2;
+                word-break: break-word;
                 
                 &:nth-of-type(1){
                     width: 240px;

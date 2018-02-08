@@ -93,9 +93,9 @@ define([
     	return AccountCtr.getAccount().then((data)=>{
     		data.accountList.forEach(function(item){
     			if(item.currency=="ETH"){
-		    		$(".accountLeftCountString").attr('data-eth',base.formatMoney(item.amountString));
+		    		$(".accountLeftCountString").attr('data-eth',base.formatMoneySubtract(item.amountString,item.frozenAmountString));
     			}else if(item.currency=="SC"){
-		    		$(".accountLeftCountString").attr('data-sc',base.formatMoney(item.amountString,'','SC'));
+		    		$(".accountLeftCountString").attr('data-sc',base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC'));
     			}
     		})
     		//账户余额
@@ -112,10 +112,17 @@ define([
     	return TradeCtr.getAdvertiseDetail(code).then((data)=>{
     		status = data.status;
     		data.premiumRate = data.premiumRate*100;
-    		data.totalCount = base.formatMoney(data.totalCountString)
     		data.minTrade = data.minTrade.toFixed(2);
     		data.maxTrade = data.maxTrade.toFixed(2);
     		mid = data.marketPrice;
+    		
+    		if(data.tradeCoin=="SC"){
+    			coin = '1'
+    			data.totalCount = base.formatMoney(data.totalCountString,'','SC')
+    		}else{
+    			coin = '0'
+    			data.totalCount = base.formatMoney(data.totalCountString)
+    		}
     		
     		$("#form-wrapper").setForm(data);
     		
@@ -320,7 +327,7 @@ define([
 			if($("#premiumRate").val()==''||!$("#premiumRate").val()){
 				$("#price").val(mid);
 			}else{
-				$("#price").val(Math.floor((mid+mid*($("#premiumRate").val())*100)/100));
+				$("#price").val((mid+mid*($("#premiumRate").val()/100)).toFixed(2));
 			}
 		})
 		
@@ -416,9 +423,9 @@ define([
             return TradeCtr.submitAdvertise(params).then(()=>{
             	base.showMsg('操作成功！');
             	if(params.tradeType=='0') {
-                	base.gohref('../trade/sell-list.html');
+                	base.gohref('../trade/sell-list.html?coin='+coin);
             	} else {
-                	base.gohref('../trade/buy-list.html');
+                	base.gohref('../trade/buy-list.html?coin='+coin);
             	}
         	},base.hideLoadingSpin())
 

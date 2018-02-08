@@ -148,7 +148,10 @@ define([
 		    //保留8位小数
 		    s = new BigDecimal.BigDecimal(s);
 		    s = s.divide(new BigDecimal.BigDecimal(parse), t, BigDecimal.MathContext.ROUND_DOWN).toString();
-		    s = s.replace(/(-?\d+)\.0+$/, '$1').replace(/(.+[^0]+)0+$/, '$1')
+		    s = s.replace(/(-?\d+)\.0+$/, '$1')
+		    if(!/^-?\d+$/.test(s)){
+		    	s=s.replace(/(.+[^0]+)0+$/, '$1')
+		    }
 		    return s;
         },
         //金额减法 s1-s2

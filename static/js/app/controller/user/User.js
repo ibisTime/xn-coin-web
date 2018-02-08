@@ -36,12 +36,15 @@ define([
     			$("#photo").html(photoHtml)
     		}
     		
+    		var totalTradeCountETH = data.userStatistics.totalTradeCountEth=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountEth,'0')+'+';
+    		var totalTradeCountSC = data.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountSc,'0','SC')+'+'
+    		
     		$("#nickname").text(data.nickname)
     		$("#createDatetime").html(base.formateDatetime(data.createDatetime))
     		$("#mobile").html(base.hideMobile(data.mobile))
     		$("#beiXinRenCount").text(data.userStatistics.beiXinRenCount)
     		$("#jiaoYiCount").text(data.userStatistics.jiaoYiCount)
-    		$("#totalTradeCount").text(base.formatMoney(data.userStatistics.totalTradeCount))
+    		$("#totalTradeCount").text(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC");
     		
     		if(data.email){
     			$("#email").text(data.email)

@@ -328,8 +328,6 @@ define([
 	}
 
 	function onMsgNotify(newMsgList) {
-//		console.log(newMsgList);
-
 		var sess, newMsg;
 		//获取所有聊天会话
 		var sessMap = webim.MsgStore.sessMap();
@@ -344,8 +342,8 @@ define([
 //				console.warn(newMsg);
 				addMsg(newMsg,'',1);
 			}
-			
 		}
+		
 		//消息已读上报，以及设置会话自动已读标记
 		webim.setAutoRead(selSess, true, true);
 		var otherNew = false;
@@ -356,6 +354,8 @@ define([
 	        		otherNew = true;
 //		            updateSessDiv(sess.type(), sess.id(), sess.unread());
 				}
+	        }else{
+	        	console.log(sess);
 	        }
 	    }
         if(otherNew){

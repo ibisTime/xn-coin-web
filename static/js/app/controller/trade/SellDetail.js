@@ -25,6 +25,7 @@ define([
 	var tradePhotoMy = '';
 	var userName = '', myName='';
 	var limit = '';
+	var tradeCoin = 'ETH';
     
     if(!base.isLogin()){
 		base.goLogin();
@@ -57,9 +58,9 @@ define([
     	return AccountCtr.getAccount().then((data)=>{
     		data.accountList.forEach(function(item){
     			if(item.currency=="ETH"){
-		    		$(".accountLeftCountString").attr('data-eth',base.formatMoney(item.amountString));
+		    		$(".accountLeftCountString").attr('data-eth',base.formatMoneySubtract(item.amountString,item.frozenAmountString));
     			}else if(item.currency=="SC"){
-		    		$(".accountLeftCountString").attr('data-sc',base.formatMoney(item.amountString,'','SC'));
+		    		$(".accountLeftCountString").attr('data-sc',base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC'));
     			}
     		})
     		//账户余额
@@ -110,6 +111,7 @@ define([
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
     		
+    		tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
     		if(data.tradeCoin=="ETH"){
     			$("#truePrice").html(config.tradePrice+'&nbsp;CNY/ETH')
     			$("#submitDialog .tradePrice").html(config.tradePrice+'&nbsp;CNY/ETH')
@@ -145,7 +147,7 @@ define([
 				tradePhotoMy : tradePhotoMy,
 				userName : userName,
 				myName : myName,
-				truePrice: config.tradePrice+' CNY/ETH',
+				truePrice: $("#truePrice").html(),
 				limit: limit+' CNY',
 	    		success: function(){
 	    			$("#chatBtn").removeClass("hidden")
@@ -230,14 +232,23 @@ define([
     		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
     		$("#submitDialog .count").html($("#buyEth").val()+ COIN_LIST[coin])
     		config.tradeAmount = $("#buyAmount").val()
-    		config.count=base.formatMoneyParse($("#buyEth").val())
+    		
+    		if(tradeCoin=='SC'){
+    			config.count= base.formatMoneyParse($("#buyEth").val(),'','SC')
+    		}else{
+    			config.count= base.formatMoneyParse($("#buyEth").val())
+    		}
     	})
     	$("#buyAmount").keyup(function(){
     		$("#buyEth").val(($("#buyAmount").val()/config.tradePrice).toFixed(8));
     		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
     		$("#submitDialog .count").html($("#buyEth").val()+ COIN_LIST[coin])
 			config.tradeAmount = $("#buyAmount").val()
-    		config.count=base.formatMoneyParse($("#buyEth").val())
+    		if(tradeCoin=='SC'){
+    			config.count= base.formatMoneyParse($("#buyEth").val(),'','SC')
+    		}else{
+    			config.count= base.formatMoneyParse($("#buyEth").val())
+    		}
     	})
     	//下架-点击
     	$("#doDownBtn").click(function(){

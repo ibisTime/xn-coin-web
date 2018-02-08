@@ -121,7 +121,7 @@ define([
 		}
 		var operationHtml = '';
 		if(item.userId == base.getUserId()){
-			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise-eth.html?code=${item.code}">編輯</div>`;
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}">編輯</div>`;
 		}else{
 			if(item.tradeCoin=="ETH"){
 				operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=0">出售ETH</div>`;	
@@ -210,12 +210,18 @@ define([
     			
     			if($("#searchConWrap .minPrice").val()){
     				config.minPrice = $("#searchConWrap .minPrice").val();
+    			}else{
+    				delete config.minPrice;
     			}
     			if($("#searchConWrap .maxPrice").val()){
     				config.maxPrice = $("#searchConWrap .maxPrice").val();
+    			}else{
+    				delete config.maxPrice;
     			}
     			if($("#searchConWrap .payType").val()){
     				config.payType = $("#searchConWrap .payType").val();
+    			}else{
+    				delete config.payType
     			}
     			config.start=1;
     			base.showLoadingSpin();

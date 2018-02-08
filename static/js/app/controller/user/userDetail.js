@@ -81,7 +81,7 @@ define([
     		
 	        $('.jiaoYiCount').html(data.userStatistics.jiaoYiCount);
 	        $('.beiXinRenCount').html(data.userStatistics.beiXinRenCount);
-	        $('.beiHaoPingCount').html(base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiHaoPingCount));
+	        $('.beiHaoPingCount').html(base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiPingJiaCount));
 	        $('.totalTradeCount').html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC");
 	        
 	

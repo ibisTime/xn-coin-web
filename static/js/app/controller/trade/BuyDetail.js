@@ -24,6 +24,7 @@ define([
 	var tradePhotoMy = '';
 	var userName = '', myName='';
 	var limit = '';
+	var tradeCoin = 'ETH';
 	
 	if(!base.isLogin()){
 		base.goLogin();
@@ -90,7 +91,7 @@ define([
     			var photoHtml = `<div class="noPhoto">${tmpl}</div>`
     			$("#photo").html(photoHtml)
     		}
-    		config.tradePrice = Math.floor(data.truePrice*100)/100;
+    		config.tradePrice = data.truePrice;
     		limit = data.minTrade+'-'+data.maxTrade
     		
     		$("#nickname").html(data.user.nickname)
@@ -109,15 +110,16 @@ define([
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
     		
+    		tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
     		if(data.tradeCoin=="ETH"){
-    			$("#truePrice").html(config.tradePrice+'&nbsp;CNY/ETH')
+    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/ETH')
     			$("#submitDialog .tradePrice").html(config.tradePrice+'&nbsp;CNY/ETH')
     			$("#leftCountString").html(base.formatMoney(data.leftCountString));
     			$("#coin").text('ETH')
     		}else if(data.tradeCoin=="SC"){
-    			$("#truePrice").html(config.tradePrice+'&nbsp;CNY/SC')
+    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/SC')
     			$("#submitDialog .tradePrice").html(config.tradePrice+'&nbsp;CNY/SC')
-    			$("#leftCountString").html(base.formatMoney(data.leftCountString,8,'SC'))
+    			$("#leftCountString").html(base.formatMoney(data.leftCountString,'','SC'))
     			$("#coin").text('SC')
     		}
     		
@@ -227,14 +229,24 @@ define([
     		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
     		$("#submitDialog .count").html($("#buyEth").val()+ COIN_LIST[coin])
     		config.tradeAmount = $("#buyAmount").val()
-    		config.count= base.formatMoneyParse($("#buyEth").val())
+    		
+    		if(tradeCoin=='SC'){
+    			config.count= base.formatMoneyParse($("#buyEth").val(),'','SC')
+    		}else{
+    			config.count= base.formatMoneyParse($("#buyEth").val())
+    		}
+    		
     	})
     	$("#buyAmount").keyup(function(){
     		$("#buyEth").val(($("#buyAmount").val()/config.tradePrice).toFixed(8));
     		$("#submitDialog .tradeAmount").html($("#buyAmount").val()+"CNY")
     		$("#submitDialog .count").html($("#buyEth").val()+ COIN_LIST[coin])
 			config.tradeAmount = $("#buyAmount").val()
-    		config.count=base.formatMoneyParse($("#buyEth").val())
+    		if(tradeCoin=='SC'){
+    			config.count= base.formatMoneyParse($("#buyEth").val(),'','SC')
+    		}else{
+    			config.count= base.formatMoneyParse($("#buyEth").val())
+    		}
     	})
     	
     	//下架-点击
