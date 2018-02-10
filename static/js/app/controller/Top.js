@@ -63,6 +63,8 @@ define([
 	            	$('#wbImg').attr("src",base.getPic(item.pic));
 	        	} else if (item.location === 'web_wechat') {
 	            	$('#wxImg').attr("src",base.getPic(item.pic));
+	        	} else if (item.location === 'web_trade') {
+	            	$('#tradeBanner').css("background-image","url('"+base.getPic(item.pic)+"')");
 	        	}
         	})
         }, (msg) => {

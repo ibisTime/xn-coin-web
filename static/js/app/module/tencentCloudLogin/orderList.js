@@ -71,12 +71,13 @@ define([
 //		    initGetMyGroupTable([]);
 		    var options = {
 		        'Member_Account': loginInfo.identifier,
-		        //'GroupType':'',
-		        'GroupBaseInfoFilter': [
-		        ],
-		        'SelfInfoFilter': [
-		            'UnreadMsgNum'
-		        ]
+		        'Limit': 1000,
+		        'Offset': 0,
+			    //'GroupType':'',
+			    'GroupBaseInfoFilter': [
+			    ],
+			    'SelfInfoFilter': [
+			    ]
 		    };
 		    webim.getJoinedGroupListHigh(
 		            options,
