@@ -100,11 +100,12 @@ define([
     		}
     		var totalTradeCountETH = data.user.userStatistics.totalTradeCountEth=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountEth,'0')+'+';
     		var totalTradeCountSC = data.user.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountSc,'0','SC')+'+';
+    		var totalTradeCountBTC = data.user.userStatistics.totalTradeCountBtc=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountBtc,'0','BTC')+'+';
     		
     		$("#jiaoYiCount").html(data.user.userStatistics.jiaoYiCount)
     		$("#beiXinRenCount").html(data.user.userStatistics.beiXinRenCount)
     		$("#beiHaoPingCount").html(base.getPercentum(data.user.userStatistics.beiHaoPingCount,data.user.userStatistics.beiPingJiaCount))
-    		$("#totalTradeCount").html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC")
+    		$("#totalTradeCount").html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC/"+totalTradeCountBTC+"BTC")
     		$("#leaveMessage").html(data.leaveMessage.replace(/\n/g,'<br>'))
     		$("#limit").html(limit)
     		$("#payType").html(bizTypeList[data.payType])

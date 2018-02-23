@@ -76,13 +76,14 @@ define([
 	        
 	        
     		var totalTradeCountETH = data.userStatistics.totalTradeCountEth=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountEth,'0')+'+';
-    		var totalTradeCountSC = data.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountSc,'0','SC')+'+'
+    		var totalTradeCountSC = data.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountSc,'0','SC')+'+';
+    		var totalTradeCountBTC = data.userStatistics.totalTradeCountBtc=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountBtc,'0','BTC')+'+';
     		
     		
 	        $('.jiaoYiCount').html(data.userStatistics.jiaoYiCount);
 	        $('.beiXinRenCount').html(data.userStatistics.beiXinRenCount);
 	        $('.beiHaoPingCount').html(base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiPingJiaCount));
-	        $('.totalTradeCount').html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC");
+	        $('.totalTradeCount').html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC/"+totalTradeCountBTC+"BTC");
 	        
 	
 			// 邮箱验证，手机验证，身份验证
