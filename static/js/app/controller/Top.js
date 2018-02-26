@@ -75,29 +75,23 @@ define([
     //我的账户
     function getAccount(){
     	return AccountCtr.getAccount().then((data)=>{
+    		var htmlAccount = '';
     		var html = '';
     		data.accountList.forEach(function(item){
     			
-    			var className = '', coin='', amount='', frozenAmountString= '';
-    			if(item.currency=="ETH"){
-    				className = 'eth';
-    				coin = 'ETH';
-    				amount = base.formatMoneySubtract(item.amountString,item.frozenAmountString);
-    				frozenAmountString = base.formatMoney(item.frozenAmountString);
-		    		$("#head-user-wrap .wallet .wallet-account-wrap .eth samp").text(base.formatMoney(item.amountString));
-    			}else if(item.currency=="SC"){
-    				className = 'sc';
-    				coin = 'SC';
-    				amount = base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC');
-    				frozenAmountString = base.formatMoney(item.frozenAmountString,8,'SC');
-		    		$("#head-user-wrap .wallet .wallet-account-wrap .sc samp").text(base.formatMoney(item.amountString,'','SC'));
+    			//判断币种是否上线
+    			if(COIN_NAME[item.currency]){
+    				htmlAccount +=`<p>${item.currency}：<samp>${base.formatMoney(item.amountString,'',item.currency)}</samp></p>`;
+    			
+	    			html += `<div class="list ${item.currency.toLocaleLowerCase()}">
+						<p>${item.currency}</p>
+						<p class="amount">${base.formatMoneySubtract(item.amountString,item.frozenAmountString,item.currency)}</p>
+						<p class="frozenAmountString">${base.formatMoney(item.frozenAmountString,'',item.currency)}</p>
+					</div>`;
     			}
-    			html += `<div class="list ${className}">
-					<p>${coin}</p>
-					<p class="amount">${amount}</p>
-					<p class="frozenAmountString">${frozenAmountString}</p>
-				</div>`;
     		})
+    		
+    		$("#head-user-wrap .wallet .wallet-account-wrap").html(htmlAccount);
     		$("#head-user-wrap .wallet .wallet-account-mx .listWrap").html(html)
     	},base.hideLoadingSpin)
     }

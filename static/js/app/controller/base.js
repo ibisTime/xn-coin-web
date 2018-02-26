@@ -159,6 +159,8 @@ define([
 			}
 			if(coin == "SC") {
 				parse = "1e24";
+			}else if(coin == "BTC") {
+				parse = "1e8";
 			}
 			//保留8位小数
 			s = new BigDecimal.BigDecimal(s);
@@ -190,6 +192,8 @@ define([
 			var parse = "1e18";
 			if(coin == "SC") {
 				parse = "1e24";
+			}else if(coin == "BTC") {
+				parse = "1e8";
 			}
 			var r = r || new BigDecimal.BigDecimal(parse);
 			if(m == '') {

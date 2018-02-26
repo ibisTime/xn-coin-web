@@ -123,11 +123,13 @@ define([
 		if(item.userId == base.getUserId()){
 			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}">編輯</div>`;
 		}else{
-			if(item.tradeCoin=="ETH"){
-				operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=0">出售ETH</div>`;	
-			}else if(item.tradeCoin=="SC"){
-				operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=1">出售SC</div>`;
+			var coinTmpl = '0';
+			if(item.tradeCoin=="SC"){
+				coinTmpl = '1'
+			}else if(item.tradeCoin=="BTC"){
+				coinTmpl = '2'
 			}
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=${coinTmpl}">出售${item.tradeCoin}</div>`;
 		}
 		
     	return `<tr>

@@ -141,13 +141,7 @@ define([
 		}
 		
 		if(item.status!="-1"){
-			if(item.tradeCoin=='SC'){
-				quantity = base.formatMoney(item.countString,'','SC')+'SC'
-			}else if(item.tradeCoin=='BTC'){
-				quantity = base.formatMoney(item.countString)+'BTC'
-			}else{
-				quantity = base.formatMoney(item.countString)+'ETH'
-			}
+			quantity = base.formatMoney(item.countString,'',item.tradeCoin)+item.tradeCoin
 		}
 		
     	return `<tr data-code="${item.code}">

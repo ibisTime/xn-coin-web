@@ -6,10 +6,6 @@ define([
 	'app/interface/TradeCtr'
 ], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
 	var code = base.getUrlParam("code");
-	var typeList = {
-		"buy": "購買ETH",
-		"sell": "出售ETH",
-	};
 	var loginInfo = {};
 	var userId = base.getUserId();
 	const selType = webim.SESSION_TYPE.GROUP;
@@ -68,11 +64,7 @@ define([
 			$("#statusInfo samp").html(data.remark)
 			$("#tradePrice").html(data.tradePrice);
 			tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
-			if(tradeCoin=='SC'){
-				$("#countString").html(base.formatMoney(data.countString,'','SC')+'&nbsp;SC');
-			}else{
-				$("#countString").html(base.formatMoney(data.countString)+'&nbsp;ETH');
-			}
+			$("#countString").html(base.formatMoney(data.countString,'',tradeCoin)+'&nbsp;'+tradeCoin);
 			
 			$("#tradeAmount").html(data.tradeAmount);
 			$("#orderCode").html(data.code.substring(data.code.length - 8));
