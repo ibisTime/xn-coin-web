@@ -99,11 +99,14 @@ define([
 		var unreadHtml = '';
 		//交易数量
 		var quantity = '';
+		//类型
+		var type = '';
 		
 		//当前用户为买家
     	if(item.buyUser==base.getUserId()){
     		var user = item.sellUserInfo;
     		
+    		type = 'sell';
     		//待支付
     		if(item.status=="0"){
 				operationHtml=`<div class="am-button am-button-red payBtn" data-ocode="${item.code}">標記付款</div>
@@ -117,6 +120,7 @@ define([
     	}else{
     		var user = item.buyUserInfo;
     		
+    		type = 'buy';
     		//待支付
     		if(item.status=="1"){
 				operationHtml=`<div class="am-button am-button-red releaseBtn mr10" data-ocode="${item.code}">释放货币</div>`;
@@ -152,7 +156,7 @@ define([
 						<samp class="name">${user.nickname}</samp>
 					</td>
 					<td class="code">${item.code.substring(item.code.length-8)}</td>
-					<td class="type">${typeList[item.type]}${item.tradeCoin?item.tradeCoin:'ETH'}</td>
+					<td class="type">${typeList[type]}${item.tradeCoin?item.tradeCoin:'ETH'}</td>
 					<td class="amount">${item.status!="-1"?item.tradeAmount+'CNY':''}</td>
 					<td class="quantity">${quantity}</td>
 					<td class="createDatetime">${base.formateDatetime(item.createDatetime)}</td>

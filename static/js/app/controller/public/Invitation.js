@@ -28,7 +28,9 @@ define([
     function getInvitation() {
         return UserCtr.getInvitation().then((data)=>{
         	$('.inviteCount').html(data.inviteCount);
-        	$('.inviteProfit').html(base.formatMoney(data.inviteProfitEth)+'<i>ETH&nbsp;&nbsp;/&nbsp;&nbsp;</i>'+base.formatMoney(data.inviteProfitSc,'','SC')+'<i>SC</i>');
+        	$('.inviteProfit').html(base.formatMoney(data.inviteProfitEth)+'<i>ETH&nbsp;&nbsp;/&nbsp;&nbsp;</i>'+
+        					base.formatMoney(data.inviteProfitSc,'','SC')+'<i>SC&nbsp;&nbsp;/&nbsp;&nbsp;</i>'+
+        					base.formatMoney(data.inviteProfitBtc,'','BTC')+'<i>BTC</i>');
 		},base.hideLoadingSpin)
     }
     

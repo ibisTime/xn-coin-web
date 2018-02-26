@@ -28,7 +28,7 @@ define([
     		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
     		TradeCtr.getAdvertisePrice(COIN_LIST[coin]),
     		getExplain('sell'),
-    		getAccount()
+    		getAccount(COIN_LIST[coin])
     	).then((data1, data2, data3)=>{
     		//说明
     		$("#tradeWarn").html(data1.cvalue.replace(/\n/g,'<br>'));
@@ -89,21 +89,14 @@ define([
     }
     
     //我的账户
-    function getAccount(){
+    function getAccount(currency){
     	return AccountCtr.getAccount().then((data)=>{
     		data.accountList.forEach(function(item){
-    			if(item.currency=="ETH"){
-		    		$(".accountLeftCountString").attr('data-eth',base.formatMoneySubtract(item.amountString,item.frozenAmountString));
-    			}else if(item.currency=="SC"){
-		    		$(".accountLeftCountString").attr('data-sc',base.formatMoneySubtract(item.amountString,item.frozenAmountString,'SC'));
+    			if(item.currency==currency){
+		    		$(".accountLeftCountString").attr('data-amount',base.formatMoneySubtract(item.amountString,item.frozenAmountString,currency));
     			}
     		})
-    		//账户余额
-    		if(COIN_LIST[coin]=="ETH"){
-    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-eth'))
-    		}else if(COIN_LIST[coin]=="SC"){
-    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-sc'))
-    		}
+			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-amount'))
     	},base.hideLoadingSpin)
     }
     
@@ -115,14 +108,16 @@ define([
     		data.minTrade = data.minTrade.toFixed(2);
     		data.maxTrade = data.maxTrade.toFixed(2);
     		mid = data.marketPrice;
+    		var tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
     		
-    		if(data.tradeCoin=="SC"){
-    			coin = '1'
-    			data.totalCount = base.formatMoney(data.totalCountString,'','SC')
-    		}else{
-    			coin = '0'
-    			data.totalCount = base.formatMoney(data.totalCountString)
-    		}
+    		var coinList = COIN_LIST;
+	    	
+	    	for(var key in coinList){
+	    		if(coinList[key]==tradeCoin){
+	    			coin=key
+	    		}
+	    	}
+			data.totalCount = base.formatMoney(data.totalCountString,'',tradeCoin)
     		
     		$("#form-wrapper").setForm(data);
     		
@@ -382,11 +377,7 @@ define([
             params.tradeCurrency = "CNY";
             params.publishType = publishType;
             
-            if($("#tradeCoin").val()=="ETH"){
-            	params.totalCount = base.formatMoneyParse(params.totalCount)
-            }else if($("#tradeCoin").val()=="SC"){
-            	params.totalCount = base.formatMoneyParse(params.totalCount,'','SC')
-            }
+        	params.totalCount = base.formatMoneyParse(params.totalCount,'',params.tradeCoin)
 
             if($(".time-type .item.on").index()=="1"){
                 params.displayTime = [{
@@ -454,20 +445,15 @@ define([
 		$("#tradeCoin").change(function(){
 			base.showLoadingSpin();
 			document.getElementById("form-wrapper").reset();
-			TradeCtr.getAdvertisePrice($("#tradeCoin").val()).then((data)=>{
+			$.when(
+				TradeCtr.getAdvertisePrice($("#tradeCoin").val()),
+				getAccount($("#tradeCoin").val())
+			).then((data)=>{
 				mid = data.mid;
 				
-				$(".accountLeftCountString").text($(".accountLeftCountString").attr("data-coin"+$("#tradeCoin option:selected").index()))
     			$("#coin").text($("#tradeCoin").val())
 				$("#price").attr("data-coin",$("#tradeCoin").val())
 				$("#price").val(mid);
-				//账户余额
-	    		if($("#tradeCoin").val()=="ETH"){
-	    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-eth'))
-	    		}else if($("#tradeCoin").val()=="SC"){
-	    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-sc'))
-	    		}
-				
 				base.hideLoadingSpin();
 			},()=>{
 				$("#tradeCoin").val($("#price").attr("data-coin"));

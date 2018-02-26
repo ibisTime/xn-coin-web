@@ -126,9 +126,11 @@ define([
     	})
     	
     	$("#head-user-wrap .isTradePwdFlag").click(function(){
+    		var _this = $(this);
+    		
     		UserCtr.getUser().then((data)=>{
     			if(data.tradepwdFlag&&data.realName){
-    				base.gohref("../wallet/wallet-eth.html?isWithdraw=1")
+    				base.gohref(_this.attr("data-href"))
     			}else if(!data.tradepwdFlag){
     				base.showMsg("請先設置資金密碼")
     				setTimeout(function(){

@@ -197,7 +197,7 @@ define([
 			}
 			var r = r || new BigDecimal.BigDecimal(parse);
 			if(m == '') {
-				m = '0';
+				return '-';
 			}
 			m = new BigDecimal.BigDecimal(m);
 			m = m.multiply(r).toString();
