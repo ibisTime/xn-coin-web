@@ -109,17 +109,7 @@ define([
     		data.maxTrade = data.maxTrade.toFixed(2);
     		mid = data.marketPrice;
     		var tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
-    		
-    		var coinList = COIN_LIST;
-	    	
-	    	for(var key in coinList){
-	    		if(coinList[key]==tradeCoin){
-	    			coin=key
-	    		}
-	    	}
 			data.totalCount = base.formatMoney(data.totalCountString,'',tradeCoin)
-    		
-    		$("#form-wrapper").setForm(data);
     		
     		//广告类型
     		if(data.tradeType=='1'){
@@ -127,21 +117,19 @@ define([
     		}else{
     			$(".trade-type .item").eq(1).addClass("on").siblings('.item').removeClass("on").addClass("hidden")
     		}
+    		$(".trade-type .item.on .icon-check").click();
+    		
+    		$("#form-wrapper").setForm(data);
     		
     		//币种
     		$("#tradeCoin").val(data.tradeCoin).attr("disabled",true);
     		
     		//账户余额
-    		$(".accountLeftCountString").text($(".accountLeftCountString").attr("data-coin"+$("#tradeCoin option:selected").index()))
 			$("#coin").text($("#tradeCoin").val())
 			$("#price").attr("data-coin",$("#tradeCoin").val())
 			$("#price").val(Math.floor(data.truePrice*100)/100);
 			//账户余额
-    		if($("#tradeCoin").val()=="ETH"){
-    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-eth'))
-    		}else if($("#tradeCoin").val()=="SC"){
-    			$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-sc'))
-    		}
+    		$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-amount'))
     		
     		//是否仅粉丝
     		if(data.onlyTrust=='1'){

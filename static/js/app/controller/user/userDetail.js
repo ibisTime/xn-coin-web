@@ -116,10 +116,18 @@ define([
 
     function buildHtml(item){
     	var operationHtml = '';
+    	var coinTmpl = '0';
+		var coinList = COIN_LIST;
+    	
+    	for(var key in coinList){
+    		if(coinList[key]==item.tradeCoin){
+    			coinTmpl=key
+    		}
+    	}
     	if(item.tradeType=='1'){
-    		operationHtml = `<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買</div>`
+    		operationHtml = `<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}&coin=${coinTmpl}">購買</div>`
     	}else{
-    		operationHtml = `<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}">出售</div>`
+    		operationHtml = `<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=${coinTmpl}">出售</div>`
     	}
     	
         return `<tr>

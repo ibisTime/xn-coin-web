@@ -485,7 +485,7 @@ define([
 	    	if(_sendOutWrapper.valid()){
 	    		base.showLoadingSpin();
 	    		var params=_sendOutWrapper.serializeObject();
-	    		params.amount = base.formatMoneyParse(params.amount);
+	    		params.amount = base.formatMoneyParse(params.amount,'',currency);
 	    		params.accountNumber = accountNumber;
 	    		params.payCardInfo = currency
 	    		withDraw(params)

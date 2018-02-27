@@ -125,15 +125,18 @@ define([
 		}
 		
 		var operationHtml = '';
+		var coinTmpl = '0';
+		var coinList = COIN_LIST;
+    	
+    	for(var key in coinList){
+    		if(coinList[key]==item.tradeCoin){
+    			coinTmpl=key
+    		}
+    	}
+    	
 		if(item.userId == base.getUserId()){
-			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}">編輯</div>`;
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${coinTmpl}">編輯</div>`;
 		}else{
-			var coinTmpl = '0';
-			if(item.tradeCoin=="SC"){
-				coinTmpl = '1'
-			}else if(item.tradeCoin=="BTC"){
-				coinTmpl = '2'
-			}
 			
 			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}&coin=${coinTmpl}">購買${item.tradeCoin}</div>`;
 		}
