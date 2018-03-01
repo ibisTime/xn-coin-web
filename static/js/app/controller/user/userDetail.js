@@ -131,7 +131,7 @@ define([
     	}
     	
         return `<tr>
-					<td class="currency">${coinList[item.tradeCoin]}(${item.tradeCoin})</td>
+					<td class="currency">${COIN_NAME[item.tradeCoin]}(${item.tradeCoin})</td>
 					<td class="payType">${payType[item.payType]}</td>
 					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
 					<td class="price">${item.truePrice}CNY/${item.tradeCoin?item.tradeCoin:'ETH'}</td>
