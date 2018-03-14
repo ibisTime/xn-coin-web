@@ -76,5 +76,9 @@ define([
             	userId: base.getUserId()
             });
         },
+        // 获取币种列表
+        getCoinList() {
+            return Ajax.get("802267", {}, true);
+        },
     };
 })

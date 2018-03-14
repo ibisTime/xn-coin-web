@@ -55,8 +55,12 @@ define([
                     return $.Deferred().reject(res.errorInfo);
                 }
                 return res.data;
-            }).fail(function(error,eCode){
-                showMsg(error);
+            }).fail(function(error,eCode,eTxt){
+            	if(eCode=="error"||eCode=="timeout"){
+            		showMsg(eCode+"("+error.status+"):"+eTxt,10000);
+            		console.log(eCode+"("+error.status+"):"+eTxt)
+            	}
+                
                 if(eCode&&eCode== "4"){
                 	setTimeout(function(){
                 		var timestamp = new Date().getTime();

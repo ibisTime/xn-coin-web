@@ -7,7 +7,10 @@ define([
     
     function init() {
     	
-        base.hideLoadingSpin();
+        setTimeout(function(){
+        	base.hideLoadingSpin();
+        },100)
+        
         addListener();
     }
     

@@ -6,8 +6,8 @@
     "dist": "fis3 release -d ../dist -w",
     "prod": "fis3 release -d ../dist prod",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "fis3 release -d D:/chengdai_dabao/bcoin_web -w",
-    "build": "fis3 release -d D:/chengdai_dabao/bcoin_web prod"
+    "dev": "fis3 release -d F:/web/xn-coin-web/dist -w",
+    "build": "fis3 release -d F:/web/xn-coin-web/dist prod"
   },
   "author": "",
   "license": "ISC",

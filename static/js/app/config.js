@@ -17,3 +17,8 @@ var FOOT_TETUI= 'Bcoin Exchange';
 var FOOT_EMAIL = 'contact@bcoin.im';
 var COIN_LIST = {"0": "ETH","1": "SC","2": "BTC"}
 var COIN_NAME = {"ETH": "以太坊","SC": "云储币","BTC": "比特币"}
+var COIN_DEFAULTDATA = {
+	"BTC": {"coin":"BTC","unit":"8","name":"比特币","type":"0"},
+	"ETH": {"coin":"ETH","unit":"18","name":"以太坊","type":"0"},
+	"SC": {"coin":"SC","unit":"24","name":"云储币","type":"0"}
+}

@@ -20,7 +20,7 @@
  */
 ;
 (function (factory) {
-    if (typeof define === "function" && (define.amd || define.cmd) && !jQuery) {
+    if (typeof define === "function" && (define.amd || define.cmd)) {
         // AMD或CMD
         define(["jquery"], factory);
     } else if (typeof module === 'object' && module.exports) {

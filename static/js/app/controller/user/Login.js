@@ -14,9 +14,10 @@ define([
     function init() {
     	$(".head-button-wrap .button-register").removeClass("hidden");
         initSwiperBanner();
-        base.hideLoadingSpin();
         addListener();
-        
+        setTimeout(function(){
+        	base.hideLoadingSpin();
+        },100)
     }
     // 初始化swiper
     function initSwiperBanner(){

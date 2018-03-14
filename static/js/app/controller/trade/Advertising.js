@@ -79,11 +79,13 @@ define([
     
     //根据config配置设置 币种列表
     function getCoinList(){
-    	var coinList = COIN_LIST;
+    	var coinList = base.getCoinList();
+    	var coinListKey = Object.keys(coinList);
     	var listHtml = '';
     	
-    	for(var key in coinList){
-    		listHtml+=`<option value="${coinList[key]}">${COIN_NAME[coinList[key]]}(${coinList[key]})</option>`;
+    	for(var i=0 ; i< coinListKey.length ; i++){
+    		var tmpl = coinList[coinListKey[i]]
+    		listHtml+=`<option value="${tmpl.coin}">${tmpl.name}(${tmpl.coin})</option>`;
     	}
     	$("#tradeCoin").html(listHtml);
     }

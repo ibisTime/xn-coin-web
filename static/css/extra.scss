@@ -442,6 +442,11 @@ table {
                             color: #333;
                             font-size: 16px;
                         }
+                        
+                        &.more{
+                            color: $primary-color;
+                            font-size: 14px;
+                        }
                     }
                 }
                 .wallet-account-mx{
@@ -469,6 +474,13 @@ table {
                             &:nth-of-type(3){
                                 width: 145px;
                             }
+                        }
+                        
+                        &.more{
+                            text-align: center;
+                            margin-bottom: 15px;
+                            color: $primary-color;
+                            font-size: 14px;
                         }
                     }
                 }
@@ -505,7 +517,7 @@ table {
             } 
             &.wallet .down-wrap{
                 width: 410px;
-                height: 350px;
+                height: 365px;
             } 
         }
     }

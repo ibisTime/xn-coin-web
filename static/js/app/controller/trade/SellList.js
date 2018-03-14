@@ -3,12 +3,13 @@ define([
     'pagination',
     'app/interface/TradeCtr',
 ], function(base, pagination, TradeCtr) {
-	var coin = base.getUrlParam("coin") || '0'; // 币种
+	var coin = base.getUrlParam("coin") || 'BTC'; // 币种
+	//币种
 	var config={
         start: 1,
-        limit: 10,
+        limit:10,
         tradeType: 0,
-        coin: COIN_LIST[coin]
+        coin: coin.toUpperCase()
 	};
 	var bizTypeList = {
             "0": "支付宝",
@@ -21,17 +22,19 @@ define([
     function init() {
     	getCoinList();
     	$(".head-nav-wrap .sell").addClass("active");
-    	$("#coin-top ul li").eq(coin).addClass("on");
+    	$("#coin-top ul li."+coin.toLowerCase()).addClass("on");
     	getPageAdvertise();
         addListener();
     }
      //根据config配置设置 币种列表
     function getCoinList(){
-    	var coinList = COIN_LIST;
+    	var coinList = base.getCoinList();
+    	var coinListKey = Object.keys(coinList);
     	var listHtml = '';
     	
-    	for(var key in coinList){
-    		listHtml+=`<li>${COIN_NAME[coinList[key]]}(${coinList[key]})</li>`;
+    	for(var i=0 ; i< coinListKey.length ; i++){
+    		var tmpl = coinList[coinListKey[i]]
+    		listHtml+=`<li class="${tmpl.coin.toLowerCase()}" data-coin="${tmpl.coin}">${tmpl.name}(${tmpl.coin})</li>`;
     	}
     	$("#coin-top ul").html(listHtml);
     }
@@ -243,9 +246,8 @@ define([
     	
     	//币种点击
     	$("#coin-top ul li").click(function(){
-    		var index = $(this).index();
     		$(this).addClass("on").siblings('li').removeClass('on')
-    		config.coin = COIN_LIST[index];
+    		config.coin = $(this).attr("data-coin").toUpperCase();;
     		config.start=1;
 			base.showLoadingSpin();
 			

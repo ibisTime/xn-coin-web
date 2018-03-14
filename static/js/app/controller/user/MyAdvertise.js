@@ -5,8 +5,8 @@ define([
     'app/interface/TradeCtr',
     'pagination',
 ], function(base, AccountCtr,GeneralCtr,TradeCtr, pagination) {
-	var type = base.getUrlParam("type");// buy: 购买，sell:出售
-	var coin = base.getUrlParam("coin") || '0'; // 币种
+	var type = base.getUrlParam("type") || "sell";// buy: 购买，sell:出售
+	var coin = base.getUrlParam("coin") || 'BTC'; // 币种
 	var adsStatusValueList = {}; // 廣告狀態
 	var config={
 	    start:1,
@@ -14,7 +14,7 @@ define([
         tradeType: 1,
         statusList: [0],
         userId:base.getUserId(),
-        coin: COIN_LIST[coin]
+        coin: coin.toUpperCase()
     }
 	init();
 
@@ -22,10 +22,10 @@ define([
         base.showLoadingSpin();
         getCoinList();
     	if(type=='buy'){
-			$("#left-wrap .buy-nav-item .buy").eq(coin).addClass("on");
+			$("#left-wrap .buy-nav-item ."+coin.toLowerCase()).addClass("on");
 			config.tradeType = 0;
     	}else if(type=='sell'){
-			$("#left-wrap .sell-nav-item .sell").eq(coin).addClass("on")
+			$("#left-wrap .sell-nav-item ."+coin.toLowerCase()).addClass("on")
     	}
 
         GeneralCtr.getDictList({"parentKey":"ads_status"}).then((data)=>{
@@ -39,14 +39,17 @@ define([
 	
     //根据config配置设置 币种列表
     function getCoinList(){
-    	var coinList = COIN_LIST;
+    	var coinList = base.getCoinList();
+    	var coinListKey = Object.keys(coinList);
     	var buylistHtml = '';
     	var selllistHtml = '';
     	
-    	for(var key in coinList){
-    		buylistHtml+=`<div class="nav-item goHref buy" data-href="../user/advertise.html?type=buy&coin=${key}">${coinList[key]}</div>`;
-    		selllistHtml+=`<div class="nav-item goHref sell" data-href="../user/advertise.html?type=sell&coin=${key}">${coinList[key]}</div>`;
+    	for(var i=0 ; i< coinListKey.length ; i++){
+    		var tmpl = coinList[coinListKey[i]]
+    		buylistHtml+=`<div class="nav-item goHref buy ${tmpl.coin.toLowerCase()}" data-href="../user/advertise.html?type=buy&coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</div>`;
+    		selllistHtml+=`<div class="nav-item goHref sell ${tmpl.coin.toLowerCase()}" data-href="../user/advertise.html?type=sell&coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</div>`;
     	}
+    	
     	$("#left-wrap .buy-nav-item").html(buylistHtml);
     	$("#left-wrap .sell-nav-item").html(selllistHtml);
     }

@@ -5,8 +5,8 @@ define([
 	'app/module/loading',
 	'app/util/ajax',
 	'BigDecimal',
-], function($, CookieUtil, dialog, loading, Ajax, BigDecimal) {
-	var userMobile;
+    'app/interface/BaseCtr'
+], function($, CookieUtil, dialog, loading, Ajax, BigDecimal, BaseCtr) {
 	
 	if(/AppleWebKit.*Mobile/i.test(navigator.userAgent)  ||  (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))) {
 		if(window.location.href.indexOf("?mobile") < 0) {
@@ -37,7 +37,9 @@ define([
 	$("body").on("click", ".goHref", function() {
 		var thishref = $(this).attr("data-href");
 		if(thishref != "" && thishref) {
-			Base.updateLoginTime();
+			if(Base.isLogin()){
+				Base.updateLoginTime();
+			}
 			Base.gohref(thishref)
 		}
 	})
@@ -151,20 +153,17 @@ define([
 		},
 		// 金额格式化 默认保留t || 8位  小数 coin 默认eth
 		formatMoney: function(s, t, coin) {
-			var parse = "1e18";
+			var coinList = Base.getCoinList();
+			var unit = coinList[coin].unit||"1e18";
+			
 			if(!$.isNumeric(s))
 				return "-";
 			if(t == '' || t == null || t == undefined || typeof t == 'object') {
 				t = 8;
 			}
-			if(coin == "SC") {
-				parse = "1e24";
-			}else if(coin == "BTC") {
-				parse = "1e8";
-			}
 			//保留8位小数
 			s = new BigDecimal.BigDecimal(s);
-			s = s.divide(new BigDecimal.BigDecimal(parse), t, BigDecimal.MathContext.ROUND_DOWN).toString();
+			s = s.divide(new BigDecimal.BigDecimal(unit), t, BigDecimal.MathContext.ROUND_DOWN).toString();
 			s = s.replace(/(-?\d+)\.0+$/, '$1')
 			if(!/^-?\d+$/.test(s)) {
 				s = s.replace(/(.+[^0]+)0+$/, '$1')
@@ -189,13 +188,10 @@ define([
 		},
 		//金额金额放大 默认 放大 r || 8位 
 		formatMoneyParse: function(m, r, coin) {
-			var parse = "1e18";
-			if(coin == "SC") {
-				parse = "1e24";
-			}else if(coin == "BTC") {
-				parse = "1e8";
-			}
-			var r = r || new BigDecimal.BigDecimal(parse);
+			var coinList = Base.getCoinList();
+			var unit = coinList[coin].unit||"1e18";
+			
+			var r = r || new BigDecimal.BigDecimal(unit);
 			if(m == '') {
 				return '-';
 			}
@@ -514,10 +510,13 @@ define([
 		},
 		//更新登录时间
 		updateLoginTime: function() {
-			return Ajax.get("805083", {
-				userId: Base.getUserId()
-			}, true)
+			BaseCtr.updateLoginTime();
+		},
+		//获取币种列表
+		getCoinList: function(){
+			return JSON.parse(sessionStorage.getItem('coinList'));
 		}
 	};
+	
 	return Base;
 });

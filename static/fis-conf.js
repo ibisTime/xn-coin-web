@@ -1,11 +1,11 @@
 fis.hook('amd', {
     baseUrl: "./js",
     paths: {
+        'jquery': "lib/jquery-1.10.2",
         'Handlebars': 'lib/handlebars.runtime-v3.0.3',
         'IScroll': "lib/iscroll",
         'iScroll': "lib/iscroll1",
         'jValidate': "lib/validate/jquery.validate",
-        'jquery': "lib/jquery-1.10.2",
         'swiper': "lib/swiper/idangerous.swiper.min",
         'pagination': "lib/pagination/jquery.pagination",
         'Chosen': "lib/chosen.jquery",
@@ -80,12 +80,12 @@ fis.media("prod")
         packTo: '/pkg/common.js',
         packOrder: -100
     })
-    .match('/js/lib/jquery-2.1.4.js', {
+    .match('/js/lib/jquery-1.10.2.js', {
         packTo: '/pkg/common.js',
         packOrder: -90
     })
     .match('{/js/app/util/ajax.js,/js/app/util/cookie.js,/js/app/util/dialog.js,/js/app/module/loading/index.js,/js/lib/iscroll1.js}', {
-        requires: ['/js/require.js', '/js/lib/jquery-2.1.4.js'],
+        requires: ['/js/require.js', '/js/lib/jquery-1.10.2.js'],
         packTo: '/pkg/common.js'
     })
     .match("**.js", {

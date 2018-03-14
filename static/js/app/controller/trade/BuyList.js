@@ -3,13 +3,13 @@ define([
     'pagination',
     'app/interface/TradeCtr'
 ], function(base, pagination, TradeCtr) {
-	var coin = base.getUrlParam("coin") || '0'; // 币种
+	var coin = base.getUrlParam("coin") || 'BTC'; // 币种
 	//币种
 	var config={
         start: 1,
         limit:10,
         tradeType: 1,
-        coin: COIN_LIST[coin]
+        coin: coin.toUpperCase()
 	};
 	var bizTypeList = {
             "0": "支付宝",
@@ -22,18 +22,20 @@ define([
     function init() {
     	getCoinList();
     	$(".head-nav-wrap .buy").addClass("active");
-    	$("#coin-top ul li").eq(coin).addClass("on");
+    	$("#coin-top ul li."+coin.toLowerCase()).addClass("on");
     	getPageAdvertise();
         addListener();
     }
     
     //根据config配置设置 币种列表
     function getCoinList(){
-    	var coinList = COIN_LIST;
+    	var coinList = base.getCoinList();
+    	var coinListKey = Object.keys(coinList);
     	var listHtml = '';
     	
-    	for(var key in coinList){
-    		listHtml+=`<li>${COIN_NAME[coinList[key]]}(${coinList[key]})</li>`;
+    	for(var i=0 ; i< coinListKey.length ; i++){
+    		var tmpl = coinList[coinListKey[i]]
+    		listHtml+=`<li class="${tmpl.coin.toLowerCase()}" data-coin="${tmpl.coin}">${tmpl.name}(${tmpl.coin})</li>`;
     	}
     	$("#coin-top ul").html(listHtml);
     }
@@ -125,20 +127,12 @@ define([
 		}
 		
 		var operationHtml = '';
-		var coinTmpl = '0';
-		var coinList = COIN_LIST;
-    	
-    	for(var key in coinList){
-    		if(coinList[key]==item.tradeCoin){
-    			coinTmpl=key
-    		}
-    	}
     	
 		if(item.userId == base.getUserId()){
-			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${coinTmpl}">編輯</div>`;
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${item.tradeCoin}">編輯</div>`;
 		}else{
 			
-			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}&coin=${coinTmpl}">購買${item.tradeCoin}</div>`;
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買${item.tradeCoin}</div>`;
 		}
 		
     	return `<tr>
@@ -249,13 +243,14 @@ define([
     	
     	//币种点击
     	$("#coin-top ul li").click(function(){
-    		var index = $(this).index();
-    		$(this).addClass("on").siblings('li').removeClass('on')
-    		config.coin = COIN_LIST[index];
-    		config.start=1;
-			base.showLoadingSpin();
-			
-			getPageAdvertise();
+    		
+    		base.gohrefReplace("../trade/buy-list.html?coin="+$(this).attr("data-coin").toUpperCase())
+//  		$(this).addClass("on").siblings('li').removeClass('on')
+//  		config.coin = $(this).attr("data-coin").toUpperCase();
+//  		config.start=1;
+//			base.showLoadingSpin();
+//			
+//			getPageAdvertise();
     	})
     }
 });

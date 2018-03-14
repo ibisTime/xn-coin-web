@@ -9,7 +9,7 @@ define([
 ], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
 	var isWithdraw = !!base.getUrlParam("isWithdraw");//提币
 	var withdrawFee = 0; // 取现手续费
-	var currency = base.getUrlParam("c")||'ETH';//币种
+	var currency = base.getUrlParam("c")||'BTC';//币种
 	currency = currency.toUpperCase()// 转换大写
 	
 	var config={
@@ -66,6 +66,8 @@ define([
         	"googleCaptcha":{}
 	};
 	
+	var coinList = base.getCoinList();
+	
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -94,7 +96,7 @@ define([
 		$.when(
 			GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
 			GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
-			GeneralCtr.getSysConfig("withdraw_fee_"+currency.toLocaleLowerCase(),true)
+			GeneralCtr.getSysConfig("withdraw_fee_"+currency.toLowerCase(),true)
 		).then((data1,data2, data3)=>{
     		
     		data1.forEach(function(item){
@@ -103,11 +105,15 @@ define([
     		data2.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
     		})
-    		withdrawFee = data3.cvalue
-    		$("#withdrawFee").val(withdrawFee+currency)
+    		if(coinList[currency.toLowerCase()].type=='0'){
+    			withdrawFee = data3.cvalue
+    		}else{
+    			withdrawFee = 0;
+    		}
+			$("#withdrawFee").val(withdrawFee+currency)
     		getAccount();
     		
-    	},base.hideLoadingSpin)
+    	}, getAccount)
 		
         addListener();
         
@@ -115,15 +121,32 @@ define([
 			$("#address-nav ul li.withdraw").click();
 		}
     }
+    //获取数据字典
+    function getDictList(){
+    	if(coinList[currency.toLowerCase()].type=='0'){
+    		return $.when(
+				GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
+				GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
+				GeneralCtr.getSysConfig("withdraw_fee_"+currency.toLowerCase(),true)
+			).then()
+    	}else{
+    		return $.when(
+				GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
+				GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
+			).then()
+    	}
+    }
     
     //根据config配置设置 币种列表
     function getCoinList(){
-    	var coinList = COIN_LIST;
+    	var coinListKey = Object.keys(coinList);
     	var listHtml = '';
     	
-    	for(var key in coinList){
-    		listHtml+=`<li class="${coinList[key].toLocaleLowerCase()}" data-c='${coinList[key]}'>${COIN_NAME[coinList[key]]}(${coinList[key]})</li>`;
+    	for(var i=0 ; i< coinListKey.length ; i++){
+    		var tmpl = coinList[coinListKey[i]]
+    		listHtml+=`<li class="${tmpl.coin.toLowerCase()}" data-c='${tmpl.coin.toLowerCase()}'>${tmpl.name}(${tmpl.coin})</li>`;
     	}
+    	
     	$("#wallet-top ul").html(listHtml);
     	
     	$("#wallet-top ul").find('.'+currency.toLocaleLowerCase()).addClass("on")

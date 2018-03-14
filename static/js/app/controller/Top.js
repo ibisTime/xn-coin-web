@@ -5,42 +5,66 @@ define([
     'app/interface/UserCtr',
     'app/module/tencentCloudLogin'
 ], function(base, GeneralCtr, AccountCtr, UserCtr, TencentCloudLogin) {
-
-    init();
+	
+	//请求币种
+	GeneralCtr.getCoinList().then(function(data){
+		var coinList = {};
+		for(var i in data){
+			coinList[data[i].symbol]={
+				'coin':data[i].symbol,
+				'unit':'1e'+data[i].unit,
+				'name':data[i].cname,
+				'type':data[i].type
+			}
+		}
+		sessionStorage.setItem("coinList",JSON.stringify(coinList))
+		init();
+	},function(){
+		//请求失败调用默认数据
+		sessionStorage.setItem("coinList",JSON.stringify(COIN_DEFAULTDATA))
+		init();
+	})
+    
     
     // 初始化页面
     function init() {
     	base.showLoadingSpin()
-    	getCoinList();
-    	$("#footTeTui").html(FOOT_TETUI)
-		$("#footEmail").html(FOOT_EMAIL)
-    	if(base.isLogin()){
-    		$("#head-user-wrap .nickname").text(sessionStorage.getItem("nickname"))
-    		$("#head-user-wrap").removeClass("hidden");
-    		$.when(
-    			getAccount(),
-    			getBanner()
-    		)
-    	}else{
-    		$("#head-button-wrap").removeClass("hidden");
-    		$.when(
-    			getBanner()
-    		)
-    	}
+			
+			getCoinList();
+			
+	    	$("#footTeTui").html(FOOT_TETUI)
+			$("#footEmail").html(FOOT_EMAIL)
+	    	if(base.isLogin()){
+	    		$("#head-user-wrap .nickname").text(sessionStorage.getItem("nickname"))
+	    		$("#head-user-wrap").removeClass("hidden");
+	    		$.when(
+	    			getAccount(),
+	    			getBanner()
+	    		)
+	    	}else{
+	    		$("#head-button-wrap").removeClass("hidden");
+	    		$.when(
+	    			getBanner()
+	    		)
+	    	}
+			
+    	
     	addListener();
     }
     
     //根据config配置设置 头部币种下拉
     function getCoinList(){
-    	var coinList = COIN_LIST;
+    	var coinList = base.getCoinList();
+    	var coinListKey = Object.keys(coinList);
     	var buyListHtml = '';
     	var sellListHtml = '';
     	var advListHtml = '';
     	
-    	for(var key in coinList){
-    		buyListHtml+=`<li class="goHref" data-href="../trade/buy-list.html?coin=${key}">${coinList[key]}</li>`;
-    		sellListHtml += `<li class="goHref" data-href="../trade/sell-list.html?coin=${key}">${coinList[key]}</li>`;
-    		advListHtml += `<li class="goHref" data-href="../trade/advertise.html?coin=${key}">${coinList[key]}</li>`;
+    	for(var i=0 ; i< coinListKey.length ; i++){
+    		var tmpl = coinList[coinListKey[i]]
+    		buyListHtml+=`<li class="goHref" data-href="../trade/buy-list.html?coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</li>`;
+    		sellListHtml += `<li class="goHref" data-href="../trade/sell-list.html?coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</li>`;
+    		advListHtml += `<li class="goHref" data-href="../trade/advertise.html?coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</li>`;
     	}
     	
     	//购买
@@ -77,20 +101,26 @@ define([
     	return AccountCtr.getAccount().then((data)=>{
     		var htmlAccount = '';
     		var html = '';
-    		data.accountList.forEach(function(item){
+    		var coinList = base.getCoinList();
+    		data.accountList.forEach(function(item, i){
     			
-    			//判断币种是否上线
-    			if(COIN_NAME[item.currency]){
-    				htmlAccount +=`<p>${item.currency}：<samp>${base.formatMoney(item.amountString,'',item.currency)}</samp></p>`;
-    			
-	    			html += `<div class="list ${item.currency.toLocaleLowerCase()}">
-						<p>${item.currency}</p>
-						<p class="amount">${base.formatMoneySubtract(item.amountString,item.frozenAmountString,item.currency)}</p>
-						<p class="frozenAmountString">${base.formatMoney(item.frozenAmountString,'',item.currency)}</p>
-					</div>`;
+    			if(i<3){
+    				//判断币种是否发布
+	    			if(coinList[item.currency]){
+	    				htmlAccount +=`<p>${item.currency}：<samp>${base.formatMoney(item.amountString,'',item.currency)}</samp></p>`;
+	    			
+		    			html += `<div class="list ${item.currency.toLocaleLowerCase()}">
+							<p>${item.currency}</p>
+							<p class="amount">${base.formatMoneySubtract(item.amountString,item.frozenAmountString,item.currency)}</p>
+							<p class="frozenAmountString">${base.formatMoney(item.frozenAmountString,'',item.currency)}</p>
+						</div>`;
+	    			}
     			}
     		})
-    		
+    		if(data.accountList.length>=3){
+    				htmlAccount +=`<p class="more">查看更多</p>`;
+	    			html += `<div class="list more">查看更多</div>`;
+    			}
     		$("#head-user-wrap .wallet .wallet-account-wrap").html(htmlAccount);
     		$("#head-user-wrap .wallet .wallet-account-mx .listWrap").html(html)
     	},base.hideLoadingSpin)
