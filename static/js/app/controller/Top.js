@@ -21,7 +21,6 @@ define([
 		init();
 	},function(){
 		//请求失败调用默认数据
-		sessionStorage.setItem("coinList",JSON.stringify(COIN_DEFAULTDATA))
 		init();
 	})
     
@@ -101,12 +100,11 @@ define([
     	return AccountCtr.getAccount().then((data)=>{
     		var htmlAccount = '';
     		var html = '';
-    		var coinList = base.getCoinList();
     		data.accountList.forEach(function(item, i){
     			
     			if(i<3){
     				//判断币种是否发布
-	    			if(coinList[item.currency]){
+	    			if(base.getCoinCoin(item.currency)){
 	    				htmlAccount +=`<p>${item.currency}：<samp>${base.formatMoney(item.amountString,'',item.currency)}</samp></p>`;
 	    			
 		    			html += `<div class="list ${item.currency.toLocaleLowerCase()}">

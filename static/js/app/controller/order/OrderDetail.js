@@ -170,13 +170,7 @@ define([
     function getAdvertiseDetail(){
     	return TradeCtr.getAdvertiseDetail(adsCode).then((data)=>{
     		var limit = data.minTrade+'-'+data.maxTrade;
-    		if(tradeCoin=='SC'){
-    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/SC')
-    		}else if(tradeCoin=='BTC'){
-    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/BTC')
-    		}else{
-    			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/ETH')
-    		}
+			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/'+tradeCoin)
     		$("#limit").html(limit);
     		$(".info-wrap1").removeClass("hidden")
     	},base.hideLoadingSpin)

@@ -153,8 +153,7 @@ define([
 		},
 		// 金额格式化 默认保留t || 8位  小数 coin 默认eth
 		formatMoney: function(s, t, coin) {
-			var coinList = Base.getCoinList();
-			var unit = coinList[coin].unit||"1e18";
+			var unit = coin?Base.getCoinUnit(coin):"1e18";
 			
 			if(!$.isNumeric(s))
 				return "-";
@@ -188,8 +187,7 @@ define([
 		},
 		//金额金额放大 默认 放大 r || 8位 
 		formatMoneyParse: function(m, r, coin) {
-			var coinList = Base.getCoinList();
-			var unit = coinList[coin].unit||"1e18";
+			var unit = coin?Base.getCoinUnit(coin):"1e18";
 			
 			var r = r || new BigDecimal.BigDecimal(unit);
 			if(m == '') {
@@ -514,7 +512,31 @@ define([
 		},
 		//获取币种列表
 		getCoinList: function(){
-			return JSON.parse(sessionStorage.getItem('coinList'));
+			if(sessionStorage.getItem('coinList')){
+				return JSON.parse(sessionStorage.getItem('coinList'));
+			}else{
+				return COIN_DEFAULTDATA;
+			}
+		},
+		//获取币种名字
+		getCoinName: function(coin){
+			var n = Base.getCoinList()[coin].name
+			return n;
+		},
+		//获取币种unit
+		getCoinUnit: function(coin){
+			var n = Base.getCoinList()[coin].unit
+			return n;
+		},
+		//获取币种type  1是token币
+		getCoinType: function(coin){
+			var n = Base.getCoinList()[coin].type
+			return n;
+		},
+		//获取币种coin
+		getCoinCoin: function(coin){
+			var n = Base.getCoinList()[coin].coin
+			return n;
 		}
 	};
 	

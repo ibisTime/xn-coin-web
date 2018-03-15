@@ -123,19 +123,11 @@ define([
 			loginStatus = 'gray'
 		}
 		var operationHtml = '';
-		var coinTmpl = '0';
-		var coinList = COIN_LIST;
-    	
-    	for(var key in coinList){
-    		if(coinList[key]==item.tradeCoin){
-    			coinTmpl=key
-    		}
-    	}
     	
 		if(item.userId == base.getUserId()){
-			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${coinTmpl}">編輯</div>`;
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${item.tradeCoin}">編輯</div>`;
 		}else{
-			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=${coinTmpl}">出售${item.tradeCoin}</div>`;
+			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=${item.tradeCoin}">出售${item.tradeCoin}</div>`;
 		}
 		
     	return `<tr>
@@ -246,12 +238,7 @@ define([
     	
     	//币种点击
     	$("#coin-top ul li").click(function(){
-    		$(this).addClass("on").siblings('li').removeClass('on')
-    		config.coin = $(this).attr("data-coin").toUpperCase();;
-    		config.start=1;
-			base.showLoadingSpin();
-			
-			getPageAdvertise();
+    		base.gohrefReplace("../trade/sell-list.html?coin="+$(this).attr("data-coin").toUpperCase())
     	})
     }
 });

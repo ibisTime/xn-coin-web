@@ -66,9 +66,6 @@ define([
         	"googleCaptcha":{}
 	};
 	
-	var coinList = base.getCoinList();
-	
-	
 	if(!base.isLogin()){
 		base.goLogin()
 	}else{
@@ -105,7 +102,7 @@ define([
     		data2.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
     		})
-    		if(coinList[currency.toLowerCase()].type=='0'){
+    		if(base.getCoinType(currency.toUpperCase())=='0'){
     			withdrawFee = data3.cvalue
     		}else{
     			withdrawFee = 0;
@@ -123,7 +120,7 @@ define([
     }
     //获取数据字典
     function getDictList(){
-    	if(coinList[currency.toLowerCase()].type=='0'){
+    	if(base.getCoinType(currency.toUpperCase())=='0'){
     		return $.when(
 				GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
 				GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
@@ -139,6 +136,7 @@ define([
     
     //根据config配置设置 币种列表
     function getCoinList(){
+		var coinList = base.getCoinList();
     	var coinListKey = Object.keys(coinList);
     	var listHtml = '';
     	

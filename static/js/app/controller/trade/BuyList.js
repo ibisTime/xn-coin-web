@@ -131,7 +131,6 @@ define([
 		if(item.userId == base.getUserId()){
 			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${item.tradeCoin}">編輯</div>`;
 		}else{
-			
 			operationHtml = `<div class="am-button am-button-ghost goHref" data-href="../trade/buy-detail.html?code=${item.code}">購買${item.tradeCoin}</div>`;
 		}
 		
@@ -162,7 +161,7 @@ define([
     		if(lists.length){
                 var html = "";
                 lists.forEach((item, i) => {
-                	if(item.tradeType == '1'){
+                	if(item.tradeType == '1s'){
                 		html += buildHtml(item);
                 	}
                 });
@@ -243,14 +242,7 @@ define([
     	
     	//币种点击
     	$("#coin-top ul li").click(function(){
-    		
     		base.gohrefReplace("../trade/buy-list.html?coin="+$(this).attr("data-coin").toUpperCase())
-//  		$(this).addClass("on").siblings('li').removeClass('on')
-//  		config.coin = $(this).attr("data-coin").toUpperCase();
-//  		config.start=1;
-//			base.showLoadingSpin();
-//			
-//			getPageAdvertise();
     	})
     }
 });

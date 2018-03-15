@@ -116,22 +116,14 @@ define([
 
     function buildHtml(item){
     	var operationHtml = '';
-    	var coinTmpl = '0';
-		var coinList = COIN_LIST;
-    	
-    	for(var key in coinList){
-    		if(coinList[key]==item.tradeCoin){
-    			coinTmpl=key
-    		}
-    	}
     	if(item.tradeType=='1'){
-    		operationHtml = `<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}&coin=${coinTmpl}">購買</div>`
+    		operationHtml = `<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}&coin=${item.tradeCoin}">購買</div>`
     	}else{
-    		operationHtml = `<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=${coinTmpl}">出售</div>`
+    		operationHtml = `<div class="am-button goHref" data-href="../trade/sell-detail.html?code=${item.code}&coin=${item.tradeCoin}">出售</div>`
     	}
     	
         return `<tr>
-					<td class="currency">${COIN_NAME[item.tradeCoin]}(${item.tradeCoin})</td>
+					<td class="currency">${base.getCoinName(item.tradeCoin)}(${item.tradeCoin})</td>
 					<td class="payType">${payType[item.payType]}</td>
 					<td class="limit">${item.minTrade}-${item.maxTrade}CNY</td>
 					<td class="price">${item.truePrice}CNY/${item.tradeCoin?item.tradeCoin:'ETH'}</td>
