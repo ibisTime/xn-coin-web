@@ -20,6 +20,7 @@ define([
 	init();
     
     function init() {
+    	base.showLoadingSpin();
     	getCoinList();
     	$(".head-nav-wrap .buy").addClass("active");
     	$("#coin-top ul li."+coin.toLowerCase()).addClass("on");

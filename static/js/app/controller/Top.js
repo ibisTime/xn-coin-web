@@ -3,11 +3,12 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/AccountCtr',
     'app/interface/UserCtr',
+    'app/interface/BaseCtr',
     'app/module/tencentCloudLogin'
-], function(base, GeneralCtr, AccountCtr, UserCtr, TencentCloudLogin) {
+], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr, TencentCloudLogin) {
 	
 	//请求币种
-	GeneralCtr.getCoinList().then(function(data){
+	BaseCtr.getCoinList().then(function(data){
 		var coinList = {};
 		for(var i in data){
 			coinList[data[i].symbol]={
@@ -27,26 +28,24 @@ define([
     
     // 初始化页面
     function init() {
-    	base.showLoadingSpin()
 			
-			getCoinList();
-			
-	    	$("#footTeTui").html(FOOT_TETUI)
-			$("#footEmail").html(FOOT_EMAIL)
-	    	if(base.isLogin()){
-	    		$("#head-user-wrap .nickname").text(sessionStorage.getItem("nickname"))
-	    		$("#head-user-wrap").removeClass("hidden");
-	    		$.when(
-	    			getAccount(),
-	    			getBanner()
-	    		)
-	    	}else{
-	    		$("#head-button-wrap").removeClass("hidden");
-	    		$.when(
-	    			getBanner()
-	    		)
-	    	}
-			
+		getCoinList();
+		
+    	$("#footTeTui").html(FOOT_TETUI)
+		$("#footEmail").html(FOOT_EMAIL)
+    	if(base.isLogin()){
+    		$("#head-user-wrap .nickname").text(sessionStorage.getItem("nickname"))
+    		$("#head-user-wrap").removeClass("hidden");
+    		$.when(
+    			getAccount(),
+    			getBanner()
+    		)
+    	}else{
+    		$("#head-button-wrap").removeClass("hidden");
+    		$.when(
+    			getBanner()
+    		)
+    	}
     	
     	addListener();
     }

@@ -8,5 +8,11 @@ define([
 				userId: sessionStorage.getItem("userId")
 			}, true)
     	},
+    	// 获取已发布币种列表
+        getCoinList() {
+            return Ajax.get("802267", {
+            	status:'0'
+            }, true);
+        },
     };
 })
