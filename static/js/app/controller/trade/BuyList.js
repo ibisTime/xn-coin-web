@@ -137,7 +137,7 @@ define([
 		
     	return `<tr>
 					<td class="nickname">
-						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${item.userId}">
+						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?coin=${item.tradeCoin}&userId=${item.userId}">
 							${photoHtml}
 							<div class="dot ${loginStatus}"></div>
 						</div>

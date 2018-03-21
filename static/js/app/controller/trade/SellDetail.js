@@ -56,12 +56,13 @@ define([
     	return TradeCtr.getAdvertiseDetail(code).then((data)=>{
     		var user = data.user;
     		userName = user.nickname;
+    		tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
 			
 			if(user.photo) {
-				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?userId='+user.userId+'"  style="background-image:url(\''+base.getAvatar(user.photo)+'\')"></div>'
+				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?coin='+tradeCoin+'&userId='+user.userId+'"  style="background-image:url(\''+base.getAvatar(user.photo)+'\')"></div>'
 			} else {
 				var tmpl = user.nickname.substring(0, 1).toUpperCase();
-				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?userId='+user.userId+'" ><div class="noPhoto">'+tmpl+'</div></div>'
+				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?coin='+tradeCoin+'&userId='+user.userId+'" ><div class="noPhoto">'+tmpl+'</div></div>'
 			}
     		
     		if(data.user.photo){
@@ -79,20 +80,17 @@ define([
     			$("#doDownBtn").removeClass("hidden");
     		}
     		
-    		var totalTradeCountETH = data.user.userStatistics.totalTradeCountEth=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountEth,'0')+'+';
-    		var totalTradeCountSC = data.user.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountSc,'0','SC')+'+';
-    		var totalTradeCountBTC = data.user.userStatistics.totalTradeCountBtc=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCountBtc,'0','BTC')+'+';
+    		var totalTradeCount = data.user.userStatistics.totalTradeCount=='0'?'0':base.formatMoney(data.user.userStatistics.totalTradeCount,'0',data.tradeCoin)+'+';
     		
     		$("#jiaoYiCount").html(data.user.userStatistics.jiaoYiCount)
     		$("#beiXinRenCount").html(data.user.userStatistics.beiXinRenCount)
     		$("#beiHaoPingCount").html(base.getPercentum(data.user.userStatistics.beiHaoPingCount,data.user.userStatistics.beiPingJiaCount))
-    		$("#totalTradeCount").html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC/"+totalTradeCountBTC+"BTC")
+    		$("#totalTradeCount").html(totalTradeCount+data.tradeCoin)
     		$("#leaveMessage").html(data.leaveMessage.replace(/\n/g,'<br>'))
     		$("#limit").html(limit)
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
     		
-    		tradeCoin = data.tradeCoin?data.tradeCoin:'ETH';
 			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/'+tradeCoin)
 			$("#submitDialog .tradePrice").html(config.tradePrice+'&nbsp;CNY/'+tradeCoin)
 			$("#leftCountString").html(base.formatMoney(data.leftCountString,'',tradeCoin))

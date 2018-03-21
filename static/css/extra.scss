@@ -1375,6 +1375,14 @@ table {
                 color: $red-color;
                 cursor: pointer;
             }
+            
+            .more{
+                color: $red-color;
+                cursor: pointer;
+                font-style: normal;
+                margin-left: 10px;
+                font-size: 14px;
+            }
         }
     }
 }
@@ -1624,33 +1632,29 @@ table {
 .public-container{
     .wallet-top-wrap{
         width: 100%;
-        padding: 30px 0;
+        padding: 20px 0;
         
         ul{
-            width: 100%;
-            height: 46px;
+            width: 1240px;
             overflow: hidden;
+            margin-left: -20px;
             
             li{
                 float: left;
+                width: 137px;
                 height: 44px;
-                padding: 0 22px;
+                margin: 5px 20px;
                 line-height: 42px;
                 font-size: 16px;
                 color: #333;
                 text-align: center;
                 border: 1px solid transparent;
                 border-radius: 22px;
-                margin-left: 40px;
                 transition: color,border-color .4s;
                 -ms-transition: color,border-color .4s;
                 -moz-transition: color,border-color .4s;
                 -webkit-transition: color,border-color .4s;
                 cursor: default;
-                
-                &:first-child{
-                    margin-left: 0;
-                }
                 
                 &.on,
                 &:hover{
@@ -2041,6 +2045,11 @@ table {
                     i{
                         font-style: normal;
                         font-size: 14px;
+                        
+                        &.more{
+                            margin-left: 10px;
+                            cursor: pointer;
+                        }
                     }
                 }
             }
@@ -4067,6 +4076,33 @@ table {
     .receive-wrap .address{
         samp{
             font-size: 18px;
+        }
+    }
+}
+.inviteProfit-dialog{
+    .am-modal{
+        width: 500px !important;
+    }
+    .am-modal-body{
+        .trust-wrap{
+            max-height: 400px !important;
+            overflow-y: auto !important;
+        }
+    }
+    .trust-wrap .trust-form td{
+        padding: 20px 10px;
+    }
+    .trust-wrap .trust-form td:first-child{
+        width: 100px !important;
+        padding-left: 30px !important;
+    }
+    .trust-wrap .trust-form td:last-child{
+        width: auto !important;
+    }
+    
+    .trust-wrap .trust-form tr td{
+        img{
+            height: 26px;
         }
     }
 }

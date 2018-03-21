@@ -23,10 +23,16 @@ define([
     	$("#coin").text(coin.toUpperCase())
     	$("#tradeCoin").val(coin.toUpperCase())
     	
+    	if(coin&&base.getCoinType($("#tradeCoin").val())=="1"){
+			mid = ''
+			$("#price").attr("disabled",false)
+			$(".premiumRateExp-wrap").addClass("hidden");
+		}
+    	
     	$.when(
     		GeneralCtr.getSysConfig("trade_remind"),
     		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
-    		TradeCtr.getAdvertisePrice(coin.toUpperCase()),
+    		getAdvertisePrice(),
     		getExplain('sell'),
     		getAccount(coin.toUpperCase())
     	).then((data1, data2, data3)=>{
@@ -75,6 +81,15 @@ define([
     	$(".selectWrap select.endTime").html(htmlEnd);
     	
         addListener();
+    }
+    
+    function getAdvertisePrice(){
+    	if(base.getCoinType(coin.toUpperCase())=='0'){
+    		return TradeCtr.getAdvertisePrice(coin.toUpperCase());
+    	}else{
+    		return '-';
+    	}
+    	
     }
     
     //根据config配置设置 币种列表
@@ -268,7 +283,7 @@ define([
 		var _formWrapper = $("#form-wrapper");
 		_formWrapper.validate({
 			'rules': {
-				"price":{
+				"truePrice":{
 	        		required: true,
 	        		number: true,
 	        		amountCny: true
@@ -372,6 +387,10 @@ define([
             params.tradeCurrency = "CNY";
             params.publishType = publishType;
             
+            if(base.getCoinType(params.tradeCoin)=='1'){
+            	params.protectPrice = params.truePrice
+            }
+            
         	params.totalCount = base.formatMoneyParse(params.totalCount,'',params.tradeCoin)
 
             if($(".time-type .item.on").index()=="1"){
@@ -408,11 +427,15 @@ define([
             base.showLoadingSpin()
             return TradeCtr.submitAdvertise(params).then(()=>{
             	base.showMsg('操作成功！');
-            	if(params.tradeType=='0') {
-                	base.gohref('../trade/sell-list.html?coin='+coin);
-            	} else {
-                	base.gohref('../trade/buy-list.html?coin='+coin);
-            	}
+            	base.showLoadingSpin();
+            	setTimeout(()=>{
+            		if(params.tradeType=='0') {
+	                	base.gohref('../trade/sell-list.html?coin='+coin);
+	            	} else {
+	                	base.gohref('../trade/buy-list.html?coin='+coin);
+	            	}
+	            	base.hideLoadingSpin()
+            	},1000)
         	},base.hideLoadingSpin)
 
 		}
@@ -446,6 +469,7 @@ define([
 				if(base.getCoinType($("#tradeCoin").val())=="1"){
 					mid = ''
 					$("#price").attr("disabled",false)
+					$(".premiumRateExp-wrap").addClass("hidden");
 					$(".premiumRateExp-wrap").addClass("hidden");
 				}else if(base.getCoinType($("#tradeCoin").val())=="0"){
 					mid = data.mid;

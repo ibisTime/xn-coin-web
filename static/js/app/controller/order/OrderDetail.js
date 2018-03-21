@@ -137,10 +137,10 @@ define([
 			userName = user.nickname;
 			myName = myInfo.nickname;
 			if(user.photo) {
-				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?userId='+user.userId+'"   style="background-image:url(\''+base.getAvatar(user.photo)+'\')"></div>'
+				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?coin='+tradeCoin+'&userId='+user.userId+'"   style="background-image:url(\''+base.getAvatar(user.photo)+'\')"></div>'
 			} else {
 				var tmpl = user.nickname.substring(0, 1).toUpperCase();
-				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?userId='+user.userId+'" ><div class="noPhoto">'+tmpl+'</div></div>'
+				tradePhoto = '<div class="photo goHref" data-href="../user/user-detail.html?coin='+tradeCoin+'&userId='+user.userId+'" ><div class="noPhoto">'+tmpl+'</div></div>'
 			}
 			if(myInfo.photo) {
 				tradePhotoMy = '<div class="photo" style="background-image:url(\''+base.getAvatar(myInfo.photo)+'\')"></div>'

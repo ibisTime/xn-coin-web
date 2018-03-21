@@ -21,7 +21,6 @@ define([
 		sessionStorage.setItem("coinList",JSON.stringify(coinList))
 		init();
 	},function(){
-		//请求失败调用默认数据
 		init();
 	})
     
@@ -78,15 +77,15 @@ define([
         return GeneralCtr.getBanner({}).then((data) => {
         	data.forEach((item) => {
         		if (item.location === 'web_download') {
-	            	$('#downImg').attr("src",base.getPic(item.pic));
+	            	$('#downImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));
 	        	} else if (item.location === 'web_qq') {
-	            	$('#qqImg').attr("src",base.getPic(item.pic));
+	            	$('#qqImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));
 	        	} else if (item.location === 'web_weibo') {
-	            	$('#wbImg').attr("src",base.getPic(item.pic));
+	            	$('#wbImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));
 	        	} else if (item.location === 'web_wechat') {
-	            	$('#wxImg').attr("src",base.getPic(item.pic));
+	            	$('#wxImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));
 	        	} else if (item.location === 'web_trade') {
-	            	$('#tradeBanner').css("background-image","url('"+base.getPic(item.pic)+"')");
+	            	$('#tradeBanner').css("background-image","url('"+base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!1200x90r")+"')");
 	        	}
         	})
         }, (msg) => {

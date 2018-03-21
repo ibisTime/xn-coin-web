@@ -174,6 +174,13 @@ define([
 			return Ajax.get("805083", {
                 userid: base.getUserId(),
             },true);
-		}
+		},
+		//列表查询用户收益
+		getUserInviteProfit(userId){
+			return Ajax.get("805124", {
+                userId: userId||base.getUserId(),
+            },true);
+		},
+		
     };
 })

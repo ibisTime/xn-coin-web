@@ -150,7 +150,7 @@ define([
 		
     	return `<tr data-code="${item.code}">
 					<td class="nickname">
-						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?userId=${user.userId}" >
+						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?coin=${item.tradeCoin?item.tradeCoin:'ETH'}&userId=${user.userId}" >
 							${photoHtml}
 						</div>
 						<samp class="name">${user.nickname}</samp>

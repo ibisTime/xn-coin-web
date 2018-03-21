@@ -40,22 +40,7 @@ define([
 			if(Base.isLogin()){
 				Base.updateLoginTime();
 			}
-			//请求币种
-			$.when(
-				BaseCtr.getCoinList(),
-				Base.gohref(thishref)
-			).then(function(data){
-				var coinList = {};
-				for(var i in data){
-					coinList[data[i].symbol]={
-						'coin':data[i].symbol,
-						'unit':'1e'+data[i].unit,
-						'name':data[i].cname,
-						'type':data[i].type
-					}
-				}
-				sessionStorage.setItem("coinList",JSON.stringify(coinList))
-			})
+			Base.gohref(thishref)
 		}
 	})
 

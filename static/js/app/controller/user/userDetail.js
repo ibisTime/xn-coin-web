@@ -8,8 +8,8 @@ define([
     'app/interface/UserCtr',
     'app/interface/TradeCtr'
 ], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr, TradeCtr) {
-	
     var userId = base.getUrlParam('userId');
+    var currency = base.getUrlParam('coin') || 'BTC';
     var coinList = {},payType = {};
 	var config={
 	    start:1,
@@ -31,7 +31,8 @@ define([
 			GeneralCtr.getDictList({"parentKey":"coin"}),
 			GeneralCtr.getDictList({"parentKey": "pay_type"}),
 			getUserRelation(),
-       		getUserDetail()
+       		getUserDetail(),
+       		getUserInviteProfit()
 		).then((data1,data2)=>{
 			data1.forEach(function (item) {
                 coinList[item.dkey] = item.dvalue;
@@ -44,7 +45,6 @@ define([
 		},base.hideLoadingSpin)
         addListener();
     }
-
 
     // 查询用户的信任关系
     function getUserRelation(){
@@ -74,16 +74,10 @@ define([
 	        $('.userDetail-top .photoWrap').html(photoHtml);
 	        $('.userDetail-top .userName').html(data.nickname);
 	        
-	        
-    		var totalTradeCountETH = data.userStatistics.totalTradeCountEth=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountEth,'0')+'+';
-    		var totalTradeCountSC = data.userStatistics.totalTradeCountSc=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountSc,'0','SC')+'+';
-    		var totalTradeCountBTC = data.userStatistics.totalTradeCountBtc=='0'?'0':base.formatMoney(data.userStatistics.totalTradeCountBtc,'0','BTC')+'+';
-    		
-    		
 	        $('.jiaoYiCount').html(data.userStatistics.jiaoYiCount);
 	        $('.beiXinRenCount').html(data.userStatistics.beiXinRenCount);
 	        $('.beiHaoPingCount').html(base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiPingJiaCount));
-	        $('.totalTradeCount').html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC/"+totalTradeCountBTC+"BTC");
+//	        $('.totalTradeCount').html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC/"+totalTradeCountBTC+"BTC");
 	        
 	
 			// 邮箱验证，手机验证，身份验证
@@ -92,6 +86,20 @@ define([
 	        $('.bindWrap .identity samp').html(data.realName?'身份已驗證':'身份未驗證');
         
     	},()=>{});
+    }
+    
+    function getUserInviteProfit(){
+    	return UserCtr.getUserInviteProfit().then((data)=>{
+    		if(data.length>0){
+    			data.forEach((item)=>{
+    				if(item.coin.symbol==currency){
+    					var inviteProfit = data[0].inviteProfit=='0'?'0':base.formatMoney(data[0].inviteProfit,'0',item.coin.symbol)+'+';
+						$('.totalTradeCount').html(inviteProfit+item.coin.symbol);
+    				}
+    			})
+    		}
+    		
+    	})
     }
     
 	// 分页查广告

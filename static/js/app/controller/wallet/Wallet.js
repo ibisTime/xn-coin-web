@@ -90,11 +90,7 @@ define([
 			}
 		}
 		
-		$.when(
-			GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
-			GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
-			GeneralCtr.getSysConfig("withdraw_fee_"+currency.toLowerCase(),true)
-		).then((data1,data2, data3)=>{
+		getDictList().then((data1,data2, data3)=>{
     		
     		data1.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
@@ -424,7 +420,7 @@ define([
     	$("#addWAddressDialog .setSecurityAccount .icon-switch").click(function(){
     		if($(this).hasClass("on")){
     			$(this).removeClass("on");
-    			$("#addWAddressDialog .tradePwdFlag").addClass("h idden");
+    			$("#addWAddressDialog .tradePwdFlag").addClass("hidden");
     			addAddressWrapperRules["tradePwd"]={};
     			_addAddressWrapper.validate({
 			    	'rules': addAddressWrapperRules,

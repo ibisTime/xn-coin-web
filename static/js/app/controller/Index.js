@@ -10,10 +10,22 @@ define([
     // 初始化页面
     function init() {
     	base.showLoadingSpin();
-    	getBanner();
+    	$.when(
+    		getBanner(),
+    		getDownloadUrl()
+    	)
     	$(".head-nav-wrap .index").addClass("active")
     	
         addListener();
+    }
+    
+    //安卓下载
+    function getDownloadUrl(){
+    	return GeneralCtr.getSysConfigType("android-c").then((data)=>{
+			$("#androidDown").click(()=>{
+				window.location.href= data.downloadUrl
+			})
+    	},base.hideLoadingSpin)
     }
     
     // 初始化swiper

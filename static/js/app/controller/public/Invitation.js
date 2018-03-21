@@ -19,8 +19,12 @@ define([
     	$("#invitationDialog .hrefWrap p").html(DOMAIN_NAME+"/user/register.html?inviteCode="+inviteCode)
     	var qrcode = new QRCode('qrcode',INVITATION_HREF+"/user/register.html?inviteCode="+inviteCode);
 	 	qrcode.makeCode(INVITATION_HREF+"/user/register.html?inviteCode="+inviteCode);
-    	getSysConfig();
-        getInvitation();
+    	
+    	$.when(
+        	getInvitation(),
+    		getSysConfig(),
+    		getUserInviteProfit()
+    	)
         addListener();
     }
     
@@ -28,10 +32,33 @@ define([
     function getInvitation() {
         return UserCtr.getInvitation().then((data)=>{
         	$('.inviteCount').html(data.inviteCount);
-        	$('.inviteProfit').html(base.formatMoney(data.inviteProfitEth)+'<i>ETH&nbsp;&nbsp;/&nbsp;&nbsp;</i>'+
-        					base.formatMoney(data.inviteProfitSc,'','SC')+'<i>SC&nbsp;&nbsp;/&nbsp;&nbsp;</i>'+
-        					base.formatMoney(data.inviteProfitBtc,'','BTC')+'<i>BTC</i>');
 		},base.hideLoadingSpin)
+    }
+    
+    //获取用户收益
+    function getUserInviteProfit(){
+    	return UserCtr.getUserInviteProfit().then((data)=>{
+    		if(data.length>0){
+    			var inviteProfit = data[0].inviteProfit=='0'?'0':base.formatMoney(data[0].inviteProfit,'0',data[0].coin.symbol)+'+';
+    			$(".inviteProfit").html(inviteProfit+data[0].coin.symbol+"<i class='more'>查看更多</i>");
+    			
+    			var html = '';
+    			data.forEach((item)=>{
+    				html+=`<tr>
+							<td><div class="img"><img src="${base.getPic(item.coin.icon,"?imageMogr2/auto-orient/thumbnail/!150x150r")}"/></div></td>
+							<td><div>${item.coin.cname}(${item.coin.symbol})</div></td>
+							<td>
+								<div>${base.formatMoney(item.inviteProfit,'',item.coin.symbol)}&nbsp;${item.coin.symbol}</div>
+							</td>
+						</tr>`
+    			})
+    			$("#inviteProfitList").html(html)
+    		}
+    		
+    		$(".inviteProfit i.more").on("click",function(){
+	    		$("#inviteProfitDialog").removeClass("hidden")
+	    	})
+    	})
     }
     
     //活动说明
