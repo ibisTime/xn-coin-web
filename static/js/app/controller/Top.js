@@ -15,7 +15,8 @@ define([
 				'coin':data[i].symbol,
 				'unit':'1e'+data[i].unit,
 				'name':data[i].cname,
-				'type':data[i].type
+				'type':data[i].type,
+				'withdrawFeeString':data[i].withdrawFeeString
 			}
 		}
 		sessionStorage.setItem("coinList",JSON.stringify(coinList))

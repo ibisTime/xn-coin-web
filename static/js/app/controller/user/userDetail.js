@@ -31,8 +31,7 @@ define([
 			GeneralCtr.getDictList({"parentKey":"coin"}),
 			GeneralCtr.getDictList({"parentKey": "pay_type"}),
 			getUserRelation(),
-       		getUserDetail(),
-       		getUserInviteProfit()
+       		getUserDetail()
 		).then((data1,data2)=>{
 			data1.forEach(function (item) {
                 coinList[item.dkey] = item.dvalue;
@@ -48,14 +47,16 @@ define([
 
     // 查询用户的信任关系
     function getUserRelation(){
-        return UserCtr.getUserRelation(userId).then((data)=> {
+        return UserCtr.getUserRelation(currency,userId).then((data)=> {
 
             $('.infoWrap .trust').attr('data-isTrust',data.isTrust);
             $('.infoWrap .trust').html($('.infoWrap .trust').attr('data-isTrust')!='0'?'已信任':'信任');
 
             $('.infoWrap .black').attr('data-isAddBlackList',data.isAddBlackList);
             $('.infoWrap .black').html($('.infoWrap .black').attr('data-isAddBlackList')!='0'?'已拉黑':'屏蔽');
-
+			
+			var totalTradeCount = data.totalTradeCount=='0'?'0':base.formatMoney(data.totalTradeCount,'0',currency)+'+';
+			$('.totalTradeCount').html(totalTradeCount+currency);
     	},()=>{})
     }
     // 获取用户详情
@@ -77,7 +78,6 @@ define([
 	        $('.jiaoYiCount').html(data.userStatistics.jiaoYiCount);
 	        $('.beiXinRenCount').html(data.userStatistics.beiXinRenCount);
 	        $('.beiHaoPingCount').html(base.getPercentum(data.userStatistics.beiHaoPingCount,data.userStatistics.beiPingJiaCount));
-//	        $('.totalTradeCount').html(totalTradeCountETH+"ETH/"+totalTradeCountSC+"SC/"+totalTradeCountBTC+"BTC");
 	        
 	
 			// 邮箱验证，手机验证，身份验证
@@ -86,20 +86,6 @@ define([
 	        $('.bindWrap .identity samp').html(data.realName?'身份已驗證':'身份未驗證');
         
     	},()=>{});
-    }
-    
-    function getUserInviteProfit(){
-    	return UserCtr.getUserInviteProfit().then((data)=>{
-    		if(data.length>0){
-    			data.forEach((item)=>{
-    				if(item.coin.symbol==currency){
-    					var inviteProfit = data[0].inviteProfit=='0'?'0':base.formatMoney(data[0].inviteProfit,'0',item.coin.symbol)+'+';
-						$('.totalTradeCount').html(inviteProfit+item.coin.symbol);
-    				}
-    			})
-    		}
-    		
-    	})
     }
     
 	// 分页查广告

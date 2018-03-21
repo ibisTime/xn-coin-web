@@ -537,7 +537,12 @@ define([
 		getCoinCoin: function(coin){
 			var n = Base.getCoinList()[coin].coin
 			return n;
-		}
+		},
+		//获取币种withdrawFee
+		getCoinWithdrawFee: function(coin){
+			var n = Base.getCoinList()[coin].withdrawFeeString
+			return n;
+		},
 	};
 	
 	return Base;

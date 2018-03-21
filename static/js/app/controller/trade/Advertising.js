@@ -388,7 +388,9 @@ define([
             params.publishType = publishType;
             
             if(base.getCoinType(params.tradeCoin)=='1'){
-            	params.protectPrice = params.truePrice
+            	params.protectPrice = params.truePrice;
+            }else{
+            	params.truePrice = '0';
             }
             
         	params.totalCount = base.formatMoneyParse(params.totalCount,'',params.tradeCoin)

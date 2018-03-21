@@ -20,7 +20,6 @@ define([
         addListener();
     	$.when(
         	getUser(),
-        	getUserInviteProfit(),
         	getQiniuToken()
         )
     }
@@ -42,6 +41,7 @@ define([
     		$("#mobile").html(base.hideMobile(data.mobile))
     		$("#beiXinRenCount").text(data.userStatistics.beiXinRenCount)
     		$("#jiaoYiCount").text(data.userStatistics.jiaoYiCount)
+    		$("#beiHaoPingCount").text(data.userStatistics.beiHaoPingCount)
     		
     		if(data.email){
     			$("#email").text(data.email)
@@ -57,34 +57,10 @@ define([
                     base.gohref("./identity.html");
 				});
     		}
+    		
+    		
     		base.hideLoadingSpin();
     	},base.hideLoadingSpin)
-    }
-    
-    //获取用户收益
-    function getUserInviteProfit(){
-    	return UserCtr.getUserInviteProfit().then((data)=>{
-    		if(data.length>0){
-    			var inviteProfit = data[0].inviteProfit=='0'?'0':base.formatMoney(data[0].inviteProfit,'0',data[0].coin.symbol)+'+';
-    			$("#totalTradeCount").html(inviteProfit+data[0].coin.symbol+"<i class='more'>MORE+</i>");
-    			
-    			var html = '';
-    			data.forEach((item)=>{
-    				html+=`<tr>
-							<td><div class="img"><img src="${base.getPic(item.coin.icon,"?imageMogr2/auto-orient/thumbnail/!150x150r")}"/></div></td>
-							<td><div>${item.coin.cname}(${item.coin.symbol})</div></td>
-							<td>
-								<div>${base.formatMoney(item.inviteProfit,'',item.coin.symbol)}&nbsp;${item.coin.symbol}</div>
-							</td>
-						</tr>`
-    			})
-    			$("#inviteProfitList").html(html)
-    		}
-    		
-    		$("#totalTradeCount i.more").on("click",function(){
-	    		$("#inviteProfitDialog").removeClass("hidden")
-	    	})
-    	})
     }
     
     //加载七牛token

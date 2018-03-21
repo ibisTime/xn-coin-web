@@ -90,7 +90,10 @@ define([
 			}
 		}
 		
-		getDictList().then((data1,data2, data3)=>{
+		$.when(
+			GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
+			GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
+		).then((data1,data2)=>{
     		
     		data1.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
@@ -98,11 +101,9 @@ define([
     		data2.forEach(function(item){
     			bizTypeValueList[item.dkey] = item.dvalue
     		})
-    		if(base.getCoinType(currency.toUpperCase())=='0'){
-    			withdrawFee = data3.cvalue
-    		}else{
-    			withdrawFee = 0;
-    		}
+    		
+			withdrawFee = base.formatMoney(base.getCoinWithdrawFee(currency),'',currency);
+			
 			$("#withdrawFee").val(withdrawFee+currency)
     		getAccount();
     		
@@ -113,21 +114,6 @@ define([
         if(isWithdraw){
 			$("#address-nav ul li.withdraw").click();
 		}
-    }
-    //获取数据字典
-    function getDictList(){
-    	if(base.getCoinType(currency.toUpperCase())=='0'){
-    		return $.when(
-				GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
-				GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
-				GeneralCtr.getSysConfig("withdraw_fee_"+currency.toLowerCase(),true)
-			).then()
-    	}else{
-    		return $.when(
-				GeneralCtr.getDictList({"parentKey":"jour_biz_type"}),
-				GeneralCtr.getDictList({"parentKey":"frezon_jour_biz_type_user"}),
-			).then()
-    	}
     }
     
     //根据config配置设置 币种列表
@@ -319,7 +305,9 @@ define([
     		config.start = 1;
     		getAccount();
     		$("#withdrawFee").val(withdrawFee+currency)
-    	},base.hideLoadingSpin)
+    	},function(){
+    		base.hideLoadingSpin();
+    	})
     }
     
     //弃用地址

@@ -121,9 +121,10 @@ define([
          * @param master
          * isTrust,isAddBlackList
          */
-        getUserRelation(master) {
+        getUserRelation(currency,master) {
             return Ajax.get("625256", {
                 visitor: base.getUserId(),
+                currency,
                 master,
             });
         },

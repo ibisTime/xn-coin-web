@@ -106,8 +106,8 @@ define([
     	
     	//待发布
         if(config.statusList == null || config.statusList.length == 1) {
-        	operationHtml = `<div class="am-button am-button-red publish mr20 goHref" data-href="../trade/advertise.html?code=${item.code}">發佈</div>
-        					<div class="am-button publish goHref" data-href="../trade/advertise.html?code=${item.code}">查看</div>`
+        	operationHtml = `<div class="am-button am-button-red publish mr20 goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${item.tradeCoin}">發佈</div>
+        					<div class="am-button publish goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${item.tradeCoin}">查看</div>`
         
         //已发布 
         }else{

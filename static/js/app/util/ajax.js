@@ -59,6 +59,8 @@ define([
             	if(eCode=="error"||eCode=="timeout"){
             		showMsg(eCode+"("+error.status+"):"+eTxt,10000);
             		console.log(eCode+"("+error.status+"):"+eTxt)
+            	}else{
+            		showMsg(error)
             	}
                 
                 if(eCode&&eCode== "4"){
