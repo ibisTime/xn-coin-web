@@ -3,10 +3,10 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/AccountCtr',
     'app/interface/UserCtr',
-    'app/interface/BaseCtr',
-    'app/module/tencentCloudLogin'
-], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr, TencentCloudLogin) {
-	
+    'app/interface/BaseCtr'
+//  'app/module/tencentCloudLogin'
+//], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr, TencentCloudLogin) {
+], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr) {
 	//请求币种
 	BaseCtr.getCoinList().then(function(data){
 		var coinList = {};

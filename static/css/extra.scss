@@ -38,6 +38,9 @@
 .mr250{
     margin-right: 250px;
 }
+.mt5{
+    margin-top: 5px;
+}
 .mt20{
     margin-top: 20px;
 }
@@ -1334,29 +1337,29 @@ table {
             .photoWrap{
                 padding: 3px;
             }
-            .photoWrapSquare{
-                width: 168px;
-                height: 168px;
-                .photo{
-                    width: 160px;
-                    height: 160px;
-                    border-radius: inherit;
-                }
-            }
-            
-            .photoWrapCircular{
-                width: 88px;
-                height: 88px;
-                margin-top: 80px;
-                margin-left: 40px;
-                border-radius: 50%;
-            }
         }
         
         .am-modal-footer .am-button{
             width: 120px;
         }
     }
+}
+.photoWrapSquare{
+    width: 168px;
+    height: 168px;
+    .photo{
+        width: 160px;
+        height: 160px;
+        border-radius: inherit;
+    }
+}
+
+.photoWrapCircular{
+    width: 88px;
+    height: 88px;
+    margin-top: 80px;
+    margin-left: 40px;
+    border-radius: 50%;
 }
 .userInfo-wrap{
     .info{
@@ -4107,3 +4110,50 @@ table {
     }
 }
 
+/*
+ * 2018.09.27
+ * */
+.payAccountQr-wrap{
+    padding: 0 !important;
+    overflow: hidden;
+    margin-top: 0 !important;;
+    
+    .txt{
+        margin-left: 3px;
+    }
+    .img-wrap{
+        margin-top: 20px;
+    }
+    .fileBtn-wrap{
+        width: 120px;
+        position: relative;
+        .am-button{
+            height: 34px;
+            line-height: 34px !important;
+            font-size: 14px;
+            position: relative;
+            z-index: 9;
+        }
+        .input-file {
+            display: inline-block;
+            width: 100%;
+            height: 34px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            z-index: 99;
+            cursor: pointer;
+        }
+    }
+    .am-button.am-button-ghost{
+        height: 34px;
+        line-height: 34px !important;
+        color: $primary-color;
+    }
+    .img-wrap{
+        .photoWrap{
+            padding: 3px;
+        }
+    }
+}

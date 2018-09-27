@@ -4,8 +4,9 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
     'app/interface/TradeCtr',
-    'app/interface/AccountCtr'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr) {
+    'app/interface/AccountCtr',
+    'app/module/qiniu'
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr, QiniuUpdata) {
 	var code = base.getUrlParam("code")||'';
 	var coin = base.getUrlParam("coin") || 'BTC'; // 币种
 	var status = '1';
@@ -29,12 +30,23 @@ define([
 			$(".premiumRateExp-wrap").addClass("hidden");
 		}
     	
+    	$("#payType").change(function(){
+    		if($("#payType").val() == '0'){
+    			$(".payAccount-wrap").removeClass('hidden');
+    			$("#payAccount").rules("add",{required:true});  
+    		} else {
+    			$(".payAccount-wrap").addClass('hidden');
+    			$("#payAccount").rules("remove");  
+    		}
+    	})
+    	
     	$.when(
     		GeneralCtr.getSysConfig("trade_remind"),
     		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
     		getAdvertisePrice(),
     		getExplain('sell'),
-    		getAccount(coin.toUpperCase())
+//  		getAccount(coin.toUpperCase()),
+    		getQiniuToken()
     	).then((data1, data2, data3)=>{
     		//说明
     		$("#tradeWarn").html(data1.cvalue.replace(/\n/g,'<br>'));
@@ -91,6 +103,21 @@ define([
     	}
     	
     }
+    
+    //加载七牛token
+	function getQiniuToken(){
+		return GeneralCtr.getQiniuToken().then((data)=>{
+			var token = data.uploadToken;
+			
+			QiniuUpdata.uploadInit({
+	        	btnId:'photoFile',
+	        	containerId:'photoFile-wrap',
+	        	token: token
+	        })
+        	
+			base.hideLoadingSpin();
+    	},base.hideLoadingSpin)
+	}
     
     //根据config配置设置 币种列表
     function getCoinList(){
@@ -205,6 +232,7 @@ define([
     		$("#minTradeExp").html(data.minTrade)
     		$("#payLimitExp").html(data.payLimit)
     		$("#payTypeExp").html(data.payType)
+    		$("#payType").change();
     		$("#premiumRateExp").html(data.premiumRate)
     		$("#priceExp").html(data.price)
     		
@@ -281,8 +309,7 @@ define([
     	
 		
 		var _formWrapper = $("#form-wrapper");
-		_formWrapper.validate({
-			'rules': {
+		var _formWrapperRules = {
 				"truePrice":{
 	        		required: true,
 	        		number: true,
@@ -323,7 +350,12 @@ define([
 	        	"leaveMessage": {
 	        		required: true,
 	        	},
-	    	},
+	        	"payAccount": {
+	        		required: true,
+	        	},
+	    	}; 
+		_formWrapper.validate({
+			'rules': _formWrapperRules,
 	    	onkeyup: false
 		})
 		
@@ -355,6 +387,14 @@ define([
 					publishType = '1';
 				}
 				
+				// 付款方式是支付宝时 需上传支付宝二维码图片
+				if($("#payType").val() == '0'){
+					var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
+					if(payAccountQr =="" || !payAccountQr){
+						base.showMsg('請上傳支付寶二維碼圖片');
+						return;
+					}
+				}
 				doSubmit(publishType)
 			}
 		})
@@ -367,6 +407,15 @@ define([
             }
 			if(_formWrapper.valid()){
 				var publishType = '0';
+				
+				// 付款方式是支付宝时 需上传支付宝二维码图片
+				if($("#payType").val() == '0'){
+					var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
+					if(payAccountQr =="" || !payAccountQr){
+						base.showMsg('請上傳支付寶二維碼圖片');
+						return;
+					}
+				}
 				doSubmit(publishType)
 			}
 		})
@@ -386,6 +435,13 @@ define([
             params.tradeCoin = $("#tradeCoin").val();
             params.tradeCurrency = "CNY";
             params.publishType = publishType;
+            
+            if(params.payType == '0'){
+            	params.payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
+            } else {
+            	delete params.payAccount;
+            }
+            
             
             if(base.getCoinType(params.tradeCoin)=='1'){
             	params.protectPrice = params.truePrice;
@@ -489,7 +545,18 @@ define([
 				base.hideLoadingSpin();
 			})
     		
-		})		
+		})
+		
+		//选择图片
+    	$("#photoFile").bind('change',function(){
+        	if($(this).attr("data-src")!=""){
+        		var src= $(this).attr("data-src");
+	        	$(".payAccountQr-wrap .img-wrap").removeClass("hidden")
+	        	$(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(src)+"')"})
+	        	$(".payAccountQr-wrap .img-wrap .photo").attr("data-src",src)
+        	}
+	        	
+        })
     }
     
     //交易币种 change
@@ -504,6 +571,6 @@ define([
 				getAccount($("#tradeCoin").val())
 			).then()
     	}
-    		
+    	
     }
 });

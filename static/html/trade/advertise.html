@@ -122,6 +122,29 @@
 						</select>
 						<i class="icon icon-down"></i>
 					</div>
+					<div class="explain payAccount-wrap">
+						<i>*</i>
+						<samp class="txt">支付寶賬號：</samp>
+						<samp id="priceExp"></samp>
+					</div>
+					<div class="form-item b_e payAccount-wrap">
+						<input type="text" class="input-item" id="payAccount" name="payAccount"  placeholder="" />
+					</div>
+					<div class="explain payAccount-wrap payAccountQr-wrap">
+						<i class="fl mt5">*</i>
+						<samp class="txt fl mt5">支付寶二維碼圖片：</samp>
+						<div class="fileBtn-wrap fl" id="photoFile-wrap">
+                    		<samp class="am-button am-button-ghost">選擇圖片</samp>
+                    		<input id="photoFile" type="file" class="input-file photoFile" accept="image/png,image/gif,image/jpg,image/jpeg" />
+                    	</div>
+					</div>
+					<div class="form-item payAccount-wrap payAccountQr-wrap">
+						<div class="img-wrap over-hide hidden">
+							<div class="photoWrap photoWrapSquare b_e fl">
+								<div class="photo icon"></div>
+							</div>
+						</div>
+					</div>
 					<div class="explain">
 						<i>*</i>
 						<samp class="txt">付款期限：</samp>
@@ -253,6 +276,8 @@
 			</div>
 		</div>
 		
+        <script type="text/javascript" src="../../js/lib/qiniu/plupload.full.min.js"></script>
+    	<script type="text/javascript" src="../../js/lib/qiniu/qiniu.min.js"></script>
         <link rel="import" href="../footer.html?__inline">
         <script>
             require(['app/controller/trade/Advertising']);

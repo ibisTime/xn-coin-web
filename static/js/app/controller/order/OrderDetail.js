@@ -153,7 +153,7 @@ define([
 			$("#nickname").html(user.nickname)
 			
 			if(!firstLoad){
-				getTencunLogin();
+//				getTencunLogin();
 				firstLoad = true;
 			}
 			
