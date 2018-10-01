@@ -90,10 +90,17 @@ define([
     		$("#payType").html(bizTypeList[data.payType])
     		$("#payLimit").html(data.payLimit)
     		
+    		if(data.payType == '0') {
+    			$("#payAccount").html(data.payAccount);
+    			$("#payAccountQr").html(`<img src="${base.getPic(data.payAccountQr, "?imageMogr2/auto-orient/thumbnail/!150x150r")}">`);
+    			$(".payAccount-wrap").removeClass('hidden');
+    		}
+    		
 			$("#truePrice").html(Math.floor(data.truePrice*100)/100+'&nbsp;CNY/'+tradeCoin)
 			$("#submitDialog .tradePrice").html(config.tradePrice+'&nbsp;CNY/'+tradeCoin)
 			$("#leftCountString").html(base.formatMoney(data.leftCountString,'',tradeCoin))
 			$("#coin").text(tradeCoin)
+			
     		
     		$.when(
     			getAccount(data.tradeCoin),

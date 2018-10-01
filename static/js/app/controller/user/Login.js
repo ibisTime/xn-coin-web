@@ -21,6 +21,13 @@ define([
     }
     // 初始化swiper
     function initSwiperBanner(){
+    	var bannerHtml = "";
+        var pics = base.getPicArr(LOGIN_BANNER);
+        pics.map((pic) => {
+            bannerHtml += `<div class='swiper-slide'><div class="banner" style="background-image:url(${pic});"></div></div>`;
+        });
+        $("#swiper .swiper-wrapper").html(bannerHtml);
+        
         var _swiper = $("#swiper");
         if(_swiper.find('.swiper-slide').length <= 1){
             _swiper.find('.swiper-pagination').hide();

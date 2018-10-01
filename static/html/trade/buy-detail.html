@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <link rel="import" href="../head.html?__inline">
-        <title>購買详情-倍可盈</title>
+        <title>購買详情-LoveOTC</title>
     	<!--SCRIPT_PLACEHOLDER-->
         <link rel="import" href="../top/top-zendesk.html?__inline">
     </head>
@@ -47,13 +47,19 @@
 						<samp class="tit">報價:</samp><samp id="truePrice"></samp>
 					</div>
 					<div class="item">
-						<samp class="tit">交易限額:</samp><samp id="limit"></samp><samp class="ml5">CNY</samp>
+						<samp class="tit">交易限額:</samp><samp id="limit"></samp><samp class="ml5"></samp>
 					</div>
 					<div class="item">
 						<samp class="tit">付款方式:</samp><samp id="payType"></samp>
 					</div>
 					<div class="item">
 						<samp class="tit">付款期限:</samp><samp id="payLimit"></samp><samp>分鐘</samp>
+					</div>
+					<div class="item hidden payAccount-wrap">
+						<samp class="tit">支付寶賬號:</samp><samp id="payAccount"></samp>
+					</div>
+					<div class="item over-hide hidden payAccount-wrap">
+						<samp class="tit fl">支付寶收款碼:</samp><div class="fl" id="payAccountQr"></div>
 					</div>
 					<div class="item">
 						<samp class="tit">賣家留言:</samp><samp id="leaveMessage"></samp>
@@ -62,7 +68,7 @@
 				<div class="buy-wrap hidden">
 					<div class="titleWrap">
 						<i class="icon icon-buy"></i><samp>你想購買多少?</samp>
-						<samp class="small">廣告剩餘可交易量：<i id="leftCountString"></i></samp>
+						<samp class="small hidden">廣告剩餘可交易量：<i id="leftCountString"></i></samp>
 					</div>
 					<form class="form-wrapper wp100 form-wrapper-noIcon over-hide" id="form-wrapper">
 						<div class="form-item b_e fl">

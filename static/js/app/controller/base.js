@@ -8,21 +8,8 @@ define([
     'app/interface/BaseCtr'
 ], function($, CookieUtil, dialog, loading, Ajax, BigDecimal, BaseCtr) {
 	
-	if(/AppleWebKit.*Mobile/i.test(navigator.userAgent)  ||  (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))) {
-		if(window.location.href.indexOf("?mobile") < 0) {
-			try {
-				if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-					window.location.href = INVITATION_HREF+'/share/share-upload.html'
-				} else 
-					if(/iPad/i.test(navigator.userAgent)) {
-						window.location.href = INVITATION_HREF+'/share/share-upload.html'
-					} else {
-						window.location.href = INVITATION_HREF+'/share/share-upload.html'
-					}
-			} catch(e) {}
-		}
-	}
-
+	// base.js 如果是手机访问则跳转手机下载页 代码备份到
+	
 	if(Number.prototype.toFixed) {
 		var ori_toFixed = Number.prototype.toFixed;
 		Number.prototype.toFixed = function() {
@@ -547,3 +534,18 @@ define([
 	
 	return Base;
 });
+// base.js 如果是手机访问则跳转手机下载页
+//	if(/AppleWebKit.*Mobile/i.test(navigator.userAgent)  ||  (/MIDP|SymbianOS|NOKIA|SAMSUNG|LG|NEC|TCL|Alcatel|BIRD|DBTEL|Dopod|PHILIPS|HAIER|LENOVO|MOT-|Nokia|SonyEricsson|SIE-|Amoi|ZTE/.test(navigator.userAgent))) {
+//		if(window.location.href.indexOf("?mobile") < 0) {
+//			try {
+//				if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+//					window.location.href = INVITATION_HREF+'/share/share-upload.html'
+//				} else 
+//					if(/iPad/i.test(navigator.userAgent)) {
+//						window.location.href = INVITATION_HREF+'/share/share-upload.html'
+//					} else {
+//						window.location.href = INVITATION_HREF+'/share/share-upload.html'
+//					}
+//			} catch(e) {}
+//		}
+//	}

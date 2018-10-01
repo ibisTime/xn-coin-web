@@ -56,7 +56,7 @@ define([
 		return TradeCtr.getOrderDetail(code).then((data) => {
 			adsCode = data.adsCode
 			//待支付
-			if(data.status == '0'||data.status == '1') {
+			if(data.status == '0') {
 				$("#invalidDatetime samp").html("訂單將在託管中保持至<i>" + base.formatDate(data.invalidDatetime, "hh:mm:ss") + "</i>，逾期未支付交易將自動取消")
 				$("#invalidDatetime").removeClass("hidden")
 				$("#statusInfo").addClass("hidden")
@@ -102,6 +102,9 @@ define([
 				//待支付
 	    		if(data.status=="1"){
 	    			$(".releaseBtn").removeClass("hidden");
+	    			$("#invalidDatetime samp").html("最遲<i>" + base.formatDate(data.markConfirmDatetime, "hh:mm:ss") + "</i>，將會系統自帶釋放。")
+					$("#invalidDatetime").removeClass("hidden")
+					$("#statusInfo").addClass("hidden")
 				}else if(data.status=="2"){
 					if(data.sbComment!="0"&&data.sbComment!="2"){
 	    			$(".commentBtn").removeClass("hidden");
@@ -118,7 +121,7 @@ define([
 			//待下单
 			if(data.status=="-1"){
 				
-				$("title").html("廣告詳情-倍可盈");
+				$("title").html("廣告詳情-LoveOTC");
 				$(".orderDetail-info .info-wrap").addClass("hidden");
 				if(tradeType=='0'){
 					
@@ -131,7 +134,7 @@ define([
     			
     			getAdvertiseDetail();
 			}else{
-				$("title").html("訂單詳情-倍可盈")
+				$("title").html("訂單詳情-LoveOTC")
 			}
 			
 			userName = user.nickname;

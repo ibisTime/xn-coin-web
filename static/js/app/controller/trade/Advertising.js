@@ -31,7 +31,7 @@ define([
 		}
     	
     	$("#payType").change(function(){
-    		if($("#payType").val() == '0'){
+    		if($("#payType").val() == '0' && $(".trade-type .item.on").index()=='0'){
     			$(".payAccount-wrap").removeClass('hidden');
     			$("#payAccount").rules("add",{required:true});  
     		} else {
@@ -45,7 +45,7 @@ define([
     		GeneralCtr.getDictList({"parentKey":"trade_time_out"}),
     		getAdvertisePrice(),
     		getExplain('sell'),
-//  		getAccount(coin.toUpperCase()),
+    		getAccount(coin.toUpperCase()),
     		getQiniuToken()
     	).then((data1, data2, data3)=>{
     		//说明
@@ -175,6 +175,13 @@ define([
 			//账户余额
     		$(".accountLeftCountString").text($(".accountLeftCountString").attr('data-amount'))
     		
+    		// 支付寶二維碼
+    		if(data.payType == '0') {
+	        	$(".payAccountQr-wrap .img-wrap").removeClass("hidden")
+	        	$(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(data.payAccountQr)+"')"})
+	        	$(".payAccountQr-wrap .img-wrap .photo").attr("data-src",data.payAccountQr)
+    		}
+    		
     		//是否仅粉丝
     		if(data.onlyTrust=='1'){
     			$("#onlyTrust").addClass("on")
@@ -264,10 +271,19 @@ define([
 	    	//在线出售
 	    	if(_this.parent(".item").index()=='0'){
 	    		$(".accountCount").removeClass("hidden")
+	    		if($("#payType").val() == '0'){
+	    			$(".payAccount-wrap").removeClass('hidden');
+	    			$("#payAccount").rules("add",{required:true});  
+	    		} else {
+	    			$(".payAccount-wrap").addClass('hidden');
+	    			$("#payAccount").rules("remove");  
+	    		}
 	    		getExplain('sell')
 	    	//在线购买
 	    	}else if(_this.parent(".item").index()=='1'){
 	    		$(".accountCount").addClass("hidden")
+    			$(".payAccount-wrap").addClass('hidden');
+    			$("#payAccount").rules("remove");  
 	    		getExplain('buy')
 	    	}
 	    	_this.parent(".item").addClass("on").siblings(".item").removeClass("on");
@@ -555,7 +571,6 @@ define([
 	        	$(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(src)+"')"})
 	        	$(".payAccountQr-wrap .img-wrap .photo").attr("data-src",src)
         	}
-	        	
         })
     }
     

@@ -182,6 +182,16 @@ define([
                 userId: userId||base.getUserId(),
             },true);
 		},
-		
+        /**
+         * 身份证认证
+         * @param config {realName, idNo}
+         */
+        setIdNo(config){
+            return Ajax.get("805191", {
+                userId: base.getUserId(),
+                idKind: '1',
+                ...config
+            }, true);
+        },
     };
 })

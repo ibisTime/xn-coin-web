@@ -14,7 +14,7 @@ define([
     
     function getSysConfig(){
     	return GeneralCtr.getSysConfig(key).then((data)=>{
-    		$("title").html(data.remark+"-倍可盈");
+    		$("title").html(data.remark+"-LoveOTC");
     		$("#content").html(data.cvalue);
     		base.hideLoadingSpin();
 		},base.hideLoadingSpin)
