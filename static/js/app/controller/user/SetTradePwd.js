@@ -6,6 +6,24 @@ define([
 ], function(base, Validate,smsCaptcha, UserCtr) {
 	var type = base.getUrlParam("type");//设置类型： 0,设置  1，修改 
 	var isWallet = !!base.getUrlParam("isWallet");//钱包点击跳转过来
+    var _formWrapper = $("#form-wrapper");
+    _formWrapper.validate({
+        'rules': {
+            "mobile": {
+                required: true,
+                mobile: true
+            },
+            "smsCaptcha": {
+                required: true,
+                sms: true
+            },
+            "tradePwd": {
+                required: true,
+                tradePwdLength: true,
+            },
+        },
+        onkeyup: false
+    });
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -16,7 +34,12 @@ define([
     
     function init() {
     	$("#mobile").val(base.getUserMobile())
-    	
+        if(base.getGoogleAuthFlag()=="true"&&base.getGoogleAuthFlag()){
+            $(".googleAuthFlag").removeClass("hidden");
+            $("#googleCaptcha").rules('add', {
+                required: true
+			})
+        }
         base.hideLoadingSpin();
         addListener();
     }
@@ -49,24 +72,6 @@ define([
     
     
     function addListener() {
-    	var _formWrapper = $("#form-wrapper");
-	    _formWrapper.validate({
-	    	'rules': {
-	        	"mobile": {
-	        		required: true,
-	        		mobile: true
-	        	},
-	        	"smsCaptcha": {
-	        		required: true,
-	        		sms: true
-	        	},
-	        	"tradePwd": {
-	        		required: true,
-	        		tradePwdLength: true,
-	        	},
-	    	},
-	    	onkeyup: false
-	    });
     	smsCaptcha.init({
 			checkInfo: function() {
 				return $("#mobile").valid();

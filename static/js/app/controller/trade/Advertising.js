@@ -234,14 +234,14 @@ define([
     	$("#price").val(mid);
     	
     	return GeneralCtr.getSysConfigType(param, true).then((data)=>{
-    		$("#displayTimeExp").html(data.displayTime)
-    		$("#maxTradeExp").html(data.maxTrade)
-    		$("#minTradeExp").html(data.minTrade)
-    		$("#payLimitExp").html(data.payLimit)
-    		$("#payTypeExp").html(data.payType)
+    		$("#displayTimeExp").html(data.displayTime);
+    		$("#maxTradeExp").html(data.maxTrade);
+    		$("#minTradeExp").html(data.minTrade);
+    		$("#payLimitExp").html(data.payLimit);
+    		$("#payTypeExp").html(data.payType);
     		$("#payType").change();
-    		$("#premiumRateExp").html(data.premiumRate)
-    		$("#priceExp").html(data.price)
+    		$("#premiumRateExp").html(data.premiumRate);
+    		$("#priceExp").html(data.price);
     		
     		if(type=='buy'){
 	    		$("#protectPriceExp").siblings('.txt').text('最高價格：');
@@ -252,7 +252,7 @@ define([
 	    		$("#protectPriceExp").siblings('.txt').text('最低價格：')
 	    		$("#protectPrice").attr('placeholder','廣告最低可成交的價格');
 	    		$("#totalCountExp").siblings('.txt').text('出售總量：');
-	    		$("#totalCount").attr('placeholder','請輸入購賣幣的總量');
+	    		$("#totalCount").attr('placeholder','請輸入出售幣的總量');
 	    	}
 	    	
     		$("#protectPriceExp").html(data.protectPrice)

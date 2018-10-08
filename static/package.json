@@ -3,11 +3,10 @@
   "version": "2.0.0",
   "description": "",
   "scripts": {
-    "dist": "fis3 release -d ../dist -w",
-    "prod": "fis3 release -d ../dist prod",
+    "dist": "fis3 release -d ../dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "fis3 release -d F:/web/xn-coin-web/dist -w",
-    "build": "fis3 release -d F:/web/xn-coin-web/dist prod"
+    "dev": "fis3 release -d ../dist -w",
+    "build": "fis3 release -d ../dist prod"
   },
   "author": "",
   "license": "ISC",
