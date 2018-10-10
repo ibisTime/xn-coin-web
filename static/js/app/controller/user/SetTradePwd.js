@@ -6,21 +6,25 @@ define([
 ], function(base, Validate,smsCaptcha, UserCtr) {
 	var type = base.getUrlParam("type");//设置类型： 0,设置  1，修改 
 	var isWallet = !!base.getUrlParam("isWallet");//钱包点击跳转过来
-	var _formRules = {
-        	"mobile": {
-        		required: true,
-        		mobile: true
-        	},
-        	"smsCaptcha": {
-        		required: true,
-        		sms: true
-        	},
-        	"tradePwd": {
-        		required: true,
-        		tradePwdLength: true,
-        	},
-    	}
-
+    var _formWrapper = $("#form-wrapper");
+    _formWrapper.validate({
+        'rules': {
+            "mobile": {
+                required: true,
+                mobile: true
+            },
+            "smsCaptcha": {
+                required: true,
+                sms: true
+            },
+            "tradePwd": {
+                required: true,
+                tradePwdLength: true,
+            },
+        },
+        onkeyup: false
+    });
+	
 	if(!base.isLogin()){
 		base.goLogin()
 	}else{
@@ -30,19 +34,19 @@ define([
     
     function init() {
     	$("#mobile").val(base.getUserMobile())
-    	if(base.getGoogleAuthFlag()=="true" && base.getGoogleAuthFlag()){
-			$(".googleAuthFlag").removeClass("hidden");
-			_formRules["googleCaptcha"] = {
-				required: true,
-			}
-		}
+        if(base.getGoogleAuthFlag()=="true"&&base.getGoogleAuthFlag()){
+            $(".googleAuthFlag").removeClass("hidden");
+            $("#googleCaptcha").rules('add', {
+                required: true
+			})
+        }
         base.hideLoadingSpin();
         addListener();
     }
     
     //设置资金密码
-    function setTradePwd(params){
-    	return UserCtr.setTradePwd(params).then(()=>{
+    function setTradePwd(tradePwd, smsCaptcha){
+    	return UserCtr.setTradePwd(tradePwd, smsCaptcha).then(()=>{
 			base.hideLoadingSpin()
 			base.showMsg("设置成功")
 			setTimeout(function(){
@@ -52,8 +56,8 @@ define([
     }
     
     //重设资金密码
-    function changeTradePwd(params){
-    	return UserCtr.changeTradePwd(params).then(()=>{
+    function changeTradePwd(tradePwd, smsCaptcha){
+    	return UserCtr.changeTradePwd(tradePwd, smsCaptcha).then(()=>{
 			base.hideLoadingSpin()
 			base.showMsg("修改成功")
 			setTimeout(function(){
@@ -68,11 +72,6 @@ define([
     
     
     function addListener() {
-    	var _formWrapper = $("#form-wrapper");
-	    _formWrapper.validate({
-	    	'rules': _formRules,
-	    	onkeyup: false
-	    });
     	smsCaptcha.init({
 			checkInfo: function() {
 				return $("#mobile").valid();
@@ -86,17 +85,11 @@ define([
 		$("#subBtn").click(function(){
     		if(_formWrapper.valid()){
 	    		base.showLoadingSpin();
-	    		var params = _formWrapper.serializeObject();
-	    		var config = {
-	    				smsCaptcha: params.smsCaptcha,
-    					googleCaptcha: params.googleCaptcha
-	    			}
+	    		var params=_formWrapper.serializeObject()
 	    		if(type=='0'){
-	    			config.tradePwd = params.tradePwd;
-	    			setTradePwd(config)
+	    			setTradePwd(params.tradePwd,params.smsCaptcha)
 	    		}else if(type=='1'){
-	    			config.newTradePwd = params.tradePwd;
-	    			changeTradePwd(config)
+	    			changeTradePwd(params.tradePwd,params.smsCaptcha)
 	    			
 	    		}
 	    		
