@@ -31,11 +31,10 @@ define([
             }, refresh);
         },
         // 修改密码
-        changePwd(oldLoginPwd, newLoginPwd) {
+        changePwd(params) {
             return Ajax.post('805064', {
-                oldLoginPwd,
-                newLoginPwd,
-                userId: base.getUserId()
+                userId: base.getUserId(),
+                ...params
             });
         },
         /**
@@ -58,19 +57,17 @@ define([
         },
         
         // 设置资金密码
-        setTradePwd(tradePwd, smsCaptcha) {
+        setTradePwd(params) {
             return Ajax.post('805066', {
-                tradePwd,
-                smsCaptcha,
-                userId: base.getUserId()
+                userId: base.getUserId(),
+                ...params
             });
         },
         // 重置支付密码
-        changeTradePwd(newTradePwd, smsCaptcha) {
+        changeTradePwd(params) {
             return Ajax.post("805067", {
-                newTradePwd,
-                smsCaptcha,
-                userId: base.getUserId()
+                userId: base.getUserId(),
+                ...params
             });
         },
         //獲取谷歌密鑰

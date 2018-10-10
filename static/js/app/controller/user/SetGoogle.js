@@ -5,6 +5,7 @@ define([
     'app/interface/UserCtr'
 ], function(base, Validate, smsCaptcha, UserCtr) {
 	var type = base.getUrlParam("type");//设置类型： 0,開啟  1，關閉
+	var secretRules = {}
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -15,8 +16,16 @@ define([
     
     function init() {
     	base.showLoadingSpin();
+    	if(type == '0') {
+    		secretRules = {
+    			required: true
+    		}
+    		$(".secretFlag").removeClass("hidden");
+    		getGooglePwd();
+    	} else {
+    		base.hideLoadingSpin()
+    	}
     	$("#mobile").val(base.getUserMobile())
-    	getGooglePwd();
         addListener();
     }
     
@@ -24,7 +33,7 @@ define([
     function openGoogle(params){
     	return UserCtr.openGoogle(params).then(()=>{
 			base.hideLoadingSpin()
-			sessionStorage.getItem("googleAuthFlag",'true');
+			sessionStorage.setItem("googleAuthFlag", 'true');
 			base.showMsg("開啟成功");
 			setTimeout(function(){
 				base.gohrefReplace("../user/security.html")
@@ -36,7 +45,7 @@ define([
     function closeGoogle(googleCaptcha,smsCaptcha){
     	return UserCtr.closeGoogle(googleCaptcha,smsCaptcha).then(()=>{
 			base.hideLoadingSpin()
-			sessionStorage.getItem("googleAuthFlag",'false');
+			sessionStorage.setItem("googleAuthFlag",'false');
 			base.showMsg("關閉成功")
 			setTimeout(function(){
 				base.gohrefReplace("../user/security.html")
@@ -55,9 +64,7 @@ define([
     	var _formWrapper = $("#form-wrapper");
 	    _formWrapper.validate({
 	    	'rules': {
-	        	"secret": {
-	        		required: true,
-	        	},
+	        	"secret": secretRules,
 	        	"googleCaptcha": {
 	        		required: true,
 	        	},
@@ -83,7 +90,6 @@ define([
 	    		base.showLoadingSpin();
 	    		var params = _formWrapper.serializeObject();
 	    		params.secret = $("#secret").val();
-	    		
 	    		if(type=='0'){
 	    			openGoogle(params)
 	    		}else if(type=='1'){

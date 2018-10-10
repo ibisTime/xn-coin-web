@@ -82,11 +82,9 @@ define([
 			$(".googleAuthFlag").removeClass("hidden");
 			addAddressWrapperRules["googleCaptcha"]={
         		required: true,
-        		sms: true
 			}
 			sendOutWrapperRules["googleCaptcha"]={
         		required: true,
-        		sms: true
 			}
 		}
 		
@@ -445,7 +443,7 @@ define([
     	//管理地址彈窗-新增地址點擊
     	$("#wAddressDialog .addBtn").click(function(){
     		smsCaptcha.init({
-				bizType: "625203",
+				bizType: "802170",
 				id: "getVerification",
 				mobile: "addWAddressMobile",
 				errorFn: function(){

@@ -22,10 +22,11 @@ define([
         limit:10,
         statusList: statusList["inProgress"]
     };
+	var int;
     var unreadMsgList = {};
     var isUnreadList=false,isOrderList=false;
 	init();
-    
+
     function init() {
     	base.showLoadingSpin();
 //  	TencentCloudLogin.goLogin(function(list){
@@ -33,15 +34,15 @@ define([
 //  		isUnreadList = true;
 //  		addUnreadMsgNum();
 //  	})
-    	GeneralCtr.getDictList({"parentKey":"trade_order_status"}).then((data)=>{
-    		
-    		data.forEach(function(item){
-    			statusValueList[item.dkey] = item.dvalue
-    		})
-    		getPageOrder();
-    	},base.hideLoadingSpin)
-		
+        GeneralCtr.getDictList({"parentKey":"trade_order_status"}).then((data)=>{
+            data.forEach(function(item){
+                statusValueList[item.dkey] = item.dvalue
+            });
+            getPageOrder();
+            int=setInterval(function(){getPageOrder(true)},10000)
+        },base.hideLoadingSpin);
         addListener();
+
     }
     // 初始化分页器
     function initPagination(data){
@@ -67,30 +68,29 @@ define([
             }
         });
     }
-    
+
     //分页查询订单
     function getPageOrder(refresh){
-    	return TradeCtr.getPageOrder(config,refresh).then((data)=>{
+        return TradeCtr.getPageOrder(config,refresh).then((data)=>{
             var lists = data.list;
-    		if(data.list.length){
+            if(data.list.length){
                 var html = "";
                 lists.forEach((item, i) => {
                     html += buildHtml(item);
                 });
-    			$("#content").html(html);
-    			isOrderList = true;
-    			addUnreadMsgNum()
-    			
-    			$(".trade-list-wrap .no-data").addClass("hidden")
+                $("#content").html(html);
+                isOrderList = true;
+                addUnreadMsgNum();
+                $(".trade-list-wrap .no-data").addClass("hidden")
             }else{
-            	config.start == 1 && $("#content").empty()
-    			config.start == 1 && $(".trade-list-wrap .no-data").removeClass("hidden")
+                config.start == 1 && $("#content").empty();
+                config.start == 1 && $(".trade-list-wrap .no-data").removeClass("hidden")
             }
-        	config.start == 1 && initPagination(data);
+            config.start == 1 && initPagination(data);
             base.hideLoadingSpin();
-    	},base.hideLoadingSpin)
+        },base.hideLoadingSpin)
     }
-    
+
     function buildHtml(item){
     	//头像
     	var photoHtml = "";
@@ -102,11 +102,11 @@ define([
 		var quantity = '';
 		//类型
 		var type = '';
-		
+
 		//当前用户为买家
     	if(item.buyUser==base.getUserId()){
     		var user = item.sellUserInfo;
-    		
+
     		type = 'sell';
     		//待支付
     		if(item.status=="0"){
@@ -120,7 +120,7 @@ define([
     	//当前用户为卖家
     	}else{
     		var user = item.buyUserInfo;
-    		
+
     		type = 'buy';
     		//待支付
     		if(item.status=="1"){
@@ -131,24 +131,24 @@ define([
 				}
 			}
     	}
-    	
+
     	//操作按鈕
     	//已支付，待释放
 		if(item.status=="1"){
 			operationHtml+=`<div class="am-button arbitrationBtn"  data-ocode="${item.code}">申请仲裁</div>`
 		}
-    	
+
     	if(user.photo){
     		photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(user.photo)}')"></div>`
 		}else{
 			var tmpl = user.nickname.substring(0,1).toUpperCase();
 			photoHtml = `<div class="photo"><div class="noPhoto">${tmpl}</div></div>`
 		}
-		
+
 		if(item.status!="-1"){
 			quantity = base.formatMoney(item.countString,'',item.tradeCoin)+item.tradeCoin
 		}
-		
+
     	return `<tr data-code="${item.code}">
 					<td class="nickname">
 						<div class="photoWrap fl goHref" data-href="../user/user-detail.html?coin=${item.tradeCoin?item.tradeCoin:'ETH'}&userId=${user.userId}" >
@@ -171,7 +171,7 @@ define([
 					</td>
 				</tr>`;
     }
-    
+
     //添加未读消息数
     function addUnreadMsgNum(){
     	if(isUnreadList&&isOrderList){
@@ -197,9 +197,15 @@ define([
             config.statusList = statusList[_this.attr("data-status")];
             config.start = 1;
             base.showLoadingSpin();
-            getPageOrder(true)
+            getPageOrder(true);
+            if(config.statusList === statusList["inProgress"]){
+                clearInterval(int);
+                int=setInterval(function(){getPageOrder(true)},10000)
+            }else{
+                clearInterval(int);
+            }
         })
-        
+
         //取消订单按钮 点击
         $("#content").on("click", ".operation .cancelBtn", function(){
         	var orderCode = $(this).attr("data-ocode");
@@ -207,7 +213,7 @@ define([
         		base.showLoadingSpin()
         		TradeCtr.cancelOrder(orderCode).then(()=>{
         			base.hideLoadingSpin();
-        			
+
         			base.showMsg("操作成功");
         			setTimeout(function(){
 			            base.showLoadingSpin();
@@ -216,7 +222,7 @@ define([
         		},base.hideLoadingSpin)
         	},base.emptyFun)
         })
-        
+
         //標記打款按钮 点击
         $("#content").on("click", ".operation .payBtn", function(){
         	var orderCode = $(this).attr("data-ocode");
@@ -224,7 +230,7 @@ define([
         		base.showLoadingSpin()
         		TradeCtr.payOrder(orderCode).then(()=>{
         			base.hideLoadingSpin();
-        			
+
         			base.showMsg("操作成功");
         			setTimeout(function(){
 			            base.showLoadingSpin();
@@ -233,22 +239,22 @@ define([
         		},base.hideLoadingSpin)
         	},base.emptyFun)
         })
-        
+
         //申請仲裁按钮 点击
         $("#content").on("click", ".operation .arbitrationBtn", function(){
         	var orderCode = $(this).attr("data-ocode");
-        	
+
         	$("#arbitrationDialog .subBtn").attr("data-ocode", orderCode);
         	$("#arbitrationDialog").removeClass("hidden")
-        	
+
         })
-        
+
         //彈窗-放棄
         $("#arbitrationDialog .closeBtn").click(function(){
         	$("#arbitrationDialog").addClass("hidden");
         	$("#form-wrapper .textarea-item").val("")
         })
-        
+
         var _formWrapper = $("#form-wrapper");
     	_formWrapper.validate({
     		'rules': {
@@ -257,7 +263,7 @@ define([
     			},
     		}
     	})
-        
+
         //彈窗-申請仲裁
         $("#arbitrationDialog .subBtn").click(function(){
         	var orderCode = $(this).attr("data-ocode");
@@ -268,7 +274,7 @@ define([
     			reason: params.reason
     		}).then(()=>{
     			base.hideLoadingSpin();
-    			
+
     			base.showMsg("操作成功");
     			$("#arbitrationDialog").addClass("hidden");
     			setTimeout(function(){
@@ -278,14 +284,14 @@ define([
     			},1500)
     		},base.hideLoadingSpin)
         })
-        
+
         //交易評價按钮 点击
         $("#content").on("click", ".operation .commentBtn", function(){
         	var orderCode = $(this).attr("data-ocode");
         	$("#commentDialog .subBtn").attr("data-ocode",orderCode)
         	$("#commentDialog").removeClass("hidden")
         })
-        
+
         //释放货币按钮 点击
         $("#content").on("click", ".operation .releaseBtn", function(){
         	var orderCode = $(this).attr("data-ocode");
@@ -293,7 +299,7 @@ define([
         		base.showLoadingSpin()
         		TradeCtr.releaseOrder(orderCode).then(()=>{
         			base.hideLoadingSpin();
-        			
+
         			base.showMsg("操作成功");
         			setTimeout(function(){
 			            base.showLoadingSpin();
@@ -302,16 +308,16 @@ define([
         		},base.hideLoadingSpin)
         	},base.emptyFun)
         })
-        
+
         //評價
         $("#commentDialog .comment-Wrap .item").click(function(){
         	$(this).addClass("on").siblings(".item").removeClass("on")
         })
-        
+
         $("#commentDialog .subBtn").click(function(){
         	var orderCode= $(this).attr("data-ocode");
         	var comment = $("#commentDialog .comment-Wrap .item.on").attr("data-value");
-        	
+
         	base.showLoadingSpin();
         	TradeCtr.commentOrder(orderCode,comment).then(()=>{
     			base.hideLoadingSpin();
@@ -324,6 +330,6 @@ define([
     			},1500)
     		},base.hideLoadingSpin)
         })
-        
+
     }
 });
