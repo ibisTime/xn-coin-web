@@ -57,17 +57,19 @@ define([
         },
         
         // 设置资金密码
-        setTradePwd(params) {
+        setTradePwd(tradePwd, smsCaptcha) {
             return Ajax.post('805066', {
                 userId: base.getUserId(),
-                ...params
+                tradePwd,
+                smsCaptcha
             });
         },
         // 重置支付密码
-        changeTradePwd(params) {
+        changeTradePwd(newTradePwd, smsCaptcha) {
             return Ajax.post("805067", {
                 userId: base.getUserId(),
-                ...params
+                newTradePwd,
+                smsCaptcha
             });
         },
         //獲取谷歌密鑰

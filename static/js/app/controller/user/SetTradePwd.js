@@ -56,8 +56,8 @@ define([
     }
     
     //重设资金密码
-    function changeTradePwd(tradePwd, smsCaptcha){
-    	return UserCtr.changeTradePwd(tradePwd, smsCaptcha).then(()=>{
+    function changeTradePwd(newTradePwd, smsCaptcha){
+    	return UserCtr.changeTradePwd(newTradePwd, smsCaptcha).then(()=>{
 			base.hideLoadingSpin()
 			base.showMsg("修改成功")
 			setTimeout(function(){
