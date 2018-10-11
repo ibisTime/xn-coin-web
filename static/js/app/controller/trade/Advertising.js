@@ -451,6 +451,7 @@ define([
             params.tradeCoin = $("#tradeCoin").val();
             params.tradeCurrency = "CNY";
             params.publishType = publishType;
+            params.payLimit = '2';
             
             if(params.payType == '0'){
             	params.payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");

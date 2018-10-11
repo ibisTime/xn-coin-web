@@ -36,10 +36,12 @@ define([
 //  	})
         GeneralCtr.getDictList({"parentKey":"trade_order_status"}).then((data)=>{
             data.forEach(function(item){
-                statusValueList[item.dkey] = item.dvalue
+                statusValueList[item.dkey] = item.dvalue;
             });
             getPageOrder();
-            int=setInterval(function(){getPageOrder(true)},10000)
+            int = setInterval(function(){
+            	getPageOrder(true);
+        	}, 10000);
         },base.hideLoadingSpin);
         addListener();
 
@@ -63,7 +65,7 @@ define([
                 if(_this.getCurrent() != config.start){
     				base.showLoadingSpin();
                     config.start = _this.getCurrent();
-                    getPageOrder(config);
+                    getPageOrder(true);
                 }
             }
         });
@@ -80,7 +82,8 @@ define([
                 });
                 $("#content").html(html);
                 isOrderList = true;
-                addUnreadMsgNum();
+                // 腾讯云添加未读消息
+//          	addUnreadMsgNum();
                 $(".trade-list-wrap .no-data").addClass("hidden")
             }else{
                 config.start == 1 && $("#content").empty();
