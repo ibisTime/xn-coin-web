@@ -93,7 +93,8 @@ define([
 	    		var params = _formWrapper.serializeObject();
 	    		var config = {
 	    				smsCaptcha: params.smsCaptcha,
-    					type: base.getIdentType(params.mobile)
+    					googleCaptcha: params.googleCaptcha,
+    					type: base.getIdentType($("#mobile").val())
 	    			}
 	    		
 	    		if(type=='0'){

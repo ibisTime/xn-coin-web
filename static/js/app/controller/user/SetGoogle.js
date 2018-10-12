@@ -96,7 +96,7 @@ define([
     		if(_formWrapper.valid()){
 	    		base.showLoadingSpin();
 	    		var params = _formWrapper.serializeObject();
-	    			params.type = base.getIdentType(params.mobile)
+	    			params.type = base.getIdentType($("#mobile").val())
 	    		if(type=='0'){
 		    		params.secret = $("#secret").val();
 	    			openGoogle(params)
