@@ -15,6 +15,11 @@ define([
 	}
     
     function init() {
+    	if(base.getUserEmail()) {
+    		$("#mobile").val(base.getUserEmail())
+    	} else {
+    		$("#mobile").val(base.getUserMobile())
+    	}
     	base.showLoadingSpin();
     	if(type == '0') {
     		secretRules = {

@@ -19,9 +19,10 @@ define([
     }
     
     //修改/綁定郵箱
-    function setEmail(tradePwd, smsCaptcha){
-    	return UserCtr.setEmail(tradePwd, smsCaptcha).then(()=>{
+    function setEmail(email, smsCaptcha){
+    	return UserCtr.setEmail(email, smsCaptcha).then(()=>{
 			base.hideLoadingSpin()
+			sessionStorage.setItem("email", email);
 			base.showMsg("设置成功")
 			setTimeout(function(){
 				base.gohrefReplace("../user/security.html")

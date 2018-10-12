@@ -49,8 +49,8 @@ define([
 			UserCtr.getUser(true).then((item)=>{
 				sessionStorage.setItem("nickname",item.nickname);
 				sessionStorage.setItem("googleAuthFlag",item.googleAuthFlag);
-				sessionStorage.setItem("mobile",item.mobile);
-				sessionStorage.setItem("email",item.email);
+				sessionStorage.setItem("mobile",item.mobile ? item.mobile : '');
+				sessionStorage.setItem("email",item.email ? item.email : '');
 				sessionStorage.setItem("inviteCode",item.secretUserId);
 				base.hideLoadingSpin()
 				base.showMsg("登錄成功")

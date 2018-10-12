@@ -318,6 +318,9 @@ define([
 		getUserMobile: function() {
 			return sessionStorage.getItem("mobile");
 		},
+		getUserEmail: function() {
+			return sessionStorage.getItem("email");
+		},
 		getToken: function() {
 			return sessionStorage.getItem("token");
 		},

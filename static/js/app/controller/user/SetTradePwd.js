@@ -28,6 +28,12 @@ define([
 	}
     
     function init() {
+    	if(base.getUserEmail()) {
+    		$("#mobile").val(base.getUserEmail())
+    	} else {
+    		$("#mobile").val(base.getUserMobile())
+    	}
+    	
     	if(base.getGoogleAuthFlag()=="true" && base.getGoogleAuthFlag()){
 			$(".googleAuthFlag").removeClass("hidden");
 			_formRules["googleCaptcha"] = {
@@ -87,7 +93,6 @@ define([
 	    		var params = _formWrapper.serializeObject();
 	    		var config = {
 	    				smsCaptcha: params.smsCaptcha,
-    					googleCaptcha: params.googleCaptcha,
     					type: base.getIdentType(params.mobile)
 	    			}
 	    		

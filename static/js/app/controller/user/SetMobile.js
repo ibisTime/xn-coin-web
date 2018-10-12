@@ -13,7 +13,6 @@ define([
 	}
     
     function init() {
-    	
         base.hideLoadingSpin();
         addListener();
     }
@@ -22,6 +21,7 @@ define([
     function setMobile(newMobile, smsCaptcha){
     	return UserCtr.setMobile(newMobile, smsCaptcha).then(()=>{
 			base.hideLoadingSpin()
+			sessionStorage.setItem("mobile", newMobile);
 			base.showMsg("设置成功")
 			setTimeout(function(){
 				base.gohrefReplace("../user/security.html")
