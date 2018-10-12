@@ -39,8 +39,7 @@ define([
 	    _formWrapper.validate({
 	    	'rules': {
 	        	"mobile": {
-	        		required: true,
-	        		mobile: true
+	        		required: true
 	        	},
 	        	"smsCaptcha": {
 	        		required: true,

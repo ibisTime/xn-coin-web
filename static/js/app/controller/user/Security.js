@@ -26,9 +26,15 @@ define([
     		}
     		
     		if(data.email){
-    			$(".setEmail .edit").removeClass("hidden")
-    		}else{
+    			$(".setEmail .email").html(data.email)
+    		} else {
     			$(".setEmail .set").removeClass("hidden")
+    		}
+    		
+    		if(data.mobile){
+    			$(".setMobile .mobile").html(base.hideMobile(data.mobile))
+    		}else{
+    			$(".setMobile .set").removeClass("hidden")
     		}
     		
     		if(data.googleAuthFlag){

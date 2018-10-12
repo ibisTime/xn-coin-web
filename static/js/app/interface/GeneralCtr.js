@@ -8,15 +8,16 @@ define([
             return Ajax.get("805951");
         },
         // 发送短信
-        sendCaptcha(bizType, mobile, sendCode) {
+        sendCaptcha(bizType, mobile) {
+        	var sendCode= '805950';
     		var param={
-        		bizType,
-        		sendCode
+        		bizType
         	}
-        	if(sendCode=="805952"){
-        		param.email=mobile
-        	}else{
-        		param.mobile=mobile
+        	if(mobile.split('@')[1]) {
+        		param.email = mobile;
+        		sendCode = "805952";
+        	} else {
+        		param.mobile = mobile;
         	}
             return Ajax.post(sendCode, param);
         },

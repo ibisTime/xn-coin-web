@@ -25,7 +25,6 @@ define([
     	} else {
     		base.hideLoadingSpin()
     	}
-    	$("#mobile").val(base.getUserMobile())
         addListener();
     }
     
@@ -42,8 +41,8 @@ define([
     }
     
     //關閉
-    function closeGoogle(googleCaptcha,smsCaptcha){
-    	return UserCtr.closeGoogle(googleCaptcha,smsCaptcha).then(()=>{
+    function closeGoogle(params){
+    	return UserCtr.closeGoogle(params).then(()=>{
 			base.hideLoadingSpin()
 			sessionStorage.setItem("googleAuthFlag",'false');
 			base.showMsg("關閉成功")
@@ -68,6 +67,9 @@ define([
 	        	"googleCaptcha": {
 	        		required: true,
 	        	},
+	        	"mobile": {
+	        		required: true,
+	        	},
 	        	"smsCaptcha": {
 	        		required: true,
 	        		sms: true
@@ -89,11 +91,12 @@ define([
     		if(_formWrapper.valid()){
 	    		base.showLoadingSpin();
 	    		var params = _formWrapper.serializeObject();
-	    		params.secret = $("#secret").val();
+	    			params.type = base.getIdentType(params.mobile)
 	    		if(type=='0'){
+		    		params.secret = $("#secret").val();
 	    			openGoogle(params)
 	    		}else if(type=='1'){
-	    			closeGoogle(params.googleCaptcha,params.smsCaptcha)
+	    			closeGoogle(params)
 	    		}
 	    	}
 	    })

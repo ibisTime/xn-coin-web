@@ -38,7 +38,6 @@ define([
     		
     		$("#nickname").text(data.nickname)
     		$("#createDatetime").html(base.formateDatetime(data.createDatetime))
-    		$("#mobile").html(base.hideMobile(data.mobile))
     		$("#beiXinRenCount").text(data.userStatistics.beiXinRenCount)
     		$("#jiaoYiCount").text(data.userStatistics.jiaoYiCount)
     		$("#beiHaoPingCount").text(data.userStatistics.beiHaoPingCount)
@@ -48,6 +47,14 @@ define([
     		}else{
     			$("#email").text("未驗證").addClass("no").click(function () {
                     base.gohref("./setEmail.html");
+                });
+    		}
+    		
+    		if(data.mobile){
+    			$("#mobile").text(base.hideMobile(data.mobile))
+    		}else{
+    			$("#mobile").text("未驗證").addClass("no").click(function () {
+                    base.gohref("./setMobile.html");
                 });
     		}
     		if(data.idNo){

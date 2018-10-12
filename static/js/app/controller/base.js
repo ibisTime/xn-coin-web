@@ -530,6 +530,14 @@ define([
 			var n = Base.getCoinList()[coin].withdrawFeeString
 			return n;
 		},
+		// 獲取是手機還是郵箱 1=手机 2=邮箱
+		getIdentType: function(a) {
+			if(a.split('@')[1]) {
+				return 2;
+			} else {
+				return 1;
+			}
+		}
 	};
 	
 	return Base;

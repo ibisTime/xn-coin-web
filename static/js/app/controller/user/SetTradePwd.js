@@ -8,8 +8,7 @@ define([
 	var isWallet = !!base.getUrlParam("isWallet");//钱包点击跳转过来
 	var _formRules = {
         	"mobile": {
-        		required: true,
-        		mobile: true
+        		required: true
         	},
         	"smsCaptcha": {
         		required: true,
@@ -29,7 +28,6 @@ define([
 	}
     
     function init() {
-    	$("#mobile").val(base.getUserMobile())
     	if(base.getGoogleAuthFlag()=="true" && base.getGoogleAuthFlag()){
 			$(".googleAuthFlag").removeClass("hidden");
 			_formRules["googleCaptcha"] = {
@@ -89,15 +87,16 @@ define([
 	    		var params = _formWrapper.serializeObject();
 	    		var config = {
 	    				smsCaptcha: params.smsCaptcha,
-    					googleCaptcha: params.googleCaptcha
+    					googleCaptcha: params.googleCaptcha,
+    					type: base.getIdentType(params.mobile)
 	    			}
+	    		
 	    		if(type=='0'){
 	    			config.tradePwd = params.tradePwd;
 	    			setTradePwd(config)
 	    		}else if(type=='1'){
 	    			config.newTradePwd = params.tradePwd;
 	    			changeTradePwd(config)
-	    			
 	    		}
 	    		
 	    	}

@@ -1102,7 +1102,27 @@ table {
 .register-container{
     .login-form{
         width: 400px;
-        padding: 60px 0 100px;
+        padding: 30px 0 100px;
+        
+        .title-wrap{
+            width: 100%;
+            overflow: hidden;
+            
+            .tit{
+                float: left;
+                font-size: 22px;
+                color: #616161;
+                font-weight: normal;
+                margin-bottom: 40px;
+                line-height: 70px;
+                border-bottom: 2px solid transparent;
+                
+                &.on{
+                    color: $red-color;
+                border-bottom: 2px solid $red-color;
+                }
+            }
+        }
     }
     .form-item{
         margin-bottom: 20px;
@@ -1432,6 +1452,9 @@ table {
         .icon-google{
             background-image: url('../images/谷歌验证.png');
         }
+        .icon-mobile{
+            background-image: url('../images/手机已验证.png');
+        }
         
         .btn{
             position: absolute;
@@ -1451,6 +1474,10 @@ table {
                 }
             }
             
+            .txt{
+                color: #999;
+                font-size: 13px;
+            }
         }
     }
 }

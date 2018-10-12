@@ -2,7 +2,7 @@
 <html lang="zh-CN">
     <head>
         <link rel="import" href="../head.html?__inline">
-        <title>資金密碼-LoveOTC</title>
+        <title>郵箱-LoveOTC</title>
     	<!--SCRIPT_PLACEHOLDER-->
         <link rel="import" href="../top/top-zendesk.html?__inline">
     </head>
@@ -17,15 +17,15 @@
 				<div class="position">當前位置：
 					<samp class="goHref" data-href="./user.html">用戶中心></samp>
 					<samp class="goHref" data-href="./security.html">安全設置></samp>
-					資金密碼
+					手機號
 				</div>
 				<div class="setSecurity-wrap tradePwd-wrap b_e bg_fff minheight p30">
-					<div class="title">資金密碼</div>
+					<div class="title">設置手機號</div>
 					<div class="setSecurity-from-wrap">
 						<form class="form-wrapper wp100" id="form-wrapper">
 							<div class="form-item b_e">
 								<i class="item-icon icon-phone"></i>
-								<input type="text" class="input-item" id="mobile" name="mobile" placeholder="請輸入手機號或郵箱"/>
+								<input type="text" class="input-item" id="newMobile" name="newMobile" placeholder="請輸入手機號" />
 							</div>
 							<div class="form-item-sms wp100">
 								<div class="form-item b_e">
@@ -33,14 +33,6 @@
 									<input type="text" class="input-item" id="smsCaptcha" name="smsCaptcha"  placeholder="驗證碼" />
 								</div>
 								<button class="sms-button am-button am-button-red" id="getVerification">獲取驗證碼</button>
-							</div>
-							<div class="form-item b_e hidden googleAuthFlag">
-								<i class="item-icon icon-sms"></i>
-								<input type="text" class="input-item" id="googleCaptcha" name="googleCaptcha" placeholder="請輸入谷歌验证码" />
-							</div>
-							<div class="form-item b_e">
-								<i class="item-icon icon-pwd"></i>
-								<input type="password" class="input-item" id="tradePwd" name="tradePwd" placeholder="請輸入資金密碼" />
 							</div>
 							<div class="form-btn-item">
 								<div class="am-button am-button-red" id="subBtn">確定</div>
@@ -52,7 +44,7 @@
 		</div>		
         <link rel="import" href="../footer.html?__inline">
         <script>
-            require(['app/controller/user/SetTradePwd']);
+            require(['app/controller/user/SetMobile']);
         </script>
     </body>
 </html>

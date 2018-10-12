@@ -25,7 +25,12 @@ define([
 	var int;
     var unreadMsgList = {};
     var isUnreadList=false,isOrderList=false;
-	init();
+    
+    if(!base.isLogin()){
+		base.goLogin()
+	}else{
+    	init();
+	}
 
     function init() {
     	base.showLoadingSpin();

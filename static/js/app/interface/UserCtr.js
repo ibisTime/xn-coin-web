@@ -18,7 +18,11 @@ define([
          * @param config {loginName, loginPwd, nickname, smsCaptcha,userReferee}
          */
         register(config) {
-            return Ajax.post("805041", {
+        	var bizCode = '805041';
+        	if(config.email) {
+        	var bizCode = '805044';
+        	}
+            return Ajax.post(bizCode, {
                 kind: "C",
                 userRefereeKind: "C",
                 ...config
@@ -55,6 +59,14 @@ define([
                 userId: base.getUserId()
             });
         },
+        //修改/綁定手機號
+        setMobile(newMobile,smsCaptcha) {
+            return Ajax.post('805061', {
+            	newMobile,
+            	smsCaptcha,
+                userId: base.getUserId()
+            });
+        },
         
         // 设置资金密码
         setTradePwd(params) {
@@ -87,11 +99,10 @@ define([
         /**
          * 關閉谷歌驗證
          */
-        closeGoogle(googleCaptcha,smsCaptcha) {
+        closeGoogle(config) {
             return Ajax.post("805072", {
-                googleCaptcha,
-                smsCaptcha,
-                userId: base.getUserId()
+                userId: base.getUserId(),
+                ...config
             });
         },
         // 修改头像

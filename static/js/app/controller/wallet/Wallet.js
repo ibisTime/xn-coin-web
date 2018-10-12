@@ -9,7 +9,11 @@ define([
 ], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
 	var isWithdraw = !!base.getUrlParam("isWithdraw");//提币
 	var withdrawFee = 0; // 取现手续费
-	var currency = base.getUrlParam("c")||'BTC';//币种
+	
+	// 
+	getCoinList();
+	
+	var currency = base.getUrlParam("c") || $("#wallet-top ul li:first-child").attr("data-c");//币种
 	currency = currency.toUpperCase()// 转换大写
 	
 	var config={
@@ -74,9 +78,17 @@ define([
     
     function init() {
     	base.showLoadingSpin();
+    	
+    	$("#wallet-top ul").find('.'+currency.toLocaleLowerCase()).addClass("on")
+    	
+    	$("#wallet-top ul").on("click","li", function(){
+    		var c = $(this).attr("data-c");
+    		
+			base.gohrefReplace("./wallet.html?c="+c)
+    	})
+    	
 		$("#addWAddressMobile").val(base.getUserMobile());
 		$(".currency").text(currency);
-		getCoinList();
 		
 		if(base.getGoogleAuthFlag()=="true"&&base.getGoogleAuthFlag()){
 			$(".googleAuthFlag").removeClass("hidden");
@@ -126,14 +138,6 @@ define([
     	}
     	
     	$("#wallet-top ul").html(listHtml);
-    	
-    	$("#wallet-top ul").find('.'+currency.toLocaleLowerCase()).addClass("on")
-    	
-    	$("#wallet-top ul").on("click","li", function(){
-    		var c = $(this).attr("data-c");
-    		
-			base.gohrefReplace("./wallet.html?c="+c)
-    	})
     }
     
     //我的账户

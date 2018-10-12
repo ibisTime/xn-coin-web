@@ -68,15 +68,52 @@ define([
 	    	onkeyup: false
 	    });
 	    
+	    var _registerFormEmail = $("#register-form-email");
+	    _registerFormEmail.validate({
+	    	'rules': {
+	        	"nickname": {
+	        		required: true,
+	        	},
+	        	"email": {
+	        		required: true,
+	        		mail: true
+	        	},
+	        	"captcha": {
+	        		required: true,
+	        		sms: true
+	        	},
+	        	"loginPwd": {
+	        		required: true,
+	        		minlength: 6,
+	        	},
+	        	"userReferee": {
+	        		mobile: true
+	        	},
+	    	},
+	    	onkeyup: false
+	    });
+	    
 	    $("#subBtn").click(function(){
 	    	if(!$(this).hasClass("am-button-disabled")){
-	    		if(_registerForm.valid()){
-		    		base.showLoadingSpin()
-		    		var params=_registerForm.serializeObject()
-		    		inviteCode!=""&&inviteCode?params.inviteCode = inviteCode:'';
-		    		
-		    		register(params);
-		    	}
+	    		// 手機
+	    		if($("#titleWrap .tit.on").index() == 0) {
+	    			if(_registerForm.valid()){
+			    		base.showLoadingSpin()
+			    		var params=_registerForm.serializeObject()
+			    		inviteCode!=""&&inviteCode?params.inviteCode = inviteCode:'';
+			    		
+			    		register(params);
+			    	}
+    			// 郵箱
+	    		} else {
+	    			if(_registerFormEmail.valid()){
+		    			base.showLoadingSpin()
+			    		var params=_registerFormEmail.serializeObject()
+			    		inviteCode!=""&&inviteCode?params.inviteCode = inviteCode:'';
+			    		
+			    		register(params);
+			    	}
+	    		}
 	    	}
 	    })
 	    
@@ -99,9 +136,27 @@ define([
 			errorFn: function(){
 			}
 		});
+		smsCaptcha.init({
+			checkInfo: function() {
+				return $("#mobile").valid();
+			},
+			bizType: "805041",
+			id: "getVerification-email",
+			mobile: "email",
+			errorFn: function(){
+			}
+		});
 	    
 	    $('.protocol').click(function () {
 	    	$("#registerDialog").removeClass("hidden")
         })
+	    
+	    $("#titleWrap .tit").click(function() {
+	    	var index = $(this).index();
+	    	$(this).addClass('on').siblings().removeClass("on");
+	    	$("#formWrap form").eq(index).siblings().validate().resetForm();
+	    	$("#formWrap form").eq(index).siblings().find('.error').removeClass("error");
+	    	$("#formWrap form").eq(index).removeClass('hidden').siblings().addClass("hidden");
+	    });
     }
 });

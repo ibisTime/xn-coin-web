@@ -50,6 +50,7 @@ define([
 				sessionStorage.setItem("nickname",item.nickname);
 				sessionStorage.setItem("googleAuthFlag",item.googleAuthFlag);
 				sessionStorage.setItem("mobile",item.mobile);
+				sessionStorage.setItem("email",item.email);
 				sessionStorage.setItem("inviteCode",item.secretUserId);
 				base.hideLoadingSpin()
 				base.showMsg("登錄成功")
@@ -65,8 +66,7 @@ define([
 	    _loginForm.validate({
 	    	'rules': {
 	        	"loginName": {
-	        		required: true,
-	        		mobile: true
+	        		required: true
 	        	},
 	        	"loginPwd": {
 	        		required: true

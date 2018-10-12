@@ -12,7 +12,11 @@ define([
 	var status = '1';
 	var mid=0;
 	
-	init();
+	if(!base.isLogin()){
+		base.goLogin()
+	}else{
+    	init();
+	}
     
     function init() {
     	base.showLoadingSpin();
@@ -239,7 +243,6 @@ define([
     		$("#minTradeExp").html(data.minTrade);
     		$("#payLimitExp").html(data.payLimit);
     		$("#payTypeExp").html(data.payType);
-    		$("#payType").change();
     		$("#premiumRateExp").html(data.premiumRate);
     		$("#priceExp").html(data.price);
     		
@@ -403,8 +406,10 @@ define([
 					publishType = '1';
 				}
 				
+				//广告类型 0=买币，1=卖币
+            	var tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
 				// 付款方式是支付宝时 需上传支付宝二维码图片
-				if($("#payType").val() == '0'){
+				if($("#payType").val() == '0' && tradeType == '1'){
 					var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
 					if(payAccountQr =="" || !payAccountQr){
 						base.showMsg('請上傳支付寶二維碼圖片');
@@ -424,8 +429,10 @@ define([
 			if(_formWrapper.valid()){
 				var publishType = '0';
 				
+				//广告类型 0=买币，1=卖币
+            	var tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
 				// 付款方式是支付宝时 需上传支付宝二维码图片
-				if($("#payType").val() == '0'){
+				if($("#payType").val() == '0' && tradeType == '1'){
 					var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
 					if(payAccountQr =="" || !payAccountQr){
 						base.showMsg('請上傳支付寶二維碼圖片');
