@@ -15,10 +15,10 @@ define([
 	}
     
     function init() {
-    	if(base.getUserEmail()) {
-    		$("#mobile").val(base.getUserEmail())
-    	} else {
+    	if(base.getUserMobile()) {
     		$("#mobile").val(base.getUserMobile())
+    	} else {
+    		$("#mobile").val(base.getUserEmail())
     	}
     	base.showLoadingSpin();
     	if(type == '0') {

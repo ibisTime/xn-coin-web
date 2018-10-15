@@ -28,11 +28,11 @@ define([
 	}
     
     function init() {
-    	if(base.getUserEmail()) {
-    		$("#mobile").val(base.getUserEmail())
-    	} else {
-    		$("#mobile").val(base.getUserMobile())
-    	}
+        if(base.getUserMobile()) {
+            $("#mobile").val(base.getUserMobile())
+        } else {
+            $("#mobile").val(base.getUserEmail())
+        }
     	
     	if(base.getGoogleAuthFlag()=="true" && base.getGoogleAuthFlag()){
 			$(".googleAuthFlag").removeClass("hidden");

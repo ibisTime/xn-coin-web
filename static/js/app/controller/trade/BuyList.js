@@ -3,7 +3,7 @@ define([
     'pagination',
     'app/interface/TradeCtr'
 ], function(base, pagination, TradeCtr) {
-	var coin = base.getUrlParam("coin") || 'BTC'; // 币种
+	var coin = base.getUrlParam("coin") || 'ETH'; // 币种
 	//币种
 	var config={
         start: 1,

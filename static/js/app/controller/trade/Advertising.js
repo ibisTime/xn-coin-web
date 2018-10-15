@@ -8,7 +8,7 @@ define([
     'app/module/qiniu'
 ], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr, QiniuUpdata) {
 	var code = base.getUrlParam("code")||'';
-	var coin = base.getUrlParam("coin") || 'BTC'; // 币种
+	var coin = base.getUrlParam("coin") || 'ETH'; // 币种
 	var status = '1';
 	var mid=0;
 	

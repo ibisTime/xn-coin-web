@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <link rel="import" href="../head.html?__inline">
+        <title>郵箱-LoveOTC</title>
+    	<!--SCRIPT_PLACEHOLDER-->
+        <link rel="import" href="../top/top-zendesk.html?__inline">
+    </head>
+    
+    <body>
+        <link rel="import" href="../top/top.html?__inline">
+		<div class="user-container">
+			<div class="left-wrap b_e bg_fff fl" id="left-wrap">
+				<link rel="import" href="./user-left.html?__inline">
+			</div>
+			<div class="right-wrap fr">
+				<div class="position">當前位置：
+					<samp class="goHref" data-href="./user.html">用戶中心></samp>
+					<samp class="goHref" data-href="./security.html">安全設置></samp>
+					支付寶賬號
+				</div>
+				<div class="setSecurity-wrap tradePwd-wrap b_e bg_fff minheight p30">
+					<div class="title">設置支付寶賬號</div>
+                    <div class="identity-from-wrap setPayQRCode-from-wrap">
+                        <form class="form-wrapper form-wrapper-38 wp100" id="form-wrapper">
+                            <div class="form-item-wrap">
+                                <samp class="label">支付寶賬號：</samp>
+                                <div class="form-item b_e">
+                                    <input type="text" class="input-item" id="payAccount" name="payAccount" placeholder="請輸入支付寶賬號" />
+                                </div>
+                            </div>
+                            <div class="form-item-wrap payAccountQr-wrap">
+                                <samp class="label">支付寶收款碼：</samp>
+                                <div class="fileBtn-wrap fl" id="photoFile-wrap">
+                                    <samp class="am-button am-button-ghost">選擇圖片</samp>
+                                    <input id="photoFile" type="file" class="input-file photoFile" accept="image/png,image/gif,image/jpg,image/jpeg" />
+                                </div>
+                                <samp class="fl ml20" style="max-width: 400px; color: #999;">请手机打开支付宝App，首页点击收钱进入个人收钱页面，点击保存图片。上传照片时请从手机相册中选择该图片。</samp>
+                            </div>
+                            <div class="payAccount-wrap payAccountQr-wrap">
+                                <div class="img-wrap over-hide hidden">
+                                    <div class="photoWrap photoWrapSquare b_e fl">
+                                        <div class="photo icon"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-btn-item">
+                                <div class="am-button am-button-red" id="subBtn">確定</div>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+			</div>
+		</div>
+        <script type="text/javascript" src="../../js/lib/qiniu/plupload.full.min.js"></script>
+        <script type="text/javascript" src="../../js/lib/qiniu/qiniu.min.js"></script>
+        <link rel="import" href="../footer.html?__inline">
+        <script>
+            require(['app/controller/user/SetPayQRCode']);
+        </script>
+    </body>
+</html>

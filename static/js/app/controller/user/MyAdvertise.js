@@ -6,7 +6,7 @@ define([
     'pagination',
 ], function(base, AccountCtr,GeneralCtr,TradeCtr, pagination) {
 	var type = base.getUrlParam("type") || "sell";// buy: 购买，sell:出售
-	var coin = base.getUrlParam("coin") || 'BTC'; // 币种
+	var coin = base.getUrlParam("coin") || 'ETH'; // 币种
 	var adsStatusValueList = {}; // 廣告狀態
 	var config={
 	    start:1,

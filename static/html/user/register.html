@@ -1,130 +1,136 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    <head>
-        <link rel="import" href="../head.html?__inline">
-        <title>註冊-LoveOTC</title>
-    	<!--SCRIPT_PLACEHOLDER-->
-        <link rel="import" href="../top/top-zendesk.html?__inline">
-        <style>
-        	.register-container .title-wrap{
-	            width: 100%;
-	            overflow: hidden;
-	        }
-	        .register-container .title-wrap .tit{
-                float: left;
-                font-size: 22px;
-                color: #616161;
-                font-weight: normal;
-                margin-bottom: 40px;
-                line-height: 70px;
-                border-bottom: 2px solid transparent;
-            }
-	       .register-container .title-wrap .tit.on{
-                color: #f15353;
-                border-bottom: 2px solid #f15353;
-            }
-        </style>
-    </head>
-    
-    <body class="bg_fff">
-        <!--<link rel="import" href="../top/top-loginRegister.html?__inline">-->
-		<link rel="import" href="../top/top-index.html?__inline">
-		<div class="register-container minheight">
+<head>
+    <link rel="import" href="../head.html?__inline">
+    <title>註冊-LoveOTC</title>
+    <!--SCRIPT_PLACEHOLDER-->
+    <link rel="import" href="../top/top-zendesk.html?__inline">
+    <style>
+        .register-container .title-wrap {
+            width: 100%;
+            overflow: hidden;
+        }
 
-			<div class="container">
+        .register-container .title-wrap .tit {
+            float: left;
+            font-size: 22px;
+            color: #616161;
+            font-weight: normal;
+            margin-bottom: 40px;
+            line-height: 70px;
+            border-bottom: 2px solid transparent;
+        }
 
-				<div class="login-form">
-					<div class="title-wrap" id="titleWrap">
-						<h3 class="tit on">手機註冊</h3>
-						<h3 class="tit ml60">郵箱註冊</h3>
-					</div>
-					<div class="form-wrap" id="formWrap">
-						<form class="form-wrapper wp100" id="register-form">
-							<div class="form-item b_e">
-								<i class="item-icon icon-user"></i>
-								<input type="text" class="input-item nickname" name="nickname" placeholder="請輸入暱稱" />
-							</div>
-							<div class="form-item b_e">
-								<i class="item-icon icon-phone"></i>
-								<input type="text" class="input-item" id="mobile" name="mobile" placeholder="手機號" />
-							</div>
-							<div class="form-item-sms wp100">
-								<div class="form-item b_e">
-									<i class="item-icon icon-sms"></i>
-									<input type="text" class="input-item smsCaptcha" name="smsCaptcha"  placeholder="驗證碼" />
-								</div>
-								<button class="sms-button am-button am-button-red b_radius2_i" id="getVerification">獲取驗證碼</button>
-							</div>
-							<div class="form-item b_e">
-								<i class="item-icon icon-pwd"></i>
-								<input type="password" class="input-item loginPwd" name="loginPwd"  placeholder="請輸入密碼，密碼不少於6位" />
-							</div>
-							<div class="form-item b_e" id="userReferee-Wrap">
-								<i class="item-icon icon-user"></i>
-								<input type="text" class="input-item userReferee" name="userReferee" placeholder="推薦人手機號或郵箱" />
-							</div>
-						</form>
-						
-						<form class="form-wrapper wp100 hidden" id="register-form-email">
-							<div class="form-item b_e">
-								<i class="item-icon icon-user"></i>
-								<input type="text" class="input-item nickname" name="nickname" placeholder="請輸入暱稱" />
-							</div>
-							<div class="form-item b_e">
-								<i class="item-icon icon-email"></i>
-								<input type="text" class="input-item" id="email" name="email" placeholder="郵箱" />
-							</div>
-							<div class="form-item-sms wp100">
-								<div class="form-item b_e">
-									<i class="item-icon icon-sms"></i>
-									<input type="text" class="input-item captcha" name="captcha"  placeholder="驗證碼" />
-								</div>
-								<button class="sms-button am-button am-button-red b_radius2_i" id="getVerification-email">獲取驗證碼</button>
-							</div>
-							<div class="form-item b_e">
-								<i class="item-icon icon-pwd"></i>
-								<input type="password" class="input-item loginPwd" name="loginPwd"  placeholder="請輸入密碼，密碼不少於6位" />
-							</div>
-							<div class="form-item b_e" id="userReferee-Wrap">
-								<i class="item-icon icon-user"></i>
-								<input type="text" class="input-item userReferee" name="userReferee" placeholder="推薦人手機號或郵箱" />
-							</div>
-						</form>
-					</div>
-					
-					<div class="text-wrap over-hide wp100">
-						<div class="checkTxt">
-							<i class="icon active" id="subFlag"></i>
-							<p>我已閱讀并同意<samp class="protocol">《註冊協議》</samp></p>
-						</div>
-					</div>
-					<div class="form-btn-item">
-						<div class="am-button am-button-red b_radius2_i" id="subBtn">註冊</div>
-					</div>
+        .register-container .title-wrap .tit.on {
+            color: #f15353;
+            border-bottom: 2px solid #f15353;
+        }
+    </style>
+</head>
 
-				</div>
-				<div class="showProtocol"></div>
-			</div>
-			
-			<!--註冊協議弹窗-->
-		    <div class="am-modal-wrap dialog register-dialog hidden" id="registerDialog">
-		        <div class="am-modal-mask"></div>
-	            <div class="am-modal">
-	                <div class="am-modal-content">
-	                    <div class="am-modal-header">
-	                    	<p>註冊協議</p>
-	                    </div>
-	                    <div class="am-modal-body">
-	                    	<div id="content"></div>
-	                    </div>
-	                </div>
-	            </div>
-		    </div>
-		</div>
-		
-        <link rel="import" href="../footer.html?__inline">
-        <script>
-            require(['app/controller/user/Register']);
-        </script>
-    </body>
+<body class="bg_fff">
+<!--<link rel="import" href="../top/top-loginRegister.html?__inline">-->
+<link rel="import" href="../top/top-index.html?__inline">
+<div class="register-container minheight">
+
+    <div class="container">
+
+        <div class="login-form">
+            <!--<div class="title-wrap" id="titleWrap">-->
+            <!--<h3 class="tit on">手機註冊</h3>-->
+            <!--<h3 class="tit ml60">郵箱註冊</h3>-->
+            <!--</div>-->
+            <h3 class="title">手機註冊</h3>
+            <div class="form-wrap" id="formWrap">
+                <form class="form-wrapper wp100" id="register-form">
+                    <div class="form-item b_e">
+                        <i class="item-icon icon-user"></i>
+                        <input type="text" class="input-item nickname" name="nickname" placeholder="請輸入暱稱"/>
+                    </div>
+                    <div class="form-item b_e">
+                        <i class="item-icon icon-phone"></i>
+                        <input type="text" class="input-item" id="mobile" name="mobile" placeholder="手機號"/>
+                    </div>
+                    <div class="form-item-sms wp100">
+                        <div class="form-item b_e">
+                            <i class="item-icon icon-sms"></i>
+                            <input type="text" class="input-item smsCaptcha" name="smsCaptcha" placeholder="驗證碼"/>
+                        </div>
+                        <button class="sms-button am-button am-button-red b_radius2_i" id="getVerification">獲取驗證碼
+                        </button>
+                    </div>
+                    <div class="form-item b_e">
+                        <i class="item-icon icon-pwd"></i>
+                        <input type="password" class="input-item loginPwd" name="loginPwd" placeholder="請輸入密碼，密碼不少於6位"/>
+                    </div>
+                    <div class="form-item b_e" id="userReferee-Wrap">
+                        <i class="item-icon icon-user"></i>
+                        <input type="text" class="input-item userReferee" name="userReferee" placeholder="推薦人手機號或郵箱"/>
+                    </div>
+                </form>
+
+                <form class="form-wrapper wp100 hidden" id="register-form-email">
+                    <div class="form-item b_e">
+                        <i class="item-icon icon-user"></i>
+                        <input type="text" class="input-item nickname" name="nickname" placeholder="請輸入暱稱"/>
+                    </div>
+                    <div class="form-item b_e">
+                        <i class="item-icon icon-email"></i>
+                        <input type="text" class="input-item" id="email" name="email" placeholder="郵箱"/>
+                    </div>
+                    <div class="form-item-sms wp100">
+                        <div class="form-item b_e">
+                            <i class="item-icon icon-sms"></i>
+                            <input type="text" class="input-item captcha" name="captcha" placeholder="驗證碼"/>
+                        </div>
+                        <button class="sms-button am-button am-button-red b_radius2_i" id="getVerification-email">
+                            獲取驗證碼
+                        </button>
+                    </div>
+                    <div class="form-item b_e">
+                        <i class="item-icon icon-pwd"></i>
+                        <input type="password" class="input-item loginPwd" name="loginPwd" placeholder="請輸入密碼，密碼不少於6位"/>
+                    </div>
+                    <div class="form-item b_e" id="userReferee-Wrap">
+                        <i class="item-icon icon-user"></i>
+                        <input type="text" class="input-item userReferee" name="userReferee" placeholder="推薦人手機號或郵箱"/>
+                    </div>
+                </form>
+            </div>
+
+            <div class="text-wrap over-hide wp100">
+                <div class="checkTxt">
+                    <i class="icon active" id="subFlag"></i>
+                    <p>我已閱讀并同意<samp class="protocol">《註冊協議》</samp></p>
+                </div>
+            </div>
+            <div class="form-btn-item">
+                <div class="am-button am-button-red b_radius2_i" id="subBtn">註冊</div>
+            </div>
+
+        </div>
+        <div class="showProtocol"></div>
+    </div>
+
+    <!--註冊協議弹窗-->
+    <div class="am-modal-wrap dialog register-dialog hidden" id="registerDialog">
+        <div class="am-modal-mask"></div>
+        <div class="am-modal">
+            <div class="am-modal-content">
+                <div class="am-modal-header">
+                    <p>註冊協議</p>
+                </div>
+                <div class="am-modal-body">
+                    <div id="content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="import" href="../footer.html?__inline">
+<script>
+    require(['app/controller/user/Register']);
+</script>
+</body>
 </html>
