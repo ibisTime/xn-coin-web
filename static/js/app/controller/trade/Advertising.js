@@ -412,7 +412,7 @@ define([
 				if($("#payType").val() == '0' && tradeType == '1'){
 					var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
 					if(payAccountQr =="" || !payAccountQr){
-						base.showMsg('請上傳支付寶二維碼圖片');
+						base.showMsg('');
 						return;
 					}
 				}
@@ -458,8 +458,7 @@ define([
             params.tradeCoin = $("#tradeCoin").val();
             params.tradeCurrency = "CNY";
             params.publishType = publishType;
-            params.payLimit = '2';
-            
+
             if(params.payType == '0'){
             	params.payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
             } else {

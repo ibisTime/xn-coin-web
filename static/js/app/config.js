@@ -9,9 +9,9 @@ var THUMBNAIL_SUFFIX ="";
 // h5 域名
 //var INVITATION_HREF = 'http://mtest.bcoin.hichengdai.com';
 var ZENDESK_LABEL = 'search';
-var FOOT_TETUI= 'LoveOTC Exchange';
-var FOOT_EMAIL = 'contact@loveotc.com';
-var LOGIN_BANNER = 'banner1.jpg||banner2.jpg';
+var FOOT_TETUI= 'KKKOTC Exchange';
+var FOOT_EMAIL = 'contact@kkkotc.com';
+var LOGIN_BANNER = 'kkk_login1.jpg||kkk_login2.jpg';
 var COIN_DEFAULTDATA = {
 	"BTC": {"coin":"BTC","unit":"8","name":"比特币","type":"0"},
 	"ETH": {"coin":"ETH","unit":"18","name":"以太坊","type":"0"},

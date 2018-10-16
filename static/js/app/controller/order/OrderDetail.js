@@ -121,7 +121,7 @@ define([
 			//待下单
 			if(data.status=="-1"){
 				
-				$("title").html("廣告詳情-LoveOTC");
+				$("title").html("廣告詳情-KKKOTC");
 				$(".orderDetail-info .info-wrap").addClass("hidden");
 				if(tradeType=='0'){
 					
@@ -134,7 +134,7 @@ define([
     			
     			getAdvertiseDetail();
 			}else{
-				$("title").html("訂單詳情-LoveOTC")
+				$("title").html("訂單詳情-KKKOTC")
 			}
 			
 			userName = user.nickname;

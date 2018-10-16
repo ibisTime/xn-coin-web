@@ -15,7 +15,7 @@ define([
     		getDownloadUrl()
     	)
     	$(".head-nav-wrap .index").addClass("active")
-    	
+    	 
         addListener();
     }
     
