@@ -62,7 +62,7 @@ define([
     		var tmpl = coinList[coinListKey[i]]
     		buyListHtml+=`<li class="goHref" data-href="../trade/buy-list.html?coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</li>`;
     		sellListHtml += `<li class="goHref" data-href="../trade/sell-list.html?coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</li>`;
-    		advListHtml += `<li class="goHref" data-href="../trade/advertise.html?coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</li>`;
+    		advListHtml += `<li class="coinItem" data-href="../trade/advertise.html?coin=${tmpl.coin.toLowerCase()}">${tmpl.coin}</li>`;
     	}
     	
     	//购买
@@ -133,7 +133,7 @@ define([
     		$(this).parent(".dialog").addClass("hidden")
     	})
     	
-    	$("#head .head-nav-wrap .advertise .goHref").off("click").click(function(){
+    	$("#head .head-nav-wrap .advertise .coinItem").on('click', function(){
     		if(!base.isLogin()){
 	    		base.goLogin();
 	    		return false;
@@ -141,12 +141,12 @@ define([
     		    base.showLoadingSpin();
                 UserCtr.getUser().then((data) => {
                     base.hideLoadingSpin();
+                    var thishref = $(this).attr("data-href");
                     if (data.zfbAccount) {
-                        var thishref = $(this).attr("data-href");
                         base.gohref(thishref)
                     } else if (!data.zfbAccount) {
                         base.showMsg("請先設置支付寶賬號及付款碼")
-                        sessionStorage.setItem("l-return", location.href);
+                        sessionStorage.setItem("l-return", thishref);
                         setTimeout(function () {
                             base.gohref("../user/setPayQRCode.html")
                         }, 1200)
