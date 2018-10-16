@@ -15,10 +15,24 @@ define([
     
     function init() {
         base.hideLoadingSpin();
-        getQiniuToken();
+        $.when(
+            getUser(),
+            getQiniuToken()
+        ).then(() => {
+        }, base.hideLoadingSpin);
         addListener();
     }
 
+    // 用户信息
+    function getUser() {
+        return UserCtr.getUser().then(userData => {
+            $("#zfbAccount").val(userData.zfbAccount);
+            $(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(userData.zfbQr)+"')"})
+            $(".payAccountQr-wrap .img-wrap .photo").attr("data-src", userData.zfbQr)
+            $(".payAccountQr-wrap .img-wrap").removeClass("hidden")
+        }, base.hideLoadingSpin);
+    }
+    
     //加载七牛token
     function getQiniuToken(){
         return GeneralCtr.getQiniuToken().then((data)=>{
@@ -36,7 +50,7 @@ define([
     
     //修改/綁定支付宝
     function setPayQRCode(config){
-    	return UserCtr.setEmail(config).then(()=>{
+    	return UserCtr.setPayQRCode(config).then(()=>{
 			base.hideLoadingSpin();
 			base.showMsg("设置成功");
 			setTimeout(function(){
@@ -49,7 +63,7 @@ define([
     	var _formWrapper = $("#form-wrapper");
 	    _formWrapper.validate({
 	    	'rules': {
-	        	"payAccount": {
+	        	"zfbAccount": {
 	        		required: true
 	        	}
 	    	},
@@ -66,7 +80,7 @@ define([
                 }
 	    		base.showLoadingSpin();
 	    		var params = _formWrapper.serializeObject();
-                params.payAccountQr = payAccountQr;
+                params.zfbQr = payAccountQr;
                 setPayQRCode(params);
 	    	}
 	    })
