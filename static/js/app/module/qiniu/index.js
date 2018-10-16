@@ -73,6 +73,7 @@ define([
                     },
                     'UploadProgress': function(up, file) {
                         // 显示进度条
+                        $("#loadingSpin") && $("#loadingSpin").removeClass("hidden");
                         option.showUploadProgress && option.showUploadProgress(up, file);
                         // var uploaded = file.loaded;
                   //       var size = plupload.formatSize(uploaded).toUpperCase();
@@ -100,6 +101,8 @@ define([
 //                      $("#showAvatar").attr("src", sourceLink).attr("data-src", res.key);
                         $("#"+btnId).attr("data-src",res.key)
                         $("#"+btnId).change();
+
+                        $("#loadingSpin") && $("#loadingSpin").addClass("hidden");
                         option.fileUploaded && option.fileUploaded(up, sourceLink, res.key, file);
                     },
                     'Error': function(up, err, errTip) {

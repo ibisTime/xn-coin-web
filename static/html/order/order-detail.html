@@ -13,11 +13,11 @@
 		<!--不同状态  卖家 买家展示不同-->
 		<div class="orderDetail-container chat-container">
 
-			<div class="orderDetail-warn mt20" id="statusInfo">
+			<div class="orderDetail-warn mt40" id="statusInfo">
 				<i class="icon icon-warn"></i>
 				<samp></samp>
 			</div>
-			<div class="orderDetail-warn mt20 hidden" id="invalidDatetime">
+			<div class="orderDetail-warn mt40 hidden" id="invalidDatetime">
 				<i class="icon icon-warn"></i>
 				<samp></samp>
 			</div>
@@ -42,7 +42,19 @@
 				</div>
 			</div>
 
-			<div class="orderDetail-middle b_e ">
+			<div class="orderDetail-operation">
+				<h3>交易操作</h3>
+
+				<div class="wp100 txt">
+					<p><samp class="mr40">訂單編號</samp><samp id="orderCode"></samp></p>
+					<p><samp class="mr40">付款方式</samp><samp id="payType"></samp></p>
+					<p class="hidde payAccountWrap"><samp class="mr40">支付寶賬號</samp><samp id="payAccount"></samp></p>
+					<p class="hidde payAccountWrap"><samp class="mr40">支付寶收款碼</samp><div style="width: 200px; margin: 10px 0;" id="payAccountQr"></div></p>
+					<p><samp class="mr40">廣告留言</samp><samp id="leaveMessage">2328532</samp></p>
+				</div>
+			</div>
+
+			<div class="orderDetail-middle b_e mb80">
 				<div class="title wp100 b_e_b">
 					<div class="item">聊天</div>
 					<!-- 注意区分 卖家买家 -->
@@ -88,18 +100,6 @@
 							</div>
 						</div>
 					</div>
-				</div>
-			</div>
-
-			<div class="orderDetail-operation">
-				<h3>交易操作</h3>
-
-				<div class="wp100 txt">
-					<p><samp class="mr40">訂單編號</samp><samp id="orderCode"></samp></p>
-					<p><samp class="mr40">付款方式</samp><samp id="payType"></samp></p>
-					<p class="hidde payAccountWrap"><samp class="mr40">支付寶賬號</samp><samp id="payAccount"></samp></p>
-					<p class="hidde payAccountWrap"><samp class="mr40">支付寶收款碼</samp><div style="width: 200px; margin: 10px 0;" id="payAccountQr"></div></p>
-					<p><samp class="mr40">廣告留言</samp><samp id="leaveMessage">2328532</samp></p>
 				</div>
 			</div>
 

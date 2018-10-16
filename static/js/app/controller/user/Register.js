@@ -96,7 +96,7 @@ define([
 	    $("#subBtn").click(function(){
 	    	if(!$(this).hasClass("am-button-disabled")){
 	    		// 手機
-	    		if($("#titleWrap .tit.on").index() == 0) {
+	    		// if($("#titleWrap .tit.on").index() == 0) {
 	    			if(_registerForm.valid()){
 			    		base.showLoadingSpin()
 			    		var params=_registerForm.serializeObject()
@@ -105,15 +105,15 @@ define([
 			    		register(params);
 			    	}
     			// 郵箱
-	    		} else {
-	    			if(_registerFormEmail.valid()){
-		    			base.showLoadingSpin()
-			    		var params=_registerFormEmail.serializeObject()
-			    		inviteCode!=""&&inviteCode?params.inviteCode = inviteCode:'';
-			    		
-			    		register(params);
-			    	}
-	    		}
+	    		// } else {
+	    		// 	if(_registerFormEmail.valid()){
+		    	// 		base.showLoadingSpin()
+			    // 		var params=_registerFormEmail.serializeObject()
+			    // 		inviteCode!=""&&inviteCode?params.inviteCode = inviteCode:'';
+			    //
+			    // 		register(params);
+			    // 	}
+	    		// }
 	    	}
 	    })
 	    

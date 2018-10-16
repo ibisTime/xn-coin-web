@@ -208,7 +208,6 @@ define([
     		var _searchType= $("#searchTypeWrap .show-wrap").attr("data-type")
     		//搜广告
     		if(_searchType=="adver"){
-    			
     			if($("#searchConWrap .minPrice").val()){
     				config.minPrice = $("#searchConWrap .minPrice").val();
     			}else{
@@ -226,12 +225,14 @@ define([
     			}
     			config.start=1;
     			base.showLoadingSpin();
-    			
+
+                $("#pagination").removeClass('hidden');
     			getPageAdvertise();
     		//搜用户
     		}else if(_searchType=="user"){
     			if($("#searchConWrap .nickname").val()!=""){
     				base.showLoadingSpin()
+                    $("#pagination").addClass('hidden');
     				getListAdvertiseNickname($("#searchConWrap .nickname").val())
     			}
     		}

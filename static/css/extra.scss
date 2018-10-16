@@ -58,6 +58,10 @@
   margin-top: 20px;
 }
 
+.mt40 {
+  margin-top: 40px;
+}
+
 .mt90i {
   margin-top: 90px !important;
 }
@@ -3587,9 +3591,9 @@ table {
     margin-bottom: 25px;
 
     .icon-warn {
-      width: 15px;
-      height: 15px;
-      background-size: 15px;
+      width: 17px;
+      height: 17px;
+      background-size: 17px;
       background-image: url('../images/详情提示.png');
       position: relative;
       top: 2px;
@@ -3597,8 +3601,9 @@ table {
     }
 
     samp {
-      font-size: 15px;
+      font-size: 17px;
       color: #666;
+      color: $red-color;
       i {
         font-style: normal;
       }
@@ -3701,7 +3706,7 @@ table {
   }
 
   .orderDetail-operation {
-    padding-bottom: 80px;
+    padding-bottom: 60px;
 
     h3 {
       font-size: 20px;
