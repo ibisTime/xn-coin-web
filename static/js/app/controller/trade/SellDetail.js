@@ -41,24 +41,13 @@ define([
             $(".buy-wrap").removeClass("hidden")
         }
         $.when(
-            GeneralCtr.getSysConfig("trade_remind"),
-            getUser()
+            GeneralCtr.getSysConfig("trade_remind")
         ).then((data) => {
             $("#tradeWarn").html(data.cvalue.replace(/\n/g, '<br>'))
             getAdvertiseDetail()
         }, base.hideLoadingSpin)
 
         addListener();
-    }
-
-    // 用户信息
-    function getUser() {
-        return UserCtr.getUser().then(userData => {
-            $("#payAccount").val(userData.zfbAccount);
-            $(".payAccountQr-wrap .img-wrap .photo").css({"background-image": "url('" + base.getPic(userData.zfbQr) + "')"})
-            $(".payAccountQr-wrap .img-wrap .photo").attr("data-src", userData.zfbQr);
-            $(".payAccountQr-wrap .img-wrap").removeClass("hidden");
-        }, base.hideLoadingSpin);
     }
 
     //获取详情
@@ -130,6 +119,10 @@ define([
     //获取用户详情
     function getUser() {
         return UserCtr.getUser().then((data) => {
+            $("#payAccount").html(data.zfbAccount);
+            $("#payAccountQr").html(`<img src="${base.getPic(data.zfbQr, "?imageMogr2/auto-orient/thumbnail/!150x150r")}">`);
+            $(".payAccount-wrap").removeClass('hidden');
+
             var myInfo = data;
             myName = myInfo.nickname;
             if (myInfo.photo) {
@@ -192,7 +185,7 @@ define([
 //		    	}
 //	    	}
             UserCtr.getUser().then((data) => {
-                if (data.tradepwdFlag && data.realName) {
+                if (data.tradepwdFlag && data.realName && data.zfbAccount) {
                     if (_formWrapper.valid()) {
                         if ($("#buyAmount").val() != '' && $("#buyAmount").val()) {
                             $("#submitDialog").removeClass("hidden")
@@ -202,13 +195,21 @@ define([
                     }
                 } else if (!data.tradepwdFlag) {
                     base.showMsg("請先設置資金密碼")
+                    sessionStorage.setItem("l-return", location.href);
                     setTimeout(function () {
                         base.gohref("../user/setTradePwd.html?type=1")
                     }, 1800)
                 } else if (!data.realName) {
                     base.showMsg("請先进行身份验证")
+                    sessionStorage.setItem("l-return", location.href);
                     setTimeout(function () {
                         base.gohref("../user/identity.html")
+                    }, 1800)
+                } else if (!data.zfbAccount) {
+                    base.showMsg("請先設置支付寶賬號及付款碼")
+                    sessionStorage.setItem("l-return", location.href);
+                    setTimeout(function () {
+                        base.gohref("../user/setPayQRCode.html")
                     }, 1800)
                 }
             }, base.hideLoadingSpin)

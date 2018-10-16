@@ -77,9 +77,10 @@ define([
     function getBanner(){
         return GeneralCtr.getBanner({}).then((data) => {
         	data.forEach((item) => {
-        		if (item.location === 'web_download') {
-	            	$('#downImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));
-	        	} else if (item.location === 'web_qq') {
+        		// if (item.location === 'web_download') {
+	            // 	$('#downImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));
+	        	// } else
+				if (item.location === 'web_qq') {
 	            	$('#qqImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));
 	        	} else if (item.location === 'web_weibo') {
 	            	$('#wbImg').attr("src",base.getPic(item.pic,"?imageMogr2/auto-orient/thumbnail/!280x280r"));

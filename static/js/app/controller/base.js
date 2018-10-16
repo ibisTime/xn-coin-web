@@ -295,10 +295,14 @@ define([
 		goBack: function() {
 			window.history.back();
 		},
-		goReturn: function() {
+		goReturn: function(url) {
 			var returnUrl = sessionStorage.getItem("l-return");
 			sessionStorage.removeItem("l-return");
-			Base.gohref(returnUrl || "../index.html");
+			if (url) {
+                Base.gohref(returnUrl || url);
+			} else {
+                Base.gohref(returnUrl || "../index.html");
+			}
 		},
 		isLogin: function() {
 			return !!sessionStorage.getItem("userId");

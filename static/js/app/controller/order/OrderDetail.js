@@ -165,9 +165,9 @@ define([
 			$("#identity").html(user.realname != "" && user.realName ? '已驗證' : '未驗證')
 			$("#createDatetime").html(base.formateDatetime(user.createDatetime))
 			
-			if(data.payType == '0' && data.ads) {
-    			$("#payAccount").html(data.ads.payAccount);
-    			$("#payAccountQr").html(`<img style="width: 100%; vertical-align: bottom;" src="${base.getPic(data.ads.payAccountQr, "?imageMogr2/auto-orient/thumbnail/!200x200r")}">`);
+			if(data.payType == '0') {
+    			$("#payAccount").html(data.payAccount);
+    			$("#payAccountQr").html(`<img style="width: 100%; vertical-align: bottom;" src="${base.getPic(data.payAccountQr, "?imageMogr2/auto-orient/thumbnail/!200x200r")}">`);
     			$(".payAccountWrap").removeClass('hidden');
     		}
 			

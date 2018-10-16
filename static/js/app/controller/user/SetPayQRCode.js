@@ -26,10 +26,12 @@ define([
     // 用户信息
     function getUser() {
         return UserCtr.getUser().then(userData => {
-            $("#zfbAccount").val(userData.zfbAccount);
-            $(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(userData.zfbQr)+"')"})
-            $(".payAccountQr-wrap .img-wrap .photo").attr("data-src", userData.zfbQr)
-            $(".payAccountQr-wrap .img-wrap").removeClass("hidden")
+            if (userData.zfbAccount) {
+                $("#zfbAccount").val(userData.zfbAccount);
+                $(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(userData.zfbQr)+"')"})
+                $(".payAccountQr-wrap .img-wrap .photo").attr("data-src", userData.zfbQr)
+                $(".payAccountQr-wrap .img-wrap").removeClass("hidden")
+            }
         }, base.hideLoadingSpin);
     }
     
@@ -54,7 +56,7 @@ define([
 			base.hideLoadingSpin();
 			base.showMsg("设置成功");
 			setTimeout(function(){
-				base.gohrefReplace("../user/security.html")
+                base.goReturn("../user/security.html");
 			},800)
 		},base.hideLoadingSpin)
     }
