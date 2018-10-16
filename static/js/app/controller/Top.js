@@ -138,8 +138,20 @@ define([
 	    		base.goLogin();
 	    		return false;
 	    	}else{
-	    		var thishref = $(this).attr("data-href");
-				base.gohref(thishref)
+    		    base.showLoadingSpin();
+                UserCtr.getUser().then((data) => {
+                    base.hideLoadingSpin();
+                    if (data.zfbAccount) {
+                        var thishref = $(this).attr("data-href");
+                        base.gohref(thishref)
+                    } else if (!data.zfbAccount) {
+                        base.showMsg("請先設置支付寶賬號及付款碼")
+                        sessionStorage.setItem("l-return", location.href);
+                        setTimeout(function () {
+                            base.gohref("../user/setPayQRCode.html")
+                        }, 1200)
+                    }
+                }, base.hideLoadingSpin)
 	    	}
     	})
     	

@@ -3,8 +3,9 @@ define([
     'app/interface/AccountCtr',
     'app/interface/GeneralCtr',
     'app/interface/TradeCtr',
+    'app/interface/UserCtr',
     'pagination',
-], function(base, AccountCtr,GeneralCtr,TradeCtr, pagination) {
+], function(base, AccountCtr,GeneralCtr,TradeCtr, UserCtr, pagination) {
 	var type = base.getUrlParam("type") || "sell";// buy: 购买，sell:出售
 	var coin = base.getUrlParam("coin") || 'ETH'; // 币种
 	var adsStatusValueList = {}; // 廣告狀態
@@ -164,5 +165,42 @@ define([
         		},base.hideLoadingSpin)
         	},base.emptyFun)
 		})
+        $("#content").on("click", ".publish", function(){
+            if(type == 'sell') {
+                base.showLoadingSpin();
+                UserCtr.getUser().then((data) => {
+                    base.hideLoadingSpin();
+                    if (data.zfbAccount) {
+                        var thishref = $(this).attr("data-href");
+                        base.gohref(thishref)
+                    } else if (!data.zfbAccount) {
+                        base.showMsg("請先設置支付寶賬號及付款碼")
+                        sessionStorage.setItem("l-return", location.href);
+                        setTimeout(function () {
+                            base.gohref("../user/setPayQRCode.html")
+                        }, 1200)
+                    }
+                }, base.hideLoadingSpin)
+            }
+        })
+        $("#content").on("click", ".publish", function(){
+            if(type == 'sell') {
+                base.showLoadingSpin();
+                UserCtr.getUser().then((data) => {
+                    base.hideLoadingSpin();
+                    var thishref = $(this).attr("data-href");
+                    if (data.zfbAccount) {
+                        base.gohref(thishref)
+                    } else if (!data.zfbAccount) {
+                        base.showMsg("請先設置支付寶賬號及付款碼")
+                        sessionStorage.setItem("l-return", thishref);
+                        setTimeout(function () {
+                            base.gohref("../user/setPayQRCode.html")
+                        }, 1200)
+                    }
+                }, base.hideLoadingSpin)
+            }
+        })
+
     }
 });
