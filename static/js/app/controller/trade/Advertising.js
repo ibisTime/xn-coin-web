@@ -50,6 +50,7 @@ define([
     		getAdvertisePrice(),
     		getExplain('sell'),
     		getAccount(coin.toUpperCase()),
+            getUser(),
     		getQiniuToken()
     	).then((data1, data2, data3)=>{
     		//说明
@@ -97,6 +98,16 @@ define([
     	$(".selectWrap select.endTime").html(htmlEnd);
     	
         addListener();
+    }
+
+    // 用户信息
+    function getUser() {
+        return UserCtr.getUser().then(userData => {
+            $("#payAccount").val(userData.zfbAccount);
+            $(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(userData.zfbQr)+"')"})
+            $(".payAccountQr-wrap .img-wrap .photo").attr("data-src", userData.zfbQr);
+            $(".payAccountQr-wrap .img-wrap").removeClass("hidden");
+        }, base.hideLoadingSpin);
     }
     
     function getAdvertisePrice(){
@@ -369,10 +380,7 @@ define([
 	        	"leaveMessage": {
 	        		required: true,
 	        	},
-	        	"payAccount": {
-	        		required: true,
-	        	},
-	    	}; 
+	    	};
 		_formWrapper.validate({
 			'rules': _formWrapperRules,
 	    	onkeyup: false
@@ -407,15 +415,15 @@ define([
 				}
 				
 				//广告类型 0=买币，1=卖币
-            	var tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
+            	// var tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
 				// 付款方式是支付宝时 需上传支付宝二维码图片
-				if($("#payType").val() == '0' && tradeType == '1'){
-					var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
-					if(payAccountQr =="" || !payAccountQr){
-						base.showMsg('');
-						return;
-					}
-				}
+				// if($("#payType").val() == '0' && tradeType == '1'){
+				// 	var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
+				// 	if(payAccountQr =="" || !payAccountQr){
+				// 		base.showMsg('請上傳支付寶二維碼圖片');
+				// 		return;
+				// 	}
+				// }
 				doSubmit(publishType)
 			}
 		})
@@ -430,15 +438,15 @@ define([
 				var publishType = '0';
 				
 				//广告类型 0=买币，1=卖币
-            	var tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
+            	// var tradeType = $(".trade-type .item.on").index()=='0'?'1':'0';
 				// 付款方式是支付宝时 需上传支付宝二维码图片
-				if($("#payType").val() == '0' && tradeType == '1'){
-					var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
-					if(payAccountQr =="" || !payAccountQr){
-						base.showMsg('請上傳支付寶二維碼圖片');
-						return;
-					}
-				}
+				// if($("#payType").val() == '0' && tradeType == '1'){
+				// 	var payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
+				// 	if(payAccountQr =="" || !payAccountQr){
+				// 		base.showMsg('請上傳支付寶二維碼圖片');
+				// 		return;
+				// 	}
+				// }
 				doSubmit(publishType)
 			}
 		})
@@ -458,13 +466,13 @@ define([
             params.tradeCoin = $("#tradeCoin").val();
             params.tradeCurrency = "CNY";
             params.publishType = publishType;
+            params.payLimit = $("#payLimit").val();
 
             if(params.payType == '0'){
             	params.payAccountQr = $(".payAccountQr-wrap .img-wrap .photoWrapSquare .photo").attr("data-src");
             } else {
             	delete params.payAccount;
             }
-            
             
             if(base.getCoinType(params.tradeCoin)=='1'){
             	params.protectPrice = params.truePrice;

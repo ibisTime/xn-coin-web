@@ -162,7 +162,7 @@ define([
     		if(lists.length){
                 var html = "";
                 lists.forEach((item, i) => {
-                	if(item.tradeType == '1s'){
+                	if(item.tradeType == '1'){
                 		html += buildHtml(item);
                 	}
                 });
@@ -230,12 +230,14 @@ define([
     			
     			config.start=1;
     			base.showLoadingSpin();
-    			
+
+                $("#pagination").removeClass('hidden');
     			getPageAdvertise();
     		//搜用户
     		}else if(_searchType=="user"){
     			if($("#searchConWrap .nickname").val()){
     				base.showLoadingSpin()
+                    $("#pagination").addClass('hidden');
     				getListAdvertiseNickname($("#searchConWrap .nickname").val())
     			}
     		}

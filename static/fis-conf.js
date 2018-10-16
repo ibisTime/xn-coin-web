@@ -82,7 +82,7 @@ fis.media("prod")
     })
     .match('/js/lib/jquery-1.10.2.js', {
         packTo: '/pkg/common.js',
-        packOrder: -90
+        packOrder: -99
     })
     .match('{/js/app/util/ajax.js,/js/app/util/cookie.js,/js/app/util/dialog.js,/js/app/module/loading/index.js,/js/lib/iscroll1.js}', {
         requires: ['/js/require.js', '/js/lib/jquery-1.10.2.js'],

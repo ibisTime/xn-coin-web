@@ -201,5 +201,15 @@ define([
                 ...config
             }, true);
         },
+        /**
+         * 设置支付宝二维码
+         * @param config {zfbAccount, zfbQr}
+         */
+        setPayQRCode(config){
+            return Ajax.get("805097", {
+                userId: base.getUserId(),
+                ...config
+            }, true);
+        },
     };
 })

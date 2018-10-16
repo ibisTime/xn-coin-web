@@ -12,7 +12,7 @@ define([
 	    start:1,
         limit:10,
         tradeType: 1,
-        statusList: [0],
+        statusList: ['1','2','3'],
         userId:base.getUserId(),
         coin: coin.toUpperCase()
     }

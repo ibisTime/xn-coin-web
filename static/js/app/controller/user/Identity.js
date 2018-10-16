@@ -47,7 +47,11 @@ define([
     		base.showMsg('認證成功！');
     		
     		setTimeout(function(){
-    			getUser(true);
+				if (sessionStorage.getItem("l-return")) {
+                    base.goReturn();
+				} else {
+                    getUser(true);
+				}
     		}, 1200);
     	}, base.hideLoadingSpin)
     }

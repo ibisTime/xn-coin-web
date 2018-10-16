@@ -50,7 +50,7 @@ define([
 			base.hideLoadingSpin()
 			base.showMsg("设置成功")
 			setTimeout(function(){
-				base.gohrefReplace("../user/security.html")
+                base.goReturn("../user/security.html");
 			},800)
 		},base.hideLoadingSpin)
     }
