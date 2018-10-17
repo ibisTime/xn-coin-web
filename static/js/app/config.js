@@ -13,7 +13,5 @@ var FOOT_TETUI= 'LoveOTC Exchange';
 var FOOT_EMAIL = 'contact@loveotc.com';
 var LOGIN_BANNER = 'banner1.jpg||banner2.jpg';
 var COIN_DEFAULTDATA = {
-	"BTC": {"coin":"BTC","unit":"8","name":"比特币","type":"0"},
-	"ETH": {"coin":"ETH","unit":"18","name":"以太坊","type":"0"},
-	"SC": {"coin":"SC","unit":"24","name":"云储币","type":"0"}
+	"ETH": {"coin":"ETH","unit":"18","name":"以太坊","type":"0"}
 }

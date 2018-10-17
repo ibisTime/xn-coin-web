@@ -102,7 +102,7 @@ define([
 				//待支付
 	    		if(data.status=="1"){
 	    			$(".releaseBtn").removeClass("hidden");
-	    			$("#invalidDatetime samp").html("最遲<i>" + base.formatDate(data.markConfirmDatetime, "hh:mm:ss") + "</i>，將會系統自帶釋放。")
+	    			$("#invalidDatetime samp").html("最遲<i>" + base.formatDate(data.markConfirmDatetime, "hh:mm:ss") + "</i>，將會系統自動釋放。")
 					$("#invalidDatetime").removeClass("hidden")
 					$("#statusInfo").addClass("hidden")
 				}else if(data.status=="2"){
