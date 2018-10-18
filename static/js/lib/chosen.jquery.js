@@ -1,8 +1,8 @@
 (function( factory ) {
     if ( typeof define === "function" && define.amd ) {
-        define( ["jquery"], factory );
+        define( ["/js/lib/jquery-1.10.2.js"], factory );
     } else if (typeof module === "object" && module.exports) {
-        module.exports = factory( require( "jquery" ) );
+        module.exports = factory( require( "/js/lib/jquery-1.10.2.js" ) );
     } else {
         factory( jQuery );
     }

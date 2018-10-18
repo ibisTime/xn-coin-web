@@ -1,5 +1,5 @@
 define([
-    'jquery',
+    '/js/lib/jquery-1.10.2.js',
     'app/util/dialog',
     'app/module/loading'
 ], function($, dialog, loading) {

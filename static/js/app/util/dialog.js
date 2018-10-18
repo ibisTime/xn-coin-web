@@ -1,5 +1,5 @@
 /*! artDialog v6.0.5 | https://github.com/aui/artDialog */
-define(['jquery'], function($) {
+define(['/js/lib/jquery-1.10.2.js'], function($) {
     var css = __inline('ui-dialog.css');
     $('<style>' + css + '</style>').appendTo('head');
     var __modules__ = {};
@@ -26,7 +26,7 @@ define(['jquery'], function($) {
 
 
 
-    define("jquery", function() {
+    define("/js/lib/jquery-1.10.2.js", function() {
         return jQuery;
     });
 
@@ -43,7 +43,7 @@ define(['jquery'], function($) {
 
     define("popup", function(require) {
 
-        var $ = require("jquery");
+        var $ = require("/js/lib/jquery-1.10.2.js");
 
         var _count = 0;
         var _isIE6 = !('minWidth' in $('html')[0].style);
@@ -775,7 +775,7 @@ define(['jquery'], function($) {
      */
     define("dialog", function(require) {
 
-        var $ = require("jquery");
+        var $ = require("/js/lib/jquery-1.10.2.js");
         var Popup = require("popup");
         var defaults = require("dialog-config");
         var css = defaults.cssUri;

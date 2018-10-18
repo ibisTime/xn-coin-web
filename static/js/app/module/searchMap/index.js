@@ -1,5 +1,5 @@
 define([
-    'jquery',
+    '/js/lib/jquery-1.10.2.js',
     'app/util/dialog'
 ], function($, dialog) {
     var tmpl = __inline("index.html");

@@ -11,6 +11,7 @@ define([
 	var coin = base.getUrlParam("coin") || 'ETH'; // 币种
 	var status = '1';
 	var mid=0;
+	var userInfo = {};
 	
 	if(!base.isLogin()){
 		base.goLogin()
@@ -103,6 +104,7 @@ define([
     // 用户信息
     function getUser() {
         return UserCtr.getUser().then(userData => {
+            userInfo = userData;
             $("#payAccount").val(userData.zfbAccount);
             $(".payAccountQr-wrap .img-wrap .photo").css({"background-image":"url('"+base.getPic(userData.zfbQr)+"')"})
             $(".payAccountQr-wrap .img-wrap .photo").attr("data-src", userData.zfbQr);
@@ -552,6 +554,7 @@ define([
 		$("#tradeCoin").change(function(){
 			base.showLoadingSpin();
 			document.getElementById("form-wrapper").reset();
+            $("#payAccount").val(userInfo.zfbAccount);
 			
 			tradeCoinChange(base.getCoinType($("#tradeCoin").val())).then((data)=>{
 				
