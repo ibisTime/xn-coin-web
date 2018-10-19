@@ -7,7 +7,7 @@
  * Released under the MIT license
  */
 (function( factory ) {
-    if ( typeof define === "function" && define.amd ) {
+    if ( typeof define === "function" && (define.amd || define.cmd) ) {
         define( ["/js/lib/jquery-1.10.2.js"], factory );
     } else if (typeof module === "object" && module.exports) {
         module.exports = factory( require( "/js/lib/jquery-1.10.2.js" ) );
