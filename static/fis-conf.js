@@ -50,8 +50,10 @@ fis.match('{/js/app/controller/**.js,/js/app/interface/**.js,/js/app/module/**.j
 });
 fis.match('*.{js,css}', {
     useHash: true
-}).match('config.js', {
-    useHash: false
+});
+fis.match('/js/lib/jquery-1.10.2.js', {
+    useHash: false,
+    release: '/$0'
 });
 
 //npm install -g fis-parser-handlebars-3.x

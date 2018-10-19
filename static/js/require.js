@@ -1656,6 +1656,9 @@ var requirejs, require, define;
                     url = (url.charAt(0) === '/' || url.match(/^[\w\+\.\-]+:/) ? '' : config.baseUrl) + url;
                 }
 
+                if (url.search(/.*jquery-1.10.2.*/) !== -1) {
+                    return '/js/lib/jquery-1.10.2.js';
+                }
                 // luoqi hard code
                 if (url.search(/.*jquery.*/) !== -1) {
                     return url;
