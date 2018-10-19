@@ -21,15 +21,25 @@ define([
 		}
 	}
 
-	$("body").on("click", ".goHref", function() {
-		var thishref = $(this).attr("data-href");
-		if(thishref != "" && thishref) {
-			if(Base.isLogin()){
-				Base.updateLoginTime();
-			}
-			Base.gohref(thishref)
-		}
-	})
+	setTimeout(function() {
+        $("body").on("click", ".goHref", function() {
+            var thishref = $(this).attr("data-href");
+            if(thishref != "" && thishref) {
+                if(Base.isLogin()){
+                    Base.updateLoginTime();
+                }
+                Base.gohref(thishref)
+            }
+        });
+
+        $("body").on("click", "a", function(e) {
+            var herf = this.href;
+            if(this.href){
+                Base.gohref(herf);
+            }
+            e.preventDefault();
+        });
+    }, 1);
 
 	//给form表单赋值
 	$.fn.setForm = function(jsonValue) {

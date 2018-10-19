@@ -120,6 +120,10 @@ table {
   }
 }
 
+a{
+  display: inline-block;
+}
+
 .userSelect_none {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -344,7 +348,7 @@ table {
     -moz-transition: color .4s;
     -webkit-transition: color .4s;
 
-    samp {
+    a {
       color: $primary-color;
       font-size: 14px;
       cursor: pointer;
@@ -409,6 +413,9 @@ table {
             width: 100%;
             text-align: center;
             padding: 7px 0;
+            a{
+              width: 100%;
+            }
 
             samp {
               font-size: 14px;
@@ -1577,7 +1584,7 @@ table {
   font-size: 14px;
   color: #c9c9c9;
   padding: 10px 0 20px;
-  samp {
+  a {
     color: $primary-color;
   }
 }
