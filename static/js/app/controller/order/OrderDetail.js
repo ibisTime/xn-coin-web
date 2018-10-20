@@ -3,8 +3,9 @@ define([
 	'app/module/validate',
 	'app/interface/GeneralCtr',
 	'app/interface/UserCtr',
-	'app/interface/TradeCtr'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr) {
+	'app/interface/TradeCtr',
+    'app/controller/Top',
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, Top) {
 	var code = base.getUrlParam("code");
 	var loginInfo = {};
 	var userId = base.getUserId();

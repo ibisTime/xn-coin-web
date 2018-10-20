@@ -5,7 +5,8 @@ define([
     'app/interface/TradeCtr',
     'app/interface/UserCtr',
     'pagination',
-], function(base, AccountCtr,GeneralCtr,TradeCtr, UserCtr, pagination) {
+    'app/controller/Top',
+], function(base, AccountCtr,GeneralCtr,TradeCtr, UserCtr, pagination, Top) {
 	var type = base.getUrlParam("type") || "sell";// buy: 购买，sell:出售
 	var coin = base.getUrlParam("coin") || 'ETH'; // 币种
 	var adsStatusValueList = {}; // 廣告狀態

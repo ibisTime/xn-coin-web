@@ -5,8 +5,9 @@ define([
 	'app/module/smsCaptcha',
     'app/interface/AccountCtr',
     'app/interface/GeneralCtr',
-    'app/interface/UserCtr'
-], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, pagination, Validate, smsCaptcha, AccountCtr, GeneralCtr, UserCtr, Top) {
 	var isWithdraw = !!base.getUrlParam("isWithdraw");//提币
 	var withdrawFee = 0; // 取现手续费
 	

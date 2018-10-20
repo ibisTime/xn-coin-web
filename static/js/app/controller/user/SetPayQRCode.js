@@ -3,8 +3,9 @@ define([
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
-    'app/module/qiniu'
-], function(base, Validate, GeneralCtr, UserCtr, QiniuUpdata) {
+    'app/module/qiniu',
+    'app/controller/Top',
+], function(base, Validate, GeneralCtr, UserCtr, QiniuUpdata, Top) {
 	
 	if(!base.isLogin()){
 		base.goLogin()

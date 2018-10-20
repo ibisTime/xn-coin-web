@@ -1,8 +1,9 @@
 define([
     'app/controller/base',
 	'app/module/validate',
-    'app/interface/UserCtr'
-], function(base, Validate, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, Validate, UserCtr, Top) {
 	
 	if(!base.isLogin()){
 		base.goLogin()

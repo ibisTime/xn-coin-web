@@ -5,8 +5,9 @@ define([
     'app/interface/UserCtr',
     'app/interface/TradeCtr',
     'app/interface/AccountCtr',
-    'app/module/qiniu'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr, QiniuUpdata) {
+    'app/module/qiniu',
+    'app/controller/Top',
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr, QiniuUpdata, Top) {
     var code = base.getUrlParam("code")||'';
     var coin = base.getUrlParam("coin") || 'ETH'; // 币种
     var status = '1';

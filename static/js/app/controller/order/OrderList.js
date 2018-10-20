@@ -4,10 +4,11 @@ define([
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
-    'app/interface/TradeCtr'
+    'app/interface/TradeCtr',
+    'app/controller/Top',
 //  'app/module/tencentCloudLogin/orderList'
 //], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr, TencentCloudLogin) {
-], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr) {
+], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr, Top) {
 	var statusList={
     	"inProgress":["-1","0","1","5"],
     	"end":["2","3","4"]

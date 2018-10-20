@@ -2,8 +2,9 @@ define([
     'app/controller/base',
     'swiper',
 	'app/module/validate',
-    'app/interface/UserCtr'
-], function(base, Swiper, Validate, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, Swiper, Validate, UserCtr, Top) {
 	
 	if(base.isLogin()){
 		base.gohref("../user/user.html")

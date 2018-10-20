@@ -2,8 +2,9 @@ define([
     'app/controller/base',
     'app/util/handlebarsHelpers',
     'swiper',
-    'app/interface/GeneralCtr'
-], function(base, Handlebars, Swiper,GeneralCtr) {
+    'app/interface/GeneralCtr',
+    'app/controller/Top',
+], function(base, Handlebars, Swiper, GeneralCtr, Top) {
 	
     init();
     

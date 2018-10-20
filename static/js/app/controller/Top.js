@@ -7,25 +7,33 @@ define([
 //  'app/module/tencentCloudLogin'
 //], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr, TencentCloudLogin) {
 ], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr) {
-	//请求币种
-	BaseCtr.getCoinList().then(function(data){
-		var coinList = {};
-		for(var i in data){
-			coinList[data[i].symbol]={
-				'coin':data[i].symbol,
-				'unit':'1e'+data[i].unit,
-				'name':data[i].cname,
-				'type':data[i].type,
-				'withdrawFeeString':data[i].withdrawFeeString
-			}
-		}
-		sessionStorage.setItem("coinList",JSON.stringify(coinList))
-		init();
-	},function(){
-		init();
-	})
-    
-    
+    $("body").on("click", ".goHref", function() {
+        var thishref = $(this).attr("data-href");
+        if(thishref != "" && thishref) {
+            if(base.isLogin()){
+                base.updateLoginTime();
+            }
+            base.gohref(thishref)
+        }
+    })
+    //请求币种
+    BaseCtr.getCoinList().then(function(data){
+        var coinList = {};
+        for(var i in data){
+            coinList[data[i].symbol]={
+                'coin':data[i].symbol,
+                'unit':'1e'+data[i].unit,
+                'name':data[i].cname,
+                'type':data[i].type,
+                'withdrawFeeString':data[i].withdrawFeeString
+            }
+        }
+        sessionStorage.setItem("coinList",JSON.stringify(coinList))
+        init();
+    },function(){
+        init();
+    })
+
     // 初始化页面
     function init() {
 			

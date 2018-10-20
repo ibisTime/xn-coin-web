@@ -21,16 +21,6 @@ define([
 		}
 	}
 
-	$("body").on("click", ".goHref", function() {
-		var thishref = $(this).attr("data-href");
-		if(thishref != "" && thishref) {
-			if(Base.isLogin()){
-				Base.updateLoginTime();
-			}
-			Base.gohref(thishref)
-		}
-	})
-
 	//给form表单赋值
 	$.fn.setForm = function(jsonValue) {
 		var obj = this;
