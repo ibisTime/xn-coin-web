@@ -115,7 +115,8 @@ define([
         }else{
         	//已上架
 	        if(item.status=="1"){
-	        	operationHtml = `<div class="am-button am-button-red mr20 doDownBtn" data-code="${item.code}">下架</div>`
+	        	operationHtml = `<div class="am-button am-button-red publish mr20 goHref" data-href="../trade/advertise.html?code=${item.code}&coin=${item.tradeCoin}">編輯</div>
+                                <div class="am-button am-button-red mr20 doDownBtn" data-code="${item.code}">下架</div>`
 	    	}
 	        if(type=='buy'){
 				operationHtml+=`<div class="am-button goHref" data-href="../trade/buy-detail.html?code=${item.code}&isD=1">查看详情</div>`

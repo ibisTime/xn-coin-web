@@ -154,9 +154,10 @@ define([
     
     //購買
     function buyETH(){
+    	base.showLoadingSpin();
     	return TradeCtr.buyETH(config).then((data)=>{
+    		base.hideLoadingSpin();
     		base.showMsg("購買成功")
-    		
     		setTimeout(function(){
     			base.gohref("../order/order-list.html")
     		},2000)

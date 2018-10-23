@@ -150,7 +150,9 @@ define([
 
     //出售
     function sellETH() {
+        base.showLoadingSpin();
         return TradeCtr.sellETH(config).then((data) => {
+            base.hideLoadingSpin();
             base.showMsg("出售成功");
             setTimeout(function () {
                 base.gohref("../order/order-list.html")

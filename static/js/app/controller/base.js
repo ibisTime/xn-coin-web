@@ -496,11 +496,11 @@ define([
 		},
 		//获取币种列表
 		getCoinList: function(){
-			if(sessionStorage.getItem('coinList')){
-				return JSON.parse(sessionStorage.getItem('coinList'));
-			}else{
+			// if(sessionStorage.getItem('coinList')){
+			// 	return JSON.parse(sessionStorage.getItem('coinList'));
+			// }else{
 				return COIN_DEFAULTDATA;
-			}
+			// }
 		},
 		//获取币种名字
 		getCoinName: function(coin){

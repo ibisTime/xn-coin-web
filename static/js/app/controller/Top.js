@@ -3,40 +3,24 @@ define([
     'app/interface/GeneralCtr',
     'app/interface/AccountCtr',
     'app/interface/UserCtr',
-    'app/interface/BaseCtr'
+    'app/interface/TradeCtr'
 //  'app/module/tencentCloudLogin'
 //], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr, TencentCloudLogin) {
-], function(base, GeneralCtr, AccountCtr, UserCtr, BaseCtr) {
-    $("body").on("click", ".goHref", function() {
-        var thishref = $(this).attr("data-href");
-        if(thishref != "" && thishref) {
-            if(base.isLogin()){
-                base.updateLoginTime();
-            }
-            base.gohref(thishref)
-        }
-    })
-    //请求币种
-    BaseCtr.getCoinList().then(function(data){
-        var coinList = {};
-        for(var i in data){
-            coinList[data[i].symbol]={
-                'coin':data[i].symbol,
-                'unit':'1e'+data[i].unit,
-                'name':data[i].cname,
-                'type':data[i].type,
-                'withdrawFeeString':data[i].withdrawFeeString
-            }
-        }
-        sessionStorage.setItem("coinList",JSON.stringify(coinList))
-        init();
-    },function(){
-        init();
-    })
+], function(base, GeneralCtr, AccountCtr, UserCtr, TradeCtr) {
+
+    init();
 
     // 初始化页面
     function init() {
-			
+        $("body").on("click", ".goHref", function() {
+            var thishref = $(this).attr("data-href");
+            if(thishref != "" && thishref) {
+                if(base.isLogin()){
+                    base.updateLoginTime();
+                }
+                base.gohref(thishref)
+            }
+        })
 		getCoinList();
 		
     	$("#footTeTui").html(FOOT_TETUI)
@@ -45,6 +29,7 @@ define([
     		$("#head-user-wrap .nickname").text(sessionStorage.getItem("nickname"))
     		$("#head-user-wrap").removeClass("hidden");
     		$.when(
+                getPageOrder(),
     			getAccount(),
     			getBanner()
     		)
@@ -109,18 +94,15 @@ define([
             var htmlAccount = '';
             var html = '';
             data.accountList.forEach(function(item, i){
+                //判断币种是否发布
+                if(base.getCoinList()[item.currency]){
+                    htmlAccount +=`<p>${item.currency}：<samp>${base.formatMoney(item.amountString,'',item.currency)}</samp></p>`;
 
-                if(i<3){
-                    //判断币种是否发布
-                    if(base.getCoinCoin(item.currency)){
-                        htmlAccount +=`<p>${item.currency}：<samp>${base.formatMoney(item.amountString,'',item.currency)}</samp></p>`;
-
-                        html += `<div class="list ${item.currency.toLocaleLowerCase()}">
-							<p>${item.currency}</p>
-							<p class="amount">${base.formatMoneySubtract(item.amountString,item.frozenAmountString,item.currency)}</p>
-							<p class="frozenAmountString">${base.formatMoney(item.frozenAmountString,'',item.currency)}</p>
-						</div>`;
-                    }
+                    html += `<div class="list ${item.currency.toLocaleLowerCase()}">
+                        <p>${item.currency}</p>
+                        <p class="amount">${base.formatMoneySubtract(item.amountString,item.frozenAmountString,item.currency)}</p>
+                        <p class="frozenAmountString">${base.formatMoney(item.frozenAmountString,'',item.currency)}</p>
+                    </div>`;
                 }
             })
             if(data.accountList.length>=3){
@@ -129,6 +111,19 @@ define([
             }
             $("#head-user-wrap .wallet .wallet-account-wrap").html(htmlAccount);
             $("#head-user-wrap .wallet .wallet-account-mx .listWrap").html(html)
+        },base.hideLoadingSpin)
+    }
+
+    //分页查询订单
+    function getPageOrder(){
+        return TradeCtr.getPageOrder({
+            start: 1,
+            limit: 1,
+            statusList: ["0","1"]
+        }, true).then((data)=>{
+            if (data.totalCount > 0) {
+                $('.head-user .icon-new').removeClass('hidden');
+            }
         },base.hideLoadingSpin)
     }
 
