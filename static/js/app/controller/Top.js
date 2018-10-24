@@ -32,7 +32,11 @@ define([
                 getPageOrder(),
     			getAccount(),
     			getBanner()
-    		)
+    		).then(() => {
+                setTimeout(function () {
+                    getPageOrder();
+                }, 15000);
+            })
     	}else{
     		$("#head-button-wrap").removeClass("hidden");
     		$.when(
@@ -123,6 +127,8 @@ define([
         }, true).then((data)=>{
             if (data.totalCount > 0) {
                 $('.head-user .icon-new').removeClass('hidden');
+            } else {
+                $('.head-user .icon-new').addClass('hidden');
             }
         },base.hideLoadingSpin)
     }
