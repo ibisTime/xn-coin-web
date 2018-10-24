@@ -2,8 +2,9 @@ define([
     'app/controller/base',
 	'app/module/validate',
 	'app/module/smsCaptcha',
-    'app/interface/UserCtr'
-], function(base, Validate,smsCaptcha, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, Validate,smsCaptcha, UserCtr, Top) {
 	var _formRules = {
         	"oldLoginPwd": {
         		required: true,

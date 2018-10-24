@@ -1,5 +1,5 @@
 define([
-    'jquery'
+    '/js/lib/jquery-1.10.2.js'
 ], function ($) {
     function isNumber(code) {
         if (code >= 48 && code <= 57 || code >= 96 && code <= 105) {

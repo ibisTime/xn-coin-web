@@ -5,8 +5,9 @@ define([
     'app/interface/UserCtr',
     'app/interface/TradeCtr',
     'app/interface/AccountCtr',
-    'app/module/tencentChat'
-], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr, TencentChat) {
+    'app/module/tencentChat',
+    'app/controller/Top',
+], function(base, Validate, GeneralCtr, UserCtr, TradeCtr, AccountCtr, TencentChat, Top) {
 	var code = base.getUrlParam("code");
 	var isDetail = !!base.getUrlParam("isD");//是否我的广告查看详情
 	var bizTypeList = {
@@ -153,9 +154,10 @@ define([
     
     //購買
     function buyETH(){
+    	base.showLoadingSpin();
     	return TradeCtr.buyETH(config).then((data)=>{
+    		base.hideLoadingSpin();
     		base.showMsg("購買成功")
-    		
     		setTimeout(function(){
     			base.gohref("../order/order-list.html")
     		},2000)

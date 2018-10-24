@@ -2,8 +2,9 @@ define([
     'app/controller/base',
     'app/util/handlebarsHelpers',
     'swiper',
-    'app/interface/GeneralCtr'
-], function(base, Handlebars, Swiper,GeneralCtr) {
+    'app/interface/GeneralCtr',
+    'app/controller/Top',
+], function(base, Handlebars, Swiper, GeneralCtr, Top) {
 	
     init();
     
@@ -55,22 +56,14 @@ define([
     
     // 获取banner
     function getBanner(refresh){
-        return GeneralCtr.getBanner({
-        	location: 'web_banner'
-        },refresh).then((data) => {
-        	var bannerHtml = "";
-            data.forEach((d) => {
-                var pics = base.getPicArr(d.pic);
-                pics.forEach((pic) => {
-                    bannerHtml += `<div class='swiper-slide'><div class="banner" data-url="${d.url || ""}" style="background-image:url(${pic});"></div></div>`;
-                });
-            });
-            base.hideLoadingSpin()
-            $("#swiper .swiper-wrapper").html(bannerHtml);
-            initSwiperBanner();
-        }, (msg) => {
-            base.showMsg(msg || "加载失败");
+        var bannerHtml = "";
+        var pics = base.getPicArr(INDEX_BANNER);
+        pics.forEach((pic) => {
+            bannerHtml += `<div class='swiper-slide'><div class="banner" style="background-image:url(${pic});"></div></div>`;
         });
+        base.hideLoadingSpin()
+        $("#swiper .swiper-wrapper").html(bannerHtml);
+        initSwiperBanner();
     }
 	
     function addListener() {

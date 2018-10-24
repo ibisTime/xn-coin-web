@@ -2,8 +2,9 @@ define([
     'app/controller/base',
 	'app/module/validate',
 	'app/module/smsCaptcha',
-    'app/interface/UserCtr'
-], function(base, Validate, smsCaptcha, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, Validate, smsCaptcha, UserCtr, Top) {
 	var type = base.getUrlParam("type");//设置类型： 0,開啟  1，關閉
 	var secretRules = {}
 	

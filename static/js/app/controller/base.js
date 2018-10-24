@@ -1,5 +1,5 @@
 define([
-	'jquery',
+	'/js/lib/jquery-1.10.2.js',
 	'app/util/cookie',
 	'app/util/dialog',
 	'app/module/loading',
@@ -20,16 +20,6 @@ define([
 			return num;
 		}
 	}
-
-	$("body").on("click", ".goHref", function() {
-		var thishref = $(this).attr("data-href");
-		if(thishref != "" && thishref) {
-			if(Base.isLogin()){
-				Base.updateLoginTime();
-			}
-			Base.gohref(thishref)
-		}
-	})
 
 	//给form表单赋值
 	$.fn.setForm = function(jsonValue) {
@@ -506,11 +496,11 @@ define([
 		},
 		//获取币种列表
 		getCoinList: function(){
-			if(sessionStorage.getItem('coinList')){
-				return JSON.parse(sessionStorage.getItem('coinList'));
-			}else{
+			// if(sessionStorage.getItem('coinList')){
+			// 	return JSON.parse(sessionStorage.getItem('coinList'));
+			// }else{
 				return COIN_DEFAULTDATA;
-			}
+			// }
 		},
 		//获取币种名字
 		getCoinName: function(coin){

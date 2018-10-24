@@ -2,8 +2,9 @@ define([
     'app/controller/base',
     'pagination',
     'app/interface/GeneralCtr',
-    'app/interface/UserCtr'
-], function(base, pagination, GeneralCtr, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, pagination, GeneralCtr, UserCtr, Top) {
 
 	var inviteCode = sessionStorage.getItem("inviteCode")
 	var config={

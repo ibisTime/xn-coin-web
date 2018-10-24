@@ -1,8 +1,9 @@
 define([
     'app/controller/base',
     'pagination',
-    'app/interface/UserCtr'
-], function(base, pagination, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, pagination, UserCtr, Top) {
 	var type = base.getUrlParam("type");// 0: 你屏蔽的人，1:你信任的人，2:信任你的人
 	var config={
 	        start: 1,

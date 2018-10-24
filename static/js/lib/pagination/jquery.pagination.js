@@ -22,15 +22,15 @@
 (function (factory) {
     if (typeof define === "function" && (define.amd || define.cmd)) {
         // AMD或CMD
-        define(["jquery"], factory);
+        define(["/js/lib/jquery-1.10.2.js"], factory);
     } else if (typeof module === 'object' && module.exports) {
         // Node/CommonJS
         module.exports = function (root, jQuery) {
             if (jQuery === undefined) {
                 if (typeof window !== 'undefined') {
-                    jQuery = require('jquery');
+                    jQuery = require('/js/lib/jquery-1.10.2.js');
                 } else {
-                    jQuery = require('jquery')(root);
+                    jQuery = require('/js/lib/jquery-1.10.2.js')(root);
                 }
             }
             factory(jQuery);

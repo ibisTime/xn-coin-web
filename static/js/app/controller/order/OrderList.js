@@ -4,10 +4,11 @@ define([
 	'app/module/validate',
     'app/interface/GeneralCtr',
     'app/interface/UserCtr',
-    'app/interface/TradeCtr'
+    'app/interface/TradeCtr',
+    'app/controller/Top',
 //  'app/module/tencentCloudLogin/orderList'
 //], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr, TencentCloudLogin) {
-], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr) {
+], function(base, pagination, Validate, GeneralCtr, UserCtr, TradeCtr, Top) {
 	var statusList={
     	"inProgress":["-1","0","1","5"],
     	"end":["2","3","4"]
@@ -119,10 +120,10 @@ define([
     		//待支付
     		if(item.status=="0"){
 				operationHtml=`<div class="am-button am-button-red payBtn" data-ocode="${item.code}">標記付款</div>
-								<div class="am-button am-button-gray ml5 cancelBtn" data-ocode="${item.code}">取消交易</div>`;
+								<div class="am-button am-button-gray ml5 mr5 cancelBtn" data-ocode="${item.code}">取消交易</div>`;
 			}else if(item.status=="2"){
 				if(item.bsComment!="0"&&item.bsComment!="2"){
-					operationHtml=`<div class="am-button am-button-red commentBtn"  data-ocode="${item.code}">交易評價</div>`
+					operationHtml=`<div class="am-button am-button-red mr5 commentBtn"  data-ocode="${item.code}">交易評價</div>`
 				}
 			}
     	//当前用户为卖家
@@ -135,7 +136,7 @@ define([
 				operationHtml=`<div class="am-button am-button-red releaseBtn mr10" data-ocode="${item.code}">释放货币</div>`;
 			}else if(item.status=="2"){
 				if(item.sbComment!="0"&&item.sbComment!="2"){
-					operationHtml=`<div class="am-button am-button-red commentBtn"  data-ocode="${item.code}">交易評價</div>`
+					operationHtml=`<div class="am-button am-button-red mr5 commentBtn"  data-ocode="${item.code}">交易評價</div>`
 				}
 			}
     	}
@@ -143,8 +144,10 @@ define([
     	//操作按鈕
     	//已支付，待释放
 		if(item.status=="1"){
-			operationHtml+=`<div class="am-button arbitrationBtn"  data-ocode="${item.code}">申请仲裁</div>`
+			operationHtml+=`<div class="am-button mr5 arbitrationBtn"  data-ocode="${item.code}">申请仲裁</div>`
 		}
+
+        operationHtml+=`<div class="am-button ml5 am-button-red detailBtn"  data-ocode="${item.code}">查看詳情</div>`
 
     	if(user.photo){
     		photoHtml = `<div class="photo" style="background-image:url('${base.getAvatar(user.photo)}')"></div>`
@@ -173,11 +176,11 @@ define([
 					<td class="operation">
 						${operationHtml}
 					</td>
-					<td class="goDetail">
-						<samp class="unread goHref fl" data-href="../order/order-detail.html?code=${item.code}"></samp>
-						<i class="icon icon-detail goHref fl"  data-href="../order/order-detail.html?code=${item.code}"></i>
-					</td>
 				</tr>`;
+    // <td class="goDetail">
+    //         <samp class="unread goHref fl" data-href="../order/order-detail.html?code=${item.code}"></samp>
+    //         <i class="icon icon-detail goHref fl"  data-href="../order/order-detail.html?code=${item.code}"></i>
+    //         </td>
     }
 
     //添加未读消息数
@@ -255,6 +258,12 @@ define([
         	$("#arbitrationDialog .subBtn").attr("data-ocode", orderCode);
         	$("#arbitrationDialog").removeClass("hidden")
 
+        })
+
+        //查看詳情按钮 点击
+        $("#content").on("click", ".operation .detailBtn", function(){
+            var orderCode = $(this).attr("data-ocode");
+            base.gohref(`../order/order-detail.html?code=${orderCode}`);
         })
 
         //彈窗-放棄

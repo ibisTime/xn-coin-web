@@ -4,7 +4,8 @@ define([
 	'app/module/validate',
     'app/interface/UserCtr',
 	'app/module/smsCaptcha',
-], function(base, Swiper, Validate, UserCtr,smsCaptcha) {
+    'app/controller/Top',
+], function(base, Swiper, Validate, UserCtr,smsCaptcha, Top) {
     var userReferee = base.getUrlParam("ref") || "";
 	
     if(base.isLogin()){

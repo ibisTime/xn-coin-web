@@ -2,8 +2,9 @@ define([
     'app/controller/base',
 	'app/module/validate',
 	'app/module/smsCaptcha',
-    'app/interface/UserCtr'
-], function(base, Validate,smsCaptcha, UserCtr) {
+    'app/interface/UserCtr',
+    'app/controller/Top',
+], function(base, Validate,smsCaptcha, UserCtr, Top) {
 	var type = base.getUrlParam("type");//设置类型： 0,设置  1，修改 
 	var isWallet = !!base.getUrlParam("isWallet");//钱包点击跳转过来
 	var _formRules = {

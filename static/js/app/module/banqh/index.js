@@ -1,5 +1,5 @@
 define([
-    'jquery'
+    '/js/lib/jquery-1.10.2.js'
 ], function ($) {
 	var css = __inline('index.css');
     $('<style>' + css + '</style>').appendTo('head');

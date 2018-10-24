@@ -2,7 +2,8 @@ define([
     'app/controller/base',
     'pagination',
     'app/interface/TradeCtr',
-], function(base, pagination, TradeCtr) {
+    'app/controller/Top',
+], function(base, pagination, TradeCtr, Top) {
 	var coin = base.getUrlParam("coin") || 'ETH'; // 币种
 	//币种
 	var config={
